@@ -30,13 +30,15 @@ describe('with themes', () => {
     it('checks resolved colors', () => {
         const css = new MasterCSS(config)
         expect(css.variables.primary).toEqual({
+            name: 'primary',
+            key: 'primary',
             type: 'color',
             space: 'rgb',
             value: '0 0 0',
             modes: {
-                'dark': { type: 'color', space: 'rgb', value: '255 255 255' },
-                'light': { type: 'color', space: 'rgb', value: '150 150 150' },
-                'chrisma': { type: 'color', space: 'rgb', value: '0 0 0 / .5' }
+                'dark': { name: 'primary', key: 'primary', type: 'color', space: 'rgb', value: '255 255 255' },
+                'light': { name: 'primary', key: 'primary', type: 'color', space: 'rgb', value: '150 150 150' },
+                'chrisma': { name: 'primary', key: 'primary', type: 'color', space: 'rgb', value: '0 0 0 / .5' }
             }
         })
     })

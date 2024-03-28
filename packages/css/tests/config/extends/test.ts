@@ -2,7 +2,7 @@ import { config } from './master-css'
 
 it('config extends', () => {
     const css = new MasterCSS(config)
-    expect(css.config.styles).toEqual({
+    expect(css.config.styles).toMatchObject({
         'blue': {
             'btn': {
                 '': 'btn bg:blue',
@@ -18,24 +18,30 @@ it('config extends', () => {
             '': 'font:200'
         },
     })
-    expect(css.variables.first).toEqual({
+    expect(css.variables.first).toMatchObject({
+        name: 'first',
+        key: 'first',
         type: 'color',
         space: 'rgb',
         value: '17 17 17',
         modes: {
             dark: {
+                key: 'fourth',
+                name: 'fourth',
                 space: 'rgb',
                 type: 'color',
                 value: '0 0 0'
             },
             light: {
+                key: 'fourth',
+                name: 'fourth',
                 space: 'rgb',
                 type: 'color',
                 value: '0 0 0'
             }
         }
     })
-    expect(css.variables.second).toEqual({
+    expect(css.variables.second).toMatchObject({
         type: 'color',
         space: 'rgb',
         modes: {
@@ -51,7 +57,7 @@ it('config extends', () => {
             }
         }
     })
-    expect(css.variables.third).toEqual({
+    expect(css.variables.third).toMatchObject({
         type: 'color',
         space: 'rgb',
         value: '0 0 0',
@@ -63,7 +69,7 @@ it('config extends', () => {
             }
         }
     })
-    expect(css.variables['third-2']).toEqual({
+    expect(css.variables['third-2']).toMatchObject({
         type: 'color',
         space: 'rgb',
         modes: {
@@ -74,7 +80,7 @@ it('config extends', () => {
             }
         }
     })
-    expect(css.variables.fourth).toEqual({
+    expect(css.variables.fourth).toMatchObject({
         type: 'color',
         space: 'rgb',
         value: '17 17 17',

@@ -10,6 +10,62 @@ test('declarations', () => {
     expect(css.generate('fg:primary')[0].declarations).toEqual({ color: 'rgb(var(--primary))' })
 })
 
+test('registered Rule', () => {
+    expect(new MasterCSS().Rules.find(({ id }) => id === 'content')).toEqual({
+        definition: {
+            key: 'content',
+            layer: -1
+        },
+        id: 'content',
+        matchers: {
+            key: /^content:/
+        },
+        order: 185,
+        variables: {}
+    })
+})
+
+test('variables', () => {
+    const css = new MasterCSS({
+        variables: {
+            lv1: {
+                1: 'test',
+                lv2: {
+                    2: 'test'
+                }
+            }
+        },
+        rules: {
+            content: {
+                variables: ['lv1.lv2']
+            }
+        }
+    })
+    expect(css.variables['lv1-1']).toMatchObject({ type: 'string', value: 'test', group: 'lv1' })
+    expect(css.variables['lv1-lv2-2']).toMatchObject({ type: 'string', value: 'test', group: 'lv1.lv2' })
+    expect(css.Rules.find(({ id }) => id === 'content')).toEqual({
+        definition: {
+            key: 'content',
+            layer: -1,
+            variables: ['lv1.lv2']
+        },
+        id: 'content',
+        matchers: {
+            key: /^content:/
+        },
+        order: 185,
+        variables: {
+            2: {
+                key: '2',
+                name: 'lv1-lv2-2',
+                type: 'string',
+                value: 'test',
+                group: 'lv1.lv2'
+            }
+        }
+    })
+})
+
 describe('token', () => {
     const rule = new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0]
     test('value', () => {
@@ -44,7 +100,7 @@ describe('value components', () => {
                 { token: '|', text: ' ', type: 'separator', value: ' ' },
                 { token: 'solid', text: 'solid', type: 'string', value: 'solid' },
                 { token: '|', text: ' ', type: 'separator', value: ' ' },
-                { token: 'blue-60/.5', alpha: '.5', name: 'blue-60', text: 'rgb(37 99 253/.5)', type: 'variable', variable: { space: 'rgb', type: 'color', value: '37 99 253' } }
+                { token: 'blue-60/.5', alpha: '.5', name: 'blue-60', text: 'rgb(37 99 253/.5)', type: 'variable', variable: { space: 'rgb', type: 'color', value: '37 99 253', group: 'blue', key: '60', name: 'blue-60' } }
             ])
     })
 

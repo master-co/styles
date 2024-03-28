@@ -3,11 +3,9 @@ import { variables } from '../../src'
 it('customizes fonts', () => {
     const css = new MasterCSS({
         variables: {
-            font: {
-                family: {
-                    sans: ['Inter', ...variables['font-family'].sans],
-                    mono: ['Fira Code', ...variables['font-family'].mono]
-                }
+            'font-family': {
+                sans: ['Inter', ...variables['font-family'].sans],
+                mono: ['Fira Code', ...variables['font-family'].mono]
             }
         }
     })
@@ -16,9 +14,9 @@ it('customizes fonts', () => {
         mono: css.variables['font-family-mono'],
         serif: css.variables['font-family-serif']
     }).toEqual({
-        sans: { type: 'string', value: 'Inter,' + variables['font-family'].sans.join(',') },
-        mono: { type: 'string', value: 'Fira Code,' + variables['font-family'].mono.join(',') },
-        serif: { type: 'string', value: variables['font-family'].serif.join(',') }
+        sans: { group: 'font-family', key: 'sans', name: 'font-family-sans', type: 'string', value: 'Inter,' + variables['font-family'].sans.join(',') },
+        mono: { group: 'font-family', key: 'mono', name: 'font-family-mono', type: 'string', value: 'Fira Code,' + variables['font-family'].mono.join(',') },
+        serif: { group: 'font-family', key: 'serif', name: 'font-family-serif', type: 'string', value: variables['font-family'].serif.join(',') }
     })
 })
 

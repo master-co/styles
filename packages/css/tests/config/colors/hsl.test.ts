@@ -37,13 +37,15 @@ describe('with themes', () => {
     it('checks resolved colors', () => {
         const css = new MasterCSS(config)
         expect(css.variables.primary).toEqual({
+            name: 'primary',
+            key: 'primary',
             type: 'color',
             space: 'hsl',
             value: '0deg 0% 0%',
             modes: {
-                'dark': { type: 'color', space: 'hsl', value: '0deg 0% 100%' },
-                'light': { type: 'color', space: 'hsl', value: '0deg 0% 58.82%' },
-                'chrisma': { type: 'color', space: 'hsl', value: '0deg 0% 0%/.5' }
+                'dark': { name: 'primary', key: 'primary', type: 'color', space: 'hsl', value: '0deg 0% 100%' },
+                'light': { name: 'primary', key: 'primary', type: 'color', space: 'hsl', value: '0deg 0% 58.82%' },
+                'chrisma': { name: 'primary', key: 'primary', type: 'color', space: 'hsl', value: '0deg 0% 0%/.5' }
             }
         })
     })
