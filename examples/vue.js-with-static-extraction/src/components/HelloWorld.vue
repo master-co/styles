@@ -13,7 +13,7 @@ const count = ref(0)
             <img src="../assets/master.svg" class="logo scale(2)" alt="Master logo" />
         </a>
     </div>
-    <h1 class="font:sans ls:-.25 fg:white@dark font:heavy">
+    <h1 class="font:sans tracking:-.25 fg:white@dark font:heavy">
         <span class="fg:#42b883">Vue</span>
         <span class="fg:slate-70 mx:10 font:semibold">+</span>
         <span>Master CSS</span>

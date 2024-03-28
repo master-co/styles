@@ -531,7 +531,7 @@ export default function Play(props: any) {
                         <IconChevronDown className="mr:-3 size:1em stroke:1.5" />
                     </label>
                     {links?.map(({ fullName, Icon, ...eachLink }: any, index) =>
-                        <HeaderNav className={clsx('hide@<md', index === links.length - 1 && 'mr:auto')} key={eachLink.name} {...eachLink} onClick={(event: any) => {
+                        <HeaderNav className={clsx('hidden@<md', index === links.length - 1 && 'mr:auto')} key={eachLink.name} {...eachLink} onClick={(event: any) => {
                             if (shareable) {
                                 if (!window.confirm('Are you sure to go to another page and discard current changes?')) {
                                     event.preventDefault()
@@ -543,23 +543,23 @@ export default function Play(props: any) {
                         </HeaderNav>
                     )}
                     {(shareId && !shareable) &&
-                        <button className="app-header-icon hide@<md mx:12" onClick={() => copyShareLink()}>
+                        <button className="app-header-icon hidden@<md mx:12" onClick={() => copyShareLink()}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M9 15l6 -6"></path>
                                 <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"></path>
                                 <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"></path>
                             </svg>
-                            <span className="font:12 ls:0 ml:10">
+                            <span className="font:12 tracking:0 ml:10">
                                 {shareId}
                             </span>
                         </button>}
                     {/* share button */}
-                    {shareable && <ShareButton className={clsx('hide@<md', sharing ? 'app-header-nav' : 'app-header-icon')} disabled={sharing} onClick={share}>
+                    {shareable && <ShareButton className={clsx('hidden@<md', sharing ? 'app-header-nav' : 'app-header-icon')} disabled={sharing} onClick={share}>
                         {sharing && <span className="ml:10">{$('Sharing ...')}</span>}
                     </ShareButton>}
-                    {(shareId || shareable) && <div className='hide@<md bg:divider h:1em mx:4x w:1'></div>}
-                    <Link className="app-header-icon hide@<md" href={getSearchPath('layout', layout ? '' : '2')}>
+                    {(shareId || shareable) && <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>}
+                    <Link className="app-header-icon hidden@<md" href={getSearchPath('layout', layout ? '' : '2')}>
                         <svg className={clsx({ 'stroke:accent': !layout || layout === '2' })} xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path className={clsx(
                                 '~transform|.2s',
@@ -571,7 +571,7 @@ export default function Play(props: any) {
                             <path d="M12 4l0 16"></path>
                         </svg>
                     </Link>
-                    <Link className="app-header-icon hide@<md" href={getSearchPath('layout', layout === '3' ? '4' : '3')}>
+                    <Link className="app-header-icon hidden@<md" href={getSearchPath('layout', layout === '3' ? '4' : '3')}>
                         <svg className={clsx({ 'stroke:accent': layout === '3' || layout === '4' }, 'rotate(90)')} xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path className={clsx(
                                 '~transform|.2s',
@@ -583,7 +583,7 @@ export default function Play(props: any) {
                             <path d="M12 4l0 16"></path>
                         </svg>
                     </Link>
-                    <Link className="app-header-icon hide@<md" href={getSearchPath('layout', '5')}>
+                    <Link className="app-header-icon hidden@<md" href={getSearchPath('layout', '5')}>
                         <svg xmlns="http://www.w3.org/2000/svg" className={clsx(layout === '5' && 'stroke:accent')} width="22" height="22" strokeWidth="1.2" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
@@ -592,39 +592,39 @@ export default function Play(props: any) {
                         </svg>
                     </Link>
                     <span className='hide'>{layout}</span>
-                    <div className='hide@<md bg:divider h:1em mx:4x w:1'></div>
+                    <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>
                     {/* preview: desktop */}
-                    <Link className="app-header-icon hide@<md" href={getSearchPath('preview', '')}>
+                    <Link className="app-header-icon hidden@<md" href={getSearchPath('preview', '')}>
                         <IconDeviceDesktop width="22" height="22" className={clsx(
                             'stroke:1.3 stroke:current',
                             !preview ? 'fill:accent/.15 stroke:accent' : 'fill:text-lightest/.2'
                         )} />
                     </Link>
                     {/* preview: responsive */}
-                    <Link className="app-header-icon hide@<md" href={getSearchPath('preview', 'responsive')}>
+                    <Link className="app-header-icon hidden@<md" href={getSearchPath('preview', 'responsive')}>
                         <IconDeviceMobile width="22" height="22" className={clsx(
                             'stroke:1.3 stroke:current',
                             responsive ? 'fill:accent/.15 stroke:accent' : 'fill:text-lightest/.2'
                         )} />
                     </Link>
                     {/* preview: css */}
-                    <Link className="app-header-icon hide@<md" href={getSearchPath('preview', 'css')}>
+                    <Link className="app-header-icon hidden@<md" href={getSearchPath('preview', 'css')}>
                         <IconBrandCss3 width="22" height="22" className={clsx(
                             'stroke:1.3 stroke:current',
                             preview === 'css' ? 'fill:accent/.15 stroke:accent' : 'fill:text-lightest/.2'
                         )} />
                     </Link>
                     <span className='hide'>{preview}</span>
-                    <div className='hide@<md bg:divider h:1em mx:4x w:1'></div>
-                    <LanguageButton className="app-header-icon hide@<md" locale={locale} />
-                    <ThemeButton className="app-header-icon hide@<md mr:-12"
+                    <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>
+                    <LanguageButton className="app-header-icon hidden@<md" locale={locale} />
+                    <ThemeButton className="app-header-icon hidden@<md mr:-12"
                         onChange={(theme: string) => {
                             previewIframeRef?.current?.contentWindow?.postMessage({
                                 theme
                             }, window.location.origin)
                         }}
                     />
-                    <DocMenuButton className="app-header-icon hide@md mr:-12" />
+                    <DocMenuButton className="app-header-icon hidden@md mr:-12" />
                 </HeaderContent>
             </Header >
             <div
@@ -665,10 +665,10 @@ export default function Play(props: any) {
                             </Tab>
                         ))}
                         {/* mobile couldn't support tab active */}
-                        <Tab href={getSearchPath('tab', 'Generated CSS')} size="sm" className="hide@md" active={tab === 'Generated CSS'}>
+                        <Tab href={getSearchPath('tab', 'Generated CSS')} size="sm" className="hidden@md" active={tab === 'Generated CSS'}>
                             Generated CSS
                         </Tab>
-                        <Tab href={getSearchPath('tab', 'Preview')} className="hide@sm" size="sm" active={tab === 'Preview'}>
+                        <Tab href={getSearchPath('tab', 'Preview')} className="hidden@sm" size="sm" active={tab === 'Preview'}>
                             Preview
                         </Tab>
                     </Tabs>
@@ -698,7 +698,7 @@ export default function Play(props: any) {
                     'flex jc:center p:32': responsive,
                     'pt:64': responsive && layout !== '3',
                     'pb:64': responsive && layout === '3',
-                    'hide@<md': tab !== 'Preview'
+                    'hidden@<md': tab !== 'Preview'
                 })}>
                     <Resizable
                         ruleClassName={'abs'}

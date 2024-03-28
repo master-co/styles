@@ -103,7 +103,7 @@ To apply styles above a certain viewport width, you can either use the `@N` or `
 ```
 Generated CSS:
 <Class2CSS>
-    {['hide@>=sm']}
+    {['hidden@>=sm']}
 </Class2CSS>
 (o) Alternative and recommended:
 ```html
@@ -111,7 +111,7 @@ Generated CSS:
 ```
 Generated CSS:
 <Class2CSS>
-    {['hide@sm']}
+    {['hidden@sm']}
 </Class2CSS>
 
 ### Viewport width exceeds N
@@ -121,7 +121,7 @@ To apply styles when a certain viewport width is exceeded, you can use the `>` o
 ```
 Generated CSS:
 <Class2CSS>
-    {['hide@>sm']}
+    {['hidden@>sm']}
 </Class2CSS>
 
 ### Viewport width is at most N
@@ -131,7 +131,7 @@ To apply styles when less than or equal to a certain viewport width, use the `<=
 ```
 Generated CSS:
 <Class2CSS>
-    {['hide@<=sm']}
+    {['hidden@<=sm']}
 </Class2CSS>
 
 ### Viewport width is less than N
@@ -141,7 +141,7 @@ To apply styles when less than a certain viewport width, use the `<` operator.
 ```
 Generated CSS:
 <Class2CSS>
-    {['hide@<sm']}
+    {['hidden@<sm']}
 </Class2CSS>
 
 ### Within the viewport width range
@@ -151,6 +151,6 @@ To apply styles more flexibly, you can use the `&` logical operator along with t
 ```
 Generated CSS:
 <Class2CSS>
-    {['hide@sm&<md']}
+    {['hidden@sm&<md']}
 </Class2CSS>
 Occasionally, addressing glitches or layouts within a certain range of viewports can be helpful.

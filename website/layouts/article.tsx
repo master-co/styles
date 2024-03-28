@@ -16,7 +16,7 @@ export default function Layout(props: any) {
             <div className='fg:accent font:semibold mb:10 text:center'>
                 {props.metadata.date && <TimeAgo timestamp={props.metadata.date} />}
             </div>
-            <h1 className='bg:text font:64@sm font:heavy gradient(180deg,gray-60,gray-90) gradient(180deg,white,gray-40)@dark ls:-.5 m:0 text-fill:transparent text:center'>
+            <h1 className='bg:text font:64@sm font:heavy gradient(180deg,gray-60,gray-90) gradient(180deg,white,gray-40)@dark tracking:-.5 m:0 text:transparent text:center'>
                 {$(props.metadata.title.absolute || props.metadata.title)}
             </h1>
             <p className='text:20 fg:light max-w:screen-sm mt:3x mx:auto text:center'>{$(props.metadata.description)}</p>

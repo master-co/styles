@@ -24,7 +24,7 @@ it('uses with var function', () => {
 test('rule variables', () => {
     expect(new MasterCSS(config).create('font:sm')?.text).toBe('.font\\:sm{font-size:1rem}')
     expect(new MasterCSS(config).create('font-size:sm')?.text).toBe('.font-size\\:sm{font-size:1rem}')
-    expect(new MasterCSS(config).create('ls:wide')?.text).toBe('.ls\\:wide{letter-spacing:0.025em}')
+    expect(new MasterCSS(config).create('tracking:wide')?.text).toBe('.ls\\:wide{letter-spacing:0.025em}')
     expect(new MasterCSS(config).create('letter-spacing:wide')?.text).toBe('.letter-spacing\\:wide{letter-spacing:0.025em}')
     expect(new MasterCSS(config).create('shadow:x2')?.text).toBe('.shadow\\:x2{box-shadow:0rem 25px 50px -12px rgb(0 0 0 / 25%)}')
     expect(new MasterCSS(config).create('inset:sm|md|md|sm')?.text).toBe('.inset\\:sm\\|md\\|md\\|sm{inset:0.625rem 1.25rem 1.25rem 0.625rem}')

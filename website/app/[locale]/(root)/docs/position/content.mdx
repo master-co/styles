@@ -53,7 +53,7 @@ Use `abs`to remove an element from the normal flow of the document, and the elem
 Use `fixed`to remove an element from the normal flow of the document. The element positioned relative to the viewport, and it is always stays in the same place.
 <Demo>
     <div className="box ai:initial! jc:initial! p:8|20_li p:10|0! r:10 w:full max-w:340@sm max-h:250 overflow:auto">
-        <input className="fixed z:1 bg:gray-23 bg:gray-18:focus fg:gray-40::placeholder outline:0 font:14 w:300 mx:10 p:12 lh:1 r:5" placeholder="Search for chats and messages" type="search" />
+        <input className="fixed z:1 bg:gray-23 bg:gray-18:focus fg:gray-40::placeholder outline:0 font:14 w:300 mx:10 p:12 leading:1 r:5" placeholder="Search for chats and messages" type="search" />
         <ul className="list-style:none mt:10 pl:0 w:full">
             {users.map((user, index) =>
                 <li className="bg:gray-28:hover bg:gray-32:active flex gap:12 cursor:pointer" key={index}>

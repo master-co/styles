@@ -28,7 +28,7 @@ export default function SyntaxTable({ title, value, children, scrollY, addedLabe
                 setPreviewCodeElement(codeElement)
                 window.dispatchEvent(new CustomEvent('change:preview-syntax', { detail: textContent }))
             }
-            snackbar('<code class="font:90% font:semibold ls:-.5">' + textContent + '</code> copied')
+            snackbar('<code class="font:90% font:semibold tracking:-.5">' + textContent + '</code> copied')
             navigator.clipboard.writeText(textContent)
         }
     }, [previewCodeElement, shouldSelected])

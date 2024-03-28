@@ -5,6 +5,6 @@ import config from './master.css'
 
 <template>
     <CSSRuntimeProvider :config="config">
-        <NuxtWelcome class="{font:32!;font:heavy!;my:20;ls:-.02em}_h1@sm" />
+        <NuxtWelcome class="{font:32!;font:heavy!;my:20;tracking:-.02em}_h1@sm" />
     </CSSRuntimeProvider>
 </template>
