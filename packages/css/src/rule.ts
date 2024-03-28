@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import MasterCSS, { type Variable } from './core'
+import MasterCSS, { ColorVariable, type Variable } from './core'
 import cssEscape from 'css-shared/utils/css-escape'
 import Layer from './layer'
 import { type PropertiesHyphen } from 'csstype'
@@ -569,7 +569,7 @@ export class Rule {
                                 handleVariable(
                                     (variable) => {
                                         if (bypassParsing) {
-                                            currentValue += eachValueComponent.text = variable.value
+                                            currentValue += eachValueComponent.text = String(variable.value)
                                         } else {
                                             const valueComponent = this.parseValue(variable.value, unit) as NumericValueComponent
                                             currentValue += eachValueComponent.text = valueComponent.value + (valueComponent.unit ?? '')
@@ -587,7 +587,7 @@ export class Rule {
                                 const alpha = eachValueComponent.alpha ? '/' + eachValueComponent.alpha : ''
                                 handleVariable(
                                     (variable) => {
-                                        currentValue += eachValueComponent.text = `${variable['space']}(${variable.value}${alpha})`
+                                        currentValue += eachValueComponent.text = `${(variable as ColorVariable)['space']}(${variable.value}${alpha})`
                                     },
                                     () => {
                                         currentValue += eachValueComponent.text = `${variable.space}(var(--${eachValueComponent.name})${alpha})`
@@ -856,13 +856,13 @@ export interface RegisteredRule {
         value?: RegExp
         arbitrary?: RegExp
     }
-    variables?: any
+    variables: Record<string, Variable>
     order: number
     definition: RuleDefinition
 }
 
 export interface RuleDefinition {
-    layer: Layer
+    layer?: Layer
     matcher?: RegExp
     key?: string
     subkey?: string

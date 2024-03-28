@@ -28,26 +28,26 @@ test('registered Rule', () => {
 test('variables', () => {
     const css = new MasterCSS({
         variables: {
-            lv1: {
+            a: {
                 1: 'test',
-                lv2: {
+                b: {
                     2: 'test'
                 }
             }
         },
         rules: {
             content: {
-                variables: ['lv1.lv2']
+                variables: ['a.b']
             }
         }
     })
-    expect(css.variables['lv1-1']).toMatchObject({ type: 'string', value: 'test', group: 'lv1' })
-    expect(css.variables['lv1-lv2-2']).toMatchObject({ type: 'string', value: 'test', group: 'lv1.lv2' })
+    expect(css.variables['a-1']).toMatchObject({ type: 'string', value: 'test', group: 'a' })
+    expect(css.variables['a-b-2']).toMatchObject({ type: 'string', value: 'test', group: 'a.b' })
     expect(css.Rules.find(({ id }) => id === 'content')).toEqual({
         definition: {
             key: 'content',
             layer: -1,
-            variables: ['lv1.lv2']
+            variables: ['a.b']
         },
         id: 'content',
         matchers: {
@@ -57,10 +57,10 @@ test('variables', () => {
         variables: {
             2: {
                 key: '2',
-                name: 'lv1-lv2-2',
+                name: 'a-b-2',
                 type: 'string',
                 value: 'test',
-                group: 'lv1.lv2'
+                group: 'a.b'
             }
         }
     })

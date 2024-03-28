@@ -36,14 +36,14 @@ export {
 }
 
 export type VariableValue = number | string | Array<number | string>
-export type VariableDefinition = { [key in '' | `@${string}` | string]?: VariableValue | VariableDefinition }
+export type VariableDefinition = { [key in '' | `@${string}` | string]?: VariableValue | VariableDefinition } | VariableValue
 export type CSSKeyframes = { [key in 'from' | 'to' | string]: PropertiesHyphen }
 export type AnimationDefinitions = { [key: string]: CSSKeyframes }
 export type SelectorDefinitions = { [key: string]: string | string[] | SelectorDefinitions }
 export type MediaQueryDefinitions = { [key: string]: number | string | MediaQueryDefinitions }
 export type StyleDefinitions = { [key: string]: string | StyleDefinitions }
 export type RuleDefinitions = { [key in keyof typeof rules | string]?: RuleDefinition }
-export type VariableDefinitions = { [key in keyof typeof rules]?: VariableDefinition | VariableValue } & { [key: string]: VariableDefinition | VariableValue }
+export type VariableDefinitions = { [key in keyof typeof rules]?: VariableDefinition } & { [key: string]: VariableDefinition }
 export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesHyphen } & { [key: string]: PropertiesHyphen }
 export interface FunctionDefinition {
     unit?: string

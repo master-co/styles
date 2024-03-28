@@ -7,14 +7,12 @@ import type { IPropertyData, IValueData } from 'vscode-css-languageservice'
 export default function getMainCompletionItems(css: MasterCSS = new MasterCSS()): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
+    const addedKeys = new Set<string>()
     process.env.VSCODE_IPC_HOOK && console.time('getMainCompletionItems')
-    for (const ruleId in css.config.rules) {
-        const eachRule = css.config.rules[ruleId]
-        const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === ruleId)
-        // todo: key alias
-        completionItems.push({
-            label: ruleId + ':',
-            sortText: ruleId,
+    for (const id in css.config.rules) {
+        const eachRule = css.config.rules[id]
+        const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === id)
+        const eachCompletionItem = {
             kind: CompletionItemKind.Property,
             documentation: getCSSDataDocumentation(nativeCSSPropertyData),
             detail: nativeCSSPropertyData?.syntax,
@@ -22,7 +20,44 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
                 title: 'triggerSuggest',
                 command: 'editor.action.triggerSuggest'
             }
-        })
+        }
+        if (eachRule?.key) {
+            addedKeys.add(eachRule.key)
+            completionItems.push({
+                ...eachCompletionItem,
+                label: eachRule.key + ':',
+                sortText: eachRule.key
+            })
+        }
+        if (eachRule?.subkey) {
+            addedKeys.add(eachRule.subkey)
+            completionItems.push({
+                ...eachCompletionItem,
+                label: eachRule.subkey + ':',
+                sortText: eachRule.subkey
+            })
+        }
+        if (eachRule?.ambiguousKeys?.length) {
+            for (const ambiguousKey of eachRule.ambiguousKeys) {
+                if (addedKeys.has(ambiguousKey)) {
+                    continue
+                }
+                /**
+                 * Ambiguous keys are added to the completion list
+                 * @example text: t:
+                 */
+                completionItems.push({
+                    kind: CompletionItemKind.Property,
+                    detail: 'ambiguous key',
+                    label: ambiguousKey + ':',
+                    sortText: ambiguousKey,
+                    command: {
+                        title: 'triggerSuggest',
+                        command: 'editor.action.triggerSuggest'
+                    }
+                })
+            }
+        }
     }
 
     // todo: test remap utility to native css property

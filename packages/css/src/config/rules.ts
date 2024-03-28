@@ -586,7 +586,7 @@ const rules = {
     } as RuleDefinition,
     'text-rendering': {
         ambiguousKeys: ['text', 't'],
-        ambiguousValues: ['optimizespeed', 'optimizelegibility', 'geometricprecision'],
+        ambiguousValues: ['optimizeSpeed', 'optimizeLegibility', 'geometricPrecision'],
         layer: Layer.Native,
     } as RuleDefinition,
     'text-indent': {

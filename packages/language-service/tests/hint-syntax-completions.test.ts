@@ -23,42 +23,54 @@ const simulateHintingCompletions = (target: string, { quotes = true, settings }:
 // it('types a', () => expect(simulateHintingCompletions('a')?.length).toBeDefined())
 
 test.todo('following test require e2e -> packages/language-server')
-// it('types " should hint completions', () => expect(simulateHintingCompletions('"', { quotes: false })?.length).toBeGreaterThan(0))
+it('types " should hint completions', () => expect(simulateHintingCompletions('""', { quotes: false })?.length).toBeGreaterThan(0))
 it('types   should hint completions', () => expect(simulateHintingCompletions('text:center ')?.length).toBeGreaterThan(0))
 it('types "text:center" should not hint completions', () => expect(simulateHintingCompletions('text:center')?.length).toBe(0))
 
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)
 
-test.todo('keys')
-// describe('keys', () => {
-//     // it('should not hint selectors', () => expect(simulateHintingCompletions('text:')?.[0]).not.toMatchObject({ insertText: 'active' }))
-//     test('@delay on invoked', () => expect(simulateHintingCompletions('"', { quotes: false })?.find(({ label }) => label === '@delay:')).toMatchObject({ label: '@delay:' }))
-//     test('~delay on invoked', () => expect(simulateHintingCompletions('"', { quotes: false })?.find(({ label }) => label === '~delay:')).toMatchObject({ label: '~delay:' }))
-//     it('starts with @', () => expect(simulateHintingCompletions('@')?.[0]).toMatchObject({ label: 'delay:' }))
-//     it('starts with @d and list related', () => expect(simulateHintingCompletions('@d')?.map(({ label }) => label)).toEqual([
-//         'delay:',
-//         'direction:',
-//         'duration:'
-//     ]))
-//     it('starts with @ and list related', () => expect(simulateHintingCompletions('@')?.map(({ label }) => label)).toEqual([
-//         'delay:',
-//         'direction:',
-//         'duration:',
-//         'easing:',
-//         'fill-mode:',
-//         'iteration-count:',
-//         'name:',
-//         'play-state:',
-//     ]))
-//     it('starts with ~', () => expect(simulateHintingCompletions('~')?.[0]).toMatchObject({ label: 'delay:' }))
-//     it('starts with ~ and list related', () => expect(simulateHintingCompletions('~')?.map(({ label }) => label)).toEqual([
-//         'delay:',
-//         'duration:',
-//         'easing:',
-//         'property:'
-//     ]))
-// })
+describe('keys', () => {
+    it('should not hint selectors', () => expect(simulateHintingCompletions('text:')?.[0]).not.toMatchObject({ insertText: 'active' }))
+    test('@delay on invoked', () => expect(simulateHintingCompletions('""', { quotes: false })?.find(({ label }) => label === '@delay:')).toMatchObject({ label: '@delay:' }))
+    test('~delay on invoked', () => expect(simulateHintingCompletions('""', { quotes: false })?.find(({ label }) => label === '~delay:')).toMatchObject({ label: '~delay:' }))
+    it('starts with @', () => expect(simulateHintingCompletions('@')?.[0]).toMatchObject({ label: 'delay:' }))
+    it('starts with @d and list related', () => expect(simulateHintingCompletions('@d')?.map(({ label }) => label)).toEqual([
+        'delay:',
+        'direction:',
+        'duration:'
+    ]))
+    it('starts with @ and list related', () => expect(simulateHintingCompletions('@')?.map(({ label }) => label)).toEqual([
+        'delay:',
+        'direction:',
+        'duration:',
+        'easing:',
+        'fill:',
+        'iteration:',
+        'name:',
+        'play:',
+    ]))
+    it('starts with ~', () => expect(simulateHintingCompletions('~')?.[0]).toMatchObject({ label: 'delay:' }))
+    it('starts with ~ and list related', () => expect(simulateHintingCompletions('~')?.map(({ label }) => label)).toEqual([
+        'delay:',
+        'duration:',
+        'easing:',
+        'property:'
+    ]))
+    test('native property', () => expect(simulateHintingCompletions('f')?.map(({ label }) => label)).toContain('font-size:'))
+    describe('ambiguous', () => {
+        test('t', () => expect(simulateHintingCompletions('t')?.map(({ label }) => label)).toContain('t:'))
+        test('t', () => expect(simulateHintingCompletions('t')?.map(({ label }) => label)).toContain('text:'))
+    })
+})
+
+describe('values', () => {
+    test('scoped variables', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toContain('semibold'))
+    describe('ambiguous', () => {
+        test('text:capitalize', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('capitalize'))
+        test('text:center', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('center'))
+    })
+})
 
 describe('utilities', () => {
     it('types a', () => expect(simulateHintingCompletions('a')?.find(({ label }) => label === 'abs')).toMatchObject({ label: 'abs' }))

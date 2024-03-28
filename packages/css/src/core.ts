@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import { Rule, type NativeRule, type RuleDefinition, type RegisteredRule, AtFeatureComponent } from './rule'
-import type { Config, AnimationDefinitions } from './config'
+import type { Config, AnimationDefinitions, VariableDefinition } from './config'
 import { config as defaultConfig } from './config'
 import Layer from './layer'
 import hexToRgb from './utils/hex-to-rgb'
@@ -9,17 +9,18 @@ import extendConfig from './utils/extend-config'
 import { type PropertiesHyphen } from 'csstype'
 import './types/global' // fix: ../css/src/core.ts:1205:16 - error TS7017: Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature.
 
-type VariableValue =
-    { type: 'string', value: string }
-    | { type: 'number', value: number }
-    | { type: 'color', value: string, space: 'rgb' | 'hsl' }
-
-export type Variable = Omit<VariableValue, 'value' | 'space'> & {
-    value?: any,
-    space?: any,
+type VariableCommon = {
     usage?: number,
-    modes?: { [mode: string]: VariableValue }
+    group?: string,
+    name: string,
+    key: string,
+    modes?: { [mode: string]: TypeVariable }
 }
+export type StringVariable = { type: 'string', value: string }
+export type NumberVariable = { type: 'number', value: number }
+export type ColorVariable = { type: 'color', value: string, space: 'rgb' | 'hsl' }
+export type TypeVariable = StringVariable | NumberVariable | ColorVariable
+export type Variable = TypeVariable & VariableCommon
 
 export default class MasterCSS {
     static config: Config = defaultConfig
@@ -88,92 +89,94 @@ export default class MasterCSS {
 
         if (variables) {
             const unexecutedAliasVariable: Record<string, { [mode: string]: () => void }> = {}
-            const parseVariable = (variable: any, name: string, mode?: string) => {
-                if (typeof variable === undefined || variable === null)
-                    return
-
+            const resolveVariable = (variableDefinition: VariableDefinition, name: string[], mode?: string) => {
+                if (variableDefinition === undefined || variableDefinition === null) return
                 const addVariable = (
-                    name: string,
-                    variableValue: VariableValue,
+                    name: string[],
+                    variable: any,
                     replacedMode?: string,
                     alpha?: string
                 ) => {
-                    if (variableValue === undefined)
+                    if (variable === undefined)
                         return
-
-                    if (variableValue.type === 'color') {
+                    const flatName = name.join('-')
+                    const groups = name.slice(0, -1)
+                    const key = name[name.length - 1]
+                    variable.key = key
+                    variable.name = flatName
+                    if (groups.length)
+                        variable.group = groups.join('.')
+                    if (variable.type === 'color') {
                         if (alpha) {
-                            const slashIndex = variableValue.value.indexOf('/')
-                            variableValue = {
-                                ...variableValue,
+                            const slashIndex = variable.value.indexOf('/')
+                            variable = {
+                                ...variable,
                                 value: slashIndex === -1
-                                    ? variableValue.value + ' / ' + (alpha.startsWith('0.') ? alpha.slice(1) : alpha)
-                                    : (variableValue.value.slice(0, slashIndex + 2) + String(+variableValue.value.slice(slashIndex + 2) * +alpha).slice(1))
+                                    ? variable.value + ' / ' + (alpha.startsWith('0.') ? alpha.slice(1) : alpha)
+                                    : (variable.value.slice(0, slashIndex + 2) + String(+variable.value.slice(slashIndex + 2) * +alpha).slice(1))
                             }
                         }
-
-                        colorVariableNames[name] = undefined
+                        colorVariableNames[flatName] = undefined
                     }
-
                     const currentMode = replacedMode ?? mode
                     if (currentMode !== undefined) {
-                        if (Object.prototype.hasOwnProperty.call(this.variables, name)) {
-                            const variable = this.variables[name]
+                        if (Object.prototype.hasOwnProperty.call(this.variables, flatName)) {
+                            const foundVariable = this.variables[flatName]
                             if (currentMode) {
-                                if (!variable.modes) {
-                                    variable.modes = {}
+                                if (!foundVariable.modes) {
+                                    foundVariable.modes = {}
                                 }
-                                variable.modes[currentMode] = variableValue
+                                foundVariable.modes[currentMode] = variable
                             } else {
-                                variable.value = variableValue.value
-                                if (variableValue.type === 'color') {
-                                    variable.space = variableValue.space
+                                foundVariable.value = variable.value
+                                if (variable.type === 'color') {
+                                    (foundVariable as ColorVariable).space = variable.space
                                 }
                             }
                         } else {
                             if (currentMode) {
-                                const newVariable: Variable = {
-                                    type: variableValue.type,
-                                    modes: { [currentMode]: variableValue }
+                                const newVariable: any = {
+                                    key: variable.key,
+                                    type: variable.type,
+                                    modes: { [currentMode]: variable }
                                 }
-                                if (variableValue.type === 'color') {
-                                    newVariable.space = variableValue.space
+                                if (variable.type === 'color') {
+                                    newVariable.space = variable.space
                                 }
-                                this.variables[name] = newVariable
+                                this.variables[flatName] = newVariable
                             } else {
-                                this.variables[name] = variableValue
+                                this.variables[flatName] = variable
                             }
                         }
                     } else {
-                        this.variables[name] = variableValue
+                        this.variables[flatName] = variable
                     }
                 }
-
-                const type = typeof variable
-                if (type === 'object') {
-                    if (Array.isArray(variable)) {
-                        addVariable(name, { type: 'string', value: variable.join(',') })
+                if (typeof variableDefinition === 'object') {
+                    if (Array.isArray(variableDefinition)) {
+                        addVariable(name, { type: 'string', value: variableDefinition.join(',') })
                     } else {
-                        const keys = Object.keys(variable)
+                        const keys = Object.keys(variableDefinition)
                         for (const eachKey of keys) {
                             if (eachKey === '' || eachKey.startsWith('@')) {
-                                parseVariable(variable[eachKey], name, (eachKey || keys.some(eachKey => eachKey.startsWith('@'))) ? eachKey.slice(1) : undefined)
+                                resolveVariable(variableDefinition[eachKey] as VariableDefinition, name, (eachKey || keys.some(eachKey => eachKey.startsWith('@'))) ? eachKey.slice(1) : undefined)
                             } else {
-                                parseVariable(variable[eachKey], name + '-' + eachKey, undefined)
+                                resolveVariable(variableDefinition[eachKey] as VariableDefinition, [...name, eachKey])
                             }
                         }
                     }
-                } else if (type === 'number') {
-                    addVariable(name, { type: 'number', value: variable })
-                    addVariable('-' + name, { type: 'number', value: variable * -1 })
-                } else if (type === 'string') {
-                    const aliasResult = /^\$\((.*?)\)(?: ?\/ ?(.+?))?$/.exec(variable)
+                } else if (typeof variableDefinition === 'number') {
+                    addVariable(name, { type: 'number', value: variableDefinition })
+                    addVariable(['', ...name], { type: 'number', value: variableDefinition * -1 })
+                } else if (typeof variableDefinition === 'string') {
+                    const aliasResult = /^\$\((.*?)\)(?: ?\/ ?(.+?))?$/.exec(variableDefinition)
+                    const flatName = name.join('-')
                     if (aliasResult) {
-                        if (!Object.prototype.hasOwnProperty.call(unexecutedAliasVariable, name)) {
-                            unexecutedAliasVariable[name] = {}
+                        if (!Object.prototype.hasOwnProperty.call(unexecutedAliasVariable, flatName)) {
+                            unexecutedAliasVariable[flatName] = {}
                         }
-                        unexecutedAliasVariable[name][mode as string] = () => {
-                            delete unexecutedAliasVariable[name][mode as string]
+                        unexecutedAliasVariable[flatName][mode as string] = () => {
+                            delete unexecutedAliasVariable[flatName][mode as string]
 
                             const [alias, aliasMode] = aliasResult[1].split('@')
                             if (alias) {
@@ -188,7 +191,7 @@ export default class MasterCSS {
                                     if (aliasMode === undefined && aliasVariable.modes) {
                                         addVariable(
                                             name,
-                                            { type: aliasVariable.type, value: aliasVariable.value, space: aliasVariable.space },
+                                            { type: aliasVariable.type, value: aliasVariable.value, space: (aliasVariable as ColorVariable).space },
                                             '',
                                             aliasResult[2]
                                         )
@@ -205,7 +208,7 @@ export default class MasterCSS {
                                             ? aliasVariable.modes?.[aliasMode]
                                             : aliasVariable
                                         if (variable) {
-                                            const newVariable = { type: variable.type, value: variable.value } as VariableValue
+                                            const newVariable = { type: variable.type, value: variable.value } as Variable
                                             if (variable.type === 'color') {
                                                 (newVariable as any).space = variable.space
                                             }
@@ -216,20 +219,20 @@ export default class MasterCSS {
                             }
                         }
                     } else {
-                        const hexColorResult = /^#([A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.exec(variable)
+                        const hexColorResult = /^#([A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.exec(variableDefinition)
                         if (hexColorResult) {
                             const [r, g, b, a] = hexToRgb(hexColorResult[1])
                             addVariable(name, { type: 'color', value: `${r} ${g} ${b}${a === 1 ? '' : ' / ' + a}`, space: 'rgb' })
                         } else {
-                            const rgbFunctionResult = /^rgb\( *([0-9]{1,3})(?: *, *| +)([0-9]{1,3})(?: *, *| +)([0-9]{1,3}) *(?:(?:,|\/) *(.*?) *)?\)$/.exec(variable)
+                            const rgbFunctionResult = /^rgb\( *([0-9]{1,3})(?: *, *| +)([0-9]{1,3})(?: *, *| +)([0-9]{1,3}) *(?:(?:,|\/) *(.*?) *)?\)$/.exec(variableDefinition)
                             if (rgbFunctionResult) {
                                 addVariable(name, { type: 'color', value: rgbFunctionResult[1] + ' ' + rgbFunctionResult[2] + ' ' + rgbFunctionResult[3] + (rgbFunctionResult[4] ? ' / ' + (rgbFunctionResult[4].startsWith('0.') ? rgbFunctionResult[4].slice(1) : rgbFunctionResult[4]) : ''), space: 'rgb' })
                             } else {
-                                const hslFunctionResult = /^hsl\((.*?)\)$/.exec(variable)
+                                const hslFunctionResult = /^hsl\((.*?)\)$/.exec(variableDefinition)
                                 if (hslFunctionResult) {
                                     addVariable(name, { type: 'color', value: hslFunctionResult[1], space: 'hsl' })
                                 } else {
-                                    addVariable(name, { type: 'string', value: variable })
+                                    addVariable(name, { type: 'string', value: variableDefinition })
                                 }
                             }
                         }
@@ -237,8 +240,9 @@ export default class MasterCSS {
                 }
             }
             for (const parnetKey in variables) {
-                parseVariable(variables[parnetKey], parnetKey)
+                resolveVariable(variables[parnetKey], [parnetKey])
             }
+            // todo: address to the target variable
             for (const name of Object.keys(unexecutedAliasVariable)) {
                 for (const mode of Object.keys(unexecutedAliasVariable[name])) {
                     unexecutedAliasVariable[name][mode]?.()
@@ -332,29 +336,31 @@ export default class MasterCSS {
                     return b[0].localeCompare(a[0])
                 })
                 .forEach(([id, eachRuleDefinition], index: number) => {
-                    const eachRegisteredRule: RegisteredRule = {
+                    const EachRule: RegisteredRule = {
                         id,
                         variables: {},
                         matchers: {},
                         order: rulesEntriesLength - 1 - index,
                         definition: eachRuleDefinition
                     }
-                    this.Rules.push(eachRegisteredRule)
-                    const { matcher, layer, key, subkey, ambiguousKeys, ambiguousValues } = eachRuleDefinition
+                    this.Rules.push(EachRule)
+                    const { matcher, layer, subkey, ambiguousKeys, ambiguousValues } = eachRuleDefinition
+                    let { key } = eachRuleDefinition
                     if (layer === Layer.Utility) {
-                        eachRegisteredRule.id = '.' + id
-                        eachRegisteredRule.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
+                        EachRule.id = '.' + id
+                        EachRule.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
                     }
-
+                    const keyPatterns = []
+                    if (layer === Layer.NativeShorthand || layer === Layer.Native) {
+                        if (!key) eachRuleDefinition.key = key = id
+                        keyPatterns.push(id)
+                    }
                     // todo: 不可使用 startsWith 判斷，應改為更精準的從 config.variables 取得目標變數群組，但 config.variables 中的值還沒被 resolve 像是 Array
-                    const addResolvedVariables = (prefix: string) => {
+                    const addResolvedVariables = (groupName: string) => {
                         for (const eachVariableName in this.variables) {
-                            if (eachVariableName.startsWith(prefix + '-') || eachVariableName.startsWith('-' + prefix + '-')) {
-                                const simplifiedName = eachVariableName.slice(prefix.length + (prefix.startsWith('-') ? 0 : 1))
-                                eachRegisteredRule.variables[simplifiedName] = {
-                                    ...this.variables[eachVariableName],
-                                    name: eachVariableName,
-                                }
+                            const eachVariable = this.variables[eachVariableName]
+                            if (eachVariable.group === groupName) {
+                                EachRule.variables[eachVariable.key] = eachVariable
                             }
                         }
                     }
@@ -370,15 +376,11 @@ export default class MasterCSS {
                     addResolvedVariables(id)
 
                     const colorsPatten = colorNames.join('|')
-                    const keyPatterns = []
-                    if (layer === Layer.NativeShorthand || layer === Layer.Native) {
-                        keyPatterns.push(id)
-                    }
                     if (!matcher) {
                         if (!key && !subkey) {
                             keyPatterns.push(id)
-                        } else if (key || subkey) {
-                            if (key) keyPatterns.push(key)
+                        } else {
+                            if (key && !keyPatterns.includes(key)) keyPatterns.push(key)
                             if (subkey) keyPatterns.push(subkey)
                             if (layer === Layer.Shorthand) {
                                 keyPatterns.push(id)
@@ -386,7 +388,7 @@ export default class MasterCSS {
                         }
                         if (ambiguousKeys?.length) {
                             const ambiguousKeyPattern = ambiguousKeys.length > 1 ? `(?:${ambiguousKeys.join('|')})` : ambiguousKeys[0]
-                            const variableKeys = Object.keys(eachRegisteredRule.variables)
+                            const variableKeys = Object.keys(EachRule.variables)
                             if (ambiguousValues?.length) {
                                 const ambiguousValuePatterns = []
                                 for (const eachAmbiguousValue of ambiguousValues) {
@@ -396,21 +398,17 @@ export default class MasterCSS {
                                         ambiguousValuePatterns.unshift(`${eachAmbiguousValue}\\b`)
                                     }
                                 }
-                                eachRegisteredRule.matchers.value = new RegExp(`^${ambiguousKeyPattern}:(?:${ambiguousValuePatterns.join('|')})[^|]*?(?:@|$)`)
+                                EachRule.matchers.value = new RegExp(`^${ambiguousKeyPattern}:(?:${ambiguousValuePatterns.join('|')})[^|]*?(?:@|$)`)
                             }
                             if (variableKeys.length) {
-                                eachRegisteredRule.matchers.variable = new RegExp(`^${ambiguousKeyPattern}:(?:${variableKeys.join('|')}(?![a-zA-Z0-9-]))[^|]*?(?:@|$)`)
+                                EachRule.matchers.variable = new RegExp(`^${ambiguousKeyPattern}:(?:${variableKeys.join('|')}(?![a-zA-Z0-9-]))[^|]*?(?:@|$)`)
                             }
                         }
-                        // if (id === 'background-clip') {
-                        //     console.log(eachRegisteredRule)
-                        // }
                     } else {
-                        eachRegisteredRule.matchers.arbitrary = matcher as RegExp
+                        EachRule.matchers.arbitrary = matcher as RegExp
                     }
-                    eachRegisteredRule.key = key || id
                     if (keyPatterns.length) {
-                        eachRegisteredRule.matchers.key = new RegExp(`^${keyPatterns.length > 1 ? `(${keyPatterns.join('|')})` : keyPatterns[0]}:`)
+                        EachRule.matchers.key = new RegExp(`^${keyPatterns.length > 1 ? `(${keyPatterns.join('|')})` : keyPatterns[0]}:`)
                     }
                 })
         }
@@ -426,29 +424,29 @@ export default class MasterCSS {
          * 1. variable
          * @example fg:primary bg:blue
          */
-        for (const eachRegisteredRule of this.Rules) {
-            if (eachRegisteredRule.matchers.variable?.test(className)) return eachRegisteredRule
+        for (const EachRule of this.Rules) {
+            if (EachRule.matchers.variable?.test(className)) return EachRule
         }
         /**
          * 2. value (ambiguous.key * ambiguous.values)
          * @example bg:current box:content font:12
          */
-        for (const eachRegisteredRule of this.Rules) {
-            if (eachRegisteredRule.matchers.value?.test(className)) return eachRegisteredRule
+        for (const EachRule of this.Rules) {
+            if (EachRule.matchers.value?.test(className)) return EachRule
         }
         /**
          * 3. full key
          * @example text-align:center color:blue-40
          */
-        for (const eachRegisteredRule of this.Rules) {
-            if (eachRegisteredRule.matchers.key?.test(className)) return eachRegisteredRule
+        for (const EachRule of this.Rules) {
+            if (EachRule.matchers.key?.test(className)) return EachRule
         }
         /**
          * 4. arbitrary
          * @example custom RegExp, utility
          */
-        for (const eachRegisteredRule of this.Rules) {
-            if (eachRegisteredRule.matchers.arbitrary?.test(className)) return eachRegisteredRule
+        for (const EachRule of this.Rules) {
+            if (EachRule.matchers.arbitrary?.test(className)) return EachRule
         }
     }
 
@@ -1076,7 +1074,7 @@ export default class MasterCSS {
                 if (variable.usage) {
                     variable.usage++
                 } else {
-                    const addProperty = (mode: string, variableValue: VariableValue) => {
+                    const addProperty = (mode: string, variable: TypeVariable) => {
                         let nativeRule = this.variablesNativeRules[mode]
                         if (!nativeRule) {
                             let cssRule: CSSStyleRule
@@ -1161,7 +1159,7 @@ export default class MasterCSS {
 
                         const propertyName = '--' + eachVariableName
                         if (!initializing || !(nativeRule.cssRule as CSSStyleRule).style.getPropertyValue(propertyName)) {
-                            (nativeRule.cssRule as CSSStyleRule).style.setProperty(propertyName, String(variableValue.value))
+                            (nativeRule.cssRule as CSSStyleRule).style.setProperty(propertyName, String(variable.value))
                         }
                     }
                     if (variable.value) {
