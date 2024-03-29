@@ -5,26 +5,25 @@ export function getCSSDataDocumentation(data?: IPropertyData | IValueData, addit
     generatedCSS?: string,
     docs?: string | false
 }): MarkupContent | undefined {
-    if (!data) return
     const values: string[] = []
     const references: IReference[] = data?.references ? [...data.references] : []
-    if (data.status) {
+    if (data?.status) {
         values.push(getEntryStatus(data.status))
     }
     if (additional?.generatedCSS) {
         values.push('```css\n' + beautifyCSS(additional.generatedCSS) + '\n```')
     }
-    if (data.description)
+    if (data?.description)
         if (typeof data.description === 'string') {
             values.push(textToMarkedString(data.description))
         } else {
             values.push(data.description.kind === 'markdown' ? data.description.value : textToMarkedString(data.description.value))
         }
-    const browserLabel = getBrowserLabel(data.browsers)
+    const browserLabel = getBrowserLabel(data?.browsers)
     if (browserLabel) {
         values.push('(' + textToMarkedString(browserLabel) + ')')
     }
-    if ('syntax' in data && data.syntax) {
+    if (data && 'syntax' in data && data.syntax) {
         values.push(`Syntax: ${textToMarkedString(data.syntax)}`)
     }
     // todo: can i use
