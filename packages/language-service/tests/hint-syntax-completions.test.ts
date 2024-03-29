@@ -3,6 +3,7 @@ import CSSLanguageService from '../src/core'
 import createDoc from '../src/utils/create-doc'
 import { Settings } from '../src/settings'
 import dedent from 'ts-dedent'
+import { CompletionItemKind } from 'vscode-languageserver-protocol'
 
 const simulateHintingCompletions = (target: string, { quotes = true, settings }: { quotes?: boolean, settings?: Settings } = {}) => {
     const contents = [`<div class=${quotes ? '"' : ''}`, target, `${quotes ? '"' : ''}></div>`]
@@ -16,11 +17,8 @@ const simulateHintingCompletions = (target: string, { quotes = true, settings }:
 
 // it('types a', () => expect(simulateHintingCompletions('a')?.length).toBeDefined())
 
-test.todo('following test require e2e -> packages/language-server')
 it('types " should hint completions', () => expect(simulateHintingCompletions('""', { quotes: false })?.length).toBeGreaterThan(0))
 it('types   should hint completions', () => expect(simulateHintingCompletions('text:center ')?.length).toBeGreaterThan(0))
-it('types "text:center" should not hint completions', () => expect(simulateHintingCompletions('text:center')?.length).toBe(0))
-
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)
 
@@ -64,41 +62,35 @@ describe('values', () => {
     describe('ambiguous', () => {
         test('text:capitalize', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('capitalize'))
         test('text:center', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('center'))
-        test('font:', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toEqual([
-            'bold',
-            'extrabold',
-            'extralight',
-            'heavy',
-            'light',
-            'medium',
-            'mono',
-            'regular',
-            'sans',
-            'semibold',
-            'serif',
-            'thin',
-            'antialiased',
-            'bolder',
-            'diagonal-fractions',
-            'italic',
-            'lining-nums',
-            'normal',
-            'oblique',
-            'oldstyle-nums',
-            'ordinal',
-            'proportional-nums',
-            'slashed-zero',
-            'stacked-fractions',
-            'subpixel-antialiased',
-            'tabular-nums',
-        ]))
+        // test('font:', () => expect(simulateHintingCompletions('font:')?.length).toBe(357))
+        test('box:', () => expect(simulateHintingCompletions('box:')?.find(({ label }) => label === 'content')).toEqual({
+            'detail': '(scope variable) content-box',
+            'kind': 12,
+            'label': 'content',
+            'documentation': {
+                'kind': 'markdown',
+                'value': dedent`
+                    \`\`\`css
+                    .box\\:content {
+                      box-sizing: content-box
+                    }
+                    \`\`\`
+
+                    Specifies the behavior of the 'width' and 'height' properties\\.
+
+                    (Edge 12, Firefox 29, Safari 5, Chrome 10, IE 8, Opera 7)
+
+                    Syntax: content\\-box | border\\-box
+
+                    [Master CSS](https://rc.css.master.co/docs/box-sizing) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/box-sizing)
+                `}
+        }))
     })
     describe('detail and documentation', () => {
         test('font:', () => expect(simulateHintingCompletions('font:')?.find(({ label }) => label === 'sans')).toEqual({
-            detail: 'font-family ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
-            kind: 6,
+            detail: '(scope variable) ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
+            kind: CompletionItemKind.Value,
             label: 'sans',
-            sortText: '0sans',
             documentation: {
                 kind: 'markdown',
                 value: dedent`
@@ -139,8 +131,30 @@ describe('values', () => {
             }
         }))
     })
-
     it('should ignore values containing blanks', () => expect(simulateHintingCompletions('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
+    describe('retype on no hints', () => {
+        it('"text:c"', () => expect(simulateHintingCompletions('text:c')?.length).toBeGreaterThan(0))
+        it('"d:b"', () => expect(simulateHintingCompletions('d:b')?.find(({ label }) => label === 'block')).toEqual({
+            label: 'block',
+            kind: 12,
+            sortText: 'block',
+            detail: 'display: block',
+            documentation: {
+                kind: 'markdown',
+                value: dedent`
+                    \`\`\`css
+                    .d\\:block {
+                      display: block
+                    }
+                    \`\`\`
+
+                    The element generates a block\\-level box
+
+                    [Master CSS](https://rc.css.master.co/docs/display) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/display)
+                `
+            }
+        }))
+    })
 })
 
 describe('utilities', () => {

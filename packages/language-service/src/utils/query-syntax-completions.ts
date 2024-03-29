@@ -17,11 +17,11 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
         return getMainCompletionItems(css)
     }
     const subFields = field.split(':')
-    const fieldBeforeFirstColon = subFields[0]
+    const main = subFields[0]
     const styleNames = Object.keys(css.config.styles || {})
     const utilityNames = Object.keys(css.config.utilities || {})
-    const isStyle = styleNames.includes(fieldBeforeFirstColon)
-    const isUtility = utilityNames.includes(fieldBeforeFirstColon)
+    const isStyle = styleNames.includes(main)
+    const isUtility = utilityNames.includes(main)
     // check by utilities and styles
     let keyCompleted = isStyle || isUtility
     const valueCompleted = keyCompleted
@@ -44,8 +44,8 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
     if (!keyCompleted) {
         return getMainCompletionItems(css)
     }
-    if (!valueCompleted && subFields[1] === '') {
-        return getValueCompletionItems(subFields[0], css)
+    if (!valueCompleted && subFields.length < 3) {
+        return getValueCompletionItems(main, css)
     }
     if (isStyle) return
     if (TRIGGER_CHARACTERS.selector.includes(triggerCharacter)) {
