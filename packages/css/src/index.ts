@@ -1,6 +1,7 @@
 export * from './config'
 export * from './rule'
 export * from './common'
+export * from './core'
 export { Rule } from './rule'
 export { default as Layer } from './layer'
 export { default as MasterCSS, default } from './core'

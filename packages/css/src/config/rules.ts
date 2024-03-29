@@ -10,7 +10,7 @@ export const autofillSolidToValueComponent: RuleDefinition['transformValueCompon
     if (valueComponents.length < 2) return valueComponents
     const styleValueComponent = valueComponents.find((valueComponent) => {
         return valueComponent.type === 'string' && BORDER_STYLE_VALUES.includes(valueComponent.value) ||
-            valueComponent.type === 'variable' && BORDER_STYLE_VALUES.includes(valueComponent.variable?.value)
+            valueComponent.type === 'variable' && BORDER_STYLE_VALUES.includes(String(valueComponent.variable?.value))
     })
     if (!styleValueComponent) {
         valueComponents.push(
