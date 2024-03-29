@@ -338,6 +338,7 @@ export default class MasterCSS {
                 .forEach(([id, eachRuleDefinition], index: number) => {
                     const EachRule: RegisteredRule = {
                         id,
+                        keys: [],
                         variables: {},
                         matchers: {},
                         order: rulesEntriesLength - 1 - index,
@@ -350,10 +351,10 @@ export default class MasterCSS {
                         EachRule.id = '.' + id
                         EachRule.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
                     }
-                    const keyPatterns = []
+                    const keys = []
                     if (layer === Layer.NativeShorthand || layer === Layer.Native) {
                         if (!key) eachRuleDefinition.key = key = id
-                        keyPatterns.push(id)
+                        keys.push(id)
                     }
                     // todo: 不可使用 startsWith 判斷，應改為更精準的從 config.variables 取得目標變數群組，但 config.variables 中的值還沒被 resolve 像是 Array
                     const addResolvedVariables = (groupName: string) => {
@@ -378,12 +379,12 @@ export default class MasterCSS {
                     const colorsPatten = colorNames.join('|')
                     if (!matcher) {
                         if (!key && !subkey) {
-                            keyPatterns.push(id)
+                            keys.push(id)
                         } else {
-                            if (key && !keyPatterns.includes(key)) keyPatterns.push(key)
-                            if (subkey) keyPatterns.push(subkey)
+                            if (key && !keys.includes(key)) keys.push(key)
+                            if (subkey) keys.push(subkey)
                             if (layer === Layer.Shorthand) {
-                                keyPatterns.push(id)
+                                keys.push(id)
                             }
                         }
                         if (ambiguousKeys?.length) {
@@ -407,8 +408,9 @@ export default class MasterCSS {
                     } else {
                         EachRule.matchers.arbitrary = matcher as RegExp
                     }
-                    if (keyPatterns.length) {
-                        EachRule.matchers.key = new RegExp(`^${keyPatterns.length > 1 ? `(${keyPatterns.join('|')})` : keyPatterns[0]}:`)
+                    if (keys.length) {
+                        EachRule.keys = keys
+                        EachRule.matchers.key = new RegExp(`^${keys.length > 1 ? `(${keys.join('|')})` : keys[0]}:`)
                     }
                 })
         }

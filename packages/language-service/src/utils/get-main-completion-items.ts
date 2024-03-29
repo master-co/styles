@@ -1,6 +1,6 @@
 import { type CompletionItem, CompletionItemKind } from 'vscode-languageserver-protocol'
 import cssDataProvider from './css-data-provider'
-import { MasterCSS, generateCSS } from '@master/css'
+import { Layer, MasterCSS, generateCSS, isCoreRule } from '@master/css'
 import { getCSSDataDocumentation } from './get-css-data-documentation'
 import type { IPropertyData, IValueData } from 'vscode-css-languageservice'
 import sortCompletionItems from './sort-completion-items'
@@ -10,36 +10,28 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
     const completionItems: CompletionItem[] = []
     const addedKeys = new Set<string>()
     process.env.VSCODE_IPC_HOOK && console.time('getMainCompletionItems')
-    for (const id in css.config.rules) {
-        const eachRule = css.config.rules[id]
-        const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === id)
+    for (const EachRule of css.Rules) {
+        if (EachRule.definition.layer === Layer.Utility) continue
+        const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === EachRule.id)
         const eachCompletionItem = {
             kind: CompletionItemKind.Property,
-            documentation: getCSSDataDocumentation(nativeCSSPropertyData),
+            documentation: getCSSDataDocumentation(nativeCSSPropertyData, { docs: isCoreRule(EachRule.id) && EachRule.id }),
             detail: nativeCSSPropertyData?.syntax,
             command: {
                 title: 'triggerSuggest',
                 command: 'editor.action.triggerSuggest'
             }
         }
-        if (eachRule?.key) {
-            addedKeys.delete(eachRule.key)
+        EachRule.keys.forEach(key => {
+            addedKeys.delete(key)
             completionItems.push({
                 ...eachCompletionItem,
-                label: eachRule.key + ':',
-                sortText: eachRule.key
+                label: key + ':',
+                sortText: key
             })
-        }
-        if (eachRule?.subkey) {
-            addedKeys.delete(eachRule.subkey)
-            completionItems.push({
-                ...eachCompletionItem,
-                label: eachRule.subkey + ':',
-                sortText: eachRule.subkey
-            })
-        }
-        if (eachRule?.ambiguousKeys?.length) {
-            for (const ambiguousKey of eachRule.ambiguousKeys) {
+        })
+        if (EachRule.definition?.ambiguousKeys?.length) {
+            for (const ambiguousKey of EachRule.definition.ambiguousKeys) {
                 if (addedKeys.has(ambiguousKey)) {
                     continue
                 }
@@ -95,7 +87,8 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
                 label: utilityName,
                 kind: CompletionItemKind.Value,
                 documentation: getCSSDataDocumentation(nativeCSSData, {
-                    generatedCSS: generateCSS([utilityName], css)
+                    generatedCSS: generateCSS([utilityName], css),
+                    docs: 'utilities'
                 }),
                 detail,
             })
@@ -108,7 +101,8 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
                 label: styleName,
                 kind: CompletionItemKind.Value,
                 documentation: getCSSDataDocumentation({} as any, {
-                    generatedCSS: generateCSS([styleName], css)
+                    generatedCSS: generateCSS([styleName], css),
+                    docs: 'styles'
                 }),
                 detail: styleClasses.join(' ') + ' (style)',
             })

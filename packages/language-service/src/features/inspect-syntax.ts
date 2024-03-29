@@ -1,5 +1,5 @@
 import type { Hover, HoverParams, Range } from 'vscode-languageserver-protocol'
-import { Layer, generateCSS } from '@master/css'
+import { generateCSS, isCoreRule } from '@master/css'
 import { getCSSDataDocumentation } from '../utils/get-css-data-documentation'
 import type CSSLanguageService from '../core'
 import type { TextDocument } from 'vscode-languageserver-textdocument'
@@ -30,17 +30,10 @@ export default function inspectSyntax(this: CSSLanguageService, document: TextDo
         let cssHoverInfo: any = null
         const fullKey = rule.id
         const originalCssProperty = cssProperties.find((x: { name: string }) => x.name == fullKey)
-        if (rule.layer && rule.layer !== Layer.Utility && originalCssProperty) {
-            if (!originalCssProperty.references?.find((x: { name: string }) => x.name === 'Master CSS')) {
-                originalCssProperty.references = [
-                    {
-                        name: 'Master CSS',
-                        url: `https://rc.css.master.co/docs/${fullKey}`
-                    },
-                    ...(originalCssProperty?.references ?? []),
-                ]
-            }
-            cssHoverInfo = getCSSDataDocumentation(originalCssProperty)?.value
+        if (originalCssProperty) {
+            cssHoverInfo = getCSSDataDocumentation(originalCssProperty, {
+                docs: isCoreRule(rule.id) && rule.id
+            })?.value
         }
         if (cssHoverInfo) {
             contents.push(cssHoverInfo)

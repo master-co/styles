@@ -17,6 +17,7 @@ test('registered Rule', () => {
             layer: -1
         },
         id: 'content',
+        keys: ['content'],
         matchers: {
             key: /^content:/
         },
@@ -53,6 +54,7 @@ test('variables', () => {
         matchers: {
             key: /^content:/
         },
+        keys: ['content'],
         order: 185,
         variables: {
             2: {

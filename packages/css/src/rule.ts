@@ -850,6 +850,7 @@ export interface Rule extends RegisteredRule {
 export interface RegisteredRule {
     id: string
     key?: string
+    keys: string[]
     matchers: {
         key?: RegExp
         variable?: RegExp

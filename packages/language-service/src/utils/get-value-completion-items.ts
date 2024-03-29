@@ -1,8 +1,9 @@
 import { type CompletionItem, CompletionItemKind } from 'vscode-languageserver-protocol'
 import cssDataProvider from './css-data-provider'
-import { MasterCSS, generateCSS } from '@master/css'
+import { Layer, MasterCSS, generateCSS, isCoreRule } from '@master/css'
 import { getCSSDataDocumentation } from './get-css-data-documentation'
 import sortCompletionItems from './sort-completion-items'
+import type { IValueData } from 'vscode-css-languageservice'
 
 export default function getValueCompletionItems(key: string, css: MasterCSS = new MasterCSS()): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
@@ -21,7 +22,8 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
                     sortText: '0' + variableName,
                     kind: CompletionItemKind.Variable,
                     documentation: getCSSDataDocumentation(nativePropertyData, {
-                        generatedCSS: generateCSS([key + ':' + variable.key], css)
+                        generatedCSS: generateCSS([key + ':' + variable.key], css),
+                        docs: isCoreRule(variable.group || '') && variable.group
                     }),
                     detail: `${variable.group} ${variable.value}`
                 })
@@ -37,14 +39,20 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
             for (const ambiguousValue of EachRule.definition.ambiguousValues) {
                 if (typeof ambiguousValue !== 'string') continue
                 const nativeValueData = nativePropertyData?.values?.find((x: { name: string }) => x.name === ambiguousValue)
+                const isNative = EachRule.definition.layer && [Layer.Native, Layer.NativeShorthand].includes(EachRule.definition.layer)
                 completionItems.push({
                     label: ambiguousValue,
                     kind: CompletionItemKind.Value,
                     sortText: ambiguousValue,
-                    documentation: getCSSDataDocumentation(nativeValueData, {
-                        generatedCSS: generateCSS([key + ':' + ambiguousValue], css)
+                    documentation: getCSSDataDocumentation({
+                        ...(nativeValueData || {} as IValueData),
+                        // use nativePropertyData.reference because nativeValueData does not have references
+                        references: nativePropertyData?.references
+                    }, {
+                        generatedCSS: generateCSS([key + ':' + ambiguousValue], css),
+                        docs: isCoreRule(EachRule.id) && EachRule.id
                     }),
-                    detail: EachRule.id + ': ' + ambiguousValue
+                    detail: isNative ? EachRule.id + ': ' + ambiguousValue : ambiguousValue
                 })
             }
         }
@@ -54,10 +62,12 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
      */
     const nativePropertyData = nativeProperties.find((x: { name: string }) => x.name === key)
     nativePropertyData?.values
-        // not contains 100, 200 ... 900
         ?.forEach(value => {
             if (completionItems.find(x => x.label === value.name)
+                // should ignore 100, 200 ... 900
                 || nativePropertyData.name === 'font' && typeof +value.name === 'number'
+                // should ignore values ​​containing blanks
+                || value.name.includes(' ')
             ) return
             completionItems.push({
                 label: value.name,
@@ -65,8 +75,13 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
                 sortText: value.name.startsWith('-')
                     ? 'zz' + value.name.slice(1)
                     : value.name,
-                documentation: getCSSDataDocumentation(value, {
-                    generatedCSS: generateCSS([key + ':' + value.name], css)
+                documentation: getCSSDataDocumentation({
+                    ...value,
+                    // use nativePropertyData.reference because nativeValueData does not have references
+                    references: nativePropertyData?.references
+                }, {
+                    generatedCSS: generateCSS([key + ':' + value.name], css),
+                    docs: key
                 }),
                 detail: key + ': ' + value.name
             })

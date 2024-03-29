@@ -1,42 +1,47 @@
-import type { IPropertyData, IValueData, MarkupContent } from 'vscode-css-languageservice'
+import type { IPropertyData, IReference, IValueData, MarkupContent } from 'vscode-css-languageservice'
 import beautifyCSS from './beautify-css'
 
-export function getCSSDataDocumentation(data?: IPropertyData | IValueData, additionalData?: any): MarkupContent | undefined {
+export function getCSSDataDocumentation(data?: IPropertyData | IValueData, additional?: {
+    generatedCSS?: string,
+    docs?: string | false
+}): MarkupContent | undefined {
     if (!data) return
-    let value = ''
+    const values: string[] = []
+    const references: IReference[] = data?.references ? [...data.references] : []
     if (data.status) {
-        value += getEntryStatus(data.status)
+        values.push(getEntryStatus(data.status))
     }
-
-    if (additionalData?.generatedCSS) {
-        value += '```css\n' + beautifyCSS(additionalData.generatedCSS) + '\n```\n\n'
+    if (additional?.generatedCSS) {
+        values.push('```css\n' + beautifyCSS(additional.generatedCSS) + '\n```')
     }
-
     if (data.description)
         if (typeof data.description === 'string') {
-            value += textToMarkedString(data.description)
+            values.push(textToMarkedString(data.description))
         } else {
-            value += data.description.kind === 'markdown' ? data.description.value : textToMarkedString(data.description.value)
+            values.push(data.description.kind === 'markdown' ? data.description.value : textToMarkedString(data.description.value))
         }
-
     const browserLabel = getBrowserLabel(data.browsers)
     if (browserLabel) {
-        value += '\n\n(' + textToMarkedString(browserLabel) + ')'
+        values.push('(' + textToMarkedString(browserLabel) + ')')
     }
     if ('syntax' in data && data.syntax) {
-        value += `\n\nSyntax: ${textToMarkedString(data.syntax)}`
+        values.push(`Syntax: ${textToMarkedString(data.syntax)}`)
     }
-    if (data.references && data.references.length > 0) {
-        if (value.length > 0) {
-            value += '\n\nReference: '
-        }
-        value += data.references.map((r: any) => {
-            return `[${r.name.replace(' Reference', '')}](${r.url})`
-        }).join(' | ')
+    // todo: can i use
+    if (additional?.docs) {
+        references.unshift({
+            name: 'Master CSS',
+            url: `https://rc.css.master.co/docs/${additional?.docs}`
+        })
     }
-    return value ? {
+    if (references.length) {
+        values.push(references.map((r: any) => {
+            return `[${r.name}](${r.url})`
+        }).join(' | '))
+    }
+    return values?.length ? {
         kind: 'markdown',
-        value
+        value: values.join('\n\n')
     } : undefined
 }
 

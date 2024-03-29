@@ -51,7 +51,8 @@ describe('keys', () => {
         'easing:',
         'property:'
     ]))
-    test('native property', () => expect(simulateHintingCompletions('f')?.map(({ label }) => label)).toContain('font-size:'))
+    test('f', () => expect(simulateHintingCompletions('f')?.map(({ label }) => label)).toContain('font-size:'))
+    test('d', () => expect(simulateHintingCompletions('d')?.map(({ label }) => label)).toContain('display:'))
     describe('ambiguous', () => {
         test('t', () => expect(simulateHintingCompletions('t')?.map(({ label }) => label)).toContain('t:'))
         test('t', () => expect(simulateHintingCompletions('t')?.map(({ label }) => label)).toContain('text:'))
@@ -93,7 +94,7 @@ describe('values', () => {
         ]))
     })
     describe('detail and documentation', () => {
-        test('font:', () => expect(simulateHintingCompletions('font:')?.find(({label})=> label === 'sans')).toEqual({
+        test('font:', () => expect(simulateHintingCompletions('font:')?.find(({ label }) => label === 'sans')).toEqual({
             detail: 'font-family ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
             kind: 6,
             label: 'sans',
@@ -113,11 +114,33 @@ describe('values', () => {
 
                     Syntax: &lt;family\\-name&gt;
 
-                    Reference: [MDN](https://developer.mozilla.org/docs/Web/CSS/font-family)
+                    [Master CSS](https://rc.css.master.co/docs/font-family) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/font-family)
+                `
+            }
+        }))
+        test('font-style:', () => expect(simulateHintingCompletions('font-style:')?.find(({ label }) => label === 'italic')).toEqual({
+            detail: 'font-style: italic',
+            kind: 12,
+            label: 'italic',
+            sortText: 'italic',
+            documentation: {
+                kind: 'markdown',
+                value: dedent`
+                    \`\`\`css
+                    .font-style\\:italic {
+                      font-style: italic
+                    }
+                    \`\`\`
+
+                    Selects a font that is labeled as an 'italic' face, or an 'oblique' face if one is not
+
+                    [Master CSS](https://rc.css.master.co/docs/font-style) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/font-style)
                 `
             }
         }))
     })
+
+    it('should ignore values containing blanks', () => expect(simulateHintingCompletions('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
 })
 
 describe('utilities', () => {
@@ -134,6 +157,8 @@ describe('utilities', () => {
                 \`\`\`
 
                 The element generates a block\\-level box
+
+                [Master CSS](https://rc.css.master.co/docs/utilities)
             `
         }
     }))
@@ -158,7 +183,8 @@ describe('styles', () => {
                   display: inline-block
                 }
                 \`\`\`
-                \n
+
+                [Master CSS](https://rc.css.master.co/docs/styles)
             `
         }
     }))
