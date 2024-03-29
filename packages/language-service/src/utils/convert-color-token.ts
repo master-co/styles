@@ -1,5 +1,5 @@
 import convertColorSpace from './convert-color-space'
-import type { MasterCSS } from '@master/css'
+import type { MasterCSS, ColorVariable } from '@master/css'
 import type { ColorPresentationParams } from 'vscode-languageserver-protocol'
 
 export default function convertColorByToken(color: ColorPresentationParams['color'], colorToken: string, css: MasterCSS) {
@@ -10,7 +10,7 @@ export default function convertColorByToken(color: ColorPresentationParams['colo
             outputColorSpace = valueComponent.name
             break
         case 'variable':
-            outputColorSpace = valueComponent.variable?.space
+            outputColorSpace = (valueComponent.variable as ColorVariable)?.space
             break
         case 'string':
             outputColorSpace = 'hex'

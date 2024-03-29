@@ -1,12 +1,13 @@
 import { MasterCSS } from '@master/css'
 import cssDataProvider from './css-data-provider'
 import type { CompletionItem, CompletionItemKind } from 'vscode-languageserver-protocol'
+import sortCompletionItems from './sort-completion-items'
 
 const insertTextMode = 1
 const kind: CompletionItemKind = 3
 
 export default function getPseudoElementCompletionItems(css: MasterCSS, sign = ''): CompletionItem[] {
-    return cssDataProvider.providePseudoElements()
+    const completionItems = cssDataProvider.providePseudoElements()
         .map((data) => {
             // fix https://github.com/microsoft/vscode-custom-data/issues/78
             const name = /::(?:part|slotted)/.test(data.name) ? data.name + '()' : data.name
@@ -24,4 +25,5 @@ export default function getPseudoElementCompletionItems(css: MasterCSS, sign = '
                 data
             } as CompletionItem
         })
+    return sortCompletionItems(completionItems)
 }

@@ -1,5 +1,6 @@
 import { MasterCSS } from '@master/css'
 import { type CompletionItem, CompletionItemKind } from 'vscode-languageserver-protocol'
+import sortCompletionItems from './sort-completion-items'
 
 export default function getColorCompletionItems(css: MasterCSS = new MasterCSS()): CompletionItem[] {
     const completionItems: CompletionItem[] = []
@@ -27,5 +28,5 @@ export default function getColorCompletionItems(css: MasterCSS = new MasterCSS()
             })
         }
     }
-    return completionItems
+    return sortCompletionItems(completionItems)
 }

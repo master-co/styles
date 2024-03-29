@@ -3,6 +3,7 @@ import cssDataProvider from './css-data-provider'
 import { MasterCSS, generateCSS } from '@master/css'
 import { getCSSDataDocumentation } from './get-css-data-documentation'
 import type { IPropertyData, IValueData } from 'vscode-css-languageservice'
+import sortCompletionItems from './sort-completion-items'
 
 export default function getMainCompletionItems(css: MasterCSS = new MasterCSS()): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
@@ -22,7 +23,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             }
         }
         if (eachRule?.key) {
-            addedKeys.add(eachRule.key)
+            addedKeys.delete(eachRule.key)
             completionItems.push({
                 ...eachCompletionItem,
                 label: eachRule.key + ':',
@@ -30,7 +31,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             })
         }
         if (eachRule?.subkey) {
-            addedKeys.add(eachRule.subkey)
+            addedKeys.delete(eachRule.subkey)
             completionItems.push({
                 ...eachCompletionItem,
                 label: eachRule.subkey + ':',
@@ -42,23 +43,27 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
                 if (addedKeys.has(ambiguousKey)) {
                     continue
                 }
-                /**
-                 * Ambiguous keys are added to the completion list
-                 * @example text: t:
-                 */
-                completionItems.push({
-                    kind: CompletionItemKind.Property,
-                    detail: 'ambiguous key',
-                    label: ambiguousKey + ':',
-                    sortText: ambiguousKey,
-                    command: {
-                        title: 'triggerSuggest',
-                        command: 'editor.action.triggerSuggest'
-                    }
-                })
+                addedKeys.add(ambiguousKey)
             }
         }
     }
+
+    addedKeys.forEach(ambiguousKey => {
+        /**
+         * Ambiguous keys are added to the completion list
+         * @example text: t:
+         */
+        completionItems.push({
+            kind: CompletionItemKind.Property,
+            detail: 'ambiguous key',
+            label: ambiguousKey + ':',
+            sortText: ambiguousKey,
+            command: {
+                title: 'triggerSuggest',
+                command: 'editor.action.triggerSuggest'
+            }
+        })
+    })
 
     // todo: test remap utility to native css property
     if (css.config.utilities) {
@@ -110,5 +115,5 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
         }
     }
     process.env.VSCODE_IPC_HOOK && console.timeEnd('getMainCompletionItems')
-    return completionItems
+    return sortCompletionItems(completionItems)
 }

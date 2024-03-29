@@ -12,12 +12,6 @@ const simulateHintingCompletions = (target: string, { quotes = true, settings }:
         triggerKind: 2, // todo
         triggerCharacter: target.charAt(target.length - 1)
     })
-        /* localeCompare equals to the real vscode completion items sorting */
-        ?.sort((a, b) => {
-            const sortTextA = a.sortText || a.label
-            const sortTextB = b.sortText || b.label
-            return sortTextA.localeCompare(sortTextB)
-        })
 }
 
 // it('types a', () => expect(simulateHintingCompletions('a')?.length).toBeDefined())
@@ -69,6 +63,60 @@ describe('values', () => {
     describe('ambiguous', () => {
         test('text:capitalize', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('capitalize'))
         test('text:center', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('center'))
+        test('font:', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toEqual([
+            'bold',
+            'extrabold',
+            'extralight',
+            'heavy',
+            'light',
+            'medium',
+            'mono',
+            'regular',
+            'sans',
+            'semibold',
+            'serif',
+            'thin',
+            'antialiased',
+            'bolder',
+            'diagonal-fractions',
+            'italic',
+            'lining-nums',
+            'normal',
+            'oblique',
+            'oldstyle-nums',
+            'ordinal',
+            'proportional-nums',
+            'slashed-zero',
+            'stacked-fractions',
+            'subpixel-antialiased',
+            'tabular-nums',
+        ]))
+    })
+    describe('detail and documentation', () => {
+        test('font:', () => expect(simulateHintingCompletions('font:')?.find(({label})=> label === 'sans')).toEqual({
+            detail: 'font-family ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
+            kind: 6,
+            label: 'sans',
+            sortText: '0sans',
+            documentation: {
+                kind: 'markdown',
+                value: dedent`
+                    \`\`\`css
+                    .font\\:sans {
+                      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji
+                    }
+                    \`\`\`
+
+                    Specifies a prioritized list of font family names or generic family names\\. A user agent iterates through the list of family names until it matches an available font that contains a glyph for the character to be rendered\\.
+
+                    (Edge 12, Firefox 1, Safari 1, Chrome 1, IE 3, Opera 3)
+
+                    Syntax: &lt;family\\-name&gt;
+
+                    Reference: [MDN](https://developer.mozilla.org/docs/Web/CSS/font-family)
+                `
+            }
+        }))
     })
 })
 
