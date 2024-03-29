@@ -100,8 +100,8 @@ export default class MasterCSS {
                     if (variable === undefined)
                         return
                     const flatName = name.join('-')
-                    const groups = name.slice(0, -1)
-                    const key = name[name.length - 1]
+                    const groups = (name.length > 1 ? name.slice(0, -1) : name).filter(Boolean)
+                    const key = (name[0] === '' ? '-' : '') + name[name.length - 1]
                     variable.key = key
                     variable.name = flatName
                     if (groups.length)
@@ -137,6 +137,8 @@ export default class MasterCSS {
                             if (currentMode) {
                                 const newVariable: any = {
                                     key: variable.key,
+                                    name: variable.name,
+                                    group: variable.group,
                                     type: variable.type,
                                     modes: { [currentMode]: variable }
                                 }

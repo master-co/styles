@@ -8,6 +8,7 @@ it('should be able to access custom spacing variables using inherited rules', ()
     })
     expect(css.create('mt:md')?.declarations).toStrictEqual({ 'margin-top': '1.25rem' })
     expect(css.create('p:md')?.declarations).toStrictEqual({ 'padding': '1.25rem' })
+    expect(css.create('p:-md')?.declarations).toStrictEqual({ 'padding': '-1.25rem' })
     expect(css.Rules.find(({ id }) => id === 'padding')).toMatchObject({
         definition: {
             variables: ['spacing']
@@ -18,6 +19,12 @@ it('should be able to access custom spacing variables using inherited rules', ()
                 'key': 'md',
                 'type': 'number',
                 'value': 20,
+            },
+            '-md': {
+                'group': 'spacing',
+                'key': '-md',
+                'type': 'number',
+                'value': -20,
             }
         }
     })

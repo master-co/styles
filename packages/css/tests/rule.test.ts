@@ -1,3 +1,5 @@
+import { variables } from '../src'
+
 test('declarations', () => {
     const css = new MasterCSS({
         variables: {
@@ -66,6 +68,10 @@ test('variables', () => {
             }
         }
     })
+})
+
+test('text variables', () => {
+    expect(Object.keys(new MasterCSS().Rules.find(({ id }) => id === 'color')?.variables || {})).toEqual(Object.keys(variables.text))
 })
 
 describe('token', () => {
