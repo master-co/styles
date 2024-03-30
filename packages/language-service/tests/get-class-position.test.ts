@@ -42,6 +42,21 @@ test('two classes', () => {
     })
 })
 
+
+test('master-css classes', () => {
+    const target = 'bg:black'
+    const contents = ['<div class="class-a ', target, '"></div>']
+    const doc = createDoc('html', contents.join(''))
+    const languageService = new CSSLanguageService()
+    expect(languageService.getClassPosition(doc, { line: 0, character: contents[0].length })).toEqual({
+        range: {
+            start: contents[0].length,
+            end: contents[0].length + target.length
+        },
+        token: target
+    })
+})
+
 describe('react', () => {
     test('clsx in className={}', () => {
         const target = 'class-b'
