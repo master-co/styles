@@ -130,4 +130,8 @@ describe('svelte', () => {
             token: target
         })
     })
+
+    /**
+     * ? svelte's 'class:xx={isActive}' is not supported
+     */
 })
