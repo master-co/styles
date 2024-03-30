@@ -5,15 +5,16 @@ import { getCSSDataDocumentation } from './get-css-data-documentation'
 import sortCompletionItems from './sort-completion-items'
 import type { IValueData } from 'vscode-css-languageservice'
 
-export default function getValueCompletionItems(key: string, css: MasterCSS = new MasterCSS()): CompletionItem[] {
+export default function getValueCompletionItems(css: MasterCSS = new MasterCSS(), qKey: string, qValue: string): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
-    const nativeKey = css.Rules.find(({ keys }) => keys.includes(key))?.id
+    const nativeKey = css.Rules.find(({ keys }) => keys.includes(qKey))?.id
     const nativePropertyData = nativeProperties.find(({ name }) => name === nativeKey)
-    const generateVariableCompletionItem = (variable: Variable): CompletionItem => {
+    const generateVariableCompletionItem = (variable: Variable, { scoped } = { scoped: false }): CompletionItem => {
         const eachNativePropertyData = nativeProperties.find((x: { name: string }) => x.name === variable.group) || nativePropertyData
+        const appliedValue = scoped ? variable.key : variable.name
         const documentation = getCSSDataDocumentation(eachNativePropertyData, {
-            generatedCSS: generateCSS([key + ':' + variable.key], css),
+            generatedCSS: generateCSS([qKey + ':' + appliedValue], css),
             docs: eachNativePropertyData?.name || 'variables'
         })
         if (variable.type === 'color') {
@@ -26,20 +27,21 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
                 }
             } else {
                 // todo: packages/css should support getTextByVariable(variable)
-                const valueToken = (variable.space && variable.value)
-                    ? `${variable.space}(${variable.value})`
-                    : variable.value
+                const configKey = 'variables.' + (variable.group ? variable.group + '.' + variable.key : variable.name)
                 return {
                     label: variable.name,
                     // detail is shown in the detail pane
                     // todo: variable.token should be recorded as original config variable
-                    detail: valueToken,
+                    detail: configKey,
                     // documentation is shown in the hover
                     // todo: should convert and space to rgba
-                    documentation: (variable.space && variable.value)
-                        // vscode doesn't support rgba(0 0 0/.5) in detail
-                        ? `${variable.space}(${variable.value.split(' ').join(',')})`
-                        : variable.value,
+                    documentation: {
+                        kind: 'markdown',
+                        value: ((variable.space && variable.value)
+                            // vscode doesn't support rgba(0 0 0/.5) in detail
+                            ? `${variable.space}(${variable.value.split(' ').join(',')})`
+                            : variable.value) + '\n\n' + documentation?.value
+                    },
                     kind: CompletionItemKind.Color,
                     sortText: variable.name.replace(/(.+?)-(\d+)/, (match, prefix, num) =>
                         prefix + '-' + ('00000' + num).slice(-5)),
@@ -57,7 +59,7 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
                 kind: CompletionItemKind.Value,
                 label: variable.name,
                 documentation,
-                detail: `${variable.value || variable.name}`
+                detail: variable.value || variable.name
             }
         }
     }
@@ -67,10 +69,11 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
          * Scoped variables
          * @example box: + content -> box-sizing:content
          */
-        if (EachRule.definition.key === key || EachRule.definition.subkey === key || EachRule.definition.ambiguousKeys?.includes(key)) {
+        if (EachRule.definition.key === qKey || EachRule.definition.subkey === qKey || EachRule.definition.ambiguousKeys?.includes(qKey)) {
             for (const variableName in EachRule.variables) {
+                if (completionItems.find(({ label }) => label === variableName)) continue
                 const variable = EachRule.variables[variableName]
-                const completionItem = generateVariableCompletionItem(variable)
+                const completionItem = generateVariableCompletionItem(variable, { scoped: true })
                 completionItem.label = variableName
                 completionItem.detail = '(scope variable) ' + completionItem.detail
                 completionItems.push(completionItem)
@@ -81,7 +84,7 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
          * @example text: -> center, left, right, justify
          * @example t: -> center, left, right, justify
          */
-        if (EachRule.definition.ambiguousKeys?.includes(key) && EachRule.definition.ambiguousValues?.length) {
+        if (EachRule.definition.ambiguousKeys?.includes(qKey) && EachRule.definition.ambiguousValues?.length) {
             const nativePropertyData = nativeProperties.find((x: { name: string }) => x.name === EachRule.id)
             for (const ambiguousValue of EachRule.definition.ambiguousValues) {
                 if (typeof ambiguousValue !== 'string') continue
@@ -96,7 +99,7 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
                         // use nativePropertyData.reference because nativeValueData does not have references
                         references: nativePropertyData?.references
                     }, {
-                        generatedCSS: generateCSS([key + ':' + ambiguousValue], css),
+                        generatedCSS: generateCSS([qKey + ':' + ambiguousValue], css),
                         docs: isCoreRule(EachRule.id) && EachRule.id
                     }),
                     detail: isNative ? EachRule.id + ': ' + ambiguousValue : ambiguousValue
@@ -128,7 +131,7 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
                         // use nativePropertyData.reference because nativeValueData does not have references
                         references: nativePropertyData?.references
                     }, {
-                        generatedCSS: generateCSS([key + ':' + value.name], css),
+                        generatedCSS: generateCSS([qKey + ':' + value.name], css),
                         docs: nativeKey
                     }),
                     detail: nativeKey + ': ' + value.name
@@ -136,16 +139,18 @@ export default function getValueCompletionItems(key: string, css: MasterCSS = ne
             })
     }
     // global variables
-    // for (const variableName in css.variables) {
-    //     if (variableName.startsWith('-') || completionItems.find(({ label }) => variableName === label)) continue
-    //     const variable = css.variables[variableName]
-    //     completionItems.push({
-    //         label: variableName,
-    //         sortText: 'zzzz' + variableName,
-    //         kind: CompletionItemKind.Variable,
-    //         detail: `${variable.name} ${variable.value}`
-    //     })
-    // }
+    for (let variableName in css.variables) {
+        if (variableName.startsWith('-')) continue
+        const conflicted = completionItems.find(({ label }) => label === variableName)
+        const variable = css.variables[variableName]
+        if (conflicted) {
+            variableName = `$(${variableName})`
+        }
+        const completionItem = generateVariableCompletionItem(variable)
+        completionItem.label = variableName
+        completionItem.sortText = 'zzzz' + variableName
+        completionItems.push(completionItem)
+    }
 
     return sortCompletionItems(completionItems)
 }

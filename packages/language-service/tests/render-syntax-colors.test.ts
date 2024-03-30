@@ -2,6 +2,8 @@ import CSSLanguageService from '../src/core'
 import getRange from '../src/utils/get-range'
 import createDoc from '../src/utils/create-doc'
 
+test.todo('f:semibold f:thin will be treated as colors')
+
 test('hex', async () => {
     const target = '#999999'
     const content = `export default () => <div className='fg:${target}'></div>`

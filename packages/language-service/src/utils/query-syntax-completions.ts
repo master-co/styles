@@ -2,7 +2,7 @@ import type { CompletionItem } from 'vscode-languageserver-protocol'
 import getPseudoClassCompletionItems from './get-pseudo-class-completion-items'
 import getPseudoElementCompletionItems from './get-pseudo-element-completion-items'
 import { MasterCSS } from '@master/css'
-import { TRIGGER_CHARACTERS } from '../common'
+import { SELECTOR_TRIGGER_CHARACTERS } from '../common'
 import getMainCompletionItems from './get-main-completion-items'
 import { AT_SIGN, SELECTOR_SIGNS } from '@master/css'
 import getValueCompletionItems from './get-value-completion-items'
@@ -13,7 +13,7 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
     const triggerCharacter = q.charAt(q.length - 1)
     const completionItems: CompletionItem[] = []
     const invoked = triggerCharacter === ' ' || field.length === 0
-    if (invoked) {
+    if (invoked || field === '{' || triggerCharacter === ';') {
         return getMainCompletionItems(css)
     }
     const subFields = field.split(':')
@@ -44,11 +44,13 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
     if (!keyCompleted) {
         return getMainCompletionItems(css)
     }
+
     if (!valueCompleted && subFields.length < 3) {
-        return getValueCompletionItems(main, css)
+        const qValue = subFields[1]
+        return getValueCompletionItems(css, main, qValue)
     }
     if (isStyle) return
-    if (TRIGGER_CHARACTERS.selector.includes(triggerCharacter)) {
+    if (SELECTOR_TRIGGER_CHARACTERS.includes(triggerCharacter)) {
         if (field.endsWith('::')) {
             completionItems.push(...getPseudoElementCompletionItems(css, '::'))
         } else {

@@ -1,18 +1,25 @@
 it('should be able to access related font variables using inherited rules', () => {
     expect(Object.keys(new MasterCSS().Rules.find(({ id }) => id === 'font')?.variables || {})).toEqual([
-        // font-family
         'mono',
         'sans',
         'serif',
-        // font-weight
         'thin',
+        '-thin',
         'extralight',
+        '-extralight',
         'light',
+        '-light',
         'regular',
+        '-regular',
         'medium',
+        '-medium',
         'semibold',
+        '-semibold',
         'bold',
+        '-bold',
         'extrabold',
-        'heavy'
+        '-extrabold',
+        'heavy',
+        '-heavy',
     ])
 })

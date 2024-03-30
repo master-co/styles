@@ -21,6 +21,7 @@ it('types " should hint completions', () => expect(simulateHintingCompletions('"
 it('types   should hint completions', () => expect(simulateHintingCompletions('text:center ')?.length).toBeGreaterThan(0))
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)
+test.todo('animations')
 
 describe('keys', () => {
     it('should not hint selectors', () => expect(simulateHintingCompletions('text:')?.[0]).not.toMatchObject({ insertText: 'active' }))
@@ -58,12 +59,45 @@ describe('keys', () => {
 })
 
 describe('values', () => {
-    test('scoped variables', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toContain('semibold'))
-    describe('ambiguous', () => {
-        test('text:capitalize', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('capitalize'))
-        test('text:center', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('center'))
-        // test('font:', () => expect(simulateHintingCompletions('font:')?.length).toBe(357))
-        test('box:', () => expect(simulateHintingCompletions('box:')?.find(({ label }) => label === 'content')).toEqual({
+    test.todo('convert any color spaces to RGB and hint correctly')
+
+    it('should ignore values containing blanks', () => expect(simulateHintingCompletions('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
+    it('types | delimiter', () => expect(simulateHintingCompletions('b:1|')?.map(({ label }) => label)).toContain('solid'))
+    it('types , separator', () => expect(simulateHintingCompletions('s:1|1|2|black,')?.map(({ label }) => label)).toContain('inset'))
+
+    describe('scope variables', () => {
+        test('font:semibold', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toContain('semibold'))
+        test('font:sans', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toContain('semibold'))
+        test('fg:blue', () => expect(simulateHintingCompletions('fg:')?.find(({ label }) => label === 'blue')).toEqual({
+            'detail': '(scope variable) text-blue',
+            'kind': 16,
+            'label': 'blue',
+            'documentation': {
+                'kind': 'markdown',
+                'value': dedent`
+                    \`\`\`css
+                    .light {
+                      --text-blue: 37 99 253
+                    }
+                    .dark {
+                      --text-blue: 112 176 255
+                    }
+                    .fg\\:blue {
+                      color: rgb(var(--text-blue))
+                    }
+                    \`\`\`
+
+                    Sets the color of an element's text
+
+                    (Edge 12, Firefox 1, Safari 1, Chrome 1, IE 3, Opera 3)
+
+                    Syntax: &lt;color&gt;
+
+                    [Master CSS](https://rc.css.master.co/docs/color) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/color)
+             `,
+            }
+        }))
+        test('box:content', () => expect(simulateHintingCompletions('box:')?.find(({ label }) => label === 'content')).toEqual({
             'detail': '(scope variable) content-box',
             'kind': 12,
             'label': 'content',
@@ -86,6 +120,16 @@ describe('values', () => {
                 `}
         }))
     })
+
+    describe('global variables', () => {
+        test('fg:yellow-30', () => expect(simulateHintingCompletions('fg:')?.map(({ label }) => label)).toContain('yellow-30'))
+    })
+
+    describe('ambiguous', () => {
+        test('text:capitalize', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('capitalize'))
+        test('text:center', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('center'))
+    })
+
     describe('detail and documentation', () => {
         test('font:', () => expect(simulateHintingCompletions('font:')?.find(({ label }) => label === 'sans')).toEqual({
             detail: '(scope variable) ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
@@ -131,7 +175,7 @@ describe('values', () => {
             }
         }))
     })
-    it('should ignore values containing blanks', () => expect(simulateHintingCompletions('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
+
     describe('retype on no hints', () => {
         it('"text:c"', () => expect(simulateHintingCompletions('text:c')?.length).toBeGreaterThan(0))
         it('"d:b"', () => expect(simulateHintingCompletions('d:b')?.find(({ label }) => label === 'block')).toEqual({
@@ -154,6 +198,11 @@ describe('values', () => {
                 `
             }
         }))
+    })
+
+    describe('negative values', () => {
+        test.todo('should not hint negative values')
+        test.todo('types - to hint number values')
     })
 })
 

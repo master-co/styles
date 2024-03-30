@@ -36,6 +36,7 @@
         "cross-env": "^7.0.3",
         "fast-glob": "^3.3.2",
         "firebase-admin": "^11.11.1",
+        "get-tsconfig": "^4.7.3",
         "jest-extended": "^4.0.2",
         "jest-text-transformer": "^1.0.4",
         "nanoid": "^4.0.2",
@@ -54,12 +55,12 @@
         "@master/create-css": "workspace:^",
         "@master/css": "workspace:^",
         "@master/css-cli": "workspace:^",
+        "@master/css-explore-config": "workspace:^",
         "@master/css-extractor": "workspace:^",
         "@master/css-extractor.vite": "workspace:^",
         "@master/css-extractor.webpack": "workspace:^",
         "@master/css-language-server": "workspace:^",
         "@master/css-language-service": "workspace:^",
-        "@master/css-explore-config": "workspace:^",
         "@master/css-runtime": "workspace:^",
         "@master/css-server": "workspace:^",
         "@master/css-validator": "workspace:^",
@@ -69,6 +70,7 @@
         "@master/css.vue": "workspace:^",
         "@master/eslint-config-css": "workspace:^",
         "@master/eslint-plugin-css": "workspace:^",
-        "css-shared": "workspace:^"
+        "css-shared": "workspace:^",
+        "master-css-vscode": "workspace:^"
     }
 }

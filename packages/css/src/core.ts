@@ -100,7 +100,7 @@ export default class MasterCSS {
                     if (variable === undefined)
                         return
                     const flatName = name.join('-')
-                    const groups = (name.length > 1 ? name.slice(0, -1) : name).filter(Boolean)
+                    const groups = name.slice(0, -1).filter(Boolean)
                     const key = (name[0] === '' ? '-' : '') + name[name.length - 1]
                     variable.key = key
                     variable.name = flatName
