@@ -9,7 +9,9 @@ const languageIdOfExt = {
     scss: 'scss',
     less: 'less',
     html: 'html',
-    json: 'json'
+    json: 'json',
+    vue: 'vue',
+    svelte: 'svelte',
 }
 
 export default function createDoc(ext: keyof typeof languageIdOfExt, content: string) {

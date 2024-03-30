@@ -57,3 +57,77 @@ describe('react', () => {
         })
     })
 })
+
+describe('vue', () => {
+    test('class in class array', () => {
+        const target = 'class-a'
+        const contents = ['<div :class="[ isActive && `', target, '` ]"></div>']
+        const doc = createDoc('vue', contents.join(''))
+        const languageService = new CSSLanguageService()
+        expect(languageService.getClassPosition(doc, { line: 0, character: contents[0].length })).toEqual({
+            range: {
+                start: contents[0].length,
+                end: contents[0].length + target.length
+            },
+            token: target
+        })
+    })
+
+    test('class in object syntax', () => {
+        const target = 'class-a'
+        const contents = ['<div :class="{ \'', target, '\': isActive }"></div>']
+        const doc = createDoc('vue', contents.join(''))
+        const languageService = new CSSLanguageService()
+        expect(languageService.getClassPosition(doc, { line: 0, character: contents[0].length })).toEqual({
+            range: {
+                start: contents[0].length,
+                end: contents[0].length + target.length
+            },
+            token: target
+        })
+    })
+
+    test('class in ternary operator', () => {
+        const target = 'class-a'
+        const contents = ['<div :class="isActive ? \'', target, '\' : inactiveClass"></div>']
+        const doc = createDoc('vue', contents.join(''))
+        const languageService = new CSSLanguageService()
+        expect(languageService.getClassPosition(doc, { line: 0, character: contents[0].length })).toEqual({
+            range: {
+                start: contents[0].length,
+                end: contents[0].length + target.length
+            },
+            token: target
+        })
+    })
+
+    test('class in v-bind', () => {
+        const target = 'class-a'
+        const contents = ['<div v-bind:class="', target, '"></div>']
+        const doc = createDoc('vue', contents.join(''))
+        const languageService = new CSSLanguageService()
+        expect(languageService.getClassPosition(doc, { line: 0, character: contents[0].length })).toEqual({
+            range: {
+                start: contents[0].length,
+                end: contents[0].length + target.length
+            },
+            token: target
+        })
+    })
+})
+
+describe('svelte', () => {
+    test('class in ternary operator', () => {
+        const target = 'class-a'
+        const contents = ['<div class="{ isActive ? \'', target , '\' : inactiveClass }"></div>']
+        const doc = createDoc('svelte', contents.join(''))
+        const languageService = new CSSLanguageService()
+        expect(languageService.getClassPosition(doc, { line: 0, character: contents[0].length })).toEqual({
+            range: {
+                start: contents[0].length,
+                end: contents[0].length + target.length
+            },
+            token: target
+        })
+    })
+})
