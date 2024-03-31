@@ -110,7 +110,7 @@ export default class CSSLanguageService extends EventEmitter {
         ]) {
             while ((eachClassPostioinMatch = eachClassPositionRegex.exec(text)) !== null) {
                 if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPostioinMatch.index + eachClassPostioinMatch[0].length >= (positionIndex - startIndex)) === true) {
-                    const attrStartIndex = eachClassPostioinMatch.index + eachClassPostioinMatch[1].length
+                    const attrStartIndex = eachClassPostioinMatch.index + eachClassPostioinMatch[1].length + 1
                     const eachClassPositionValue = eachClassPostioinMatch[2]
                     const classMatcher = /(['"`])([\s\S]*?)\1/g
                     /**
@@ -118,7 +118,7 @@ export default class CSSLanguageService extends EventEmitter {
                      */
                     if (['""', '\'\'', '``'].includes(eachClassPositionValue)) {
                         return {
-                            range: { start: attrStartIndex + 1, end: attrStartIndex + 1 },
+                            range: { start: attrStartIndex, end: attrStartIndex },
                             token: ''
                         }
                     }
@@ -129,12 +129,12 @@ export default class CSSLanguageService extends EventEmitter {
                         const classEndIndex = classStartIndex + token.length
                         if (classStartIndex <= positionIndex - startIndex && positionIndex - startIndex <= classEndIndex) {
                             return {
-                                range: { start: classStartIndex + 1, end: startIndex + classEndIndex + 1 },
+                                range: { start: classStartIndex, end: startIndex + classEndIndex },
                                 token
                             }
                         } else if (attrStartIndex === classEndIndex) {
                             return {
-                                range: { start: attrStartIndex + 1, end: attrStartIndex + 1 },
+                                range: { start: attrStartIndex, end: attrStartIndex },
                                 token: ''
                             }
                         }
