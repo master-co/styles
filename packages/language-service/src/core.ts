@@ -101,6 +101,7 @@ export default class CSSLanguageService extends EventEmitter {
         /**
          * attribute binding
          * @example <div className={''}></div>
+         * @example <div :class="isActive ? 'block' : 'hidden'"></div>
          * */
         for (const eachClassPositionRegex of [
             new RegExp(`(\\b(?:${classAttributesPatten})={)([^}]*)}`, 'g'),
