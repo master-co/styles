@@ -14,7 +14,7 @@ export default async function renderSyntaxColors(this: CSSLanguageService, docum
         const syntax = instanceMatch[0]
         const rule = this.css.generate(syntax)[0]
         if (rule && rule.layer !== Layer.Utility) {
-            const keyTokenLength = rule.keyToken.length
+            const keyTokenLength = rule.keyToken?.length ?? 0
             let currentLength = 0
             const resolveValueComponent = (valueComponent: ValueComponent) => {
                 if (valueComponent.text === undefined) return  // text is always existing, just for type
