@@ -44,6 +44,12 @@ test('quote in class', () => {
     expectClassPosition(target, contents)
 })
 
+test('group syntax', () => {
+    const target = '{abs}'
+    const contents = ['<div class="class-a ', target, '"></div>']
+    expectClassPosition(target, contents)
+})
+
 describe('react', () => {
     test('empty binding -> className={}', () => {
         const contents = ['export default () => <div className={', '', '}></div>']
