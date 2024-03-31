@@ -12,7 +12,7 @@ const settings: Settings = {
         'svelte',
         'rust'
     ],
-    classAttributes: ['class', 'className', 'ngClass'],
+    classAttributes: ['class', 'className', 'ngClass', 'v-bind:class'],
     exclude: ['**/.git/**', '**/node_modules/**', '**/.hg/**'],
     hintSyntaxCompletions: true,
     inspectSyntax: true,

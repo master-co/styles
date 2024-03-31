@@ -1,6 +1,6 @@
 import { TextDocument } from 'vscode-languageserver-textdocument'
 
-const languageIdOfExt = {
+export const languageIdOfExt = {
     ts: 'typescript',
     tsx: 'typescriptreact',
     js: 'javascript',

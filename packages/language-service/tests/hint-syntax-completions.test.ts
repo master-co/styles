@@ -5,7 +5,7 @@ import { Settings } from '../src/settings'
 import dedent from 'ts-dedent'
 import { CompletionItemKind } from 'vscode-languageserver-protocol'
 
-const simulateHintingCompletions = (target: string, { quotes = true, settings }: { quotes?: boolean, settings?: Settings } = {}) => {
+const hint = (target: string, { quotes = true, settings }: { quotes?: boolean, settings?: Settings } = {}) => {
     const contents = [`<div class=${quotes ? '"' : ''}`, target, `${quotes ? '"' : ''}></div>`]
     const doc = createDoc('html', contents.join(''))
     const languageService = new CSSLanguageService(settings)
@@ -15,25 +15,25 @@ const simulateHintingCompletions = (target: string, { quotes = true, settings }:
     })
 }
 
-// it('types a', () => expect(simulateHintingCompletions('a')?.length).toBeDefined())
+// it('types a', () => expect(hint('a')?.length).toBeDefined())
 
-it('types " should hint completions', () => expect(simulateHintingCompletions('""', { quotes: false })?.length).toBeGreaterThan(0))
-it('types   should hint completions', () => expect(simulateHintingCompletions('text:center ')?.length).toBeGreaterThan(0))
+it('types " should hint completions', () => expect(hint('""', { quotes: false })?.length).toBeGreaterThan(0))
+it('types   should hint completions', () => expect(hint('text:center ')?.length).toBeGreaterThan(0))
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)
 test.todo('animations')
 
 describe('keys', () => {
-    it('should not hint selectors', () => expect(simulateHintingCompletions('text:')?.[0]).not.toMatchObject({ insertText: 'active' }))
-    test('@delay on invoked', () => expect(simulateHintingCompletions('""', { quotes: false })?.find(({ label }) => label === '@delay:')).toMatchObject({ label: '@delay:' }))
-    test('~delay on invoked', () => expect(simulateHintingCompletions('""', { quotes: false })?.find(({ label }) => label === '~delay:')).toMatchObject({ label: '~delay:' }))
-    it('starts with @', () => expect(simulateHintingCompletions('@')?.[0]).toMatchObject({ label: 'delay:' }))
-    it('starts with @d and list related', () => expect(simulateHintingCompletions('@d')?.map(({ label }) => label)).toEqual([
+    it('should not hint selectors', () => expect(hint('text:')?.[0]).not.toMatchObject({ insertText: 'active' }))
+    test('@delay on invoked', () => expect(hint('""', { quotes: false })?.find(({ label }) => label === '@delay:')).toMatchObject({ label: '@delay:' }))
+    test('~delay on invoked', () => expect(hint('""', { quotes: false })?.find(({ label }) => label === '~delay:')).toMatchObject({ label: '~delay:' }))
+    it('starts with @', () => expect(hint('@')?.[0]).toMatchObject({ label: 'delay:' }))
+    it('starts with @d and list related', () => expect(hint('@d')?.map(({ label }) => label)).toEqual([
         'delay:',
         'direction:',
         'duration:'
     ]))
-    it('starts with @ and list related', () => expect(simulateHintingCompletions('@')?.map(({ label }) => label)).toEqual([
+    it('starts with @ and list related', () => expect(hint('@')?.map(({ label }) => label)).toEqual([
         'delay:',
         'direction:',
         'duration:',
@@ -43,32 +43,32 @@ describe('keys', () => {
         'name:',
         'play:',
     ]))
-    it('starts with ~', () => expect(simulateHintingCompletions('~')?.[0]).toMatchObject({ label: 'delay:' }))
-    it('starts with ~ and list related', () => expect(simulateHintingCompletions('~')?.map(({ label }) => label)).toEqual([
+    it('starts with ~', () => expect(hint('~')?.[0]).toMatchObject({ label: 'delay:' }))
+    it('starts with ~ and list related', () => expect(hint('~')?.map(({ label }) => label)).toEqual([
         'delay:',
         'duration:',
         'easing:',
         'property:'
     ]))
-    test('f', () => expect(simulateHintingCompletions('f')?.map(({ label }) => label)).toContain('font-size:'))
-    test('d', () => expect(simulateHintingCompletions('d')?.map(({ label }) => label)).toContain('display:'))
+    test('f', () => expect(hint('f')?.map(({ label }) => label)).toContain('font-size:'))
+    test('d', () => expect(hint('d')?.map(({ label }) => label)).toContain('display:'))
     describe('ambiguous', () => {
-        test('t', () => expect(simulateHintingCompletions('t')?.map(({ label }) => label)).toContain('t:'))
-        test('t', () => expect(simulateHintingCompletions('t')?.map(({ label }) => label)).toContain('text:'))
+        test('t', () => expect(hint('t')?.map(({ label }) => label)).toContain('t:'))
+        test('t', () => expect(hint('t')?.map(({ label }) => label)).toContain('text:'))
     })
 })
 
 describe('values', () => {
     test.todo('convert any color spaces to RGB and hint correctly')
 
-    it('should ignore values containing blanks', () => expect(simulateHintingCompletions('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
-    it('types | delimiter', () => expect(simulateHintingCompletions('b:1|')?.map(({ label }) => label)).toContain('solid'))
-    it('types , separator', () => expect(simulateHintingCompletions('s:1|1|2|black,')?.map(({ label }) => label)).toContain('inset'))
+    it('should ignore values containing blanks', () => expect(hint('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
+    it('types | delimiter', () => expect(hint('b:1|')?.map(({ label }) => label)).toContain('solid'))
+    it('types , separator', () => expect(hint('s:1|1|2|black,')?.map(({ label }) => label)).toContain('inset'))
 
     describe('scope variables', () => {
-        test('font:semibold', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toContain('semibold'))
-        test('font:sans', () => expect(simulateHintingCompletions('font:')?.map(({ label }) => label)).toContain('semibold'))
-        test('fg:blue', () => expect(simulateHintingCompletions('fg:')?.find(({ label }) => label === 'blue')).toEqual({
+        test('font:semibold', () => expect(hint('font:')?.map(({ label }) => label)).toContain('semibold'))
+        test('font:sans', () => expect(hint('font:')?.map(({ label }) => label)).toContain('semibold'))
+        test('fg:blue', () => expect(hint('fg:')?.find(({ label }) => label === 'blue')).toEqual({
             'detail': '(scope variable) text-blue',
             'kind': 16,
             'label': 'blue',
@@ -97,7 +97,7 @@ describe('values', () => {
              `,
             }
         }))
-        test('box:content', () => expect(simulateHintingCompletions('box:')?.find(({ label }) => label === 'content')).toEqual({
+        test('box:content', () => expect(hint('box:')?.find(({ label }) => label === 'content')).toEqual({
             'detail': '(scope variable) content-box',
             'kind': 12,
             'label': 'content',
@@ -122,16 +122,16 @@ describe('values', () => {
     })
 
     describe('global variables', () => {
-        test('fg:yellow-30', () => expect(simulateHintingCompletions('fg:')?.map(({ label }) => label)).toContain('yellow-30'))
+        test('fg:yellow-30', () => expect(hint('fg:')?.map(({ label }) => label)).toContain('yellow-30'))
     })
 
     describe('ambiguous', () => {
-        test('text:capitalize', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('capitalize'))
-        test('text:center', () => expect(simulateHintingCompletions('text:')?.map(({ label }) => label)).toContain('center'))
+        test('text:capitalize', () => expect(hint('text:')?.map(({ label }) => label)).toContain('capitalize'))
+        test('text:center', () => expect(hint('text:')?.map(({ label }) => label)).toContain('center'))
     })
 
     describe('detail and documentation', () => {
-        test('font:', () => expect(simulateHintingCompletions('font:')?.find(({ label }) => label === 'sans')).toEqual({
+        test('font:', () => expect(hint('font:')?.find(({ label }) => label === 'sans')).toEqual({
             detail: '(scope variable) ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
             kind: CompletionItemKind.Value,
             label: 'sans',
@@ -154,7 +154,7 @@ describe('values', () => {
                 `
             }
         }))
-        test('font-style:', () => expect(simulateHintingCompletions('font-style:')?.find(({ label }) => label === 'italic')).toEqual({
+        test('font-style:', () => expect(hint('font-style:')?.find(({ label }) => label === 'italic')).toEqual({
             detail: 'font-style: italic',
             kind: 12,
             label: 'italic',
@@ -177,8 +177,8 @@ describe('values', () => {
     })
 
     describe('retype on no hints', () => {
-        it('"text:c"', () => expect(simulateHintingCompletions('text:c')?.length).toBeGreaterThan(0))
-        it('"d:b"', () => expect(simulateHintingCompletions('d:b')?.find(({ label }) => label === 'block')).toEqual({
+        it('"text:c"', () => expect(hint('text:c')?.length).toBeGreaterThan(0))
+        it('"d:b"', () => expect(hint('d:b')?.find(({ label }) => label === 'block')).toEqual({
             label: 'block',
             kind: 12,
             sortText: 'block',
@@ -207,8 +207,8 @@ describe('values', () => {
 })
 
 describe('utilities', () => {
-    it('types a', () => expect(simulateHintingCompletions('a')?.find(({ label }) => label === 'abs')).toMatchObject({ label: 'abs' }))
-    test('info', () => expect(simulateHintingCompletions('b')?.find(({ label }) => label === 'block')).toMatchObject({
+    it('types a', () => expect(hint('a')?.find(({ label }) => label === 'abs')).toMatchObject({ label: 'abs' }))
+    test('info', () => expect(hint('b')?.find(({ label }) => label === 'block')).toMatchObject({
         detail: 'display: block',
         documentation: {
             kind: 'markdown',
@@ -235,7 +235,7 @@ describe('styles', () => {
             }
         }
     }
-    it('info', () => expect(simulateHintingCompletions('b', { settings })?.find(({ label }) => label === 'btn')).toMatchObject({
+    it('info', () => expect(hint('b', { settings })?.find(({ label }) => label === 'btn')).toMatchObject({
         detail: 'inline-block (style)',
         documentation: {
             kind: 'markdown',
@@ -251,15 +251,15 @@ describe('styles', () => {
             `
         }
     }))
-    it('types btn: and should not hint', () => expect(simulateHintingCompletions('btn:', { settings })).toBe(undefined))
+    it('types btn: and should not hint', () => expect(hint('btn:', { settings })).toBe(undefined))
 })
 
 describe('selectors', () => {
-    test(':', () => expect(simulateHintingCompletions('text:center:')?.[0]).toMatchObject({ insertText: 'active' }))
-    test('::', () => expect(simulateHintingCompletions('text:center::')?.[0]).toMatchObject({ insertText: 'after' }))
-    // test('with utility', () => expect(simulateHintingCompletions('block:')?.[0]).toMatchObject({ insertText: 'after' }))
+    test(':', () => expect(hint('text:center:')?.[0]).toMatchObject({ insertText: 'active' }))
+    test('::', () => expect(hint('text:center::')?.[0]).toMatchObject({ insertText: 'after' }))
+    // test('with utility', () => expect(hint('block:')?.[0]).toMatchObject({ insertText: 'after' }))
     test('sorting', () => {
-        expect(simulateHintingCompletions('text:center:')?.map(({ label }) => label)).toEqual([
+        expect(hint('text:center:')?.map(({ label }) => label)).toEqual([
             ':active',
             ':any-link',
             ':blank',
@@ -444,7 +444,7 @@ describe('selectors', () => {
 
 describe('colors', () => {
     test('sorting', () => {
-        // expect(simulateHintingCompletions('color:')?.map(({ label }) => label)).toEqual([])
+        // expect(hint('color:')?.map(({ label }) => label)).toEqual([])
     })
 })
 

@@ -48,25 +48,19 @@ export default class CSSLanguageService extends EventEmitter {
         const startIndex = textDocument.offsetAt({ line: position.line - 100, character: 0 }) ?? 0
         const endIndex = textDocument.offsetAt({ line: position.line + 100, character: 0 }) ?? undefined
         const text = textDocument.getText().substring(startIndex, endIndex)
-        const classPositionRegexes: RegExp[] = []
+        const lang = textDocument.languageId
         const classAttributes = this.settings.classAttributes
-        if (classAttributes?.length) {
-            const classAttributesPatten = classAttributes.join('|')
-            classPositionRegexes.push(
-                /**
-                 * @example <div class=""></div>
-                 * */
-                new RegExp(`(\\b(?:${classAttributesPatten})\\s?=\\s?)((?:"(?:[^"]+)?")|(?:'(?:[^']+)?')|(?:\`(?:[^\`]+)?\`))`, 'g'),
-                /**
-                 * @example <div className={''}></div>
-                 * */
-                new RegExp(`(\\b(?:${classAttributesPatten})=)({[^}]*})`, 'g')
-            )
-        }
-        const classRegex = /[^\s:]+:\w*\(?((?<!\\)["'`])((?:\\\1|(?:(?!\1))\S)*)((?<!\\)\1)\)?|[^\s"'`]+/g
+        if (!classAttributes?.length) throw new Error('classAttributes is required')
+        const classAttributesPatten = classAttributes.join('|')
         let eachClassPostioinMatch: RegExpExecArray | null
-        let classMatch: RegExpExecArray | null
-        for (const eachClassPositionRegex of classPositionRegexes) {
+        /**
+         * @example <div class=""></div>
+         * */
+        for (const eachClassPositionRegex of [
+            new RegExp(`((?<!:)\\b(?:${classAttributesPatten})\\s?=\\s?")([^"]+?)?"`, 'g'),
+            new RegExp(`((?<!:)\\b(?:${classAttributesPatten})\\s?=\\s?')([^']+?)?'`, 'g'),
+            new RegExp(`((?<!:)\\b(?:${classAttributesPatten})\\s?=\\s?\`)([^\`]+?)?\``, 'g'),
+        ]) {
             while ((eachClassPostioinMatch = eachClassPositionRegex.exec(text)) !== null) {
                 if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPostioinMatch.index + eachClassPostioinMatch[0].length >= (positionIndex - startIndex)) === true) {
                     const attrStartIndex = eachClassPostioinMatch.index + eachClassPostioinMatch[1].length
@@ -74,13 +68,15 @@ export default class CSSLanguageService extends EventEmitter {
                     /**
                      * @example <div class=""></div>
                      */
-                    if (['""', '\'\'', '``'].includes(eachClassPositionValue)) {
+                    if (eachClassPositionValue === undefined) {
                         return {
-                            range: { start: attrStartIndex + 1, end: attrStartIndex + 1 },
+                            range: { start: attrStartIndex, end: attrStartIndex },
                             token: ''
                         }
                     }
-                    while ((classMatch = classRegex.exec(eachClassPositionValue)) !== null) {
+                    const classMatcher = /[^\s]+/g
+                    for (const classMatch of eachClassPositionValue.matchAll(classMatcher)) {
+                        if (classMatch.index === undefined) continue
                         const token = classMatch[0]
                         const classStartIndex = attrStartIndex + classMatch.index
                         const classEndIndex = classStartIndex + token.length
@@ -92,6 +88,53 @@ export default class CSSLanguageService extends EventEmitter {
                         } else if (attrStartIndex === classEndIndex) {
                             return {
                                 range: { start: attrStartIndex, end: attrStartIndex },
+                                token: ''
+                            }
+                        }
+                    }
+                } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
+                    break
+                }
+            }
+        }
+
+        /**
+         * attribute binding
+         * @example <div className={''}></div>
+         * */
+        for (const eachClassPositionRegex of [
+            new RegExp(`(\\b(?:${classAttributesPatten})={)([^}]*)}`, 'g'),
+            new RegExp(`(\\b(?:${classAttributesPatten})=")([^"]*)"`, 'g'),
+            new RegExp(`(\\b(?:${classAttributesPatten})=')([^']*)'`, 'g'),
+            new RegExp(`(\\b(?:${classAttributesPatten})=\`)([^\`]*)\``, 'g')
+        ]) {
+            while ((eachClassPostioinMatch = eachClassPositionRegex.exec(text)) !== null) {
+                if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPostioinMatch.index + eachClassPostioinMatch[0].length >= (positionIndex - startIndex)) === true) {
+                    const attrStartIndex = eachClassPostioinMatch.index + eachClassPostioinMatch[1].length
+                    const eachClassPositionValue = eachClassPostioinMatch[2]
+                    const classMatcher = /(['"`])([\s\S]*?)\1/g
+                    /**
+                     * @example <div className={""}></div>
+                     */
+                    if (['""', '\'\'', '``'].includes(eachClassPositionValue)) {
+                        return {
+                            range: { start: attrStartIndex + 1, end: attrStartIndex + 1 },
+                            token: ''
+                        }
+                    }
+                    for (const classMatch of eachClassPositionValue.matchAll(classMatcher)) {
+                        if (classMatch.index === undefined) continue
+                        const token = classMatch[2]
+                        const classStartIndex = attrStartIndex + classMatch.index
+                        const classEndIndex = classStartIndex + token.length
+                        if (classStartIndex <= positionIndex - startIndex && positionIndex - startIndex <= classEndIndex) {
+                            return {
+                                range: { start: classStartIndex + 1, end: startIndex + classEndIndex + 1 },
+                                token
+                            }
+                        } else if (attrStartIndex === classEndIndex) {
+                            return {
+                                range: { start: attrStartIndex + 1, end: attrStartIndex + 1 },
                                 token: ''
                             }
                         }
