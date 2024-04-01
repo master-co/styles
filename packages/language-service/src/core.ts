@@ -10,6 +10,8 @@ import renderSyntaxColors from './features/render-syntax-colors'
 import editSyntaxColors from './features/edit-syntax-colors'
 import suggestSyntax from './features/suggest-syntax'
 import { TextDocument } from 'vscode-languageserver-textdocument'
+import findMatchingPairs from './utils/find-matching-brackets'
+import { start } from 'node:repl'
 
 export default class CSSLanguageService extends EventEmitter {
     css: MasterCSS
@@ -115,35 +117,40 @@ export default class CSSLanguageService extends EventEmitter {
                 .map(([assignment, classAssignment]) => {
                     if (classAssignment === false) return
                     const [start, end] = classAssignment
-                    return new RegExp(`(\\s${assignment}${start})([^${end}]+?)${end}`, 'g')
+                    return new RegExp(`\\s${assignment}${start}`, 'g')
                 })
                 .filter(Boolean) as RegExp[]
-            for (const eachClassPositionRegex of classPositionRegexes) {
-                let eachClassPostioinMatch: RegExpExecArray | null
-                while ((eachClassPostioinMatch = eachClassPositionRegex.exec(text)) !== null) {
-                    console.log(eachClassPositionRegex, eachClassPostioinMatch)
-                    if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPostioinMatch.index + eachClassPostioinMatch[0].length >= (positionIndex - startIndex)) === true) {
-                        const attrStart = eachClassPostioinMatch.index + eachClassPostioinMatch[1].length
-                        const eachClassPositionExpression = eachClassPostioinMatch[2]
-                        /**
-                         * @example <div className={""}></div>
-                         */
-                        if (['""', '\'\'', '``'].includes(eachClassPositionExpression)) {
-                            return {
-                                range: { start: attrStart + 1, end: attrStart + 1 },
-                                token: ''
-                            }
+
+            for (const eachClassAttribute in classAssignments) {
+                const eachClassAssignment = classAssignments[eachClassAttribute]
+                if (eachClassAssignment === false) continue
+                const [start, end] = eachClassAssignment
+                const eachClassPostioinMatch = new RegExp(`\\s${eachClassAttribute}${start}`, 'g').exec(text)
+                if (!eachClassPostioinMatch) continue
+                const eachClassPositionEnd = findMatchingPairs(text, eachClassPostioinMatch.index, start, end)
+                if (!eachClassPositionEnd) continue
+                if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPositionEnd >= (positionIndex - startIndex)) === true) {
+                    const eachClassAttributeString = eachClassPostioinMatch[0]
+                    const attrStart = eachClassPostioinMatch.index + eachClassAttributeString.length
+                    const eachClassPositionExpression = text.substring(attrStart, eachClassPositionEnd)
+                    /**
+                     * @example <div className={""}></div>
+                     */
+                    if (['""', '\'\'', '``'].includes(eachClassPositionExpression)) {
+                        return {
+                            range: { start: attrStart + 1, end: attrStart + 1 },
+                            token: ''
                         }
-                        for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(['"`])([\s\S]*?)\1/g)) {
-                            if (classExpressionMatch.index === undefined) continue
-                            const eachClassName = classExpressionMatch[2]
-                            const classNameStart = attrStart + classExpressionMatch.index + classExpressionMatch[1].length
-                            const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                            if (classPosition) return classPosition
-                        }
-                    } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
-                        break
                     }
+                    for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(['"`])([\s\S]*?)\1/g)) {
+                        if (classExpressionMatch.index === undefined) continue
+                        const eachClassName = classExpressionMatch[2]
+                        const classNameStart = attrStart + classExpressionMatch.index + classExpressionMatch[1].length
+                        const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
+                        if (classPosition) return classPosition
+                    }
+                } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
+                    break
                 }
             }
         }

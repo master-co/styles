@@ -5,7 +5,7 @@ import createDoc, { languageIdOfExt } from '../../src/utils/create-doc'
 export const expectClassPosition = (target: string, contents: string[], ext: keyof typeof languageIdOfExt = 'html', settings?: Settings) => {
     const doc = createDoc(ext, contents.join(''))
     const languageService = new CSSLanguageService()
-    expect(languageService.getClassPosition(doc, { line: 0, character: contents[0].length })).toEqual({
+    expect(languageService.getClassPosition(doc, doc.positionAt(contents[0].length + target.length))).toEqual({
         range: {
             start: contents[0].length,
             end: contents[0].length + target.length

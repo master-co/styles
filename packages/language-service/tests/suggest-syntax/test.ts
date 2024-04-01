@@ -9,7 +9,7 @@ export const hint = (target: string, { quotes = true, settings }: { quotes?: boo
     const contents = [`<div class=${quotes ? '"' : ''}`, target, `${quotes ? '"' : ''}></div>`]
     const doc = createDoc('html', contents.join(''))
     const languageService = new CSSLanguageService(settings)
-    return languageService.suggestSyntax(doc, { line: 0, character: contents[0].length } as Position, {
+    return languageService.suggestSyntax(doc, doc.positionAt(contents[0].length + target.length), {
         triggerKind: 2, // todo
         triggerCharacter: target.charAt(target.length - 1)
     })
