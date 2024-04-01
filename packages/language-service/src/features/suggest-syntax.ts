@@ -8,7 +8,6 @@ export default function suggestSyntax(this: CSSLanguageService,
     position: CompletionParams['position'],
     context: CompletionParams['context']
 ): CompletionItem[] | undefined {
-    const language = document.uri.substring(document.uri.lastIndexOf('.') + 1)
     const classPosition = this.getClassPosition(document, position)
     if (classPosition !== undefined) {
         /**

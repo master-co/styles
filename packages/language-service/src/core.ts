@@ -121,6 +121,7 @@ export default class CSSLanguageService extends EventEmitter {
             for (const eachClassPositionRegex of classPositionRegexes) {
                 let eachClassPostioinMatch: RegExpExecArray | null
                 while ((eachClassPostioinMatch = eachClassPositionRegex.exec(text)) !== null) {
+                    console.log(eachClassPositionRegex, eachClassPostioinMatch)
                     if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPostioinMatch.index + eachClassPostioinMatch[0].length >= (positionIndex - startIndex)) === true) {
                         const attrStart = eachClassPostioinMatch.index + eachClassPostioinMatch[1].length
                         const eachClassPositionExpression = eachClassPostioinMatch[2]

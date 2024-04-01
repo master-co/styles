@@ -1,38 +1,39 @@
+/* eslint-disable quotes */
 import { Config } from '@master/css'
 
 const settings: Settings = {
     includedLanguages: [
-        'html',
-        'php',
-        'javascript',
-        'typescript',
-        'javascriptreact',
-        'typescriptreact',
-        'vue',
-        'svelte',
-        'rust',
-        'astro',
-        'markdown',
-        'mdx',
-        'astro'
+        "html",
+        "php",
+        "javascript",
+        "typescript",
+        "javascriptreact",
+        "typescriptreact",
+        "vue",
+        "svelte",
+        "rust",
+        "astro",
+        "markdown",
+        "mdx",
+        "astro"
     ],
-    classAttributes: ['class', 'className'],
+    classAttributes: ["class", "className"],
     classAssignments: {
         // react
-        'className=': ['{', '}'],
+        "className=": ["{", "}"],
         // vue
-        ':class=': ['"', '"'],
-        'v-bind:class=': ['"', '"'],
+        ":class=": ["\"", "\""],
+        "v-bind:class=": ["\"", "\""],
         // svelte
-        'class=': ['{', '}'],
+        "class=": ["{", "}"],
         // angular
-        '[class]=': ['"', '"'],
-        '[className]=': ['"', '"'],
-        '[ngClass]=': ['"', '"'],
+        "[class]=": ["\"", "\""],
+        "[className]=": ["\"", "\""],
+        "[ngClass]=": ["\"", "\""],
         // astro
-        'class:list=': ['{', '}'],
+        "class:list=": ["{", "}"]
     },
-    exclude: ['**/.git/**', '**/node_modules/**', '**/.hg/**'],
+    exclude: ["**/.git/**", "**/node_modules/**", "**/.hg/**"],
     suggestSyntax: true,
     inspectSyntax: true,
     renderSyntaxColors: true,

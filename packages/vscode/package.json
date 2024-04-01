@@ -130,10 +130,13 @@
                         "typescript",
                         "javascriptreact",
                         "typescriptreact",
-                        "mdx",
                         "vue",
                         "svelte",
-                        "rust"
+                        "rust",
+                        "astro",
+                        "markdown",
+                        "mdx",
+                        "astro"
                     ]
                 },
                 "masterCSS.exclude": {
@@ -154,6 +157,22 @@
                         "type": "string"
                     },
                     "default": [ "class", "className", "ngClass" ]
+                },
+                "masterCSS.classAssignments": {
+                    "type": "object",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "className=": [ "{", "}" ],
+                        ":class=": [ "\"", "\"" ],
+                        "v-bind:class=": [ "\"", "\"" ],
+                        "class=": [ "{", "}" ],
+                        "[class]=": [ "\"", "\"" ],
+                        "[className]=": [ "\"", "\"" ],
+                        "[ngClass]=": [ "\"", "\"" ],
+                        "class:list=": [ "{", "}" ]
+                    }
                 },
                 "masterCSS.suggestSyntax": {
                     "type": "boolean",
