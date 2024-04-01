@@ -9,7 +9,6 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
     const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
     const addedKeys = new Set<string>()
-    process.env.VSCODE_IPC_HOOK && console.time('getMainCompletionItems')
     for (const EachRule of css.Rules) {
         if (EachRule.definition.layer === Layer.Utility) continue
         const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === EachRule.id)
@@ -57,7 +56,6 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
         })
     })
 
-    // todo: test remap utility to native css property
     if (css.config.utilities) {
         for (const utilityName in css.config.utilities) {
             const declarations = css.config.utilities[utilityName]
@@ -108,6 +106,5 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             })
         }
     }
-    process.env.VSCODE_IPC_HOOK && console.timeEnd('getMainCompletionItems')
     return sortCompletionItems(completionItems)
 }

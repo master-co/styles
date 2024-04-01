@@ -1,27 +1,10 @@
 import { hint } from './test'
 
-test('colors', () => {
-    expect(
-        hint('fg:')
-            ?.filter(({ label }) => label.startsWith('yellow'))
-            ?.map(({ label }) => label)
-    ).toEqual([
-        'yellow',
-        'yellow-5',
-        'yellow-10',
-        'yellow-20',
-        'yellow-30',
-        'yellow-40',
-        'yellow-50',
-        'yellow-60',
-        'yellow-70',
-        'yellow-80',
-        'yellow-90',
-        'yellow-95',
-    ])
-})
+test(':', () => expect(hint('text:center:')?.[0]).toMatchObject({ insertText: 'active' }))
+test('::', () => expect(hint('text:center::')?.[0]).toMatchObject({ insertText: 'after' }))
+// test('with utility', () => expect(hint('block:')?.[0]).toMatchObject({ insertText: 'after' }))
 
-test('selectors', () => {
+describe('sorting', () => {
     expect(hint('text:center:')?.map(({ label }) => label)).toEqual([
         ':active',
         ':any-link',

@@ -1,9 +1,9 @@
 export default function findMatchingPairs(input: string, startIndex: number, start: string, end: string) {
-    let count = 0
     let endIndex
 
     // {} [] ()
     if (start !== end) {
+        let count = 1
         for (let i = startIndex; i < input.length; i++) {
             if (input[i] === start) {
                 count++
@@ -20,11 +20,9 @@ export default function findMatchingPairs(input: string, startIndex: number, sta
     else {
         for (let i = startIndex; i < input.length; i++) {
             if (input[i] === start && input[i - 1] !== '\\') {
-                count++
-                endIndex = i
+                return i
             }
         }
-        if (count % 2 !== 0) return
     }
     return endIndex
 }

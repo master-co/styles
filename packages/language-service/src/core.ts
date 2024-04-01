@@ -112,45 +112,39 @@ export default class CSSLanguageService extends EventEmitter {
          * @example <div className={''}></div>
          * @example <div :class="isActive ? 'block' : 'hidden'"></div>
          * */
-        if (Object.keys(classAssignments || {}).length) {
-            const classPositionRegexes = Object.entries(classAssignments || {})
-                .map(([assignment, classAssignment]) => {
-                    if (classAssignment === false) return
-                    const [start, end] = classAssignment
-                    return new RegExp(`\\s${assignment}${start}`, 'g')
-                })
-                .filter(Boolean) as RegExp[]
-
+        if (classAssignments) {
             for (const eachClassAttribute in classAssignments) {
                 const eachClassAssignment = classAssignments[eachClassAttribute]
                 if (eachClassAssignment === false) continue
                 const [start, end] = eachClassAssignment
-                const eachClassPostioinMatch = new RegExp(`\\s${eachClassAttribute}${start}`, 'g').exec(text)
-                if (!eachClassPostioinMatch) continue
-                const eachClassPositionEnd = findMatchingPairs(text, eachClassPostioinMatch.index, start, end)
-                if (!eachClassPositionEnd) continue
-                if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPositionEnd >= (positionIndex - startIndex)) === true) {
+                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`\\s${eachClassAttribute}${start}`, 'g'))) {
+                    if (eachClassPostioinMatch.index === undefined) continue
                     const eachClassAttributeString = eachClassPostioinMatch[0]
                     const attrStart = eachClassPostioinMatch.index + eachClassAttributeString.length
-                    const eachClassPositionExpression = text.substring(attrStart, eachClassPositionEnd)
-                    /**
-                     * @example <div className={""}></div>
-                     */
-                    if (['""', '\'\'', '``'].includes(eachClassPositionExpression)) {
-                        return {
-                            range: { start: attrStart + 1, end: attrStart + 1 },
-                            token: ''
+                    let eachClassPositionEnd = findMatchingPairs(text, attrStart, start, end)
+                    if (!eachClassPositionEnd) continue
+                    eachClassPositionEnd = attrStart + eachClassPositionEnd
+                    if ((attrStart <= (positionIndex - startIndex) && eachClassPositionEnd >= (positionIndex - startIndex)) === true) {
+                        const eachClassPositionExpression = text.substring(attrStart, eachClassPositionEnd)
+                        /**
+                         * @example <div className={""}></div>
+                         */
+                        if (['""', '\'\'', '``'].includes(eachClassPositionExpression)) {
+                            return {
+                                range: { start: attrStart + 1, end: attrStart + 1 },
+                                token: ''
+                            }
                         }
+                        for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(['"`])([\s\S]*?)\1/g)) {
+                            if (classExpressionMatch.index === undefined) continue
+                            const eachClassName = classExpressionMatch[2]
+                            const classNameStart = attrStart + classExpressionMatch.index + classExpressionMatch[1].length
+                            const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
+                            if (classPosition) return classPosition
+                        }
+                    } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
+                        break
                     }
-                    for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(['"`])([\s\S]*?)\1/g)) {
-                        if (classExpressionMatch.index === undefined) continue
-                        const eachClassName = classExpressionMatch[2]
-                        const classNameStart = attrStart + classExpressionMatch.index + classExpressionMatch[1].length
-                        const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                        if (classPosition) return classPosition
-                    }
-                } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
-                    break
                 }
             }
         }
