@@ -64,7 +64,7 @@ export default class CSSLanguageServer {
             const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
             if (cssLanguageService) {
                 const document = this.documents.get(params.textDocument.uri)
-                if (document) return cssLanguageService.hintSyntaxCompletions(document, params.position, params.context)
+                if (document) return cssLanguageService.suggestSyntax(document, params.position, params.context)
             }
         })
 

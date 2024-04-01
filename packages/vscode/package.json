@@ -118,7 +118,7 @@
         "configuration": {
             "title": "Master CSS IntelliSense",
             "properties": {
-                "masterCSS.languages": {
+                "masterCSS.includedLanguages": {
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -155,7 +155,7 @@
                     },
                     "default": [ "class", "className", "ngClass" ]
                 },
-                "masterCSS.hintSyntaxCompletions": {
+                "masterCSS.suggestSyntax": {
                     "type": "boolean",
                     "default": true
                 },

@@ -1,7 +1,7 @@
 import { Config } from '@master/css'
 
 const settings: Settings = {
-    languages: [
+    includedLanguages: [
         'html',
         'php',
         'javascript',
@@ -10,23 +10,46 @@ const settings: Settings = {
         'typescriptreact',
         'vue',
         'svelte',
-        'rust'
+        'rust',
+        'astro',
+        'markdown',
+        'mdx',
+        'astro'
     ],
-    classAttributes: ['class', 'className', 'ngClass', 'v-bind:class'],
+    classAttributes: ['class', 'className'],
+    classAssignments: {
+        // react
+        'className=': ['{', '}'],
+        // vue
+        ':class=': ['"', '"'],
+        'v-bind:class=': ['"', '"'],
+        // svelte
+        'class=': ['{', '}'],
+        // angular
+        '[class]=': ['"', '"'],
+        '[className]=': ['"', '"'],
+        '[ngClass]=': ['"', '"'],
+        // astro
+        'class:list=': ['{', '}'],
+    },
     exclude: ['**/.git/**', '**/node_modules/**', '**/.hg/**'],
-    hintSyntaxCompletions: true,
+    suggestSyntax: true,
     inspectSyntax: true,
-    renderSyntaxColors: true
+    renderSyntaxColors: true,
+    editSyntaxColors: true
 }
 
 export default settings
 
 export declare type Settings = {
-    languages?: string[]
+    includedLanguages?: string[]
     classAttributes?: string[]
+    classAssignments?: Record<string, [string, string] | false>
     exclude?: string[]
-    hintSyntaxCompletions?: boolean
+    config?: Config
+    // features
+    suggestSyntax?: boolean
     inspectSyntax?: boolean
     renderSyntaxColors?: boolean
-    config?: Config
+    editSyntaxColors?: boolean
 }

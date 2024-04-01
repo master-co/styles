@@ -3,7 +3,7 @@ import type { Position, TextDocument } from 'vscode-languageserver-textdocument'
 import CSSLanguageService from '../core'
 import querySyntaxCompletions from '../utils/query-syntax-completions'
 
-export default function hintSyntaxCompletions(this: CSSLanguageService,
+export default function suggestSyntax(this: CSSLanguageService,
     document: TextDocument,
     position: CompletionParams['position'],
     context: CompletionParams['context']

@@ -7,22 +7,6 @@
 
 </div>
 
-##### On this page
-- [Features](#features)
-  - [Code-completion](#code-completion)
-  - [Syntax highlighting](#syntax-highlighting)
-- [Documentation](#documentation)
-  - [Generate preview](#generate-preview)
-- [Settings](#settings)
-  - [`editor.quickSuggestions`](#editorquicksuggestions)
-  - [`masterCSS.languages`](#mastercsslanguages)
-  - [`masterCSS.files.exclude`](#mastercssfilesexclude)
-  - [`masterCSS.classAttributes`](#mastercssclassmatch)
-  - [`masterCSS.renderSyntaxColors: true`](#mastercsspreviewcolors-true)
-  - [`masterCSS.inspectSyntax: true`](#mastercssinspectsyntax-true)
-  - [`masterCSS.suggestions: true`](#mastercsssuggestions-true)
-  - [`masterCSS.config`](#mastercssconfig)
-
 <br>
 
 [![Install to Visual Studio Code now](https://user-images.githubusercontent.com/33840671/185619535-3b426030-7efd-4470-a8d1-d35b5698ee0e.jpg)](https://marketplace.visualstudio.com/items?itemName=masterco.master-css-language-service)
@@ -60,10 +44,10 @@ Hover over Master class names to see their CSS generation.
 },
 ```
 
-### `masterCSS.languages`
+### `masterCSS.includedLanguages`
 Configure which languages should apply the Master CSS Language Service.
 ```json
-"masterCSS.languages": [
+"masterCSS.includedLanguages": [
   "html",
   "php",
   "javascript",
