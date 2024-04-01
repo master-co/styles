@@ -4,7 +4,7 @@ import settings from '../settings'
 // todo: unstable range calculation
 export default function getRange(searchString: string, doc: TextDocument): Range {
     const text = doc.getText()
-    const regex = new RegExp(`(\\b(?:${settings.classAttributes?.join('|')})\\s?=\\s?(['"\`]))(.*?)\\2`, 'g')
+    const regex = new RegExp(`(\\b(?:className|class)\\s?=\\s?(['"\`]))(.*?)\\2`, 'g')
     const classAttMatch = regex.exec(text)
     if (classAttMatch) {
         const attrIndex = classAttMatch.index + classAttMatch[1].length

@@ -9,7 +9,7 @@ const settings: Settings = {
         }
     }
 }
-it('info', () => expect(hint('b', { settings })?.find(({ label }) => label === 'btn')).toMatchObject({
+it('info', () => expect(hint('b', settings)?.find(({ label }) => label === 'btn')).toMatchObject({
     detail: 'inline-block (style)',
     documentation: {
         kind: 'markdown',
@@ -25,4 +25,4 @@ it('info', () => expect(hint('b', { settings })?.find(({ label }) => label === '
         `
     }
 }))
-it('types btn: and should not hint', () => expect(hint('btn:', { settings })).toBe(undefined))
+it('types btn: and should not hint', () => expect(hint('btn:', settings)).toBe(undefined))

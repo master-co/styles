@@ -1,8 +1,8 @@
 import { hint } from './test'
 
 it('should not hint selectors', () => expect(hint('text:')?.[0]).not.toMatchObject({ insertText: 'active' }))
-test('@delay on invoked', () => expect(hint('""', { quotes: false })?.find(({ label }) => label === '@delay:')).toMatchObject({ label: '@delay:' }))
-test('~delay on invoked', () => expect(hint('""', { quotes: false })?.find(({ label }) => label === '~delay:')).toMatchObject({ label: '~delay:' }))
+test('@delay on invoked', () => expect(hint('')?.find(({ label }) => label === '@delay:')).toMatchObject({ label: '@delay:' }))
+test('~delay on invoked', () => expect(hint('')?.find(({ label }) => label === '~delay:')).toMatchObject({ label: '~delay:' }))
 it('starts with @', () => expect(hint('@')?.[0]).toMatchObject({ label: 'delay:' }))
 it('starts with @d and list related', () => expect(hint('@d')?.map(({ label }) => label)).toEqual([
     'delay:',

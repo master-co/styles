@@ -13,6 +13,8 @@ import { TextDocument } from 'vscode-languageserver-textdocument'
 import findMatchingPairs from './utils/find-matching-brackets'
 import escapeRegexp from 'lodash.escaperegexp'
 
+export type ClassPosition = { range: { start: number, end: number }, token: string }
+
 export default class CSSLanguageService extends EventEmitter {
     css: MasterCSS
     settings: Settings
@@ -45,13 +47,13 @@ export default class CSSLanguageService extends EventEmitter {
             return suggestSyntax?.call(this, ...params)
     }
 
-    getClassPosition(textDocument: TextDocument, position: Position): { range: { start: number, end: number }, token: string } | undefined {
+    getClassPosition(textDocument: TextDocument, position: Position): ClassPosition | undefined {
         const positionIndex = textDocument.offsetAt(position)
         const startIndex = textDocument.offsetAt({ line: position.line - 100, character: 0 }) ?? 0
         const endIndex = textDocument.offsetAt({ line: position.line + 100, character: 0 }) ?? undefined
         const text = textDocument.getText().substring(startIndex, endIndex)
         const lang = textDocument.languageId
-        const { classAttributes, classAssignments } = this.settings
+        const { classAssignments, classStrings } = this.settings
         const normalizeClassNamePosition = (className: string, attrStart: number) => {
             /**
              * Matching classes, including empty string after white space
@@ -76,30 +78,20 @@ export default class CSSLanguageService extends EventEmitter {
                 }
             }
         }
-        /**
-         * @example <div class=""></div>
-         * */
-        if (classAttributes?.length) {
-            const classAttributesPatten = classAttributes.join('|')
-            for (const eachClassPositionRegex of [
-                new RegExp(`(\\s(?:${classAttributesPatten})\\s?=\\s?")([^"]+?)?"`, 'g'),
-                new RegExp(`(\\s(?:${classAttributesPatten})\\s?=\\s?')([^']+?)?'`, 'g'),
-            ]) {
-                let eachClassPostioinMatch: RegExpExecArray | null
-                while ((eachClassPostioinMatch = eachClassPositionRegex.exec(text)) !== null) {
-                    if ((eachClassPostioinMatch.index <= (positionIndex - startIndex) && eachClassPostioinMatch.index + eachClassPostioinMatch[0].length >= (positionIndex - startIndex)) === true) {
-                        const attrStart = eachClassPostioinMatch.index + eachClassPostioinMatch[1].length
-                        const eachClassName = eachClassPostioinMatch[2]
-                        /**
-                         * @example <div class=""></div>
-                         */
-                        if (eachClassName === undefined) {
-                            return {
-                                range: { start: attrStart, end: attrStart },
-                                token: ''
-                            }
-                        }
-                        const classPosition = normalizeClassNamePosition(eachClassName, attrStart)
+
+        const resolve = (
+            conditions: [string, string, string][],
+            handle: (eachAttrStart: number, eachClassPositionEnd: number) => ClassPosition | undefined
+        ) => {
+            for (const [eachCondition, start, end] of conditions) {
+                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`\\s${eachCondition}${(escapeRegexp(start))}`, 'g'))) {
+                    if (eachClassPostioinMatch.index === undefined) continue
+                    const eachClassAttributeString = eachClassPostioinMatch[0]
+                    const eachAttrStart = eachClassPostioinMatch.index + eachClassAttributeString.length
+                    const eachClassPositionEnd = findMatchingPairs(text, eachAttrStart, start, end)
+                    if (!eachClassPositionEnd) continue
+                    if ((eachAttrStart <= (positionIndex - startIndex) && eachClassPositionEnd >= (positionIndex - startIndex)) === true) {
+                        const classPosition = handle(eachAttrStart, eachClassPositionEnd)
                         if (classPosition) return classPosition
                     } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
                         break
@@ -107,46 +99,55 @@ export default class CSSLanguageService extends EventEmitter {
                 }
             }
         }
+
+        /**
+         * @example <div class=""></div>
+         * */
+        if (classStrings?.length) {
+            const classPosition = resolve(classStrings, (eachAttrStart, eachClassPositionEnd) => {
+                const eachClassName = text.substring(eachAttrStart, eachClassPositionEnd)
+                /**
+                 * @example <div class=""></div>
+                 */
+                if (eachClassName === undefined) {
+                    return {
+                        range: { start: eachAttrStart, end: eachAttrStart },
+                        token: ''
+                    }
+                }
+                const classNameStart = eachAttrStart
+                const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
+                if (classPosition) return classPosition
+            })
+            if (classPosition) return classPosition
+        }
+
         /**
          * attribute binding
          * @example <div className={''}></div>
          * @example <div :class="isActive ? 'block' : 'hidden'"></div>
          * */
-        if (classAssignments) {
-            for (const eachClassAttribute in classAssignments) {
-                const eachClassAssignment = classAssignments[eachClassAttribute]
-                if (eachClassAssignment === false) continue
-                const [start, end] = eachClassAssignment
-                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`\\s${eachClassAttribute}${(escapeRegexp(start))}`, 'g'))) {
-                    if (eachClassPostioinMatch.index === undefined) continue
-                    const eachClassAttributeString = eachClassPostioinMatch[0]
-                    const attrStart = eachClassPostioinMatch.index + eachClassAttributeString.length
-                    let eachClassPositionEnd = findMatchingPairs(text, attrStart, start, end)
-                    if (!eachClassPositionEnd) continue
-                    eachClassPositionEnd = attrStart + eachClassPositionEnd
-                    if ((attrStart <= (positionIndex - startIndex) && eachClassPositionEnd >= (positionIndex - startIndex)) === true) {
-                        const eachClassPositionExpression = text.substring(attrStart, eachClassPositionEnd)
-                        /**
-                         * @example <div className={""}></div>
-                         */
-                        if (['""', '\'\'', '``'].includes(eachClassPositionExpression)) {
-                            return {
-                                range: { start: attrStart + 1, end: attrStart + 1 },
-                                token: ''
-                            }
-                        }
-                        for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(['"`])([\s\S]*?)\1/g)) {
-                            if (classExpressionMatch.index === undefined) continue
-                            const eachClassName = classExpressionMatch[2]
-                            const classNameStart = attrStart + classExpressionMatch.index + classExpressionMatch[1].length
-                            const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                            if (classPosition) return classPosition
-                        }
-                    } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
-                        break
+        if (classAssignments?.length) {
+            const classPosition = resolve(classAssignments, (eachAttrStart, eachClassPositionEnd) => {
+                const eachClassPositionExpression = text.substring(eachAttrStart, eachClassPositionEnd)
+                /**
+                 * @example <div className={""}></div>
+                 */
+                if (['""', '\'\'', '``'].includes(eachClassPositionExpression)) {
+                    return {
+                        range: { start: eachAttrStart + 1, end: eachAttrStart + 1 },
+                        token: ''
                     }
                 }
-            }
+                for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(['"`])([\s\S]*?)\1/g)) {
+                    if (classExpressionMatch.index === undefined) continue
+                    const eachClassName = classExpressionMatch[2]
+                    const classNameStart = eachAttrStart + classExpressionMatch.index + classExpressionMatch[1].length
+                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
+                    if (classPosition) return classPosition
+                }
+            })
+            if (classPosition) return classPosition
         }
     }
 

@@ -17,26 +17,31 @@ const settings: Settings = {
         "mdx",
         "astro"
     ],
-    classAttributes: ["class", "className"],
-    classAssignments: {
+    classStrings: [
+        ["class=", "\"", "\""],
+        ["class=", "'", "'"],
+        ["className=", "\"", "\""],
+        ["className=", "'", "'"]
+    ],
+    classAssignments: [
         // react
-        "className=": ["{", "}"],
+        ["className=", "{", "}"],
         // vue
-        ":class=": ["\"", "\""],
-        "v-bind:class=": ["\"", "\""],
+        [":class=", "\"", "\""],
+        ["v-bind:class=", "\"", "\""],
         // svelte
-        "class=": ["{", "}"],
+        ["class=", "{", "}"],
         // angular
-        "[class]=": ["\"", "\""],
-        "[className]=": ["\"", "\""],
-        "[ngClass]=": ["\"", "\""],
+        ["[class]=", "\"", "\""],
+        ["[className]=", "\"", "\""],
+        ["[ngClass]=", "\"", "\""],
         // astro
-        "class:list=": ["{", "}"],
+        ["class:list=", "{", "}"],
         // invoke
-        "clsx": ["(", ")"],
-        "styled": ["(", ")"],
-        "cva": ["(", ")"]
-    },
+        ["clsx", "(", ")"],
+        ["styled", "(", ")"],
+        ["cva", "(", ")"]
+    ],
     exclude: ["**/.git/**", "**/node_modules/**", "**/.hg/**"],
     suggestSyntax: true,
     inspectSyntax: true,
@@ -48,8 +53,8 @@ export default settings
 
 export declare type Settings = {
     includedLanguages?: string[]
-    classAttributes?: string[]
-    classAssignments?: Record<string, [string, string] | false>
+    classStrings?: [string, string, string][]
+    classAssignments?: [string, string, string][]
     exclude?: string[]
     config?: Config
     // features

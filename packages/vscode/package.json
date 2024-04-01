@@ -151,31 +151,36 @@
                     ],
                     "description": "Configure glob patterns to exclude from all Master Language Service features."
                 },
-                "masterCSS.classAttributes": {
+                "masterCSS.classStrings": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     },
-                    "default": [ "class", "className", "ngClass" ]
+                    "default": [
+                        [ "class=", "\"", "\"" ],
+                        [ "class=", "'", "'" ],
+                        [ "className=", "\"", "\"" ],
+                        [ "className=", "'", "'" ]
+                    ]
                 },
                 "masterCSS.classAssignments": {
-                    "type": "object",
+                    "type": "array",
                     "items": {
                         "type": "string"
                     },
-                    "default": {
-                        "className=": [ "{", "}" ],
-                        ":class=": [ "\"", "\"" ],
-                        "v-bind:class=": [ "\"", "\"" ],
-                        "class=": [ "{", "}" ],
-                        "[class]=": [ "\"", "\"" ],
-                        "[className]=": [ "\"", "\"" ],
-                        "[ngClass]=": [ "\"", "\"" ],
-                        "class:list=": [ "{", "}" ],
-                        "clsx": [ "(", ")" ],
-                        "styled": [ "(", ")" ],
-                        "cva": [ "(", ")" ]
-                    }
+                    "default": [
+                        [ "className=", "{", "}" ],
+                        [ ":class=", "\"", "\"" ],
+                        [ "v-bind:class=", "\"", "\"" ],
+                        [ "class=", "{", "}" ],
+                        [ "[class]=", "\"", "\"" ],
+                        [ "[className]=", "\"", "\"" ],
+                        [ "[ngClass]=", "\"", "\"" ],
+                        [ "class:list=", "{", "}" ],
+                        [ "clsx", "(", ")" ],
+                        [ "styled", "(", ")" ],
+                        [ "cva", "(", ")" ]
+                    ]
                 },
                 "masterCSS.suggestSyntax": {
                     "type": "boolean",

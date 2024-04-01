@@ -14,7 +14,13 @@ export const expectClassPosition = (target: string, contents: string[], ext: key
     })
 }
 
-test('empty class', () => {
+test('empty class with single quotes', () => {
+    const target = ''
+    const contents = ['<div class=\'', target, '\'></div>']
+    expectClassPosition(target, contents)
+})
+
+test('empty class with double quotes', () => {
     const target = ''
     const contents = ['<div class="', target, '"></div>']
     expectClassPosition(target, contents)

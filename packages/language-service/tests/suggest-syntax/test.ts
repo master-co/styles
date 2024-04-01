@@ -2,8 +2,8 @@ import CSSLanguageService from '../../src/core'
 import createDoc from '../../src/utils/create-doc'
 import { Settings } from '../../src/settings'
 
-export const hint = (target: string, { quotes = true, settings }: { quotes?: boolean, settings?: Settings } = {}) => {
-    const contents = [`<div class=${quotes ? '"' : ''}`, target, `${quotes ? '"' : ''}></div>`]
+export const hint = (target: string, settings: Settings = {}) => {
+    const contents = [`<div class="`, target, `"></div>`]
     const doc = createDoc('html', contents.join(''))
     const languageService = new CSSLanguageService(settings)
     return languageService.suggestSyntax(doc, doc.positionAt(contents[0].length + target.length), {
@@ -14,8 +14,7 @@ export const hint = (target: string, { quotes = true, settings }: { quotes?: boo
 
 // it('types a', () => expect(hint('a')?.length).toBeDefined())
 
-it('types " should hint completions', () => expect(hint('""', { quotes: false })?.length).toBeGreaterThan(0))
-it('types \' should hint completions', () => expect(hint('\'\'', { quotes: false })?.length).toBeGreaterThan(0))
+it('types " should hint completions', () => expect(hint('')?.length).toBeGreaterThan(0))
 it('types   should hint completions', () => expect(hint('text:center ')?.length).toBeGreaterThan(0))
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)
