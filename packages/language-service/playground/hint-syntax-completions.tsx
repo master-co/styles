@@ -1,3 +1,3 @@
 import React from 'react';
 
-export default () => <div className="abs">hello world</div>
+export default () => <div className="abs fg:">hello world</div>

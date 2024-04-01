@@ -5,12 +5,17 @@ import { getCSSDataDocumentation } from './get-css-data-documentation'
 import sortCompletionItems from './sort-completion-items'
 import type { IValueData } from 'vscode-css-languageservice'
 
+const SCOPED_VARIABLE_PRIORITY = 'aaaa'
+const AMBIGUOUS_PRIORITY = 'bbbb'
+const NATIVE_PRIORITY = 'ccccc'
+const GLOBAL_VARIABLE_PRIORITY = 'zzzz'
+
 export default function getValueCompletionItems(css: MasterCSS = new MasterCSS(), qKey: string, qValue: string): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
     const nativeKey = css.Rules.find(({ keys }) => keys.includes(qKey))?.id
     const nativePropertyData = nativeProperties.find(({ name }) => name === nativeKey)
-    const generateVariableCompletionItem = (variable: Variable, { scoped } = { scoped: false }): CompletionItem => {
+    const generateVariableCompletionItem = (variable: Variable, { scoped } = { scoped: false }): CompletionItem | undefined => {
         const eachNativePropertyData = nativeProperties.find((x: { name: string }) => x.name === variable.group) || nativePropertyData
         const appliedValue = scoped ? variable.key : variable.name
         const documentation = getCSSDataDocumentation(eachNativePropertyData, {
@@ -28,6 +33,10 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
             } else {
                 // todo: packages/css should support getTextByVariable(variable)
                 const configKey = 'variables.' + (variable.group ? variable.group + '.' + variable.key : variable.name)
+                const valueToken = ((variable.space && variable.value)
+                    // vscode doesn't support rgba(0 0 0/.5) in detail
+                    ? `${variable.space}(${variable.value.split(' ').join(',')})`
+                    : variable.value)
                 return {
                     label: variable.name,
                     // detail is shown in the detail pane
@@ -37,17 +46,15 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                     // todo: should convert and space to rgba
                     documentation: {
                         kind: 'markdown',
-                        value: ((variable.space && variable.value)
-                            // vscode doesn't support rgba(0 0 0/.5) in detail
-                            ? `${variable.space}(${variable.value.split(' ').join(',')})`
-                            : variable.value) + '\n\n' + documentation?.value
+                        value: valueToken + '\n\n' + documentation?.value
                     },
                     kind: CompletionItemKind.Color,
-                    sortText: variable.name.replace(/(.+?)-(\d+)/, (match, prefix, num) =>
-                        prefix + '-' + ('00000' + num).slice(-5)),
+                    sortText: 'color-' + (variable.name.replace(/(.+?)-(\d+)/, (match, prefix, num) =>
+                        prefix + ('00000' + num).slice(-5))),
                 }
             }
         } else if (variable.type === 'number') {
+            if (variable.value < 0) return
             return {
                 kind: CompletionItemKind.Value,
                 label: variable.name,
@@ -74,9 +81,12 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                 if (completionItems.find(({ label }) => label === variableName)) continue
                 const variable = EachRule.variables[variableName]
                 const completionItem = generateVariableCompletionItem(variable, { scoped: true })
-                completionItem.label = variableName
-                completionItem.detail = '(scope variable) ' + completionItem.detail
-                completionItems.push(completionItem)
+                if (completionItem) {
+                    completionItem.label = variableName
+                    completionItem.sortText = SCOPED_VARIABLE_PRIORITY + variableName
+                    completionItem.detail = '(scope) ' + completionItem.detail
+                    completionItems.push(completionItem)
+                }
             }
         }
         /**
@@ -93,7 +103,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                 completionItems.push({
                     label: ambiguousValue,
                     kind: CompletionItemKind.Value,
-                    sortText: ambiguousValue,
+                    sortText: AMBIGUOUS_PRIORITY + ambiguousValue,
                     documentation: getCSSDataDocumentation({
                         ...(nativeValueData || {} as IValueData),
                         // use nativePropertyData.reference because nativeValueData does not have references
@@ -123,9 +133,9 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                 completionItems.push({
                     label: value.name,
                     kind: CompletionItemKind.Value,
-                    sortText: value.name.startsWith('-')
+                    sortText: NATIVE_PRIORITY + (value.name.startsWith('-')
                         ? 'zz' + value.name.slice(1)
-                        : value.name,
+                        : value.name),
                     documentation: getCSSDataDocumentation({
                         ...value,
                         // use nativePropertyData.reference because nativeValueData does not have references
@@ -138,18 +148,22 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                 })
             })
     }
+
     // global variables
-    for (let variableName in css.variables) {
+    for (const variableName in css.variables) {
         if (variableName.startsWith('-')) continue
         const conflicted = completionItems.find(({ label }) => label === variableName)
         const variable = css.variables[variableName]
         if (conflicted) {
-            variableName = `$(${variableName})`
+            variable.name = `$(${variableName})`
         }
         const completionItem = generateVariableCompletionItem(variable)
-        completionItem.label = variableName
-        completionItem.sortText = 'zzzz' + variableName
-        completionItems.push(completionItem)
+        if (completionItem) {
+            completionItem.label = variable.name
+            completionItem.sortText = GLOBAL_VARIABLE_PRIORITY + completionItem.sortText
+            completionItem.detail = '(global) ' + completionItem.detail
+            completionItems.push(completionItem)
+        }
     }
 
     return sortCompletionItems(completionItems)
