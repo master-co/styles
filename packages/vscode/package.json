@@ -171,7 +171,10 @@
                         "[class]=": [ "\"", "\"" ],
                         "[className]=": [ "\"", "\"" ],
                         "[ngClass]=": [ "\"", "\"" ],
-                        "class:list=": [ "{", "}" ]
+                        "class:list=": [ "{", "}" ],
+                        "clsx": [ "(", ")" ],
+                        "styled": [ "(", ")" ],
+                        "cva": [ "(", ")" ]
                     }
                 },
                 "masterCSS.suggestSyntax": {

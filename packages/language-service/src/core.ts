@@ -11,7 +11,7 @@ import editSyntaxColors from './features/edit-syntax-colors'
 import suggestSyntax from './features/suggest-syntax'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import findMatchingPairs from './utils/find-matching-brackets'
-import { start } from 'node:repl'
+import escapeRegexp from 'lodash.escaperegexp'
 
 export default class CSSLanguageService extends EventEmitter {
     css: MasterCSS
@@ -117,7 +117,7 @@ export default class CSSLanguageService extends EventEmitter {
                 const eachClassAssignment = classAssignments[eachClassAttribute]
                 if (eachClassAssignment === false) continue
                 const [start, end] = eachClassAssignment
-                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`\\s${eachClassAttribute}${start}`, 'g'))) {
+                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`\\s${eachClassAttribute}${(escapeRegexp(start))}`, 'g'))) {
                     if (eachClassPostioinMatch.index === undefined) continue
                     const eachClassAttributeString = eachClassPostioinMatch[0]
                     const attrStart = eachClassPostioinMatch.index + eachClassAttributeString.length

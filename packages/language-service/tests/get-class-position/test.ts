@@ -49,3 +49,5 @@ test('group syntax', () => {
     const contents = ['<div class="class-a ', target, '"></div>']
     expectClassPosition(target, contents)
 })
+
+test.todo('nested `text:center ${"block"}`')

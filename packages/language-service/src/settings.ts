@@ -31,7 +31,11 @@ const settings: Settings = {
         "[className]=": ["\"", "\""],
         "[ngClass]=": ["\"", "\""],
         // astro
-        "class:list=": ["{", "}"]
+        "class:list=": ["{", "}"],
+        // invoke
+        "clsx": ["(", ")"],
+        "styled": ["(", ")"],
+        "cva": ["(", ")"]
     },
     exclude: ["**/.git/**", "**/node_modules/**", "**/.hg/**"],
     suggestSyntax: true,

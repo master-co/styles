@@ -25,6 +25,7 @@
         "color-space": "^2.0.1",
         "culori": "^4.0.1",
         "js-beautify": "^1.15.1",
+        "lodash.escaperegexp": "^4.1.2",
         "minimatch": "^9.0.3",
         "pex-color": "^2.1.0",
         "vscode-css-languageservice": "^6.2.13",
@@ -32,12 +33,13 @@
         "vscode-languageserver-textdocument": "^1.0.11"
     },
     "devDependencies": {
-        "css-shared": "workspace:^",
         "@types/chroma-js": "^2.4.4",
         "@types/color-convert": "^2.0.3",
         "@types/color-rgba": "^2.1.2",
         "@types/culori": "^2.1.0",
+        "@types/lodash.escaperegexp": "^4.1.9",
         "@types/vscode": "^1.87.0",
+        "css-shared": "workspace:^",
         "vscode-languageserver": "^7.0.0"
     },
     "sideEffects": false,
