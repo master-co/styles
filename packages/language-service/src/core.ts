@@ -139,10 +139,30 @@ export default class CSSLanguageService extends EventEmitter {
                         token: ''
                     }
                 }
-                for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(['"`])([\s\S]*?)\1/g)) {
+
+                // 1. "
+                for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(?<!\\)"([\s\S]*?)(?<!\\)"/g)) {
                     if (classExpressionMatch.index === undefined) continue
-                    const eachClassName = classExpressionMatch[2]
-                    const classNameStart = eachAttrStart + classExpressionMatch.index + classExpressionMatch[1].length
+                    const eachClassName = classExpressionMatch[1]
+                    const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // " length
+                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
+                    if (classPosition) return classPosition
+                }
+
+                // 2. '
+                for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(?<!\\)'([\s\S]*?)(?<!\\)'/g)) {
+                    if (classExpressionMatch.index === undefined) continue
+                    const eachClassName = classExpressionMatch[1]
+                    const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // ' length
+                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
+                    if (classPosition) return classPosition
+                }
+
+                // 3. `
+                for (const classExpressionMatch of eachClassPositionExpression.matchAll(/(?<!\\)`([\s\S]*?)(?<!\\)`/g)) {
+                    if (classExpressionMatch.index === undefined) continue
+                    const eachClassName = classExpressionMatch[1]
+                    const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // ` length
                     const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
                     if (classPosition) return classPosition
                 }

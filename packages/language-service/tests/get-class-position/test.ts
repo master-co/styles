@@ -56,4 +56,8 @@ test('group syntax', () => {
     expectClassPosition(target, contents)
 })
 
-test.todo('nested `text:center ${"block"}`')
+test('nested strings and literals', () => {
+    const target = `content:\\'\\'`
+    const contents = [`export default () => <div className={'block `, target, `'}>hello world</div>`]
+    expectClassPosition(target, contents)
+})

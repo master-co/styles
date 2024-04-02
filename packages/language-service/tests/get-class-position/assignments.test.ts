@@ -12,3 +12,8 @@ test('styled', () => {
     expectClassPosition(target, contents, 'tsx')
 })
 
+// test('escaped single quotes', () => {
+//     const target = `content:\\'\\'`
+//     const contents = [`export default () => <div className={'block `, target, '}></div>']
+//     expectClassPosition(target, contents, 'tsx')
+// })

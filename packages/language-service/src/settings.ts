@@ -21,7 +21,8 @@ const settings: Settings = {
         ["class=", "\"", "\""],
         ["class=", "'", "'"],
         ["className=", "\"", "\""],
-        ["className=", "'", "'"]
+        ["className=", "'", "'"],
+        ["styled(?:\\s+)?(?:\\.\\w+)", "`", "`"]
     ],
     classAssignments: [
         // react
@@ -40,6 +41,7 @@ const settings: Settings = {
         // invoke
         ["clsx", "(", ")"],
         ["styled", "(", ")"],
+        ["styled(?:\\s+)?(?:\\.\\w+)", "(", ")"],
         ["cva", "(", ")"]
     ],
     exclude: ["**/.git/**", "**/node_modules/**", "**/.hg/**"],
