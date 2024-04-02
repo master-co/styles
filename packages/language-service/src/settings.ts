@@ -1,6 +1,10 @@
 /* eslint-disable quotes */
 import { Config } from '@master/css'
 
+/**
+ * @example styles https://regex101.com/r/HLPdsw/1
+ **/
+
 const settings: Settings = {
     includedLanguages: [
         "html",
@@ -18,31 +22,30 @@ const settings: Settings = {
         "astro"
     ],
     classStrings: [
-        ["class=", "\"", "\""],
-        ["class=", "'", "'"],
-        ["className=", "\"", "\""],
-        ["className=", "'", "'"],
-        ["styled(?:\\s+)?(?:\\.\\w+)", "`", "`"]
+        ["\\sclass=", "\"", "\""],
+        ["\\sclass=", "'", "'"],
+        ["\\sclassName=", "\"", "\""],
+        ["\\sclassName=", "'", "'"],
+        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "`", "`"],
+        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "\"", "\""],
+        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "'", "'"],
+        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "`", "`"]
     ],
     classAssignments: [
-        // react
-        ["className=", "{", "}"],
-        // vue
-        [":class=", "\"", "\""],
-        ["v-bind:class=", "\"", "\""],
-        // svelte
-        ["class=", "{", "}"],
-        // angular
-        ["[class]=", "\"", "\""],
-        ["[className]=", "\"", "\""],
-        ["[ngClass]=", "\"", "\""],
-        // astro
-        ["class:list=", "{", "}"],
-        // invoke
-        ["clsx", "(", ")"],
-        ["styled", "(", ")"],
-        ["styled(?:\\s+)?(?:\\.\\w+)", "(", ")"],
-        ["cva", "(", ")"]
+        ["\\sclassName=", "{", "}"],
+        ["\\sclass=", "{", "}"],
+        ["\\sclass:list=", "{", "}"],
+        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "{", "}"],
+        ["\\s:class=", "\"", "\""],
+        ["\\sv-bind:class=", "\"", "\""],
+        ["\\s[class]=", "\"", "\""],
+        ["\\s[className]=", "\"", "\""],
+        ["\\s[ngClass]=", "\"", "\""],
+        ["\\sclsx", "(", ")"],
+        ["\\scva", "(", ")"],
+        ["\\.class", "(", ")"],
+        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "(", ")"],
+        ["\\.classList(?:\\s+)?(?:\\.(add|remove|toggle|replace))", "(", ")"]
     ],
     exclude: ["**/.git/**", "**/node_modules/**", "**/.hg/**"],
     suggestSyntax: true,

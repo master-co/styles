@@ -16,9 +16,11 @@ export const hint = (target: string, settings: Settings = {}) => {
 
 it('types " should hint completions', () => expect(hint('')?.length).toBeGreaterThan(0))
 it('types   should hint completions', () => expect(hint('text:center ')?.length).toBeGreaterThan(0))
+
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)
 test.todo('animations')
+test.todo('types blue-4 would match blue-4, blue-40, blue-400')
 
 // enhanced
 

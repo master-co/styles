@@ -84,7 +84,7 @@ export default class CSSLanguageService extends EventEmitter {
             handle: (eachAttrStart: number, eachClassPositionEnd: number) => ClassPosition | undefined
         ) => {
             for (const [eachCondition, start, end] of conditions) {
-                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`\\s${eachCondition}${(escapeRegexp(start))}`, 'g'))) {
+                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`${eachCondition}${(escapeRegexp(start))}`, 'g'))) {
                     if (eachClassPostioinMatch.index === undefined) continue
                     const eachClassAttributeString = eachClassPostioinMatch[0]
                     const eachAttrStart = eachClassPostioinMatch.index + eachClassAttributeString.length
