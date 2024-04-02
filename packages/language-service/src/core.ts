@@ -146,7 +146,10 @@ export default class CSSLanguageService extends EventEmitter {
                     const eachClassName = classExpressionMatch[1]
                     const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // " length
                     const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                    if (classPosition) return classPosition
+                    if (classPosition) {
+                        classPosition.token = classPosition.token.replace(/\\"/g, '"')
+                        return classPosition
+                    }
                 }
 
                 // 2. '
@@ -155,7 +158,10 @@ export default class CSSLanguageService extends EventEmitter {
                     const eachClassName = classExpressionMatch[1]
                     const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // ' length
                     const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                    if (classPosition) return classPosition
+                    if (classPosition) {
+                        classPosition.token = classPosition.token.replace(/\\'/g, '\'')
+                        return classPosition
+                    }
                 }
 
                 // 3. `
@@ -164,7 +170,10 @@ export default class CSSLanguageService extends EventEmitter {
                     const eachClassName = classExpressionMatch[1]
                     const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // ` length
                     const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                    if (classPosition) return classPosition
+                    if (classPosition) {
+                        classPosition.token = classPosition.token.replace(/\\`/g, '`')
+                        return classPosition
+                    }
                 }
             })
             if (classPosition) return classPosition

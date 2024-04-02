@@ -4,6 +4,7 @@ import createDoc, { languageIdOfExt } from '../../src/utils/create-doc'
 
 export const expectClassPosition = (target: string, contents: string[], ext: keyof typeof languageIdOfExt = 'html', settings?: Settings) => {
     const doc = createDoc(ext, contents.join(''))
+
     const languageService = new CSSLanguageService()
     expect(languageService.getClassPosition(doc, doc.positionAt(contents[0].length + target.length))).toEqual({
         range: {
@@ -11,6 +12,9 @@ export const expectClassPosition = (target: string, contents: string[], ext: key
             end: contents[0].length + target.length
         },
         token: target
+            .replace(/\\"/g, '"')
+            .replace(/\\'/g, '\'')
+            .replace(/\\`/g, '`')
     })
 }
 
@@ -59,5 +63,5 @@ test('group syntax', () => {
 test('nested strings and literals', () => {
     const target = `content:\\'\\'`
     const contents = [`export default () => <div className={'block `, target, `'}>hello world</div>`]
-    expectClassPosition(target, contents)
+    expectClassPosition(target, contents, 'tsx')
 })
