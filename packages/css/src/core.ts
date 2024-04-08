@@ -67,22 +67,12 @@ export default class MasterCSS {
         }
 
         if (selectors) {
-            const resolvedSelectors = flattenObject(selectors)
-            for (const eachSelectorName in resolvedSelectors) {
-                const eachResolvedSelectorText = resolvedSelectors[eachSelectorName]
-                const regexp = new RegExp(escapeString(eachSelectorName) + '(?![a-z-])')
-                for (const eachNewSelectorText of Array.isArray(eachResolvedSelectorText) ? eachResolvedSelectorText : [eachResolvedSelectorText]) {
-                    const vendor = eachNewSelectorText.match(/^::-[a-z]+-/m)?.[0] ?? ''
-                    let selectorValues = this.selectors[vendor]
-                    if (!selectorValues) {
-                        selectorValues = this.selectors[vendor] = []
-                    }
-                    let currentSelectValue = selectorValues.find(([_valueRegexp]) => _valueRegexp === regexp)
-                    if (!currentSelectValue) {
-                        currentSelectValue = [regexp, []]
-                        selectorValues.push(currentSelectValue)
-                    }
-                    currentSelectValue[1].push(eachNewSelectorText)
+            for (const eachSelectorName in selectors) {
+                const eachSelectorValue = selectors[eachSelectorName]
+                if (Array.isArray(eachSelectorValue)) {
+                    this.selectors[eachSelectorName] = eachSelectorValue
+                } else {
+                    this.selectors[eachSelectorName] = [eachSelectorValue]
                 }
             }
         }
@@ -1223,7 +1213,7 @@ export default interface MasterCSS {
     readonly style: HTMLStyleElement
     styles: Record<string, string[]>
     stylesBy: Record<string, string[]>
-    selectors: Record<string, [RegExp, string[]][]>
+    selectors: Record<string, string[]>
     variables: Record<string, Variable>
     queries: Record<string, string | number>
     variablesNativeRules: Record<string, NativeRule>
