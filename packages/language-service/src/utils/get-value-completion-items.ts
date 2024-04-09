@@ -10,16 +10,16 @@ const AMBIGUOUS_PRIORITY = 'bbbb'
 const NATIVE_PRIORITY = 'ccccc'
 const GLOBAL_VARIABLE_PRIORITY = 'zzzz'
 
-export default function getValueCompletionItems(css: MasterCSS = new MasterCSS(), qKey: string, qValue: string): CompletionItem[] {
+export default function getValueCompletionItems(css: MasterCSS = new MasterCSS(), ruleKey: string): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
-    const nativeKey = css.Rules.find(({ keys }) => keys.includes(qKey))?.id
+    const nativeKey = css.Rules.find(({ keys }) => keys.includes(ruleKey))?.id
     const nativePropertyData = nativeProperties.find(({ name }) => name === nativeKey)
     const generateVariableCompletionItem = (variable: Variable, { scoped } = { scoped: false }): CompletionItem | undefined => {
         const eachNativePropertyData = nativeProperties.find((x: { name: string }) => x.name === variable.group) || nativePropertyData
         const appliedValue = scoped ? variable.key : variable.name
         const documentation = getCSSDataDocumentation(eachNativePropertyData, {
-            generatedCSS: generateCSS([qKey + ':' + appliedValue], css),
+            generatedCSS: generateCSS([ruleKey + ':' + appliedValue], css),
             docs: eachNativePropertyData?.name || 'variables'
         })
         if (variable.type === 'color') {
@@ -41,7 +41,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                     label: variable.name,
                     // detail is shown in the detail pane
                     // todo: variable.token should be recorded as original config variable
-                    detail: configKey,
+                    detail: String(configKey),
                     // documentation is shown in the hover
                     // todo: should convert and space to rgba
                     documentation: {
@@ -59,14 +59,14 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                 kind: CompletionItemKind.Value,
                 label: variable.name,
                 documentation,
-                detail: variable.name
+                detail: String(variable.value)
             }
         } else {
             return {
                 kind: CompletionItemKind.Value,
                 label: variable.name,
                 documentation,
-                detail: variable.value || variable.name
+                detail: String(variable.value || variable.name)
             }
         }
     }
@@ -76,7 +76,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
          * Scoped variables
          * @example box: + content -> box-sizing:content
          */
-        if (EachRule.definition.key === qKey || EachRule.definition.subkey === qKey || EachRule.definition.ambiguousKeys?.includes(qKey)) {
+        if (EachRule.definition.key === ruleKey || EachRule.definition.subkey === ruleKey || EachRule.definition.ambiguousKeys?.includes(ruleKey)) {
             for (const variableName in EachRule.variables) {
                 if (completionItems.find(({ label }) => label === variableName)) continue
                 const variable = EachRule.variables[variableName]
@@ -94,7 +94,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
          * @example text: -> center, left, right, justify
          * @example t: -> center, left, right, justify
          */
-        if (EachRule.definition.ambiguousKeys?.includes(qKey) && EachRule.definition.ambiguousValues?.length) {
+        if (EachRule.definition.ambiguousKeys?.includes(ruleKey) && EachRule.definition.ambiguousValues?.length) {
             const nativePropertyData = nativeProperties.find((x: { name: string }) => x.name === EachRule.id)
             for (const ambiguousValue of EachRule.definition.ambiguousValues) {
                 if (typeof ambiguousValue !== 'string') continue
@@ -109,7 +109,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                         // use nativePropertyData.reference because nativeValueData does not have references
                         references: nativePropertyData?.references
                     }, {
-                        generatedCSS: generateCSS([qKey + ':' + ambiguousValue], css),
+                        generatedCSS: generateCSS([ruleKey + ':' + ambiguousValue], css),
                         docs: isCoreRule(EachRule.id) && EachRule.id
                     }),
                     detail: isNative ? EachRule.id + ': ' + ambiguousValue : ambiguousValue
@@ -141,7 +141,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                         // use nativePropertyData.reference because nativeValueData does not have references
                         references: nativePropertyData?.references
                     }, {
-                        generatedCSS: generateCSS([qKey + ':' + value.name], css),
+                        generatedCSS: generateCSS([ruleKey + ':' + value.name], css),
                         docs: nativeKey
                     }),
                     detail: nativeKey + ': ' + value.name
