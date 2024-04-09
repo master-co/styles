@@ -251,15 +251,7 @@ export class Rule {
                         })
                     } else {
                         const analyzeToken = (atComponentToken: string) => {
-                            if (
-                                atComponentToken === 'all'
-                                || atComponentToken === 'print'
-                                || atComponentToken === 'screen'
-                                || atComponentToken === 'speech'
-                            ) {
-                                queryType = 'media'
-                                atComponents.push({ type: 'media-type', token: atComponentToken, value: atComponentToken })
-                            } else if (atComponentToken === '&') {
+                            if (atComponentToken === '&') {
                                 atComponents.push({ type: 'operator', token: atComponentToken, value: 'and' })
                             } else if (atComponentToken.startsWith('')) {
                                 const targetQuery = queries[atComponentToken]
@@ -479,8 +471,6 @@ export class Rule {
     resolveAtComponent(atComponent: AtComponent) {
         switch (atComponent.type) {
             case 'arbitrary':
-                return atComponent.value
-            case 'media-type':
                 return atComponent.value
             case 'feature':
                 return '(' + atComponent.name + ':' + atComponent.value + (atComponent.unit || '') + ')'
@@ -809,12 +799,10 @@ export class Rule {
 
 export type AtComponent =
     AtArbitraryComponent |
-    AtMediaTypeComponent |
     AtFeatureComponent |
     AtOperatorComponent
 
 export interface AtArbitraryComponent { type: 'arbitrary', token?: string, value: string }
-export interface AtMediaTypeComponent { type: 'media-type', token?: string, value: 'all' | 'print' | 'screen' | 'speech' }
 export interface AtFeatureComponent { type: 'feature', token?: string, name: string, valueType: 'number' | 'string', value: string | number, unit?: string }
 export interface AtOperatorComponent { type: 'operator', token: '&', value: 'and' } // future: 'or'
 

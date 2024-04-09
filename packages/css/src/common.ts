@@ -8,6 +8,8 @@ export const BASE_UNIT_REGEX = /^([+-]?(?:\d+(?:\.?\d+)?|\.\d+))x$/m // 1x, 1.1x
 export const TRANSITION_SIGN = '~'
 export const ANIMATION_SIGN = '@'
 export const SELECTOR_SIGNS = [':', '_', '>', '+', '~']
+export const QUERY_COMPARISON_OPERATORS = ['>', '<', '=']
+export const QUERY_LOGICAL_OPERATORS = ['&']
 export const SEPARATOR_SIGNS = [',', '|']
 export const DELIMITER_SIGN = '|'
 export const SEPARATOR_SIGN = ','
@@ -17,3 +19,4 @@ export const UNIT_REGEX = /^([+-.]?\d+(\.?\d+)?)(%|cm|mm|q|in|pt|pc|px|em|rem|ex
 export const IMAGE_VALUE_REGEX = /(?:url|linear-gradient|radial-gradient|repeating-linear-gradient|repeating-radial-gradient|conic-gradient)\(.*\)/
 export const COLOR_VALUE_REGEX = /(?:#|(?:color|color-contrast|color-mix|hwb|lab|lch|oklab|oklch|rgb|rgba|hsl|hsla)\\(.*\\)|(?:\$colors)(?![a-zA-Z0-9-]))/
 export const NUMBER_VALUE_REGEX = /(?:[\d.]|(?:max|min|calc|clamp)\(.*\))/
+export const OFFICIAL_URL = new URL('https://rc.css.master.co')
