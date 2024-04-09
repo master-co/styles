@@ -5,16 +5,19 @@ import createDoc, { languageIdOfExt } from '../../src/utils/create-doc'
 export const expectClassPosition = (target: string, contents: string[], ext: keyof typeof languageIdOfExt = 'html', settings?: Settings) => {
     const doc = createDoc(ext, contents.join(''))
     const languageService = new CSSLanguageService(settings)
-    expect(languageService.getClassPosition(doc, doc.positionAt(contents[0].length + target.length))).toEqual({
+    const classPosition = languageService.getClassPosition(doc, doc.positionAt(contents[0].length + target.length))
+    expect(classPosition).toEqual({
         range: {
             start: contents[0].length,
             end: contents[0].length + target.length
         },
+        raw: target,
         token: target
-            .replace(/\\"/g, '"')
-            .replace(/\\'/g, '\'')
-            .replace(/\\`/g, '`')
+            .replace(/\\\\"/g, '"')
+            .replace(/\\\\'/g, '\'')
+            .replace(/\\\\`/g, '`')
     })
+    return classPosition
 }
 
 test('empty class with single quotes', () => {

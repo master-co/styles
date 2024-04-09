@@ -1,6 +1,7 @@
 
+import { OFFICIAL_URL } from '@master/css'
 import { ESLintUtils } from '@typescript-eslint/utils'
 
 export default ESLintUtils.RuleCreator(
-    (name) => 'https://rc.css.master.co/docs/code-linting#' + name
+    (name) => new URL(`/docs/code-linting#${name}`, OFFICIAL_URL).href
 )

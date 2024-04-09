@@ -7,6 +7,8 @@ test.todo('convert any color spaces to RGB and hint correctly')
 it('should ignore values containing blanks', () => expect(hint('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
 it('types | delimiter', () => expect(hint('b:1|')?.map(({ label }) => label)).toContain('solid'))
 it('types , separator', () => expect(hint('s:1|1|2|black,')?.map(({ label }) => label)).toContain('inset'))
+it('ends with @ and not to hint values', () => expect(hint('text:center@')?.map(({ label }) => label)).not.toContain('center'))
+it('ends with : and not to hint values', () => expect(hint('text:center:')?.map(({ label }) => label)).not.toContain('center'))
 
 describe('scope variables', () => {
     test('font:semibold', () => expect(hint('font:')?.map(({ label }) => label)).toContain('semibold'))
@@ -202,4 +204,8 @@ describe('sorting', () => {
             'yellow-95',
         ])
     })
+})
+
+describe('functions', () => {
+    test.todo('fucntions')
 })

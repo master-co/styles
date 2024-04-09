@@ -1,14 +1,107 @@
+import dedent from 'ts-dedent'
 import { hint } from './test'
 
-test(':', () => expect(hint('text:center:')?.[0]).toMatchObject({ insertText: 'active' }))
-test('::', () => expect(hint('text:center::')?.[0]).toMatchObject({ insertText: 'after' }))
-// test('with utility', () => expect(hint('block:')?.[0]).toMatchObject({ insertText: 'after' }))
+describe('pseudo-class', () => {
+    test(':', () => expect(hint('text:center:')?.map(({ label }) => label)).toContain(':active'))
+    test('two', () => expect(hint('text:center:hover:')?.map(({ label }) => label)).toContain(':active'))
+    test('utility', () => expect(hint('block:')?.map(({ label }) => label)).toContain(':active'))
+    it('should take into account trigger character :', () => expect(hint('text:center:')?.find(({ label }) => label === ':active')).toMatchObject({ insertText: 'active' }))
+    it('should take into account trigger character +', () => expect(hint('text:center+')?.find(({ label }) => label === ':active')?.insertText).toBeUndefined())
+    test('info', () => expect(hint('block:')?.find(({ label }) => label === ':first')).toEqual({
+        'data': {
+            'browsers': [
+                'E12',
+                'FF3',
+                'S3.1',
+                'C4',
+                'IE7',
+                'O9.5',
+            ],
+            'description': 'Same as :nth-child(1). Represents an element that is the first child of some other element.',
+            'name': ':first-child',
+            'references': [
+                {
+                    'name': 'MDN Reference',
+                    'url': 'https://developer.mozilla.org/docs/Web/CSS/:first-child',
+                },
+            ],
+        },
+        'detail': ':first-child',
+        'documentation': {
+            'kind': 'markdown',
+            'value': dedent`
+                \`\`\`css
+                .block\\:first:first-child {
+                  display: block
+                }
+                \`\`\`
+
+                Same as :nth\\-child\\(1\\)\\. Represents an element that is the first child of some other element\\.
+
+                (Edge 12, Firefox 3, Safari 3, Chrome 4, IE 7, Opera 9)
+
+                [Master CSS](https://rc.css.master.co/docs/selectors) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/:first-child)
+            `,
+        },
+        'insertText': 'first',
+        'kind': 3,
+        'label': ':first',
+        'sortText': 'yyfirst',
+    }))
+})
+
+describe('pseudo-element', () => {
+    test('::', () => expect(hint('text:center::')?.map(({ label }) => label)).toContain('::after'))
+    test('two', () => expect(hint('text:center::after::')?.map(({ label }) => label)).toContain('::after'))
+    test('utility', () => expect(hint('block::')?.map(({ label }) => label)).toContain('::after'))
+    it('should take into account trigger character :', () => expect(hint('text:center:')?.find(({ label }) => label === '::after')).toMatchObject({ insertText: ':after' }))
+    it('should take into account trigger character ::', () => expect(hint('text:center::')?.find(({ label }) => label === '::after')).toMatchObject({ insertText: 'after' }))
+    it('should take into account trigger character +', () => expect(hint('text:center+')?.find(({ label }) => label === '::after')?.insertText).toBeUndefined())
+    test('info', () => expect(hint('block::')?.find(({ label }) => label === '::placeholder')).toEqual({
+        'data': {
+            'browsers': [
+                'E79',
+                'FF51',
+                'S10.1',
+                'C57',
+                'O44',
+            ],
+            'description': 'The ::placeholder CSS pseudo-element represents the placeholder text of a form element.',
+            'name': '::placeholder',
+            'references': [
+                {
+                    'name': 'MDN Reference',
+                    'url': 'https://developer.mozilla.org/docs/Web/CSS/::placeholder',
+                },
+            ],
+        },
+        'documentation': {
+            'kind': 'markdown',
+            'value': dedent`\`\`\`css
+                .block\\:\\:placeholder::placeholder {
+                  display: block
+                }
+                \`\`\`
+
+                The ::placeholder CSS pseudo\\-element represents the placeholder text of a form element\\.
+
+                (Edge 79, Firefox 51, Safari 10, Chrome 57, Opera 44)
+
+                [Master CSS](https://rc.css.master.co/docs/selectors) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/::placeholder)
+         `,
+        },
+        'insertText': 'placeholder',
+        'kind': 3,
+        'label': '::placeholder',
+        'sortText': 'zzplaceholder',
+    }))
+})
 
 describe('sorting', () => {
     expect(hint('text:center:')?.map(({ label }) => label)).toEqual([
         ':active',
         ':any-link',
-        ':blank',
+        // ':blank',
         ':checked',
         ':corner-present',
         ':current',
@@ -20,6 +113,7 @@ describe('sorting', () => {
         ':empty',
         ':enabled',
         ':end',
+        ':even',
         ':first',
         ':first-child',
         ':first-of-type',
@@ -35,12 +129,15 @@ describe('sorting', () => {
         ':increment',
         ':indeterminate',
         ':invalid',
+        ':last',
         ':last-child',
         ':last-of-type',
-        ':left',
+        // ':left',
         ':link',
         ':local-link',
         ':no-button',
+        ':odd',
+        ':only',
         ':only-child',
         ':only-of-type',
         ':optional',
@@ -53,7 +150,7 @@ describe('sorting', () => {
         ':read-only',
         ':read-write',
         ':required',
-        ':right',
+        // ':right',
         ':root',
         ':scope',
         ':single-button',
@@ -78,6 +175,7 @@ describe('sorting', () => {
         ':nth-last-child()',
         ':nth-last-of-type()',
         ':nth-of-type()',
+        ':nth()',
         ':where()',
         ':-moz-any-link',
         ':-moz-broken',
@@ -113,8 +211,18 @@ describe('sorting', () => {
         '::grammar-error',
         '::marker',
         '::placeholder',
+        '::progress',
+        '::resizer',
+        '::scrollbar',
+        '::scrollbar-button',
+        '::scrollbar-corner',
+        '::scrollbar-thumb',
+        '::scrollbar-track',
+        '::scrollbar-track-piece',
         '::selection',
         '::shadow',
+        '::slider-runnable-track',
+        '::slider-thumb',
         '::spelling-error',
         '::target-text',
         '::view-transition',
@@ -186,3 +294,5 @@ describe('sorting', () => {
         '::-webkit-validation-bubble-text-block',
     ])
 })
+
+test.todo('types _ should hint')
