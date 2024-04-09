@@ -13,7 +13,7 @@ import { TextDocument } from 'vscode-languageserver-textdocument'
 import findMatchingPairs from './utils/find-matching-brackets'
 import escapeRegexp from 'lodash.escaperegexp'
 
-export type ClassPosition = { range: { start: number, end: number }, token: string }
+export type ClassPosition = { range: { start: number, end: number }, raw: string, token: string }
 
 export default class CSSLanguageService extends EventEmitter {
     css: MasterCSS
@@ -54,7 +54,7 @@ export default class CSSLanguageService extends EventEmitter {
         const text = textDocument.getText().substring(startIndex, endIndex)
         const lang = textDocument.languageId
         const { classAssignments, classStrings } = this.settings
-        const normalizeClassNamePosition = (className: string, attrStart: number) => {
+        const normalizeClassNamePosition = (className: string, attrStart: number, escapeCharacter: string) => {
             /**
              * Matching classes, including empty string after white space
              * @example <div class="class-a class-b "></div>
@@ -62,17 +62,19 @@ export default class CSSLanguageService extends EventEmitter {
              */
             for (const eachClassMatch of className.matchAll(/(?:[^\s]+)?/g)) {
                 if (eachClassMatch.index === undefined) continue
-                const token = eachClassMatch[0]
+                const raw = eachClassMatch[0]
                 const classStartIndex = attrStart + eachClassMatch.index
-                const classEndIndex = classStartIndex + token.length
+                const classEndIndex = classStartIndex + raw.length
                 if (classStartIndex <= positionIndex - startIndex && positionIndex - startIndex <= classEndIndex) {
                     return {
                         range: { start: classStartIndex, end: startIndex + classEndIndex },
-                        token
+                        raw,
+                        token: raw.replace(new RegExp('\\' + escapeCharacter, 'g'), escapeCharacter)
                     }
                 } else if (attrStart === classEndIndex) {
                     return {
                         range: { start: attrStart, end: attrStart },
+                        raw: '',
                         token: ''
                     }
                 }
@@ -80,18 +82,21 @@ export default class CSSLanguageService extends EventEmitter {
         }
 
         const resolve = (
-            conditions: [string, string, string][],
-            handle: (eachAttrStart: number, eachClassPositionEnd: number) => ClassPosition | undefined
+            classMatchers: [string, string, string?][],
+            handle: (eachAttrStart: number, eachClassPositionEnd: number, eachClassMatcher: [string, string, string?]) => ClassPosition | undefined
         ) => {
-            for (const [eachCondition, start, end] of conditions) {
-                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`${eachCondition}${(escapeRegexp(start))}`, 'g'))) {
+            for (const eachClassMatcher of classMatchers) {
+                // eslint-disable-next-line prefer-const
+                let [eachPattern, start, end] = eachClassMatcher
+                end = end ?? start
+                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`${eachPattern}${(escapeRegexp(start))}`, 'g'))) {
                     if (eachClassPostioinMatch.index === undefined) continue
                     const eachClassAttributeString = eachClassPostioinMatch[0]
                     const eachAttrStart = eachClassPostioinMatch.index + eachClassAttributeString.length
                     const eachClassPositionEnd = findMatchingPairs(text, eachAttrStart, start, end)
                     if (!eachClassPositionEnd) continue
                     if ((eachAttrStart <= (positionIndex - startIndex) && eachClassPositionEnd >= (positionIndex - startIndex)) === true) {
-                        const classPosition = handle(eachAttrStart, eachClassPositionEnd)
+                        const classPosition = handle(eachAttrStart, eachClassPositionEnd, eachClassMatcher)
                         if (classPosition) return classPosition
                     } else if (eachClassPostioinMatch.index > (positionIndex - startIndex)) {
                         break
@@ -104,7 +109,7 @@ export default class CSSLanguageService extends EventEmitter {
          * @example <div class=""></div>
          * */
         if (classStrings?.length) {
-            const classPosition = resolve(classStrings, (eachAttrStart, eachClassPositionEnd) => {
+            const classPosition = resolve(classStrings, (eachAttrStart, eachClassPositionEnd, [eachPattern, pair]) => {
                 const eachClassName = text.substring(eachAttrStart, eachClassPositionEnd)
                 /**
                  * @example <div class=""></div>
@@ -112,11 +117,12 @@ export default class CSSLanguageService extends EventEmitter {
                 if (eachClassName === undefined) {
                     return {
                         range: { start: eachAttrStart, end: eachAttrStart },
-                        token: ''
+                        token: '',
+                        raw: ''
                     }
                 }
                 const classNameStart = eachAttrStart
-                const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
+                const classPosition = normalizeClassNamePosition(eachClassName, classNameStart, pair)
                 if (classPosition) return classPosition
             })
             if (classPosition) return classPosition
@@ -128,7 +134,7 @@ export default class CSSLanguageService extends EventEmitter {
          * @example <div :class="isActive ? 'block' : 'hidden'"></div>
          * */
         if (classAssignments?.length) {
-            const classPosition = resolve(classAssignments, (eachAttrStart, eachClassPositionEnd) => {
+            const classPosition = resolve(classAssignments, (eachAttrStart, eachClassPositionEnd, eachClassMatcher) => {
                 const eachClassPositionExpression = text.substring(eachAttrStart, eachClassPositionEnd)
                 /**
                  * @example <div className={""}></div>
@@ -136,6 +142,7 @@ export default class CSSLanguageService extends EventEmitter {
                 if (['""', '\'\'', '``'].includes(eachClassPositionExpression)) {
                     return {
                         range: { start: eachAttrStart + 1, end: eachAttrStart + 1 },
+                        raw: '',
                         token: ''
                     }
                 }
@@ -145,11 +152,8 @@ export default class CSSLanguageService extends EventEmitter {
                     if (classExpressionMatch.index === undefined) continue
                     const eachClassName = classExpressionMatch[1]
                     const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // " length
-                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                    if (classPosition) {
-                        classPosition.token = classPosition.token.replace(/\\"/g, '"')
-                        return classPosition
-                    }
+                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart, '"')
+                    if (classPosition) return classPosition
                 }
 
                 // 2. '
@@ -157,11 +161,8 @@ export default class CSSLanguageService extends EventEmitter {
                     if (classExpressionMatch.index === undefined) continue
                     const eachClassName = classExpressionMatch[1]
                     const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // ' length
-                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                    if (classPosition) {
-                        classPosition.token = classPosition.token.replace(/\\'/g, '\'')
-                        return classPosition
-                    }
+                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart, '\'')
+                    if (classPosition) return classPosition
                 }
 
                 // 3. `
@@ -169,11 +170,8 @@ export default class CSSLanguageService extends EventEmitter {
                     if (classExpressionMatch.index === undefined) continue
                     const eachClassName = classExpressionMatch[1]
                     const classNameStart = eachAttrStart + classExpressionMatch.index + 1 // ` length
-                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart)
-                    if (classPosition) {
-                        classPosition.token = classPosition.token.replace(/\\`/g, '`')
-                        return classPosition
-                    }
+                    const classPosition = normalizeClassNamePosition(eachClassName, classNameStart, '`')
+                    if (classPosition) return classPosition
                 }
             })
             if (classPosition) return classPosition

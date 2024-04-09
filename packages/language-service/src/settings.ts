@@ -22,14 +22,14 @@ const settings: Settings = {
         "astro"
     ],
     classStrings: [
-        ["\\sclass=", "\"", "\""],
-        ["\\sclass=", "'", "'"],
-        ["\\sclassName=", "\"", "\""],
-        ["\\sclassName=", "'", "'"],
-        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "`", "`"],
-        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "\"", "\""],
-        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "'", "'"],
-        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "`", "`"]
+        ["\\sclass=", "\""],
+        ["\\sclass=", "'"],
+        ["\\sclassName=", "\""],
+        ["\\sclassName=", "'"],
+        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "`"],
+        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "\""],
+        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "'"],
+        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "`"]
     ],
     classAssignments: [
         ["\\sclassName=", "{", "}"],
@@ -58,7 +58,7 @@ export default settings
 
 export declare type Settings = {
     includedLanguages?: string[]
-    classStrings?: [string, string, string][]
+    classStrings?: [string, string][]
     classAssignments?: [string, string, string][]
     exclude?: string[]
     config?: Config

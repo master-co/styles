@@ -7,18 +7,18 @@ import cssDataProvider from '../utils/css-data-provider'
 import beautifyCSS from '../utils/beautify-css'
 
 export default function inspectSyntax(this: CSSLanguageService, document: TextDocument, position: HoverParams['position']): Hover | undefined {
-    const checkResult = this.getClassPosition(document, position)
-    if (!checkResult) return
-    const syntax = checkResult.token
+    const classPosition = this.getClassPosition(document, position)
+    if (!classPosition) return
+    const { token } = classPosition
     const range: Range = {
-        start: document.positionAt(checkResult.range.start),
-        end: document.positionAt(checkResult.range.end)
+        start: document.positionAt(classPosition.range.start),
+        end: document.positionAt(classPosition.range.end)
     }
-    const rules = this.css.generate(syntax)
+    const rules = this.css.generate(token)
     const rule = rules[0]
     const contents = []
     if (rule) {
-        const text = generateCSS([syntax], this.css)
+        const text = generateCSS([token], this.css)
         if (text)
             /* preview the generated css */
             contents.push({
