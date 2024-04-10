@@ -5,8 +5,32 @@ import { getCSSDataDocumentation } from './get-css-data-documentation'
 import cssDataProvider from './css-data-provider'
 
 export default function getQueryCompletionItems(css: MasterCSS = new MasterCSS(), triggerCharacter = AT_SIGN, syntax: string): CompletionItem[] {
-    // const atDataList = cssDataProvider.provideAtDirectives()
+    const atDataList = cssDataProvider.provideAtDirectives()
     const completionItems: CompletionItem[] = []
+    if (!QUERY_COMPARISON_OPERATORS.includes(triggerCharacter)) {
+        completionItems.push(
+            {
+                label: triggerCharacter + 'media()',
+                filterText: 'media()',
+                insertText: 'media()',
+                sortText: 'media()',
+                documentation: getCSSDataDocumentation(atDataList.find(({ name }) => name === '@media'), {
+                    generatedCSS: generateCSS([syntax + 'media()'], css),
+                    docs: 'queries'
+                }),
+            },
+            {
+                label: triggerCharacter + 'supports()',
+                filterText: 'supports()',
+                insertText: 'supports()',
+                sortText: 'supports()',
+                documentation: getCSSDataDocumentation(atDataList.find(({ name }) => name === '@supports'), {
+                    generatedCSS: generateCSS([syntax + 'supports()'], css),
+                    docs: 'queries'
+                }),
+            }
+        )
+    }
     Object.entries(css.queries)
         .forEach(([name, value]) => {
             const completionItem: Omit<CompletionItem, 'label'> = {
@@ -33,13 +57,15 @@ export default function getQueryCompletionItems(css: MasterCSS = new MasterCSS()
                         kind: CompletionItemKind.Keyword
                     })
                 } else {
-                    completionItems.push({
-                        ...completionItem,
-                        label: triggerCharacter + name,
-                        detail: value,
-                        sortText: name,
-                        kind: CompletionItemKind.Keyword,
-                    })
+                    completionItems.push(
+                        {
+                            ...completionItem,
+                            label: triggerCharacter + name,
+                            detail: value,
+                            sortText: name,
+                            kind: CompletionItemKind.Keyword,
+                        }
+                    )
                 }
             } else if (QUERY_COMPARISON_OPERATORS.includes(triggerCharacter)) {
                 if (typeof value === 'number') {

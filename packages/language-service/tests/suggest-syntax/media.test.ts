@@ -22,12 +22,14 @@ describe('sorting', () => {
         '@4xl',
         '@all',
         '@landscape',
+        '@media()',
         '@motion',
         '@portrait',
         '@print',
         '@reduced-motion',
         '@screen',
         '@speech',
+        '@supports()',
     ]))
     test('@>', () => expect(hint('hidden@>')?.map(({ label }) => label)).toEqual([
         '>4xs',
