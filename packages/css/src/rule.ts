@@ -18,7 +18,7 @@ export class Rule {
 
     constructor(
         public readonly className: string,
-        RegisteredRule: RegisteredRule,
+        public readonly RegisteredRule: RegisteredRule,
         public css: MasterCSS
     ) {
         Object.assign(this, RegisteredRule)

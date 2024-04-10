@@ -3,24 +3,28 @@ import getRange from '../src/utils/get-range'
 import createDoc from '../src/utils/create-doc'
 import { Position } from 'vscode-languageserver-textdocument'
 import dedent from 'ts-dedent'
+import { Settings } from '../src'
 
-test('generated CSS', async () => {
-    const target = 'text:center'
+export const inspect = (target: string, settings: Settings = {}) => {
     const content = `export default () => <div className='${target}'></div>`
     const doc = createDoc('tsx', content)
     const range = getRange(target, doc)
-    const languageService = new CSSLanguageService()
-    const hover = await languageService.inspectSyntax(doc, range?.start as Position)
-    expect(hover?.contents).toStrictEqual([
-        {
-            language: 'css',
-            value: dedent`
-                .text\\:center {
-                  text-align: center
-                }
-            `
-        },
-        dedent`
+    const languageService = new CSSLanguageService(settings)
+    return languageService.inspectSyntax(doc, range?.start as Position)
+}
+
+test('text:center', async () => {
+    const target = 'text:center'
+    const hover = inspect(target)
+    expect(hover?.contents).toEqual({
+        'kind': 'markdown',
+        'value': dedent`
+            \`\`\`css
+            .text\\:center {
+              text-align: center
+            }
+            \`\`\`
+
             Describes how inline contents of a block are horizontally aligned if the contents do not completely fill the line box\\.
 
             (Edge 12, Firefox 1, Safari 1, Chrome 1, IE 3, Opera 3)
@@ -29,9 +33,24 @@ test('generated CSS', async () => {
 
             [Master CSS](https://rc.css.master.co/docs/text-align) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/text-align)
         `
-    ])
-    expect(hover?.range).toStrictEqual(range)
+    })
 })
 
-// todo: share with the getMainClassPosition.ts logic
-test.todo('get CSS data by utility')
+test('hidden', async () => {
+    const target = 'hidden'
+    const hover = inspect(target)
+    expect(hover?.contents).toEqual({
+        'kind': 'markdown',
+        'value': dedent`
+            \`\`\`css
+            .hidden {
+              display: none
+            }
+            \`\`\`
+
+            The element and its descendants generates no boxes\\.
+
+            [Master CSS](https://rc.css.master.co/docs/display)
+        `
+    })
+})

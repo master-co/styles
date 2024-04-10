@@ -15,7 +15,7 @@ test('info', () => expect(hint('b')?.find(({ label }) => label === 'block')).toM
 
             The element generates a block\\-level box
 
-            [Master CSS](https://rc.css.master.co/docs/utilities)
+            [Master CSS](https://rc.css.master.co/docs/display)
         `
     }
 }))

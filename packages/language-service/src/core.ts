@@ -52,7 +52,6 @@ export default class CSSLanguageService extends EventEmitter {
         const startIndex = textDocument.offsetAt({ line: position.line - 100, character: 0 }) ?? 0
         const endIndex = textDocument.offsetAt({ line: position.line + 100, character: 0 }) ?? undefined
         const text = textDocument.getText().substring(startIndex, endIndex)
-        const lang = textDocument.languageId
         const { classAssignments, classStrings } = this.settings
         const normalizeClassNamePosition = (className: string, attrStart: number, escapeCharacter: string) => {
             /**

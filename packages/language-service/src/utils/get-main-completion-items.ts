@@ -1,45 +1,58 @@
 import { type CompletionItem, CompletionItemKind } from 'vscode-languageserver-protocol'
-import cssDataProvider from './css-data-provider'
 import { Layer, MasterCSS, generateCSS, isCoreRule } from '@master/css'
 import { getCSSDataDocumentation } from './get-css-data-documentation'
-import type { IPropertyData, IValueData } from 'vscode-css-languageservice'
 import sortCompletionItems from './sort-completion-items'
+import getUtilityInfo from './get-utility-info'
+import cssDataProvider from './css-data-provider'
 
 export default function getMainCompletionItems(css: MasterCSS = new MasterCSS()): CompletionItem[] {
-    const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
     const addedKeys = new Set<string>()
-
     for (const EachRule of css.Rules) {
-        if (EachRule.definition.layer === Layer.Utility) continue
-        const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === EachRule.id)
-        const eachCompletionItem = {
-            kind: CompletionItemKind.Property,
-            documentation: getCSSDataDocumentation(nativeCSSPropertyData, { docs: isCoreRule(EachRule.id) && EachRule.id }),
-            detail: nativeCSSPropertyData?.syntax,
-            command: {
-                title: 'triggerSuggest',
-                command: 'editor.action.triggerSuggest'
-            }
-        }
-        EachRule.keys.forEach(key => {
-            addedKeys.delete(key)
+        if (EachRule.definition.layer === Layer.Utility) {
+            const { data, detail, docs } = getUtilityInfo(EachRule, css)
+            const utilityName = EachRule.id.slice(1)
             completionItems.push({
-                ...eachCompletionItem,
-                label: key + ':',
-                sortText: key
+                label: utilityName,
+                kind: CompletionItemKind.Value,
+                documentation: getCSSDataDocumentation(data, {
+                    generatedCSS: generateCSS([utilityName], css),
+                    docs
+                }),
+                detail
             })
-        })
-        if (EachRule.definition?.ambiguousKeys?.length) {
-            for (const ambiguousKey of EachRule.definition.ambiguousKeys) {
-                if (addedKeys.has(ambiguousKey)) {
-                    continue
+        } else {
+            const nativeProperties = cssDataProvider.provideProperties()
+            const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === EachRule.id)
+            const eachCompletionItem = {
+                kind: CompletionItemKind.Property,
+                command: {
+                    title: 'triggerSuggest',
+                    command: 'editor.action.triggerSuggest'
+                },
+                documentation: getCSSDataDocumentation(nativeCSSPropertyData, {
+                    docs: isCoreRule(EachRule.id) && EachRule.id
+                }),
+                detail: nativeCSSPropertyData?.syntax,
+            }
+            EachRule.keys.forEach(key => {
+                addedKeys.delete(key)
+                completionItems.push({
+                    ...eachCompletionItem,
+                    label: key + ':',
+                    sortText: key
+                })
+            })
+            if (EachRule.definition?.ambiguousKeys?.length) {
+                for (const ambiguousKey of EachRule.definition.ambiguousKeys) {
+                    if (addedKeys.has(ambiguousKey)) {
+                        continue
+                    }
+                    addedKeys.add(ambiguousKey)
                 }
-                addedKeys.add(ambiguousKey)
             }
         }
     }
-
     addedKeys.forEach(ambiguousKey => {
         /**
          * Ambiguous keys are added to the completion list
@@ -56,43 +69,6 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             }
         })
     })
-
-    if (css.config.utilities) {
-        for (const utilityName in css.config.utilities) {
-            const declarations = css.config.utilities[utilityName]
-            const propsLength = Object.keys(declarations).length
-            const propName = Object.keys(declarations)[0] as keyof typeof declarations
-            const propValue = declarations[propName]
-            let nativeCSSData: IPropertyData | IValueData | undefined
-            let detail: string | undefined
-            /**
-             * Remaps to native CSS properties when only one property is declared
-             * */
-            if (propsLength === 1) {
-                const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === propName)
-                if (utilityName === propValue) {
-                    nativeCSSData = nativeCSSPropertyData?.values?.find(({ name }) =>
-                        name === propValue
-                        // fix like inline-grid not found
-                        || name.replace(/^-(ms|moz)-/, '') === propValue
-                    )
-                    detail = `${propName}: ${propValue}`
-                } else {
-                    nativeCSSData = nativeCSSPropertyData
-                    detail = nativeCSSPropertyData?.syntax
-                }
-            }
-            completionItems.push({
-                label: utilityName,
-                kind: CompletionItemKind.Value,
-                documentation: getCSSDataDocumentation(nativeCSSData, {
-                    generatedCSS: generateCSS([utilityName], css),
-                    docs: 'utilities'
-                }),
-                detail,
-            })
-        }
-    }
     if (css.config.styles) {
         for (const styleName in css.config.styles) {
             const styleClasses = css.styles[styleName]

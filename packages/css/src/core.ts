@@ -348,16 +348,11 @@ export default class MasterCSS {
                     }
                     this.Rules.push(EachRule)
                     const { matcher, layer, subkey, ambiguousKeys, ambiguousValues } = eachRuleDefinition
-                    let { key } = eachRuleDefinition
                     if (layer === Layer.Utility) {
                         EachRule.id = '.' + id
                         EachRule.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
                     }
-                    const keys = []
-                    if (layer === Layer.NativeShorthand || layer === Layer.Native) {
-                        if (!key) eachRuleDefinition.key = key = id
-                        keys.push(id)
-                    }
+
                     // todo: 不可使用 startsWith 判斷，應改為更精準的從 config.variables 取得目標變數群組，但 config.variables 中的值還沒被 resolve 像是 Array
                     const addResolvedVariables = (groupName: string) => {
                         for (const eachVariableName in this.variables) {
@@ -377,7 +372,12 @@ export default class MasterCSS {
 
                     // 2. custom `config.variables`
                     addResolvedVariables(id)
-
+                    const keys = []
+                    let { key } = eachRuleDefinition
+                    if (layer === Layer.NativeShorthand || layer === Layer.Native) {
+                        if (!key) eachRuleDefinition.key = key = id
+                        keys.push(id)
+                    }
                     const colorsPatten = colorNames.join('|')
                     if (!matcher) {
                         if (!key && !subkey) {
@@ -476,9 +476,9 @@ export default class MasterCSS {
     create(syntax: string) {
         if (Object.prototype.hasOwnProperty.call(this.ruleBy, syntax))
             return this.ruleBy[syntax]
-        const RegistedRule = this.match(syntax)
-        if (RegistedRule) {
-            return new Rule(syntax, RegistedRule, this)
+        const RegisteredRule = this.match(syntax)
+        if (RegisteredRule) {
+            return new Rule(syntax, RegisteredRule, this)
         }
     }
 
