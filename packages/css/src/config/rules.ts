@@ -566,7 +566,7 @@ const rules = {
     } as RuleDefinition,
     'text-underline-position': {
         ambiguousKeys: ['text-underline'],
-        ambiguousValues:['front-font', 'under', 'left', 'right'],
+        ambiguousValues: ['front-font', 'under', 'left', 'right'],
         layer: Layer.Native
     } as RuleDefinition,
     'text-overflow': {
@@ -856,7 +856,7 @@ const rules = {
         unit: 'ms'
     } as RuleDefinition,
     transition: {
-        matcher: /^~[^!*>+~:[@_]+\|/,
+        sign: '~',
         analyze(className: string) {
             if (className.startsWith('~')) {
                 return [className.slice(1)]
@@ -892,7 +892,8 @@ const rules = {
     } as RuleDefinition,
     'animation-name': {
         key: '@name',
-        layer: Layer.Native
+        layer: Layer.Native,
+        includeAnimations: true
     } as RuleDefinition,
     'animation-play-state': {
         key: '@play',
@@ -903,8 +904,9 @@ const rules = {
         layer: Layer.Native
     } as RuleDefinition,
     animation: {
-        matcher: /^@[^!*>+~:[@_]+\|/,
+        sign: '@',
         layer: Layer.NativeShorthand,
+        includeAnimations: true,
         analyze(className: string) {
             if (className.startsWith('@')) {
                 return [className.slice(1)]

@@ -347,7 +347,7 @@ export default class MasterCSS {
                         definition: eachRuleDefinition
                     }
                     this.Rules.push(EachRule)
-                    const { matcher, layer, subkey, ambiguousKeys, ambiguousValues } = eachRuleDefinition
+                    const { matcher, layer, subkey, ambiguousKeys, ambiguousValues, sign } = eachRuleDefinition
                     if (layer === Layer.Utility) {
                         EachRule.id = '.' + id
                         EachRule.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
@@ -378,8 +378,10 @@ export default class MasterCSS {
                         if (!key) eachRuleDefinition.key = key = id
                         keys.push(id)
                     }
-                    const colorsPatten = colorNames.join('|')
-                    if (!matcher) {
+                    if (sign) {
+                        EachRule.matchers.arbitrary = new RegExp(`^${sign}[^!*>+~:[@_]+\\|`)
+                    } else if (!matcher) {
+                        const colorsPatten = colorNames.join('|')
                         if (!key && !subkey) {
                             keys.push(id)
                         } else {

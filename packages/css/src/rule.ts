@@ -52,7 +52,7 @@ export class Rule {
             }
             this.valueComponents = []
             const parsedValueIndex = this.parseValues(this.valueComponents, 0, valueToken, unit, '', undefined, false,
-                (id === 'animation' || id === 'animation-name') ? Object.keys(this.css.animations) : []
+                definition.includeAnimations ? Object.keys(this.css.animations) : []
             )
             this.valueToken = valueToken.slice(0, parsedValueIndex)
             stateToken = valueToken.slice(parsedValueIndex)
@@ -853,6 +853,7 @@ export interface RegisteredRule {
 export interface RuleDefinition {
     layer?: Layer
     matcher?: RegExp
+    sign?: string
     key?: string
     subkey?: string
     ambiguousKeys?: string[]
@@ -861,6 +862,7 @@ export interface RuleDefinition {
     separators?: string[]
     unit?: any
     declarations?: PropertiesHyphen
+    includeAnimations?: boolean
     analyze?: (this: Rule, className: string) => [valueToken: string, prefixToken?: string]
     transformValue?(this: Rule, value: string): string
     transformValueComponents?(this: Rule, valueComponents: ValueComponent[]): ValueComponent[]
