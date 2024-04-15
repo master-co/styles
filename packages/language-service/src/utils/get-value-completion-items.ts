@@ -22,14 +22,27 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
             generatedCSS: generateCSS([ruleKey + ':' + appliedValue], css),
             docs: eachNativePropertyData?.name || 'variables'
         })
+        const completionItem: CompletionItem = {
+            label: variable.name,
+            kind: CompletionItemKind.Value
+        }
+        const conflicted = completionItems.find(({ label }) => label === variable.name)
+        if (conflicted) {
+            completionItem.label = '$(' + completionItem.label + ')'
+            completionItem.documentation = getCSSDataDocumentation(eachNativePropertyData, {
+                generatedCSS: generateCSS([ruleKey + ':' + completionItem.label], css),
+                docs: eachNativePropertyData?.name || 'variables'
+            })
+        } else {
+            completionItem.documentation = getCSSDataDocumentation(eachNativePropertyData, {
+                generatedCSS: generateCSS([ruleKey + ':' + appliedValue], css),
+                docs: eachNativePropertyData?.name || 'variables'
+            })
+        }
         if (variable.type === 'color') {
             if (Object.keys(variable.modes || {}).length) {
-                return {
-                    kind: CompletionItemKind.Color,
-                    label: variable.name,
-                    documentation,
-                    detail: `${variable.name}`
-                }
+                completionItem.kind = CompletionItemKind.Color
+                completionItem.detail = variable.name
             } else {
                 // todo: packages/css should support getTextByVariable(variable)
                 const configKey = 'variables.' + (variable.group ? variable.group + '.' + variable.key : variable.name)
@@ -37,38 +50,27 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                     // vscode doesn't support rgba(0 0 0/.5) in detail
                     ? `${variable.space}(${variable.value.split(' ').join(',')})`
                     : variable.value)
-                return {
-                    label: variable.name,
-                    // detail is shown in the detail pane
-                    // todo: variable.token should be recorded as original config variable
-                    detail: String(configKey),
-                    // documentation is shown in the hover
-                    // todo: should convert and space to rgba
-                    documentation: {
-                        kind: 'markdown',
-                        value: valueToken + '\n\n' + documentation?.value
-                    },
-                    kind: CompletionItemKind.Color,
-                    sortText: 'color-' + (variable.name.replace(/(.+?)-(\d+)/, (match, prefix, num) =>
-                        prefix + ('00000' + num).slice(-5))),
+                // detail is shown in the detail pane
+                // todo: variable.token should be recorded as original config variable
+                completionItem.detail = String(configKey)
+                completionItem.documentation = {
+                    kind: 'markdown',
+                    value: valueToken + '\n\n' + documentation?.value
                 }
+                completionItem.kind = CompletionItemKind.Color
+                completionItem.sortText = 'color-' + variable.name.replace(/(.+?)-(\d+)/, (match, prefix, num) =>
+                    prefix + num.padStart(10, '0'))
             }
         } else if (variable.type === 'number') {
-            if (variable.value < 0) return
-            return {
-                kind: CompletionItemKind.Value,
-                label: variable.name,
-                documentation,
-                detail: String(variable.value)
-            }
+            if (variable.name.startsWith('-') && eachNativePropertyData?.syntax?.includes('absolute')) return
+            completionItem.detail = String(variable.name)
+            completionItem.sortText = (variable.group || '') + (variable.value >= 0
+                ? String(variable.value).padStart(10, '0')
+                : '-' + String(Math.abs(variable.value)).padStart(10, '0'))
         } else {
-            return {
-                kind: CompletionItemKind.Value,
-                label: variable.name,
-                documentation,
-                detail: String(variable.value || variable.name)
-            }
+            completionItem.detail = String(variable.value || variable.name)
         }
+        return completionItem
     }
 
     for (const EachRule of css.Rules) {
@@ -170,16 +172,10 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
 
     // global variables
     for (const variableName in css.variables) {
-        if (variableName.startsWith('-')) continue
-        const conflicted = completionItems.find(({ label }) => label === variableName)
         const variable = css.variables[variableName]
-        if (conflicted) {
-            variable.name = `$(${variableName})`
-        }
         const completionItem = generateVariableCompletionItem(variable)
         if (completionItem) {
-            completionItem.label = variable.name
-            completionItem.sortText = GLOBAL_VARIABLE_PRIORITY + completionItem.sortText
+            completionItem.sortText = GLOBAL_VARIABLE_PRIORITY + (completionItem.sortText || completionItem.label)
             completionItem.detail = '(global) ' + completionItem.detail
             completionItems.push(completionItem)
         }

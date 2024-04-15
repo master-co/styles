@@ -32,8 +32,12 @@ export default async function renderSyntaxColors(this: CSSLanguageService, docum
                         }
                         break
                     case 'variable':
+                        if (valueComponent.variable?.type === 'color') {
+                            color = parseColorToken(valueComponent.text)
+                        }
+                        break
                     case 'string':
-                        if (valueComponent.text !== '#') {
+                        if (valueComponent.text !== '#' && valueComponent.text?.startsWith('#')) {
                             color = parseColorToken(valueComponent.text)
                         }
                         break

@@ -7,6 +7,7 @@ export const SELECTOR_TRIGGER_CHARACTERS = SELECTOR_SIGNS
 export const AT_TRIGGER_CHARACTER = AT_SIGN
 export const QUERY_TRIGGER_CHARACTERS = [...QUERY_COMPARISON_OPERATORS, ...QUERY_LOGICAL_OPERATORS]
 export const GROUP_TRIGGER_CHARACTER = '{'
+export const DECLARATION_SEPARATOR_TRIGGER_CHARACTER = ';'
 
 export const SERVER_CAPABILITIES: ServerCapabilities = {
     textDocumentSync: TextDocumentSyncKind.Incremental,
@@ -20,6 +21,7 @@ export const SERVER_CAPABILITIES: ServerCapabilities = {
                 ...VALUE_TRIGGER_CHARACTERS,
                 ...SELECTOR_TRIGGER_CHARACTERS,
                 ...QUERY_TRIGGER_CHARACTERS,
+                DECLARATION_SEPARATOR_TRIGGER_CHARACTER,
                 AT_TRIGGER_CHARACTER,
                 GROUP_TRIGGER_CHARACTER,
             ])

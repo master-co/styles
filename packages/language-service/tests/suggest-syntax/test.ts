@@ -19,8 +19,6 @@ it('types   should hint completions', () => expect(hint('text:center ')?.length)
 
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)
-test.todo('animations')
-test.todo('types blue-4 would match blue-4, blue-40, blue-400')
 
 // enhanced
 
@@ -28,4 +26,3 @@ test.todo('types blue-4 would match blue-4, blue-40, blue-400')
  * <div></div> -> <div class=""></div>
  */
 test.todo('emit class="" should hint completions')
-test.todo('types { to hint completions for group syntax and fallback')

@@ -2,7 +2,7 @@ import { CompletionItemKind, type CompletionItem } from 'vscode-languageserver-p
 import getPseudoClassCompletionItems from './get-pseudo-class-completion-items'
 import getPseudoElementCompletionItems from './get-pseudo-element-completion-items'
 import { ANIMATION_SIGN, AT_SIGN, MasterCSS, QUERY_COMPARISON_OPERATORS, QUERY_LOGICAL_OPERATORS, TRANSITION_SIGN, generateCSS } from '@master/css'
-import { SELECTOR_TRIGGER_CHARACTERS } from '../common'
+import { GROUP_TRIGGER_CHARACTER, SELECTOR_TRIGGER_CHARACTERS } from '../common'
 import getMainCompletionItems from './get-main-completion-items'
 import { SELECTOR_SIGNS } from '@master/css'
 import getValueCompletionItems from './get-value-completion-items'
@@ -11,19 +11,28 @@ import { getCSSDataDocumentation } from './get-css-data-documentation'
 
 export default function querySyntaxCompletions(q = '', css: MasterCSS = new MasterCSS()) {
     const fields = q.split(' ')
-    const field = fields[fields.length - 1]
+    let field = fields[fields.length - 1]
     const triggerCharacter = q.charAt(q.length - 1)
     const invoked = triggerCharacter === ' ' || field.length === 0
-    if (invoked || field === '{' || triggerCharacter === ';') {
+    if (invoked || field === GROUP_TRIGGER_CHARACTER || triggerCharacter === ';') {
         return getMainCompletionItems(css)
+    }
+    const isGroup = field.startsWith(GROUP_TRIGGER_CHARACTER)
+    if (isGroup) {
+        const declarationSeparatorMatches = Array.from(field.matchAll(/;(?=(?:[^'"]|'[^']*'|"[^"]*")*$)/g))
+        if (declarationSeparatorMatches.length) {
+            field = field.slice(declarationSeparatorMatches[declarationSeparatorMatches.length - 1].index + 1)
+        } else {
+            field = field.slice(1)
+        }
     }
     const signs = css.Rules
         .filter(({ definition }) => definition.sign)
         .map(({ definition }) => definition.sign)
     const keyMatch = field.match(new RegExp(`^[^${signs}'":\\s]+:`))
-    const atMatch = Array.from(field.matchAll(/@(?=(?:[^'"]|'[^']*'|"[^"]*")*$)/g))
-    const valueSeparatorMatch = field.match(/^[^'"|\s]+\|/)
-    const atInvoked = atMatch.findIndex(({ index }) => index !== 0) !== -1
+    const atMatches = Array.from(field.matchAll(/@(?=(?:[^'"]|'[^']*'|"[^"]*")*$)/g))
+    const valueSeparatorMatch = field.match(/\|(?=(?:[^'"]|'[^']*'|"[^"]*")*$)/g)
+    const atInvoked = atMatches.findIndex(({ index }) => index !== 0) !== -1
     const firstColonIndex = keyMatch ? keyMatch[0].length - 1 : -1
     const selectorInvokedRegex = new RegExp(`[${SELECTOR_SIGNS.join('')}](?=(?:[^'"]|'[^']*'|"[^"]*")*$)`)
     const key = keyMatch ? keyMatch[0].slice(0, firstColonIndex) : undefined
@@ -62,9 +71,9 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
     }
 
     /**
-     * Not support conditional btn:hover
+     * Not support conditional btn:hover and group
      */
-    if (isStyle) return
+    if (isStyle || isGroup) return
 
     if (atInvoked && [AT_SIGN, ...QUERY_COMPARISON_OPERATORS, ...QUERY_LOGICAL_OPERATORS].includes(triggerCharacter)) {
         return getQueryCompletionItems(css, triggerCharacter, field)
