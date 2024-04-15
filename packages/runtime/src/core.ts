@@ -376,6 +376,49 @@ export class RuntimeCSS extends MasterCSS {
         return this
     }
 
+    insert(rule: Rule) {
+        const index = super.insert(rule)
+
+        // 只在瀏覽器端運行
+        if (this.style) {
+            const sheet = this.style.sheet
+
+            let cssRuleIndex = 0
+            const getCssRuleIndex = (index: number): void => {
+                const previousRule = this.rules[index]
+                if (previousRule) {
+                    if (!previousRule.natives.length)
+                        return getCssRuleIndex(index - 1)
+
+                    const lastNative = previousRule.natives[previousRule.natives.length - 1]
+                    const lastNativeCssRule = lastNative.cssRule?.parentRule ?? lastNative.cssRule
+                    if (sheet)
+                        for (let i = 0; i < sheet.cssRules.length; i++) {
+                            if (sheet.cssRules[i] === lastNativeCssRule) {
+                                cssRuleIndex = i + 1
+                                break
+                            }
+                        }
+                }
+            }
+            getCssRuleIndex(index as number - 1)
+
+            for (let i = 0; i < rule.natives.length;) {
+                try {
+                    const native = rule.natives[i]
+                    sheet?.insertRule(native.text, cssRuleIndex)
+                    native.cssRule = sheet?.cssRules[cssRuleIndex++]
+                    i++
+                } catch (error) {
+                    console.error(error)
+                    rule.natives.splice(i, 1)
+                }
+            }
+        }
+
+        return index
+    }
+
     refresh(customConfig: Config = this.customConfig) {
         // remove all CSS rules
         // todo: e2e test
