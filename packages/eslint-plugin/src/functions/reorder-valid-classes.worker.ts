@@ -1,9 +1,9 @@
 import { reorderForReadableClasses } from '@master/css'
 import { runAsWorker } from 'synckit'
-import getMasterCSS from './get-css'
+import getCSS from './get-css'
 
 export default function runReorderValidClasses(classNames: string[], config: string | object): string[] {
-    const currentCSS = getMasterCSS(config)
+    const currentCSS = getCSS(config)
     return reorderForReadableClasses(classNames, currentCSS)
         .filter((eachOrderedClassName) => classNames.includes(eachOrderedClassName))
 }

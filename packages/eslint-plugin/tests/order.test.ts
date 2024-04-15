@@ -200,10 +200,10 @@ new RuleTester({
             // Multiline + both head/tail spaces
             code: `
       ctl(\`
-        hide
+        hidden
         w:6@sm
         block
-        hide
+        hidden
         flex
         block
         w:12
@@ -216,7 +216,7 @@ new RuleTester({
       ctl(\`
         block
         flex
-        hide
+        hidden
         w:12
         w:6@sm
         w:4@lg

@@ -1,10 +1,10 @@
 import { runAsWorker } from 'synckit'
-import getMasterCSS from './get-css'
+import getCSS from './get-css'
 import { generateValidRules } from '@master/css-validator'
 import { Rule, areRuleStatesEqual, areRulesDuplicated } from '@master/css'
 
 export default function runFilterCollisionClasses(classNames: string[], config: string | object): Record<string, string[]> {
-    const currentCSS = getMasterCSS(config)
+    const currentCSS = getCSS(config)
     const validRules = classNames
         .map(eachClassName => generateValidRules(eachClassName, { css: currentCSS })[0])
         .filter(Boolean) as Rule[]
