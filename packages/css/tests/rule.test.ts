@@ -75,15 +75,17 @@ test('text variables', () => {
 })
 
 describe('token', () => {
-    const rule = new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0]
     test('value', () => {
-        expect(rule.valueToken).toBe('1|solid|blue-60')
+        expect(new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0].valueToken).toBe('1|solid|blue-60')
     })
     test('state', () => {
-        expect(rule.stateToken).toBe(':hover[disabled]@sm')
+        expect(new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0].stateToken).toBe(':hover[disabled]@sm')
     })
     test('at', () => {
-        expect(rule.atToken).toBe('@sm')
+        expect(new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0].atToken).toBe('@sm')
+    })
+    test('empty at', () => {
+        expect(new MasterCSS().generate('text:center@')[0].atToken).toBe('@')
     })
 })
 

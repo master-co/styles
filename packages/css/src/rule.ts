@@ -230,8 +230,8 @@ export class Rule {
         // 5. atTokens
         for (let i = 1; i < stateTokens.length; i++) {
             const atToken = stateTokens[i]
+            this.atToken = (this.atToken || '') + '@' + atToken
             if (atToken) {
-                this.atToken = (this.atToken || '') + '@' + atToken
                 if (atToken === 'rtl' || atToken === 'ltr') {
                     this.direction = atToken
                 } else {
