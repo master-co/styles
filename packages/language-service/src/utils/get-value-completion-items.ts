@@ -88,6 +88,24 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                     completionItems.push(completionItem)
                 }
             }
+
+            /**
+             * @example animation:fade
+             */
+            if (EachRule.definition?.sign && EachRule.definition.includeAnimations) {
+                for (const animationName in css.animations) {
+                    const isNative = EachRule.definition.layer && [Layer.Native, Layer.NativeShorthand].includes(EachRule.definition.layer)
+                    completionItems.push({
+                        label: animationName + '|1s',
+                        kind: CompletionItemKind.Value,
+                        documentation: getCSSDataDocumentation(undefined, {
+                            generatedCSS: generateCSS([ruleKey + ':' + animationName + '|1s'], css),
+                            docs: isCoreRule(EachRule.id) && EachRule.id
+                        }),
+                        detail: isNative ? EachRule.id + ': ' + animationName + '|1s' : animationName + '|1s'
+                    })
+                }
+            }
         }
         /**
          * Ambiguous values

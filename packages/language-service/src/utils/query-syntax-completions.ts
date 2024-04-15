@@ -17,13 +17,16 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
     if (invoked || field === '{' || triggerCharacter === ';') {
         return getMainCompletionItems(css)
     }
-    const match = field.match(/^[^'":\s]+:/)
-    const atMatch = field.match(/@(?=(?:[^'"]|'[^']*'|"[^"]*")*$)/)
-    const firstAtIndex = atMatch ? atMatch[0].length - 1 : -1
-    const firstColonIndex = match ? match[0].length - 1 : -1
+    const signs = css.Rules
+        .filter(({ definition }) => definition.sign)
+        .map(({ definition }) => definition.sign)
+    const keyMatch = field.match(new RegExp(`^[^${signs}'":\\s]+:`))
+    const atMatch = Array.from(field.matchAll(/@(?=(?:[^'"]|'[^']*'|"[^"]*")*$)/g))
+    const valueSeparatorMatch = field.match(/^[^'"|\s]+\|/)
+    const atInvoked = atMatch.findIndex(({ index }) => index !== 0) !== -1
+    const firstColonIndex = keyMatch ? keyMatch[0].length - 1 : -1
     const selectorInvokedRegex = new RegExp(`[${SELECTOR_SIGNS.join('')}](?=(?:[^'"]|'[^']*'|"[^"]*")*$)`)
-    const atInvoked = firstAtIndex !== -1
-    const key = match ? match[0].slice(0, firstColonIndex) : undefined
+    const key = keyMatch ? keyMatch[0].slice(0, firstColonIndex) : undefined
     const styleNames = Object.keys(css.config.styles || {})
     const utilityNames = Object.keys(css.config.utilities || {})
     const isStyle = !!styleNames.find((eachStyleName) => new RegExp(`^${eachStyleName}(?:\\b|_)`).test(field))
@@ -31,7 +34,7 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
 
     // check by utilities and styles
     if (!isStyle && !isUtility) {
-        if (key === undefined) {
+        if (key === undefined && !valueSeparatorMatch) {
             /**
              * The server capability sets '@' '~' as the trigger characters for at and adjacent selectors,
              * but these two characters are also the prefix symbols of `animation` and `transition`,
@@ -46,8 +49,15 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
             }
             return getMainCompletionItems(css)
         }
-        if (!atInvoked && firstColonIndex !== -1 && !selectorInvokedRegex.test(field.slice(firstColonIndex + 1))) {
-            return getValueCompletionItems(css, key)
+
+        if (!atInvoked && !selectorInvokedRegex.test(field.slice(firstColonIndex + 1))) {
+            if (field.startsWith(ANIMATION_SIGN) && firstColonIndex === -1) {
+                return getValueCompletionItems(css, 'animation')
+            } else if (field.startsWith(TRANSITION_SIGN) && firstColonIndex === -1) {
+                return getValueCompletionItems(css, 'transition')
+            } else if (key && firstColonIndex !== -1) {
+                return getValueCompletionItems(css, key)
+            }
         }
     }
 

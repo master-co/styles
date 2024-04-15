@@ -26,23 +26,38 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === EachRule.id)
             const eachCompletionItem = {
                 kind: CompletionItemKind.Property,
-                command: {
-                    title: 'triggerSuggest',
-                    command: 'editor.action.triggerSuggest'
-                },
                 documentation: getCSSDataDocumentation(nativeCSSPropertyData, {
                     docs: isCoreRule(EachRule.id) && EachRule.id
                 }),
                 detail: nativeCSSPropertyData?.syntax,
             }
+
             EachRule.keys.forEach(key => {
                 addedKeys.delete(key)
                 completionItems.push({
                     ...eachCompletionItem,
                     label: key + ':',
-                    sortText: key
+                    sortText: key,
+                    command: {
+                        title: 'triggerSuggest',
+                        command: 'editor.action.triggerSuggest'
+                    }
                 })
             })
+
+            /**
+             * @example @ animation and ~ transition
+             */
+            if (EachRule.definition?.sign && EachRule.definition.includeAnimations) {
+                for (const animationName in css.animations) {
+                    completionItems.push({
+                        ...eachCompletionItem,
+                        label: EachRule.definition.sign + animationName + '|1s',
+                        kind: CompletionItemKind.Value
+                    })
+                }
+            }
+
             if (EachRule.definition?.ambiguousKeys?.length) {
                 for (const ambiguousKey of EachRule.definition.ambiguousKeys) {
                     if (addedKeys.has(ambiguousKey)) {
@@ -53,6 +68,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             }
         }
     }
+
     addedKeys.forEach(ambiguousKey => {
         /**
          * Ambiguous keys are added to the completion list
@@ -69,6 +85,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             }
         })
     })
+
     if (css.config.styles) {
         for (const styleName in css.config.styles) {
             const styleClasses = css.styles[styleName]
@@ -83,5 +100,6 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             })
         }
     }
+
     return sortCompletionItems(completionItems)
 }
