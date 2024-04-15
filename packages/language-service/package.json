@@ -39,7 +39,7 @@
         "@types/culori": "^2.1.0",
         "@types/lodash.escaperegexp": "^4.1.9",
         "@types/vscode": "^1.87.0",
-        "css-shared": "workspace:^",
+        "@master/css-shared": "workspace:^",
         "vscode-languageserver": "^7.0.0"
     },
     "sideEffects": false,

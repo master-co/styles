@@ -64,7 +64,7 @@
         "@playwright/test": "1.41.2",
         "@types/lodash.debounce": "^4.0.9",
         "@types/node": "^20.11.20",
-        "css-shared": "workspace:^",
+        "@master/css-shared": "workspace:^",
         "puppeteer-core": "^22.2.0"
     }
 }

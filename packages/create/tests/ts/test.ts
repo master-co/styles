@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
-import { rm } from 'css-shared/utils/fs'
+import { rm } from '@master/css-shared/utils/fs'
 
 it('init by tsconfig.json', () => {
     rm(join(__dirname, 'master.css.ts'))

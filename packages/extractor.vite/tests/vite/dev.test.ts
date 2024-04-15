@@ -1,11 +1,11 @@
 import fs from 'fs'
 import path from 'path'
-import cssEscape from 'css-shared/utils/css-escape'
+import cssEscape from '@master/css-shared/utils/css-escape'
 import puppeteer, { type Browser, type Page } from 'puppeteer-core'
-import { copy, rm } from 'css-shared/utils/fs'
+import { copy, rm } from '@master/css-shared/utils/fs'
 import { SpawndChildProcess, spawnd } from 'spawnd'
-import waitForDataMatch from 'css-shared/utils/wait-for-data-match'
-import delay from 'css-shared/utils/delay'
+import waitForDataMatch from '@master/css-shared/utils/wait-for-data-match'
+import delay from '@master/css-shared/utils/delay'
 
 test.todo('vite dev tests timeout in CI')
 if (!process.env.GITHUB_ACTIONS) {

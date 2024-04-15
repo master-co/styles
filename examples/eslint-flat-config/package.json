@@ -1,0 +1,9 @@
+{
+    "type": "module",
+    "name": "master-css-eslint-flat-example",
+    "devDependencies": {
+        "@angular-eslint/template-parser": "^17.3.0",
+        "@master/eslint-config-css": "workspace:^",
+        "eslint": "^9.0.0"
+    }
+}

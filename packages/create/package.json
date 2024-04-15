@@ -45,6 +45,6 @@
         "ora": "^8.0.1"
     },
     "devDependencies": {
-        "css-shared": "workspace:^"
+        "@master/css-shared": "workspace:^"
     }
 }

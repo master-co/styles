@@ -17,7 +17,6 @@ export default function CSSRuntimeProvider({ children, config, root }: {
     const initializing = useRef<boolean>(false)
     const newRuntimeCSS = useRef<RuntimeCSS | undefined>(undefined)
     const isExternalRuntimeCSS = useRef<boolean>(false)
-
     const waitInitialized = async () => {
         const currentIdentifier = ++identifier.current
         if (initializing.current) {

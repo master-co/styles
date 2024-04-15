@@ -1,5 +1,5 @@
 {
-    "name": "css-shared",
+    "name": "@master/css-shared",
     "private": true,
     "type": "module"
 }

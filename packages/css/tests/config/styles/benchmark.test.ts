@@ -1,4 +1,4 @@
-import benchmark from 'css-shared/test/benchmark'
+import benchmark from '@master/css-shared/test/benchmark'
 
 benchmark('styles', {
     'empty': () => { new MasterCSS() },

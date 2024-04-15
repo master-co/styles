@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { rm } from 'css-shared/utils/fs'
+import { rm } from '@master/css-shared/utils/fs'
 import { join } from 'node:path'
 import { existsSync } from 'node:fs'
 

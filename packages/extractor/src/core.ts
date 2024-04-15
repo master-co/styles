@@ -11,7 +11,7 @@ import exploreCSSConfig from '@master/css-explore-config'
 import { generateValidRules } from '@master/css-validator'
 import chokidar from 'chokidar'
 import { EventEmitter } from 'node:events'
-import cssEscape from 'css-shared/utils/css-escape'
+import cssEscape from '@master/css-shared/utils/css-escape'
 import { explorePathsSync, explorePathSync } from '@techor/glob'
 import path, { resolve } from 'path'
 

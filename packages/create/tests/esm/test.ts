@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
-import { rm } from 'css-shared/utils/fs'
+import { rm } from '@master/css-shared/utils/fs'
 
 it('init (type="module")', () => {
     rm(join(__dirname, 'master.css.mjs'))

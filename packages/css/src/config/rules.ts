@@ -1,4 +1,4 @@
-import cssEscape from 'css-shared/utils/css-escape'
+import cssEscape from '@master/css-shared/utils/css-escape'
 import type { Rule, RuleDefinition } from '../rule'
 import Layer from '../layer'
 import { COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE_REGEX, VALUE_DELIMITERS } from '../common'

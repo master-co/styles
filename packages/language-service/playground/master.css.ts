@@ -3,7 +3,7 @@ import { Config } from '@master/css'
 
 export default {
     styles: {
-        btn: `inline-flex`
+        btn: `inline-flex text:center`
     },
     variables: {
         foo: 123

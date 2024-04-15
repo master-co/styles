@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import MasterCSS, { ColorVariable, type Variable } from './core'
-import cssEscape from 'css-shared/utils/css-escape'
+import cssEscape from '@master/css-shared/utils/css-escape'
 import Layer from './layer'
 import { type PropertiesHyphen } from 'csstype'
 import { VALUE_DELIMITERS, BASE_UNIT_REGEX, UNIT_REGEX } from './common'
