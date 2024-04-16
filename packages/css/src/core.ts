@@ -90,7 +90,7 @@ export default class MasterCSS {
         if (variables) {
             const unexecutedAliasVariable: Record<string, { [mode: string]: () => void }> = {}
             const resolveVariable = (variableDefinition: VariableDefinition, name: string[], mode?: string) => {
-                if (variableDefinition === undefined || variableDefinition === null) return
+                if (!variableDefinition === undefined || variableDefinition === null) return
                 const addVariable = (
                     name: string[],
                     variable: any,
@@ -400,7 +400,7 @@ export default class MasterCSS {
                                     if (eachAmbiguousValue instanceof RegExp) {
                                         ambiguousValuePatterns.push(eachAmbiguousValue.source.replace('\\$colors', colorsPatten))
                                     } else {
-                                        ambiguousValuePatterns.unshift(`${eachAmbiguousValue}\\b`)
+                                        ambiguousValuePatterns.unshift(`${eachAmbiguousValue}(?:\\b|_)`)
                                     }
                                 }
                                 EachRule.matchers.value = new RegExp(`^${ambiguousKeyPattern}:(?:${ambiguousValuePatterns.join('|')})[^|]*?(?:@|$)`)

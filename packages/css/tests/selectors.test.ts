@@ -22,6 +22,10 @@ test('shorthands', () => {
     expect(new MasterCSS().create('uppercase::first-letter')?.text).toBe('.uppercase\\:\\:first-letter::first-letter{text-transform:uppercase}')
 })
 
+test('ambiguous', () => {
+    expect(new MasterCSS().create('text:left_*')?.text).toBe('.text\\:left_\\* *{text-align:left}')
+})
+
 test('reactive-rules', () => {
     expect(new MasterCSS().create(':checked+{hidden}')?.text).toBe(':checked+.\\:checked\\+\\{hidden\\}{display:none}')
 })
