@@ -591,7 +591,7 @@ export default function Play(props: any) {
                             <rect className={layout === '5' ? 'fill:accent/.15' : 'fill:text-lightest/.2'} width="16" height="11" stroke='none' transform="translate(4 9)" />
                         </svg>
                     </Link>
-                    <span className='hide'>{layout}</span>
+                    <span className='hidden'>{layout}</span>
                     <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>
                     {/* preview: desktop */}
                     <Link className="app-header-icon hidden@<md" href={getSearchPath('preview', '')}>
@@ -614,7 +614,7 @@ export default function Play(props: any) {
                             preview === 'css' ? 'fill:accent/.15 stroke:accent' : 'fill:text-lightest/.2'
                         )} />
                     </Link>
-                    <span className='hide'>{preview}</span>
+                    <span className='hidden'>{preview}</span>
                     <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>
                     <LanguageButton className="app-header-icon hidden@<md" locale={locale} />
                     <ThemeButton className="app-header-icon hidden@<md mr:-12"
@@ -645,7 +645,7 @@ export default function Play(props: any) {
                     handlerStyle="hidden"
                     showHandler={[layout === '4', !layout, layout === '3', layout === '2']}
                     className={clsx(
-                        layout === '5' && 'hide!@md',
+                        layout === '5' && 'hidden!@md',
                         {
                             'full!@<md': tab !== 'Preview',
                             'br:1|frame': !layout,
@@ -673,11 +673,11 @@ export default function Play(props: any) {
                         </Tab>
                     </Tabs>
                     {/* fix render issue */}
-                    <span className='hide'>{tab}</span>
+                    <span className='hidden'>{tab}</span>
                     <div className='full min-h:0'>
                         <Editor
                             className={clsx(
-                                { 'hide!': tab === 'Preview' }
+                                { 'hidden!': tab === 'Preview' }
                             )}
                             height="100%"
                             width="100%"
@@ -718,12 +718,12 @@ export default function Play(props: any) {
                         showHeight={true}
                     >
                         <iframe ref={previewIframeRef}
-                            className={clsx('demo', { hide: preview === 'css' })}
+                            className={clsx('demo', { hidden: preview === 'css' })}
                             style={{ width: '100%', height: '100%', borderRadius: 0, margin: 0, padding: 0, border: 0 }}
                             sandbox="allow-popups-to-escape-sandbox allow-scripts allow-popups allow-forms allow-same-origin allow-pointer-lock allow-top-navigation allow-modals"
                             srcDoc={previewHTML}
                         />
-                        <div className={clsx('flex flex:col h:full', { 'hide!': preview !== 'css' })}>
+                        <div className={clsx('flex flex:col h:full', { 'hidden!': preview !== 'css' })}>
                             <div className='flex align-items:center bb:1|frame flex:0|0|auto font:12 h:48 justify-content:space-between px:30'>
                                 <div>Generated CSS</div>
                                 <div className="fg:light">{generatedCSSSize}</div>
