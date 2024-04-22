@@ -116,7 +116,7 @@
             }
         ],
         "configuration": {
-            "title": "Master CSS IntelliSense",
+            "title": "Master CSS",
             "properties": {
                 "masterCSS.includedLanguages": {
                     "type": "array",
@@ -213,6 +213,7 @@
         "provenance": true
     },
     "devDependencies": {
+        "@master/css-shared": "workspace:^",
         "@master/css-language-server": "workspace:^",
         "@vscode/vsce": "^2.24.0",
         "vscode-languageclient": "^7.0.0"

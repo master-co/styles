@@ -48,7 +48,8 @@
         "provenance": true
     },
     "devDependencies": {
-        "@master/css": "workspace:^"
+        "@master/css": "workspace:^",
+        "@master/css-shared": "workspace:^"
     },
     "dependencies": {
         "@techor/log": "^3.0.18",

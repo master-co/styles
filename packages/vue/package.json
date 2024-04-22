@@ -63,6 +63,7 @@
         "@techor/extend": "^3.0.17"
     },
     "devDependencies": {
+        "@master/css-shared": "workspace:^",
         "@playwright/experimental-ct-vue": "1.41.2",
         "@playwright/test": "1.41.2",
         "@vitejs/plugin-vue": "^4.6.2",

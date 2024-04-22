@@ -54,6 +54,7 @@
     },
     "devDependencies": {
         "@types/pretty-hrtime": "^1.0.3",
-        "fast-glob": "^3.3.2"
+        "fast-glob": "^3.3.2",
+        "@master/css-shared": "workspace:^"
     }
 }

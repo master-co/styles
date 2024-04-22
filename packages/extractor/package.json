@@ -75,5 +75,8 @@
         "chokidar": "^3.6.0",
         "explore-config": "^3.0.18",
         "minimatch": "^9.0.3"
+    },
+    "devDependencies": {
+        "@master/css-shared": "workspace:^"
     }
 }

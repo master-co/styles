@@ -57,6 +57,7 @@
         "@techor/log": "^3.0.18"
     },
     "devDependencies": {
+        "@master/css-shared": "workspace:^",
         "@nuxt/devtools": "latest",
         "@nuxt/eslint-config": "^0.2.0",
         "@nuxt/module-builder": "^0.5.5",

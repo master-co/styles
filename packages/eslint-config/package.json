@@ -52,6 +52,7 @@
     },
     "devDependencies": {
         "@angular-eslint/template-parser": "^17.3.0",
+        "@master/css-shared": "workspace:^",
         "eslint": "^8.57.0"
     }
 }
