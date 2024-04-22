@@ -6,9 +6,9 @@
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
         "lint": "eslint src",
-        "publish": "vsce publish 2.0.0 --pre-release"
+        "vscode:publish": "vsce publish 2.0.1 --pre-release"
     },
-    "version": "0.0.0",
+    "version": "2.0.1",
     "description": "Master CSS for Visual Studio Code",
     "displayName": "Master CSS",
     "author": "Aoyue Design LLC.",
@@ -157,14 +157,46 @@
                         "type": "string"
                     },
                     "default": [
-                        ["\\sclass=", "\"", "\""],
-                        ["\\sclass=", "'", "'"],
-                        ["\\sclassName=", "\"", "\""],
-                        ["\\sclassName=", "'", "'"],
-                        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "`", "`"],
-                        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "\"", "\""],
-                        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "'", "'"],
-                        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "`", "`"]
+                        [
+                            "\\sclass=",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\sclass=",
+                            "'",
+                            "'"
+                        ],
+                        [
+                            "\\sclassName=",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\sclassName=",
+                            "'",
+                            "'"
+                        ],
+                        [
+                            "\\sstyled(?:\\s+)?(?:\\.\\w+)?",
+                            "`",
+                            "`"
+                        ],
+                        [
+                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
+                            "'",
+                            "'"
+                        ],
+                        [
+                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
+                            "`",
+                            "`"
+                        ]
                     ]
                 },
                 "masterCSS.classAssignments": {
@@ -173,20 +205,76 @@
                         "type": "string"
                     },
                     "default": [
-                        ["\\sclassName=", "{", "}"],
-                        ["\\sclass=", "{", "}"],
-                        ["\\sclass:list=", "{", "}"],
-                        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "{", "}"],
-                        ["\\s:class=", "\"", "\""],
-                        ["\\sv-bind:class=", "\"", "\""],
-                        ["\\s[class]=", "\"", "\""],
-                        ["\\s[className]=", "\"", "\""],
-                        ["\\s[ngClass]=", "\"", "\""],
-                        ["\\sclsx", "(", ")"],
-                        ["\\scva", "(", ")"],
-                        ["\\.class", "(", ")"],
-                        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "(", ")"],
-                        ["\\.classList(?:\\s+)?(?:\\.(add|remove|toggle|replace))", "(", ")"]
+                        [
+                            "\\sclassName=",
+                            "{",
+                            "}"
+                        ],
+                        [
+                            "\\sclass=",
+                            "{",
+                            "}"
+                        ],
+                        [
+                            "\\sclass:list=",
+                            "{",
+                            "}"
+                        ],
+                        [
+                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
+                            "{",
+                            "}"
+                        ],
+                        [
+                            "\\s:class=",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\sv-bind:class=",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\s[class]=",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\s[className]=",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\s[ngClass]=",
+                            "\"",
+                            "\""
+                        ],
+                        [
+                            "\\sclsx",
+                            "(",
+                            ")"
+                        ],
+                        [
+                            "\\scva",
+                            "(",
+                            ")"
+                        ],
+                        [
+                            "\\.class",
+                            "(",
+                            ")"
+                        ],
+                        [
+                            "\\sstyled(?:\\s+)?(?:\\.\\w+)?",
+                            "(",
+                            ")"
+                        ],
+                        [
+                            "\\.classList(?:\\s+)?(?:\\.(add|remove|toggle|replace))",
+                            "(",
+                            ")"
+                        ]
                     ]
                 },
                 "masterCSS.suggestSyntax": {
