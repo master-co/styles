@@ -225,7 +225,7 @@ export class RuntimeCSS extends MasterCSS {
                 const children = element.children
                 for (let i = 0; i < children.length; i++) {
                     const eachChildren = children[i]
-                    if (eachChildren.classList) {
+                    if (eachChildren.classList && !updatedElements.includes(eachChildren)) {
                         updatedElements.push(eachChildren)
 
                         handleClassNameDeeply(eachChildren, remove)
