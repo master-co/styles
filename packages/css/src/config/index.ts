@@ -4,6 +4,7 @@ import utilities from './utilities'
 import animations from './animations'
 import variables from './variables'
 import rules from './rules'
+import modes from './modes'
 import functions from './functions'
 import type { PropertiesHyphen } from 'csstype'
 import type { Rule, RuleDefinition, ValueComponent } from '../rule'
@@ -16,6 +17,7 @@ const config: Config = {
     functions,
     animations,
     variables,
+    modes,
     scope: '',
     rootSize: 16,
     baseUnit: 4,
@@ -44,6 +46,7 @@ export type StyleDefinitions = { [key: string]: string | StyleDefinitions }
 export type RuleDefinitions = { [key in keyof typeof rules | string]?: RuleDefinition }
 export type VariableDefinitions = { [key in keyof typeof rules]?: VariableDefinition } & { [key: string]: VariableDefinition }
 export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesHyphen } & { [key: string]: PropertiesHyphen }
+export type ModeDefinitions = { [key: string]: 'class' | 'media' | 'host' }
 export interface FunctionDefinition {
     unit?: string
     transform?(this: Rule, value: string, bypassVariableNames: string[]): string | ValueComponent[]
@@ -65,5 +68,5 @@ export interface Config {
     override?: boolean
     functions?: FunctionDefinitions
     animations?: AnimationDefinitions
-    modes?: Record<string, 'class' | 'media' | 'host'>
+    modes?: Record<string, 'class' | 'media' | 'host' | false>
 }
