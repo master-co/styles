@@ -21,7 +21,7 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
     if (isGroup) {
         const declarationSeparatorMatches = Array.from(field.matchAll(/;(?=(?:[^'"]|'[^']*'|"[^"]*")*$)/g))
         if (declarationSeparatorMatches.length) {
-            field = field.slice(declarationSeparatorMatches[declarationSeparatorMatches.length - 1].index + 1)
+            field = field.slice((declarationSeparatorMatches[declarationSeparatorMatches.length - 1] as RegExpExecArray).index + 1)
         } else {
             field = field.slice(1)
         }
