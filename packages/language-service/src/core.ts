@@ -12,6 +12,7 @@ import suggestSyntax from './features/suggest-syntax'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import findMatchingPairs from './utils/find-matching-brackets'
 import escapeRegexp from 'lodash.escaperegexp'
+import { normalize, posix, resolve } from 'node:path'
 
 export type ClassPosition = { range: { start: number, end: number }, raw: string, token: string }
 
@@ -180,7 +181,7 @@ export default class CSSLanguageService extends EventEmitter {
     isDocumentAccepted(doc: TextDocument): boolean {
         if (!this.settings.exclude) return true
         for (const exclude of this.settings.exclude) {
-            if (minimatch(fileURLToPath(doc.uri), exclude)) {
+            if (minimatch(doc.uri, exclude)) {
                 return false
             }
         }
