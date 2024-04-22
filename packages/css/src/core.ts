@@ -1086,7 +1086,7 @@ export default class MasterCSS {
                             let selectorText: string
 
                             if (mode) {
-                                switch (this.config.modeDriver) {
+                                switch (this.config.modes?.[mode]) {
                                     case 'media':
                                         mediaConditionText = `@media(prefers-color-scheme:${mode})`
                                         selectorText = ':root'

@@ -20,8 +20,7 @@ const config: Config = {
     rootSize: 16,
     baseUnit: 4,
     override: false,
-    important: false,
-    modeDriver: 'class',
+    important: false
 }
 
 export {
@@ -66,5 +65,5 @@ export interface Config {
     override?: boolean
     functions?: FunctionDefinitions
     animations?: AnimationDefinitions
-    modeDriver?: 'class' | 'media' | 'host'
+    modes?: Record<string, 'class' | 'media' | 'host'>
 }

@@ -27,7 +27,7 @@ export class Rule {
         this.layer = layer as Layer
         if (!definition.unit) definition.unit = ''
         if (!definition.separators) definition.separators = [',']
-        const { scope, important, modeDriver } = css.config
+        const { scope, important, modes } = css.config
         const { selectors, queries, stylesBy, animations } = css
         const classNames = stylesBy[className]
 
@@ -422,8 +422,8 @@ export class Rule {
                     const prefixTexts = prefixSelectors.map(eachPrefixSelector => eachPrefixSelector + prefixText)
                     const getCssText = (name: string) =>
                         prefixTexts
-                            .map(eachPrefixText => ((this.mode && modeDriver !== 'media')
-                                ? modeDriver === 'host'
+                            .map(eachPrefixText => ((this.mode && modes?.[this.mode] !== 'media')
+                                ? modes?.[this.mode] === 'host'
                                     ? `:host(.${this.mode}) `
                                     : `.${this.mode} `
                                 : '')
@@ -458,7 +458,7 @@ export class Rule {
                             + '{' + cssText + '}'
                     }
 
-                    if (this.mode && modeDriver === 'media') {
+                    if (this.mode && modes?.[this.mode] === 'media') {
                         cssText = `@media(prefers-color-scheme:${this.mode}){` + cssText + '}'
                     }
 

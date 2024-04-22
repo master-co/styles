@@ -8,6 +8,5 @@ export default {
     queries: {},
     animations: {},
     selectors: {},
-    functions: {},
-    modeDriver: 'media'
+    functions: {}
 } as Config
