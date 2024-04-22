@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
         "lint": "eslint src",
-        "deploy": "mv ../../package.json ../../_package.json && pnpm dlx @vscode/vsce publish && mv ../../_package.json ../../package.json"
+        "publish": "mv ../../package.json ../../_package.json && pnpm dlx @vscode/vsce publish && mv ../../_package.json ../../package.json"
     },
     "description": "Master CSS for Visual Studio Code",
     "displayName": "Master CSS",
