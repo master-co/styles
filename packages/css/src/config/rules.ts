@@ -480,8 +480,8 @@ const rules = {
         layer: Layer.Native,
         declare(value) {
             return {
+                '-webkit-box-decoration-break': value,
                 'box-decoration-break': value,
-                '-webkit-box-decoration-break': value
             }
         }
     } as RuleDefinition,
@@ -718,8 +718,8 @@ const rules = {
         layer: Layer.Native,
         declare(value) {
             return {
+                '-webkit-user-drag': value,
                 'user-drag': value,
-                '-webkit-user-drag': value
             }
         }
     } as RuleDefinition,
@@ -727,8 +727,8 @@ const rules = {
         layer: Layer.Native,
         declare(value) {
             return {
+                '-webkit-user-select': value,
                 'user-select': value,
-                '-webkit-user-select': value
             }
         }
     } as RuleDefinition,
@@ -795,12 +795,12 @@ const rules = {
         subkey: 'lines',
         declare(value) {
             return {
-                overflow: 'hidden',
                 display: '-webkit-box',
+                '-webkit-box-orient': 'vertical',
+                '-webkit-line-clamp': value,
+                overflow: 'hidden',
                 'overflow-wrap': 'break-word',
                 'text-overflow': 'ellipsis',
-                '-webkit-box-orient': 'vertical',
-                '-webkit-line-clamp': value
             }
         },
         layer: Layer.Shorthand,
@@ -1305,8 +1305,8 @@ const rules = {
         layer: Layer.Native,
         declare(value) {
             return {
+                '-webkit-backdrop-filter': value,
                 'backdrop-filter': value,
-                '-webkit-backdrop-filter': value
             }
         }
     } as RuleDefinition,
@@ -1755,8 +1755,8 @@ const rules = {
         layer: Layer.Native,
         declare(value) {
             return {
+                '-webkit-mask-image': value,
                 'mask-image': value,
-                '-webkit-mask-image': value
             }
         }
     } as RuleDefinition
