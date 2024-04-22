@@ -8,6 +8,5 @@ module.exports = {
     queries: {},
     keyframes: {},
     selectors: {},
-    functions: {},
-    modeDriver: 'media'
+    functions: {}
 }

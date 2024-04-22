@@ -58,17 +58,15 @@ export class RuntimeCSS extends MasterCSS {
                     case 'CSSKeyframesRule':
                         continue
                     case 'CSSMeidaRule':
-                        if (this.config.modeDriver === 'media') {
-                            const result = /\(prefers-color-scheme: (.*?)\)/.exec((eachCSSRule as CSSMediaRule).conditionText)
-                            if (result) {
-                                const firstCSSRule = (eachCSSRule as CSSMediaRule).cssRules[0]
-                                if (
-                                    firstCSSRule?.constructor.name === 'CSSStyleRule'
-                                    && (firstCSSRule as CSSStyleRule).selectorText === ':root'
-                                ) {
-                                    this.pushVariableNativeRule(result[1], firstCSSRule as CSSStyleRule)
-                                    continue
-                                }
+                        const result = /\(prefers-color-scheme: (.*?)\)/.exec((eachCSSRule as CSSMediaRule).conditionText)
+                        if (result) {
+                            const firstCSSRule = (eachCSSRule as CSSMediaRule).cssRules[0]
+                            if (
+                                firstCSSRule?.constructor.name === 'CSSStyleRule'
+                                && (firstCSSRule as CSSStyleRule).selectorText === ':root'
+                            ) {
+                                this.pushVariableNativeRule(result[1], firstCSSRule as CSSStyleRule)
+                                continue
                             }
                         }
                         break
@@ -88,12 +86,10 @@ export class RuntimeCSS extends MasterCSS {
                                     this.pushVariableNativeRule('', eachCSSRule as CSSStyleRule)
                                     continue
                                 } else {
-                                    if (this.config.modeDriver === 'host') {
-                                        const result = /:host(.*?)/.exec(selectorText)
-                                        if (result) {
-                                            this.pushVariableNativeRule(result[1], eachCSSRule as CSSStyleRule)
-                                            continue
-                                        }
+                                    const result = /:host(.*?)/.exec(selectorText)
+                                    if (result) {
+                                        this.pushVariableNativeRule(result[1], eachCSSRule as CSSStyleRule)
+                                        continue
                                     } else if (!selectorText.startsWith('.\\$')) {
                                         this.pushVariableNativeRule(selectorText.slice(1), eachCSSRule as CSSStyleRule)
                                         continue
