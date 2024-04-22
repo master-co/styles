@@ -1,16 +1,25 @@
 import settings from '../../../../../../packages/eslint-plugin/src/settings'
 
-## Usage [sr-only]
+---
 
+## Configuring
+### Flat
+Use the ESLint v9's new flat configuration.
+```js name=eslint.config.js
+import css from '@master/eslint-config-css/flat'
+
+export default [
+    css
+]
+```
+### Legacy
+Or compatible with ESLint legacy configurations.
 ```json name=.eslintrc.json
 {
     "extends": ["@master/css"]
 }
 ```
-The extended recommended configuration:
-<Code lang="js">
-    {JSON.stringify(require('../../../../../../packages/eslint-plugin/src/configs/recommended').default, null, 4)}
-</Code>
+
 To learn more about features, check out the [Code Linting](/docs/code-linting).
 
 ---
