@@ -2,97 +2,28 @@
 <div align="center">
 
 <p align="center">
-    Master CSS Language Service for Visual Studio Code
+    <a href="https://css.master.co">
+        <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/33840671/201701649-3bb7d698-abec-4d5f-ac30-ccc4d7bafcd4.svg">
+            <source media="(prefers-color-scheme: light)" srcset="https://user-images.githubusercontent.com/33840671/201703010-77bf2373-9899-40cc-98f5-30cf9b546941.svg">
+            <img alt="Master CSS" src="https://user-images.githubusercontent.com/33840671/201703010-77bf2373-9899-40cc-98f5-30cf9b546941.svg" width="100%">
+        </picture>
+    </a>
 </p>
+<p align="center">Master CSS for Visual Studio Code</p>
 
 </div>
 
-<br>
-
-[![Install to Visual Studio Code now](https://user-images.githubusercontent.com/33840671/185619535-3b426030-7efd-4470-a8d1-d35b5698ee0e.jpg)](https://marketplace.visualstudio.com/items?itemName=masterco.master-css-language-service)
-
-
-## Features
-
-### Code-completion
-Smart suggestions for style names, values, utilities and selectors.
-
-![code-completion](https://user-images.githubusercontent.com/33840671/185128193-de6c0550-7fa6-4b2d-842c-72f6b79e6d8f.gif)
-
-### Syntax highlighting
-Highlight class names to make them easier to read and identify.
-
-![syntax-highlighting](https://user-images.githubusercontent.com/33840671/185127233-1556414a-2859-425f-a421-4b30ff228b9e.jpg)
-
-Master CSS has pioneered applying syntax highlighting to class names in markup, which solves the problem of unreadable classes that are too long.
-
 ## Documentation
-Visit [rc.css.master.co/docs/language-service](https://rc.css.master.co/docs/language-service) to view the full documentation
+Visit the [Language Service - Master CSS](https://rc.css.master.co/docs/language-service) to learn all the features.
 
-### Generate preview
-Hover over Master class names to see their CSS generation.
+## Community
+The Master CSS community can be found here:
 
-![rendering-preview](https://user-images.githubusercontent.com/33840671/185128766-614f302e-7cc3-4294-9179-76f29069d4a6.gif)
+- [Discuss on GitHub](https://github.com/master-co/css/discussions) - Ask questions, voice ideas, and do any other discussion
+- [Join our Discord Server](https://discord.com/invite/sZNKpAAAw6) - Casually chat with other people using the language <sup><sub>✓ 中文</sub></sup>
 
-## Settings
-- [User and Workspace Settings - Visual Studio Code](https://code.visualstudio.com/docs/getstarted/settings#:~:text=To%20open%20the%20Settings%20editor,macOS%20%2D%20Code%20%3E%20Preferences%20%3E%20Settings)
+<sub>Our [《 Code of Conduct 》](https://github.com/master-co/css/blob/main/CODE_OF_CONDUCT.md) applies to all Master CSS community channels.</sub>
 
-### `editor.quickSuggestions`
-```json
-"editor.quickSuggestions": {
-    "strings": true
-},
-```
-
-### `masterCSS.includedLanguages`
-Configure which languages should apply the Master CSS Language Service.
-```json
-"masterCSS.includedLanguages": [
-  "html",
-  "php",
-  "javascript",
-  "typescript",
-  "javascriptreact",
-  "typescriptreact",
-  "vue",
-  "svelte",
-  "rust"
-],
-```
-
-### `masterCSS.files.exclude`
-Configure a glob pattern to prevent Master CSS Language Service from being applied.
-```json
-"masterCSS.files.exclude": [
-    "**/.git/**",
-    "**/node_modules/**",
-    "**/.hg/**"
-],
-```
-
-### `masterCSS.classAttributes`
-Configure Regex patterns as conditions for triggering Suggestions and generating previews.
-```json
-"masterCSS.classAttributes": [
-  "(class(?:Name)?\\s?=\\s?)((?:\"[^\"]+\")|(?:'[^']+')|(?:`[^`]+`))",
-  "(class(?:Name)?={)([^}]*)}",
-  "(?:(\\$|(?:(?:element|el)\\.[^\\s.`]+)`)([^`]+)`)",
-  "(classList.(?:add|remove|replace|replace|toggle)\\()([^)]*)\\)",
-  "(template\\s*\\:\\s*)((?:\"[^\"]+\")|(?:'[^']+')|(?:`[^`]+`))"
-],
-```
-
-### `masterCSS.renderSyntaxColors: true`
-Render color boxes by color-related class names as previews.
-
-### `masterCSS.inspectSyntax: true`
-Preview the generated CSS rules when hovering over a class name.
-
-### `masterCSS.suggestions: true`
-Enable autocomplete suggestions.
-
-### `masterCSS.config`
-Configure the config file path.
-```json
-"masterCSS.config": "master.css.*"
-```
+## Contributing
+Please see our [CONTRIBUTING](https://github.com/master-co/css/blob/rc/.github/CONTRIBUTING.md) for workflow.
