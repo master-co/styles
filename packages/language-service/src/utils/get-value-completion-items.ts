@@ -148,7 +148,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                 if (completionItems.find(x => x.label === value.name)
                     // should ignore 100, 200 ... 900
                     || nativePropertyData.name === 'font' && typeof +value.name === 'number'
-                    // should ignore values ​​containing blanks
+                    // should ignore blanks
                     || value.name.includes(' ')
                 ) return
                 completionItems.push({
