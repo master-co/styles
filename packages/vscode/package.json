@@ -15,7 +15,6 @@
     "homepage": "https://rc.css.master.co/docs/installation/language-service",
     "license": "MIT",
     "publisher": "masterco",
-    "version": "2.1.36",
     "icon": "icon.png",
     "repository": {
         "type": "git",
