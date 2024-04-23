@@ -28,26 +28,6 @@
             ```
         </StepR>
     </Step>
-    <Step $row>
-        <StepL>
-            ### <StepNum />Add VS Code settings
-            Add the `eslint.validate` option of the extension to validate `.svelte` files because the extension targets only `*.js` or `*.jsx` files by default.
-
-            Check out the [Visual Studio Code guide](/docs/code-linting/vscode) if you haven't installed the ESLint extension yet.
-        </StepL>
-        <StepR>
-            ```json name=.vscode/settings.json
-            {
-                "eslint.validate": [
-                    "javascript",
-                    "javascriptreact",
-            +        "svelte"
-                ]
-            }
-            ```
-        </StepR>
-        <StepEnd/>
-    </Step>
     <Step>
         ### <StepNum />Start linting your code
         ```bash
@@ -55,3 +35,7 @@
         ```
     </Step>
 </StepSection>
+
+---
+
+Not working in Visual Studio Code? Next, set up the [VSCode ESLint](/docs/code-linting/vscode).
