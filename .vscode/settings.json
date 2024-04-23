@@ -4,5 +4,19 @@
     "[yaml]": {
         "editor.insertSpaces": true,
         "editor.tabSize": 4
-    }
+    },
+    "eslint.validate": [
+        "html",
+        "php",
+        "javascript",
+        "typescript",
+        "javascriptreact",
+        "typescriptreact",
+        "vue",
+        "svelte",
+        "rust",
+        "astro",
+        "markdown",
+        "mdx"
+    ]
 }
