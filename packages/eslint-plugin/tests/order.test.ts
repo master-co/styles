@@ -9,6 +9,14 @@ new RuleTester({
         ecmaFeatures: {
             jsx: true,
         }
+    },
+    settings: {
+        '@master/css': {
+            classAttributes: ['test', 'className', 'class'],
+            config: {
+                styles: { zDialog: 'z:10000' }
+            }
+        }
     }
 }).run('class order', rule, {
     valid: [
@@ -17,14 +25,6 @@ new RuleTester({
         },
         {
             code: `<div class="card mt:20">Traditional class + syntax</div>`,
-        },
-        {
-            code: `<div test="bg:black f:24 fg:white m:8 p:8">Simple, using 'test' prop</div>`,
-            settings: {
-                '@master/css': {
-                    classMatching: '^test|class(Name)?$',
-                },
-            },
         },
         {
             code: '<div className={ctl(`${live && \'bg:blue-10 bg:purple-40@dark r:5@sm\'} p:10 w:full`)}>ctl + exp</div>',
@@ -40,14 +40,6 @@ new RuleTester({
         },
         {
             code: `<div class="p:8 ">Extra space at the end</div>`,
-        },
-        {
-            code: `<div test="p:8 ">Extra space at the end, but with 'tw' prop</div>`,
-            settings: {
-                '@master/css': {
-                    classMatching: '^test|class(Name)?$',
-                },
-            },
         },
         {
             code: `<div class="p:5 p:4@lg px:6 px:3@sm py:2@md">'p', then 'py' then 'px'</div>`,
@@ -68,22 +60,10 @@ new RuleTester({
             code: `<div class="bg:black:focus:hover@dark bg:gray-40:disabled:focus:hover@md@dark">Stackable variants</div>`,
         },
         {
-            code: `<div className={clsx(\`abs flex bottom:0 flex:col h:270px w:full\`)}>clsx</div>`,
-            options: [
-                {
-                    callees: ['clsx'],
-                },
-            ],
+            code: `<div className={clsx(\`abs flex bottom:0 flex:col h:270px w:full\`)}>clsx</div>`
         },
         {
             code: `<div class="zDialog flex w:12">Number values</div>`,
-            settings: {
-                '@master/css': {
-                    config: {
-                        styles: { zDialog: 'z:10000' }
-                    }
-                }
-            }
         },
         {
             code: `<div class="   flex  m:10   ">Extra spaces</div>`,
@@ -142,11 +122,6 @@ new RuleTester({
         {
             code: `<div test="p:4 px:7@sm p:8@lg py:5@sm">Enhancing readability with 'test' prop</div>`,
             output: `<div test="p:4 p:8@lg px:7@sm py:5@sm">Enhancing readability with 'test' prop</div>`,
-            settings: {
-                '@master/css': {
-                    classMatching: '^test|class(Name)?$',
-                },
-            },
             errors: [{ messageId: 'invalidClassOrder' }],
         },
         {
@@ -172,11 +147,6 @@ new RuleTester({
             errors: [{ messageId: 'invalidClassOrder' }],
         },
         {
-            options: [
-                {
-                    removeDuplicates: false,
-                },
-            ],
             code: `<div class="w:12 w:6@lg w:12">removeDuplicates</div>`,
             output: `<div class="w:12 w:6@lg">removeDuplicates</div>`,
             errors: [{ messageId: 'invalidClassOrder' }],
@@ -296,11 +266,6 @@ new RuleTester({
         {
             code: `clsx(\`abs bottom:0 w:full h:70px flex flex:col\`);`,
             output: `clsx(\`abs flex bottom:0 flex:col h:70px w:full\`);`,
-            options: [
-                {
-                    callees: ['clsx'],
-                },
-            ],
             errors: [{ messageId: 'invalidClassOrder' }],
         },
         {
@@ -310,21 +275,11 @@ new RuleTester({
             output: `cva({
           primary: ["abs flex bottom:0 flex:col h:70px w:full"],
         })`,
-            options: [
-                {
-                    callees: ['cva'],
-                },
-            ],
             errors: [{ messageId: 'invalidClassOrder' }],
         },
         {
             code: `<div className={clsx(\`abs bottom:0 w:full h:270px flex flex:col\`)}>clsx</div>`,
             output: `<div className={clsx(\`abs flex bottom:0 flex:col h:270px w:full\`)}>clsx</div>`,
-            options: [
-                {
-                    callees: ['clsx'],
-                },
-            ],
             errors: [{ messageId: 'invalidClassOrder' }],
         },
         {

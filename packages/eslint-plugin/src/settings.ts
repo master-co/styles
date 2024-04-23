@@ -1,6 +1,8 @@
+import { CLASS_ATTRIBUTES, CLASS_FUNCTIONS } from '@master/css'
+
 const settings = {
-    calleeMatching: '^(classnames|clsx|ctl|cva|cv|classVariant|styled(?:\\.\\w+)?)',
-    classMatching: '^class(Name)?$',
+    classAttributes: CLASS_ATTRIBUTES,
+    classFunctions: CLASS_FUNCTIONS,
     ignoredKeys: ['compoundVariants', 'defaultVariants'],
     config: 'master.css'
 }
@@ -9,7 +11,8 @@ export default settings
 
 export interface Settings {
     calleeMatching: string
-    classMatching: string
+    classAttributes?: string[]
+    classFunctions?: string[]
     ignoredKeys: string[]
     config: string | object
 }

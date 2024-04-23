@@ -2,7 +2,9 @@ import { TSESTree } from '@typescript-eslint/utils'
 import type { RuleContext, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import { Settings } from '../settings'
 
-export default function defineVisitors({ context, settings, options }: { context: RuleContext<any, any[]>, settings: Settings, options: any }, visitNode: (node: TSESTree.Node, args?: any) => void): RuleListener {
+export default function defineVisitors({ context, settings }: { context: RuleContext<any, any[]>, settings: Settings }, visitNode: (node: TSESTree.Node, args?: any) => void): RuleListener {
+    const classAttributeRegex = new RegExp(`^(?:${settings.classAttributes.join('|')})$`)
+    const classFunctionsRegex = new RegExp(`^(?:${settings.classFunctions.join('|')})`)
     const isFnNode = (node) => {
         let calleeName = ''
         const calleeNode = node.callee || node.tag
@@ -12,9 +14,8 @@ export default function defineVisitors({ context, settings, options }: { context
         if (calleeNode.type === 'MemberExpression') {
             calleeName = `${calleeNode.object.name}.${calleeNode.property.name}`
         }
-        return new RegExp(settings.calleeMatching).test(calleeName)
+        return classFunctionsRegex.test(calleeName)
     }
-
     const CallExpression = function (node) {
         if (!isFnNode(node)) {
             return
@@ -23,11 +24,10 @@ export default function defineVisitors({ context, settings, options }: { context
             visitNode(node, arg)
         })
     }
-    const classMatchingRegex = new RegExp(settings.classMatching)
     const scriptVisitor: RuleListener = {
         CallExpression,
         JSXAttribute: function (node: any) {
-            if (!node.name || !classMatchingRegex.test(node.name.name)) return
+            if (!node.name || !classAttributeRegex.test(node.name.name)) return
             if (node.value && node.value.type === 'Literal') {
                 visitNode(node)
             } else if (node.value && node.value.type === 'JSXExpressionContainer') {
@@ -35,13 +35,13 @@ export default function defineVisitors({ context, settings, options }: { context
             }
         },
         SvelteAttribute: function (node: any) {
-            if (!node.key?.name || !classMatchingRegex.test(node.key.name)) return
+            if (!node.key?.name || !classAttributeRegex.test(node.key.name)) return
             for (const eachValue of node.value) {
                 visitNode(node, eachValue)
             }
         },
         TextAttribute: function (node: any) {
-            if (!node.name || !classMatchingRegex.test(node.name)) return
+            if (!node.name || !classAttributeRegex.test(node.name)) return
             visitNode(node)
         },
         TaggedTemplateExpression: function (node) {

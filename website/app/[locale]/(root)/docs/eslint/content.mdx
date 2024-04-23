@@ -80,13 +80,13 @@ Specify the names of the callee to check its arguments.
 `}
 </Code>
 
-### `classMatching`
-Specify the attribute/property to check classes.
+### `classAttributes`
+Specify the element attribute containing classes.
 <Code lang="json" name=".eslintrc.json">
 {`
     {
         "settings": {
-            "classMatching": "${settings.classMatching}"
+            "classAttributes": ${JSON.stringify(settings.classAttributes)}
         }
     }
 `}

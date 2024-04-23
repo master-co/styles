@@ -4,6 +4,7 @@ import findLoc from '../utils/find-loc'
 import { parseNodeRecursive } from '../utils/parse-node-recursive'
 import filterCollisionClasses from '../functions/filter-collision-classes'
 import createRule from '../create-rule'
+import settingsSchema from '../settings-schema'
 
 export default createRule({
     name: 'class-collision-detection',
@@ -17,27 +18,7 @@ export default createRule({
             collisionClass: '{{message}}',
         },
         fixable: 'code',
-        schema: [
-            {
-                type: 'object',
-                properties: {
-                    calleeMatching: {
-                        type: 'string'
-                    },
-                    classMatching: {
-                        type: 'string'
-                    },
-                    ignoredKeys: {
-                        type: 'array',
-                        items: { type: 'string', minLength: 0 },
-                        uniqueItems: true,
-                    },
-                    config: {
-                        type: ['string', 'object'],
-                    }
-                },
-            },
-        ],
+        schema: [settingsSchema]
     },
     defaultOptions: [],
     create(context) {

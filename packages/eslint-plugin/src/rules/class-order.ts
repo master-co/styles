@@ -10,6 +10,7 @@ import extractClassnamesFromValue from '../utils/extract-classnames-from-value'
 import findLoc from '../utils/find-loc'
 import reorderValidClasses from '../functions/reorder-valid-classes'
 import createRule from '../create-rule'
+import settingsSchema from '../settings-schema'
 
 export default createRule({
     name: 'consistent-class-order',
@@ -23,27 +24,7 @@ export default createRule({
         messages: {
             invalidClassOrder: 'No consistent class order followed.',
         },
-        schema: [
-            {
-                type: 'object',
-                properties: {
-                    calleeMatching: {
-                        type: 'string'
-                    },
-                    classMatching: {
-                        type: 'string'
-                    },
-                    ignoredKeys: {
-                        type: 'array',
-                        items: { type: 'string', minLength: 0 },
-                        uniqueItems: true,
-                    },
-                    config: {
-                        type: ['string', 'object'],
-                    }
-                },
-            },
-        ],
+        schema: [settingsSchema]
     },
     defaultOptions: [],
     create: function (context) {
@@ -140,7 +121,7 @@ export default createRule({
                         break
                 }
             }
-            
+
             const { classNames, whitespaces, headSpace, tailSpace } =
                 extractClassnamesFromValue(originalClassNamesValue)
 
