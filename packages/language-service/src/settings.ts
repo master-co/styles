@@ -21,31 +21,46 @@ const settings: Settings = {
         "mdx",
         "astro"
     ],
-    classStrings: [
-        ["\\sclass=", "\""],
-        ["\\sclass=", "'"],
-        ["\\sclassName=", "\""],
-        ["\\sclassName=", "'"],
-        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "`"],
-        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "\""],
-        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "'"],
-        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "`"]
+    /**
+     * @example <div class="a b">
+     * @example <div className="a b">
+     */
+    classAttributes: [
+        "class",
+        "className"
     ],
-    classAssignments: [
-        ["\\sclassName=", "{", "}"],
-        ["\\sclass=", "{", "}"],
-        ["\\sclass:list=", "{", "}"],
-        ["\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "{", "}"],
-        ["\\s:class=", "\"", "\""],
-        ["\\sv-bind:class=", "\"", "\""],
-        ["\\s[class]=", "\"", "\""],
-        ["\\s[className]=", "\"", "\""],
-        ["\\s[ngClass]=", "\"", "\""],
-        ["\\sclsx", "(", ")"],
-        ["\\scva", "(", ")"],
-        ["\\.class", "(", ")"],
-        ["\\sstyled(?:\\s+)?(?:\\.\\w+)?", "(", ")"],
-        ["\\.classList(?:\\s+)?(?:\\.(add|remove|toggle|replace))", "(", ")"]
+    /**
+     * @example <div class={active ? 'a' : 'b'}>
+     * @example <div className={active ? 'a' : 'b'}>
+     */
+    classAttributeBindings: {
+        "className": ["{", "}"],
+        "class": ["{", "}"],
+        "class:list": ["{", "}"],
+        ":class": ["\"", "\""],
+        "v-bind:class": ["\"", "\""],
+        "[class]": ["\"", "\""],
+        "[className]": ["\"", "\""],
+        "[ngClass]": ["\"", "\""]
+    },
+    /**
+     * @example const styles = 'a b'
+     * @example { styles: { btn: 'a b' } }
+     */
+    classDeclarations: [
+        "styles"
+    ],
+    /**
+     * @example clsx('a b')
+     * @example styled`a b`
+     * @example .classList.add('a')
+     */
+    classFunctions: [
+        "clsx",
+        "cva",
+        "class",
+        "styled(?:\\s+)?(?:\\.\\w+)?",
+        "classList(?:\\s+)?\\.(?:add|remove|toggle|replace)"
     ],
     exclude: ["**/.git/**", "**/node_modules/**", "**/.hg/**"],
     suggestSyntax: true,
@@ -58,8 +73,10 @@ export default settings
 
 export declare type Settings = {
     includedLanguages?: string[]
-    classStrings?: [string, string][]
-    classAssignments?: [string, string, string][]
+    classAttributes?: string[]
+    classDeclarations?: string[]
+    classFunctions?: string[]
+    classAttributeBindings?: Record<string, [string, string] | false>
     exclude?: string[]
     config?: Config
     // features

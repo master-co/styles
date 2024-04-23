@@ -53,7 +53,7 @@ export default class CSSLanguageService extends EventEmitter {
         const startIndex = textDocument.offsetAt({ line: position.line - 100, character: 0 }) ?? 0
         const endIndex = textDocument.offsetAt({ line: position.line + 100, character: 0 }) ?? undefined
         const text = textDocument.getText().substring(startIndex, endIndex)
-        const { classAssignments, classStrings } = this.settings
+        const { classAttributeBindings, classAttributes, classDeclarations, classFunctions } = this.settings
         const normalizeClassNamePosition = (className: string, attrStart: number, escapeCharacter: string) => {
             /**
              * Matching classes, including empty string after white space
@@ -89,7 +89,7 @@ export default class CSSLanguageService extends EventEmitter {
                 // eslint-disable-next-line prefer-const
                 let [eachPattern, start, end] = eachClassMatcher
                 end = end ?? start
-                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`${eachPattern}${(escapeRegexp(start))}`, 'g'))) {
+                for (const eachClassPostioinMatch of text.matchAll(new RegExp(`(?:\\s|\\.)${eachPattern}${(escapeRegexp(start))}`, 'g'))) {
                     if (eachClassPostioinMatch.index === undefined) continue
                     const eachClassAttributeString = eachClassPostioinMatch[0]
                     const eachAttrStart = eachClassPostioinMatch.index + eachClassAttributeString.length
@@ -105,11 +105,49 @@ export default class CSSLanguageService extends EventEmitter {
             }
         }
 
+        const stringExpressions: [string, string, string][] = []
+        const assignmentExpressions: [string, string, string][] = []
+
+        classAttributes?.forEach((eachClassAttribute) => {
+            stringExpressions.push(
+                [eachClassAttribute + '=', '"', '"'],
+                [eachClassAttribute + '=', '\'', '\''],
+            )
+        })
+
+        classDeclarations?.forEach((eachClassDeclaration) => {
+            stringExpressions.push(
+                [eachClassDeclaration + '(?:\\s+)?(?::|=)(?:\\s+)?', '"', '"'],
+                [eachClassDeclaration + '(?:\\s+)?(?::|=)(?:\\s+)?', '`', '`'],
+                [eachClassDeclaration + '(?:\\s+)?(?::|=)(?:\\s+)?', '\'', '\''],
+            )
+
+            assignmentExpressions.push(
+                [eachClassDeclaration + '(?:\\s+)?(?::|=)(?:\\s+)?', '{', '}'],
+            )
+        })
+
+        classFunctions?.forEach((eachClassFunction) => {
+            /**
+             * @example clsx`class-a class-b`
+             */
+            stringExpressions.push(
+                [eachClassFunction, '`', '`'],
+            )
+
+            /**
+             * @example clsx('class-a class-b')
+             */
+            assignmentExpressions.push(
+                [eachClassFunction, '(', ')'],
+            )
+        })
+
         /**
          * @example <div class=""></div>
          * */
-        if (classStrings?.length) {
-            const classPosition = resolve(classStrings, (eachAttrStart, eachClassPositionEnd, [eachPattern, pair]) => {
+        if (stringExpressions?.length) {
+            const classPosition = resolve(stringExpressions, (eachAttrStart, eachClassPositionEnd, [eachPattern, pair]) => {
                 const eachClassName = text.substring(eachAttrStart, eachClassPositionEnd)
                 /**
                  * @example <div class=""></div>
@@ -128,13 +166,21 @@ export default class CSSLanguageService extends EventEmitter {
             if (classPosition) return classPosition
         }
 
+        if (classAttributeBindings) {
+            for (const eachClassAttribute in classAttributeBindings) {
+                const eachClassAttributeBinding = classAttributeBindings[eachClassAttribute]
+                if (eachClassAttributeBinding === false) continue
+                assignmentExpressions.push([eachClassAttribute + '=', eachClassAttributeBinding[0], eachClassAttributeBinding[1]])
+            }
+        }
+
         /**
          * attribute binding
          * @example <div className={''}></div>
          * @example <div :class="isActive ? 'block' : 'hidden'"></div>
          * */
-        if (classAssignments?.length) {
-            const classPosition = resolve(classAssignments, (eachAttrStart, eachClassPositionEnd, eachClassMatcher) => {
+        if (assignmentExpressions?.length) {
+            const classPosition = resolve(assignmentExpressions, (eachAttrStart, eachClassPositionEnd, eachClassMatcher) => {
                 const eachClassPositionExpression = text.substring(eachAttrStart, eachClassPositionEnd)
                 /**
                  * @example <div className={""}></div>

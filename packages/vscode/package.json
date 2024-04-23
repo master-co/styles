@@ -158,42 +158,49 @@
                     ],
                     "description": "Configure glob patterns to exclude from all Master Language Service features."
                 },
-                "masterCSS.classStrings": {
+                "masterCSS.classAttributes": {
                     "type": "array",
                     "items": {
-                        "type": "array"
+                        "type": "string"
                     },
                     "default": [
-                        [ "\\sclass=", "\"" ],
-                        [ "\\sclass=", "'" ],
-                        [ "\\sclassName=", "\"" ],
-                        [ "\\sclassName=", "'" ],
-                        [ "\\sstyled(?:\\s+)?(?:\\.\\w+)?", "`" ],
-                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "\"" ],
-                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "'" ],
-                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "`" ]
+                        "class",
+                        "className"
                     ]
                 },
-                "masterCSS.classAssignments": {
+                "masterCSS.classAttributeBindings": {
+                    "type": "object",
+                    "default": {
+                        "className": [ "{", "}" ],
+                        "class": [ "{", "}" ],
+                        "class:list": [ "{", "}" ],
+                        ":class": [ "\"", "\"" ],
+                        "v-bind:class": [ "\"", "\"" ],
+                        "[class]": [ "\"", "\"" ],
+                        "[className]": [ "\"", "\"" ],
+                        "[ngClass]": [ "\"", "\"" ]
+                    }
+                },
+                "masterCSS.classDeclarations": {
                     "type": "array",
                     "items": {
-                        "type": "array"
+                        "type": "string"
                     },
                     "default": [
-                        [ "\\sclassName=", "{", "}" ],
-                        [ "\\sclass=", "{", "}" ],
-                        [ "\\sclass:list=", "{", "}" ],
-                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "{", "}" ],
-                        [ "\\s:class=", "\"", "\"" ],
-                        [ "\\sv-bind:class=", "\"", "\"" ],
-                        [ "\\s[class]=", "\"", "\"" ],
-                        [ "\\s[className]=", "\"", "\"" ],
-                        [ "\\s[ngClass]=", "\"", "\"" ],
-                        [ "\\sclsx", "(", ")" ],
-                        [ "\\scva", "(", ")" ],
-                        [ "\\.class", "(", ")" ],
-                        [ "\\sstyled(?:\\s+)?(?:\\.\\w+)?", "(", ")" ],
-                        [ "\\.classList(?:\\s+)?(?:\\.(add|remove|toggle|replace))", "(", ")" ]
+                        "styles"
+                    ]
+                },
+                "masterCSS.classFunctions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "clsx",
+                        "cva",
+                        "class",
+                        "styled(?:\\s+)?(?:\\.\\w+)?",
+                        "classList(?:\\s+)?\\.(?:add|remove|toggle|replace)"
                     ]
                 },
                 "masterCSS.suggestSyntax": {
