@@ -20,7 +20,7 @@ const categoryOrder = [
     'Custom Syntax',
     'Production Optimization',
     'Syntax',
-    'API Reference'
+    'Package'
 ]
 
 let pages: { metadata: Metadata, pathname: string }[] = metadataForList.map((eachMetadata: Metadata) => {
