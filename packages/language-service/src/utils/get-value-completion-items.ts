@@ -44,7 +44,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                 completionItem.kind = CompletionItemKind.Color
                 completionItem.detail = variable.name
             } else {
-                // todo: packages/css should support getTextByVariable(variable)
+                // todo: packages/core should support getTextByVariable(variable)
                 const configKey = 'variables.' + (variable.group ? variable.group + '.' + variable.key : variable.name)
                 const valueToken = ((variable.space && variable.value)
                     // vscode doesn't support rgba(0 0 0/.5) in detail

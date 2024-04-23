@@ -1,7 +1,7 @@
 import Link from 'websites/components/Link'
 
 const mainPackages = [
-    require('~/../packages/css/package.json'),
+    require('~/../packages/core/package.json'),
     require('~/../packages/runtime/package.json'),
     require('~/../packages/server/package.json'),
     require('~/../packages/extractor/package.json'),

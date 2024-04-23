@@ -7,7 +7,7 @@ export default function getColorCompletionItems(css: MasterCSS = new MasterCSS()
     for (const eachVariableName in css.variables) {
         const eachVariable = css.variables[eachVariableName]
         if (eachVariable.type === 'color') {
-            // todo: packages/css should support getTextByVariable(variable)
+            // todo: packages/core should support getTextByVariable(variable)
             const valueToken = (eachVariable.space && eachVariable.value)
                 ? `${eachVariable.space}(${eachVariable.value})`
                 : eachVariable.value
