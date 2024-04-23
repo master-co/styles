@@ -37,6 +37,13 @@
         "dist"
     ],
     "contributes": {
+        "commands": [
+            {
+                "title": "Restart Language Server",
+                "command": "masterCSS.restart",
+                "category": "Master CSS"
+            }
+        ],
         "languages": [
             {
                 "id": "master-css",
@@ -157,46 +164,14 @@
                         "type": "array"
                     },
                     "default": [
-                        [
-                            "\\sclass=",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\sclass=",
-                            "'",
-                            "'"
-                        ],
-                        [
-                            "\\sclassName=",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\sclassName=",
-                            "'",
-                            "'"
-                        ],
-                        [
-                            "\\sstyled(?:\\s+)?(?:\\.\\w+)?",
-                            "`",
-                            "`"
-                        ],
-                        [
-                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
-                            "'",
-                            "'"
-                        ],
-                        [
-                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
-                            "`",
-                            "`"
-                        ]
+                        [ "\\sclass=", "\"" ],
+                        [ "\\sclass=", "'" ],
+                        [ "\\sclassName=", "\"" ],
+                        [ "\\sclassName=", "'" ],
+                        [ "\\sstyled(?:\\s+)?(?:\\.\\w+)?", "`" ],
+                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "\"" ],
+                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "'" ],
+                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "`" ]
                     ]
                 },
                 "masterCSS.classAssignments": {
@@ -205,76 +180,20 @@
                         "type": "array"
                     },
                     "default": [
-                        [
-                            "\\sclassName=",
-                            "{",
-                            "}"
-                        ],
-                        [
-                            "\\sclass=",
-                            "{",
-                            "}"
-                        ],
-                        [
-                            "\\sclass:list=",
-                            "{",
-                            "}"
-                        ],
-                        [
-                            "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?",
-                            "{",
-                            "}"
-                        ],
-                        [
-                            "\\s:class=",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\sv-bind:class=",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\s[class]=",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\s[className]=",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\s[ngClass]=",
-                            "\"",
-                            "\""
-                        ],
-                        [
-                            "\\sclsx",
-                            "(",
-                            ")"
-                        ],
-                        [
-                            "\\scva",
-                            "(",
-                            ")"
-                        ],
-                        [
-                            "\\.class",
-                            "(",
-                            ")"
-                        ],
-                        [
-                            "\\sstyled(?:\\s+)?(?:\\.\\w+)?",
-                            "(",
-                            ")"
-                        ],
-                        [
-                            "\\.classList(?:\\s+)?(?:\\.(add|remove|toggle|replace))",
-                            "(",
-                            ")"
-                        ]
+                        [ "\\sclassName=", "{", "}" ],
+                        [ "\\sclass=", "{", "}" ],
+                        [ "\\sclass:list=", "{", "}" ],
+                        [ "\\sstyles(?:\\s+)?(?::|=)(?:\\s+)?", "{", "}" ],
+                        [ "\\s:class=", "\"", "\"" ],
+                        [ "\\sv-bind:class=", "\"", "\"" ],
+                        [ "\\s[class]=", "\"", "\"" ],
+                        [ "\\s[className]=", "\"", "\"" ],
+                        [ "\\s[ngClass]=", "\"", "\"" ],
+                        [ "\\sclsx", "(", ")" ],
+                        [ "\\scva", "(", ")" ],
+                        [ "\\.class", "(", ")" ],
+                        [ "\\sstyled(?:\\s+)?(?:\\.\\w+)?", "(", ")" ],
+                        [ "\\.classList(?:\\s+)?(?:\\.(add|remove|toggle|replace))", "(", ")" ]
                     ]
                 },
                 "masterCSS.suggestSyntax": {

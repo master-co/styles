@@ -52,6 +52,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Start the client. This will also launch the server
     client.start()
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand('masterCSS.restart', () => {
+            client.stop().then(() => client.start())
+        })
+    )
 }
 
 export function deactivate(): Thenable<void> | undefined {
