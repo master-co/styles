@@ -336,7 +336,7 @@ export class Rule {
                             analyzeToken(atToken)
                         }
                         if (!atComponents.length) {
-                            if (!isAmpersandIncluded) {
+                            if (!isAmpersandIncluded && modes?.[atToken]) {
                                 this.mode = atToken
                                 continue
                             } else {

@@ -31,7 +31,8 @@ describe('with themes', () => {
                 '@light': 'hsl(0deg 0% 58.82%)',
                 '@chrisma': 'hsl(0deg 0% 0%/.5)'
             }
-        }
+        },
+        modes: { chrisma: 'class' }
     }
 
     it('checks resolved colors', () => {

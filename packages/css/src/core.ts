@@ -1094,9 +1094,11 @@ export default class MasterCSS {
                                     case 'host':
                                         selectorText = `:host(.${mode})`
                                         break
-                                    default:
+                                    case 'class':
                                         selectorText = `.${mode}`
                                         break
+                                    default:
+                                        return
                                 }
                             } else {
                                 selectorText = ':root'

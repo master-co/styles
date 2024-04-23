@@ -34,10 +34,10 @@ test('queries', () => {
     expect(new MasterCSS(config).add('hidden@supports(transform-origin:5%|5%)').text)
         .toBe('@supports (transform-origin:5% 5%){.hidden\\@supports\\(transform-origin\\:5\\%\\|5\\%\\){display:none}}')
 
-    expect(new MasterCSS(config).add('fg:black@christmas').text)
+    expect(new MasterCSS({ ...config, modes: { christmas: 'class' }}).add('fg:black@christmas').text)
         .toBe('.christmas .fg\\:black\\@christmas{color:rgb(0 0 0)}')
 
-    expect(new MasterCSS(config).add('fg:black@christmas@md').text)
+    expect(new MasterCSS({ ...config, modes: { christmas: 'class' }}).add('fg:black@christmas@md').text)
         .toBe('@media (min-width:1024px){.christmas .fg\\:black\\@christmas\\@md{color:rgb(0 0 0)}}')
 })
 
