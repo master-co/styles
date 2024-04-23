@@ -1,5 +1,5 @@
 /* eslint-disable quotes */
-import { CLASS_ATTRIBUTES, CLASS_FUNCTIONS, Config } from '@master/css'
+import { CLASS_ATTRIBUTES, CLASS_FUNCTIONS, CLASS_DECLARATIONS, Config } from '@master/css'
 
 /**
  * @example styles https://regex101.com/r/HLPdsw/1
@@ -44,9 +44,7 @@ const settings: Settings = {
      * @example const styles = 'a b'
      * @example { styles: { btn: 'a b' } }
      */
-    classDeclarations: [
-        "styles"
-    ],
+    classDeclarations: CLASS_DECLARATIONS,
     /**
      * @example clsx('a b')
      * @example styled`a b`

@@ -5,6 +5,7 @@ import { Settings } from '../settings'
 export default function defineVisitors({ context, settings }: { context: RuleContext<any, any[]>, settings: Settings }, visitNode: (node: TSESTree.Node, args?: any) => void): RuleListener {
     const classAttributeRegex = new RegExp(`^(?:${settings.classAttributes.join('|')})$`)
     const classFunctionsRegex = new RegExp(`^(?:${settings.classFunctions.join('|')})`)
+    const classDeclarationsRegex = new RegExp(`^(?:${settings.classDeclarations.join('|')})$`)
     const isFnNode = (node) => {
         let calleeName = ''
         const calleeNode = node.callee || node.tag
@@ -49,6 +50,21 @@ export default function defineVisitors({ context, settings }: { context: RuleCon
                 visitNode(node, node.quasi)
                 return
             }
+        },
+        VariableDeclaration: function (node) {
+            node.declarations.forEach((decl) => {
+                console.log(decl)
+                if (decl.id.type === 'Identifier' && classDeclarationsRegex.test(decl.id.name)) {
+                    visitNode(node, decl.init)
+                }
+            })
+        },
+        ObjectExpression: function (node) {
+            node.properties.forEach((prop) => {
+                if (prop.type === 'Property' && prop.key.type === 'Identifier' && classDeclarationsRegex.test(prop.key.name)) {
+                    visitNode(node, prop.value)
+                }
+            })
         },
     }
     const templateBodyVisitor: RuleListener = {

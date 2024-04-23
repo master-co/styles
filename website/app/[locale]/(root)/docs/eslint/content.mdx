@@ -68,25 +68,37 @@ Avoid applying classes with the same CSS declaration.
 ---
 
 ## Settings
-### `calleeMatching`
-Specify the names of the callee to check its arguments.
-<Code lang="json" name=".eslintrc.json">
+### `classAttributes`
+Specify the element attribute containing classes.
+<Code lang="json" name=".eslintrc.json" beautify>
 {`
     {
         "settings": {
-            "calleeMatching": "${settings.calleeMatching}"
+            "classAttributes": ${JSON.stringify(settings.classAttributes, null, 4)}
         }
     }
 `}
 </Code>
 
-### `classAttributes`
-Specify the element attribute containing classes.
-<Code lang="json" name=".eslintrc.json">
+### `classFunctions`
+Specify the names of the function to check its arguments.
+<Code lang="json" name=".eslintrc.json" beautify>
 {`
     {
         "settings": {
-            "classAttributes": ${JSON.stringify(settings.classAttributes)}
+            "classFunctions": ${JSON.stringify(settings.classFunctions, null, 4)}
+        }
+    }
+`}
+</Code>
+
+### `classDeclarations`
+Specify the names of the variable/member to check its declarations.
+<Code lang="json" name=".eslintrc.json" beautify>
+{`
+    {
+        "settings": {
+            "classDeclarations": ${JSON.stringify(settings.classDeclarations, null, 4)}
         }
     }
 `}
@@ -94,11 +106,11 @@ Specify the element attribute containing classes.
 
 ### `ignoredKeys`
 Specifies object keys to ignore checking.
-<Code lang="json" name=".eslintrc.json">
+<Code lang="json" name=".eslintrc.json" beautify>
 {`
     {
         "settings": {
-            "ignoredKeys": ${JSON.stringify(settings.ignoredKeys)}
+            "ignoredKeys": ${JSON.stringify(settings.ignoredKeys, null, 4)}
         }
     }
 `}

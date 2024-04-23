@@ -44,12 +44,28 @@ import VSCodeSvg from '~/public/icons/visualstudiocode.svg?inlineSvg'
             Create a `.vscode/settings.json` or set it in [user settings](https://code.visualstudio.com/docs/getstarted/settings).
 
             - Add `@master/css/class-order` to the `eslint.codeActionsOnSave.rules` section.
+            - Validate the languages you want to lint in the `eslint.validate` section.
         </StepL>
         <StepR>
             ```json name=.vscode/settings.json
             {
                 "eslint.codeActionsOnSave.rules": [
                     "@master/css/class-order"
+                ],
+                "eslint.validate": [
+                    "html",
+                    "php",
+                    "javascript",
+                    "typescript",
+                    "javascriptreact",
+                    "typescriptreact",
+                    "vue",
+                    "svelte",
+                    "rust",
+                    "astro",
+                    "markdown",
+                    "mdx",
+                    "astro"
                 ]
             }
             ```

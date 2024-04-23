@@ -173,6 +173,6 @@ export default createRule({
                 })
             }
         }
-        return defineVisitors({ context, settings, options }, visitNode)
+        return defineVisitors({ context, settings }, visitNode)
     },
 })

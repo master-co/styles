@@ -21,4 +21,5 @@ export const COLOR_VALUE_REGEX = /(?:#|(?:color|color-contrast|color-mix|hwb|lab
 export const NUMBER_VALUE_REGEX = /(?:[\d.]|(?:max|min|calc|clamp)\(.*\))/
 export const OFFICIAL_URL = new URL('https://rc.css.master.co')
 export const CLASS_ATTRIBUTES = ['class', 'className']
+export const CLASS_DECLARATIONS = ['styles']
 export const CLASS_FUNCTIONS = ['clsx', 'cva', 'ctl', 'cv', 'class', 'classnames', 'classVariant', 'styled(?:\\s+)?(?:\\.\\w+)?', 'classList(?:\\s+)?\\.(?:add|remove|toggle|replace)']
