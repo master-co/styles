@@ -24,6 +24,9 @@ describe('with themes', () => {
                 '@light': '#969696',
                 '@chrisma': '$(black)/.5'
             }
+        },
+        modes: {
+            chrisma: 'class'
         }
     }
 

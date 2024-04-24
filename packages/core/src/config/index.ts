@@ -33,7 +33,8 @@ export {
     rules,
     functions,
     animations,
-    variables
+    variables,
+    modes
 }
 
 export type VariableValue = number | string | Array<number | string>
