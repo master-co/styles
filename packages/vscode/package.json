@@ -6,9 +6,9 @@
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
         "lint": "eslint src",
-        "vscode:publish": "vsce publish 2.0.1 --pre-release"
+        "vscode:publish": "vsce publish --pre-release"
     },
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "Master CSS for Visual Studio Code",
     "displayName": "Master CSS",
     "author": "Aoyue Design LLC.",
