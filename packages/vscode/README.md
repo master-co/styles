@@ -2,13 +2,7 @@
 <div align="center">
 
 <p align="center">
-    <a href="https://css.master.co">
-        <picture>
-            <source media="(prefers-color-scheme: dark)" srcset="https://github.com/master-co/css/assets/33840671/abae883b-86bf-4857-9b96-141ddba94291">
-            <source media="(prefers-color-scheme: light)" srcset="https://github.com/master-co/css/assets/33840671/207ab2ea-cdc8-4cfd-bd1d-5b6f4cb5667a">
-            <img alt="Master CSS" src="https://github.com/master-co/css/assets/33840671/207ab2ea-cdc8-4cfd-bd1d-5b6f4cb5667a" width="100%">
-        </picture>
-    </a>
+    <img alt="Master CSS" src="https://github.com/master-co/css/assets/33840671/fabe83d3-e882-4c7b-93f1-ca06792a6fb2" width="100%">
 </p>
 <p align="center">Master CSS for Visual Studio Code</p>
 
