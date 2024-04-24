@@ -1,3 +1,5 @@
+import { Config } from '../../../src'
+
 /**
  * 1. 000000
  * 2. { space: 'rgb', value: '0 0 0' }
@@ -16,7 +18,7 @@ test('color/opacity to rgb(r g b/opacity)', () => {
 })
 
 describe('with themes', () => {
-    const config = {
+    const config: Config = {
         variables: {
             primary: {
                 '': '#000000',

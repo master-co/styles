@@ -47,7 +47,7 @@ export type StyleDefinitions = { [key: string]: string | StyleDefinitions }
 export type RuleDefinitions = { [key in keyof typeof rules | string]?: RuleDefinition }
 export type VariableDefinitions = { [key in keyof typeof rules]?: VariableDefinition } & { [key: string]: VariableDefinition }
 export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesHyphen } & { [key: string]: PropertiesHyphen }
-export type ModeDefinitions = { [key: string]: 'class' | 'media' | 'host' }
+export type ModeDefinitions = { [key: string]: 'class' | 'media' | 'host' | false }
 export interface FunctionDefinition {
     unit?: string
     transform?(this: Rule, value: string, bypassVariableNames: string[]): string | ValueComponent[]
@@ -69,5 +69,5 @@ export interface Config {
     override?: boolean
     functions?: FunctionDefinitions
     animations?: AnimationDefinitions
-    modes?: Record<string, 'class' | 'media' | 'host' | false>
+    modes?: ModeDefinitions
 }
