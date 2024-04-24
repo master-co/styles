@@ -1,3 +1,4 @@
+import Layout from '~/layouts/reference'
 import metadata from './metadata'
 import Content from './content.mdx'
 import { generate } from '~/utils/metadata'
@@ -11,6 +12,11 @@ export async function generateMetadata(props: any, parent: any) {
 
 export default async function Page(props: any) {
     return (
-        <Content />
+        <Layout {...props} pageDirname={__dirname}
+            metadata={metadata}
+            backOnClickCategory='/docs/language-service'
+        >
+            <Content />
+        </Layout >
     )
 }

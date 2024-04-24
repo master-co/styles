@@ -4,12 +4,11 @@ const metadata: Metadata = {
     title: {
         absolute: 'Language Service for Master CSS'
     },
-    description: 'Enhanced Master CSS development experience, including syntax highlighting, code completion, syntax rule preview, and more.',
+    description: 'Enhance the developer experience in code editors or IDEs with syntax highlighting, code completion, and more.',
     category: 'Getting Started',
     other: {
         subject: 'Language Service'
     },
-    unfinished: true,
     order: 3
 }
 

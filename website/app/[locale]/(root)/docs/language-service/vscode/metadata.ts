@@ -1,9 +1,9 @@
 import { Metadata } from 'websites/types/Metadata'
 
 const metadata: Metadata = {
-    title: 'Language Service for Visual Studio Code',
-    description: 'Language Service APIs for major IDE extensions.',
-    category: 'Getting Started'
+    title: 'Master CSS for Visual Studio Code',
+    description: 'An official VSCode extension to integrate features of the Master CSS language service.',
+    category: 'Language Service'
 }
 
 export default metadata
