@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import { resolve } from 'node:path'
 import { Command } from 'commander'
 import { readJSONFileSync } from '@techor/fs'
