@@ -15,10 +15,11 @@ export class RuntimeCSS extends MasterCSS {
     ) {
         super(customConfig)
         if (!root) this.root = document
-        if (this.root === document) {
-            (globalThis as any).runtimeCSS = this
-            this.container = document.head
-            this.host = document.documentElement
+        if (this.root?.constructor.name === 'HTMLDocument') {
+            // @ts-ignore
+            (this.root as Document).defaultView.globalThis.runtimeCSS = this
+            this.container = (this.root as Document).head
+            this.host = (this.root as Document).documentElement
         } else {
             this.container = this.root as RuntimeCSS['container']
             this.host = (this.root as ShadowRoot).host
@@ -196,7 +197,7 @@ export class RuntimeCSS extends MasterCSS {
             /**
              * 待所有 DOM 結構完成解析後，開始繪製 Rule 樣式
              */
-            (this.root === document ? this.host : this.container)
+            ((this.root.constructor.name === 'HTMLDocument') ? this.host : this.container)
                 .querySelectorAll('[class]')
                 .forEach((element) => handleClassList(element.classList))
         }
