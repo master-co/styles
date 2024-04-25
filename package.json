@@ -49,6 +49,7 @@
         "techor": "^3.0.20",
         "tinybench": "^2.6.0",
         "ts-dedent": "^2.2.0",
+        "ts-jest": "^29.1.2",
         "tsx": "^4.7.1"
     },
     "devDependencies": {
@@ -63,6 +64,7 @@
         "@master/css-language-service": "workspace:^",
         "@master/css-runtime": "workspace:^",
         "@master/css-server": "workspace:^",
+        "@master/css-shared": "workspace:^",
         "@master/css-validator": "workspace:^",
         "@master/css.nuxt": "workspace:^",
         "@master/css.react": "workspace:^",
@@ -70,7 +72,6 @@
         "@master/css.vue": "workspace:^",
         "@master/eslint-config-css": "workspace:^",
         "@master/eslint-plugin-css": "workspace:^",
-        "@master/css-shared": "workspace:^",
         "master-css-vscode": "workspace:^"
     }
 }

@@ -1,4 +1,5 @@
 {
+    "eslint.experimental.useFlatConfig": true,
     "eslint.validate": [
         "html",
         "php",
