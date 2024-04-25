@@ -53,7 +53,6 @@ export default function defineVisitors({ context, settings }: { context: RuleCon
         },
         VariableDeclaration: function (node) {
             node.declarations.forEach((decl) => {
-                console.log(decl)
                 if (decl.id.type === 'Identifier' && classDeclarationsRegex.test(decl.id.name)) {
                     visitNode(node, decl.init)
                 }
