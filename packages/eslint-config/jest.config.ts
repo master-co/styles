@@ -1,5 +1,5 @@
 // import { pathsToModuleNameMapper } from 'ts-jest'
-import { getTsconfig } from 'get-tsconfig'
+// import { getTsconfig } from 'get-tsconfig'
 // import { resolve } from 'path'
 
 // const tsconfig = getTsconfig()?.config
