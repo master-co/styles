@@ -1140,9 +1140,6 @@ importers:
       '@master/css-shared':
         specifier: workspace:^
         version: link:../../shared
-      '@master/eslint-config-css':
-        specifier: workspace:^
-        version: 'link:'
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
