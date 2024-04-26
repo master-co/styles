@@ -34,10 +34,10 @@ export default createRule({
                     const nodeStartLine = node.loc.start.line
                     const nodeEndLine = node.loc.end.line
                     for (const className of classNames) {
-                        const { isMasterCSS, errors } = validate(className, settings.config)
+                        const { matched, errors } = validate(className, settings.config)
                         if (errors.length > 0) {
                             for (const error of errors) {
-                                if (isMasterCSS) {
+                                if (matched) {
                                     context.report({
                                         loc: findLoc(className, sourceCodeLines, nodeStartLine, nodeEndLine),
                                         messageId: 'invalidClass',

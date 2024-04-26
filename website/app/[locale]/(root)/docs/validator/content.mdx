@@ -15,7 +15,7 @@ Validates that the string is valid Master CSS syntactic class.
 <DocFn>
     {[
         { name: 'syntax', type: 'string', defaultValue: 'undefined' },
-        { name: 'options?', type: '{ css?: MasterCSS, config?: Config }' },
+        { name: 'css?', type: 'MasterCSS' },
         { name: 'return', type: 'boolean' },
     ]}
 </DocFn>
@@ -34,7 +34,7 @@ Validate syntax validity and create Master CSS rules.
 <DocFn>
     {[
         { name: 'syntax', type: 'string', defaultValue: 'undefined' },
-        { name: 'options?', type: '{ css?: MasterCSS, config?: Config }' },
+        { name: 'css?', type: 'MasterCSS' },
         { name: 'return', type: 'Rule[]' },
     ]}
 </DocFn>
@@ -53,16 +53,16 @@ Validate and report errors for the given syntax.
 <DocFn>
     {[
         { name: 'syntax', type: 'string', defaultValue: 'undefined' },
-        { name: 'options?', type: '{ css?: MasterCSS, config?: Config }' },
-        { name: 'return', type: '{ isMasterCSS: boolean, erros: SyntaxError[]' },
+        { name: 'css?', type: 'MasterCSS' },
+        { name: 'return', type: 'SyntaxError[]' },
     ]}
 </DocFn>
 ```ts
 import { validate } from '@master/css-validator'
 
 validate('text:center')
-// => { isMasterCSS: true, errors: []}
+// => []
 
 validate('love:css')
-// => { isMasterCSS: false, errors: [SyntaxError]}
+// => [SyntaxError]
 ```

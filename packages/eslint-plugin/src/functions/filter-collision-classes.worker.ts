@@ -6,7 +6,7 @@ import { Rule, areRuleStatesEqual, areRulesDuplicated } from '@master/css'
 export default function runFilterCollisionClasses(classNames: string[], config: string | object): Record<string, string[]> {
     const currentCSS = getCSS(config)
     const validRules = classNames
-        .map(eachClassName => generateValidRules(eachClassName, { css: currentCSS })[0])
+        .map(eachClassName => generateValidRules(eachClassName, currentCSS)[0])
         .filter(Boolean) as Rule[]
     const collisionClassesRecord: Record<string, string[]> = {}
     for (let i = 0; i < classNames.length; i++) {

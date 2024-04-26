@@ -12,7 +12,7 @@ import { generateValidRules } from '@master/css-validator'
 import chokidar from 'chokidar'
 import { EventEmitter } from 'node:events'
 import cssEscape from '@master/css-shared/utils/css-escape'
-import { explorePathsSync, explorePathSync } from '@techor/glob'
+import { explorePathsSync } from '@techor/glob'
 import path, { resolve } from 'path'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -167,7 +167,7 @@ export default class CSSExtractor extends EventEmitter {
         await Promise.all(
             latentClasses
                 .map(async (eachLatentClass) => {
-                    const validRules = generateValidRules(eachLatentClass, { css: this.css })
+                    const validRules = generateValidRules(eachLatentClass, this.css)
                     if (validRules.length) {
                         for (const validRule of validRules) {
                             this.css.insert(validRule)
@@ -418,6 +418,7 @@ export default class CSSExtractor extends EventEmitter {
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export default interface CSSExtractor {
     css: MasterCSS
     options: Options

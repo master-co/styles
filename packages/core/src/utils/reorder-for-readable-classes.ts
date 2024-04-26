@@ -8,10 +8,8 @@ import MasterCSS from '../core'
  * @returns consistent classes
  */
 export default function reorderForReadableClasses(classes: string[], css = new MasterCSS()) {
-    for (const eachClass of classes) {
-        css.add(eachClass)
-    }
-    return css.rules
+    css.add(...classes)
+    const orderedClasses = css.rules
         // 只保留樣式語法相關的 rules, 排除 keyframes 與 variables 在外
         .filter(eachRule => eachRule.layer)
         .sort((a, b) => {
@@ -71,4 +69,6 @@ export default function reorderForReadableClasses(classes: string[], css = new M
             }
         })
         .map(eachRule => eachRule.className)
+    css.delete(...classes)
+    return orderedClasses
 }
