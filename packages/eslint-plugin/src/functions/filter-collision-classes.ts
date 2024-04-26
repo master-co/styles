@@ -1,7 +1,30 @@
-import { createSyncFn } from 'synckit'
-import runFilterCollisionClasses from './filter-collision-classes.worker'
-import { join } from 'path'
+import { generateValidRules } from '@master/css-validator'
+import { MasterCSS, Rule, areRuleStatesEqual, areRulesDuplicated } from '@master/css'
 
-export default process.env.NODE_ENV === 'test'
-    ? runFilterCollisionClasses
-    : createSyncFn(join(__dirname, 'filter-collision-classes.worker.cjs')) as typeof runFilterCollisionClasses
+export default function filterCollisionClasses(classNames: string[], css: MasterCSS): Record<string, string[]> {
+    const validRules = classNames
+        .map(eachClassName => generateValidRules(eachClassName, css)[0])
+        .filter(Boolean) as Rule[]
+    const collisionClassesRecord: Record<string, string[]> = {}
+    for (let i = 0; i < classNames.length; i++) {
+        const className = classNames[i]
+        const rule = validRules.find((eachValidRule) => eachValidRule.className === className)
+        const collisionClasses = []
+        if (rule) {
+            for (let j = 0; j < classNames.length; j++) {
+                const compareClassName = classNames[j]
+                const compareRule = validRules.find((eachValidRule) => eachValidRule.className === compareClassName)
+                if (i !== j && compareRule
+                    && areRulesDuplicated(rule, compareRule)
+                    && areRuleStatesEqual(rule, compareRule)
+                ) {
+                    collisionClasses.push(compareClassName)
+                }
+            }
+            if (collisionClasses.length > 0) {
+                collisionClassesRecord[className] = collisionClasses
+            }
+        }
+    }
+    return collisionClassesRecord
+}

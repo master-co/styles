@@ -30,7 +30,7 @@ new RuleTester({
                 {
                     disallowUnknownClass: true
                 }
-            ]
+            ] as any
         },
         {
             code: `<div class="bg:black m:mistake rrr">Simple, basic</div>`,
@@ -51,7 +51,7 @@ new RuleTester({
                 {
                     disallowUnknownClass: true
                 }
-            ]
+            ] as any
         },
         {
             code: `<div class="a c d hello:world font:error mt:0 mt:0@sm">Error class</div>`,
@@ -91,7 +91,7 @@ new RuleTester({
                 {
                     disallowUnknownClass: true
                 }
-            ]
+            ] as any
         },
         {
             code: `<div class="btn a c d hello:world font:error mt:0 mt:0@sm">Error class</div>`,
@@ -106,7 +106,7 @@ new RuleTester({
                 {
                     disallowUnknownClass: true
                 }
-            ]
+            ] as any
         },
     ],
 })

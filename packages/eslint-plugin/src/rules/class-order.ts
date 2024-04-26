@@ -8,9 +8,9 @@ import extractValueFromNode from '../utils/extract-value-from-node'
 import extractRangeFromNode from '../utils/extract-range-from-node'
 import extractClassnamesFromValue from '../utils/extract-classnames-from-value'
 import findLoc from '../utils/find-loc'
-import reorderValidClasses from '../functions/reorder-valid-classes'
 import createRule from '../create-rule'
 import settingsSchema from '../settings-schema'
+import { reorderForReadableClasses } from '@master/css'
 
 export default createRule({
     name: 'consistent-class-order',
@@ -28,7 +28,7 @@ export default createRule({
     },
     defaultOptions: [],
     create: function (context) {
-        const { options, settings } = resolveContext(context)
+        const { settings, css } = resolveContext(context)
         const sourceCode = context.sourceCode
         const visitNode = (node: any, arg = null) => {
             let originalClassNamesValue = null
@@ -130,7 +130,8 @@ export default createRule({
                 return
             }
 
-            let orderedClassNames = reorderValidClasses(classNames, settings.config)
+            let orderedClassNames = reorderForReadableClasses(classNames, css)
+                .filter((eachOrderedClassName) => classNames.includes(eachOrderedClassName))
 
             orderedClassNames = classNames.filter(x => !orderedClassNames.includes(x))
                 .concat(orderedClassNames)

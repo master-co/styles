@@ -22,7 +22,7 @@ export default createRule({
     },
     defaultOptions: [],
     create(context) {
-        const { options, settings } = resolveContext(context)
+        const { settings, css } = resolveContext(context)
         const visitNode = (node, arg = null) => {
             parseNodeRecursive(
                 node,
@@ -32,7 +32,8 @@ export default createRule({
                     const sourceCodeLines = sourceCode.lines
                     const nodeStartLine = node.loc.start.line
                     const nodeEndLine = node.loc.end.line
-                    const collisionClassesRecord = filterCollisionClasses(classNames, settings.config)
+                    // todo css
+                    const collisionClassesRecord = filterCollisionClasses(classNames, css)
                     for (const className in collisionClassesRecord) {
                         const collisionClasses = collisionClassesRecord[className]
                         const collisionClassNamesMsg = collisionClasses.map(x => `"${x}"`).join(' and ')

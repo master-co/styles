@@ -2,9 +2,9 @@ import defineVisitors from '../utils/define-visitors'
 import resolveContext from '../utils/resolve-context'
 import findLoc from '../utils/find-loc'
 import { parseNodeRecursive } from '../utils/parse-node-recursive'
-import validate from '../functions/validate'
 import createRule from '../create-rule'
 import settingsSchema from '../settings-schema'
+import { validate } from '@master/css-validator'
 
 export default createRule({
     name: 'syntax-error-checks',
@@ -23,7 +23,7 @@ export default createRule({
     },
     defaultOptions: [],
     create: function (context) {
-        const { options, settings } = resolveContext(context)
+        const { options, settings, css } = resolveContext(context)
         const visitNode = (node, arg = null) => {
             parseNodeRecursive(
                 node,
@@ -34,7 +34,7 @@ export default createRule({
                     const nodeStartLine = node.loc.start.line
                     const nodeEndLine = node.loc.end.line
                     for (const className of classNames) {
-                        const { matched, errors } = validate(className, settings.config)
+                        const { matched, errors } = validate(className, css)
                         if (errors.length > 0) {
                             for (const error of errors) {
                                 if (matched) {

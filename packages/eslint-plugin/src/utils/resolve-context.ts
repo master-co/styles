@@ -1,10 +1,35 @@
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint'
-import settings from '../settings'
+import settings, { Settings } from '../settings'
+import exploreConfig from '@master/css-explore-config'
+import { Config, MasterCSS } from '@master/css'
+
+declare type CSSCache = {
+    cwd: string
+    settings: Settings,
+    css: MasterCSS,
+}
+
+const cssCaches: CSSCache[] = []
 
 export default function resolveContext(context: RuleContext<any, any[]>) {
-    const resolvedSettings = Object.assign(settings, context.settings?.['@master/css'])
+    const resolvedSettings = Object.assign({}, settings, context.settings?.['@master/css'])
+    let css = cssCaches.find(cache => cache.settings.config === resolvedSettings.config &&
+        cache.cwd === context.cwd)?.css
+
+    if (!css) {
+        let config: Config
+        if (typeof resolvedSettings.config === 'object') {
+            config = resolvedSettings.config
+        } else {
+            config = exploreConfig({ name: resolvedSettings.config, found: undefined })
+        }
+        css = new MasterCSS(config)
+        cssCaches.push({ cwd: context.cwd, settings: resolvedSettings, css })
+    }
+
     return {
         settings: resolvedSettings,
-        options: context.options[0] || {}
+        options: context.options[0] || {},
+        css
     }
 }
