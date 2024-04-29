@@ -124,3 +124,9 @@ Apply custom colors for the current application.
         <Code lang="css" beautify>{require('!!raw-loader!./tests/override-default-colors/generated.css').default}</Code>
     </div>
 </details>
+
+---
+
+## Limitations
+### Only `rgb` and `hsl` are available
+Variables only support `rgb` and `hsl`, in the future, they will be compatible with all native CSS functions, such as `rgba`, `hsla`, `lab`, and others. [#346](https://github.com/master-co/css/issues/346)
