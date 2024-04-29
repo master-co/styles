@@ -9,11 +9,11 @@ import clsx from 'clsx'
 import fetchLastCommit from 'websites/utils/fetch-last-commit'
 import project from '~/project'
 
-export default async function Layout({ children, pageDirname, params, toc, prose, $hideLeftSide, ...props }: any) {
+export default async function Layout({ children, pageDirname, params, toc, $prose, $hideLeftSide, ...props }: any) {
     return (
         <>
             <DocMain $hideRightSide={!toc} $hideLeftSide={$hideLeftSide}>
-                <Article className={clsx({ 'max-w:screen-sm_:where(p)': !toc })} prose>
+                <Article className={clsx({ 'max-w:screen-sm_:where(p)': !toc })} $prose>
                     <ArticleHeader {...props} metadata={props.metadata} />
                     {children}
                 </Article>
