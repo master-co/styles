@@ -147,7 +147,7 @@ const rules = {
     } as RuleDefinition,
     variable: {
         matcher: /^\$[\w-]+:/, // don't use 'rem' as default, because css variable is common API
-        layer: Layer.Normal,
+        layer: Layer.Shorthand,
         declare(value) {
             return {
                 ['--' + this.keyToken.slice(1, -1)]: value
