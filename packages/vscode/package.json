@@ -23,7 +23,7 @@
         "directory": "packages/vscode"
     },
     "engines": {
-        "vscode": "^1.86.0"
+        "vscode": "^1.8.0"
     },
     "activationEvents": [
         "onStartupFinished"
@@ -171,14 +171,38 @@
                 "masterCSS.classAttributeBindings": {
                     "type": "object",
                     "default": {
-                        "className": [ "{", "}" ],
-                        "class": [ "{", "}" ],
-                        "class:list": [ "{", "}" ],
-                        ":class": [ "\"", "\"" ],
-                        "v-bind:class": [ "\"", "\"" ],
-                        "[class]": [ "\"", "\"" ],
-                        "[className]": [ "\"", "\"" ],
-                        "[ngClass]": [ "\"", "\"" ]
+                        "className": [
+                            "{",
+                            "}"
+                        ],
+                        "class": [
+                            "{",
+                            "}"
+                        ],
+                        "class:list": [
+                            "{",
+                            "}"
+                        ],
+                        ":class": [
+                            "\"",
+                            "\""
+                        ],
+                        "v-bind:class": [
+                            "\"",
+                            "\""
+                        ],
+                        "[class]": [
+                            "\"",
+                            "\""
+                        ],
+                        "[className]": [
+                            "\"",
+                            "\""
+                        ],
+                        "[ngClass]": [
+                            "\"",
+                            "\""
+                        ]
                     }
                 },
                 "masterCSS.classDeclarations": {
@@ -227,9 +251,10 @@
         "provenance": true
     },
     "devDependencies": {
-        "@master/css-shared": "workspace:^",
         "@master/css-language-server": "workspace:^",
+        "@master/css-shared": "workspace:^",
+        "@types/vscode": "^1.87.0",
         "@vscode/vsce": "^2.24.0",
-        "vscode-languageclient": "^7.0.0"
+        "vscode-languageclient": "^8.1.0"
     }
 }

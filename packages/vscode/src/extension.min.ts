@@ -1,15 +1,17 @@
 import path from 'path'
-import * as vscode from 'vscode'
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient/node'
+import { commands, ExtensionContext, ProgressLocation, window, workspace } from 'vscode'
+import { settings } from '@master/css-language-server'
 
 let client: LanguageClient
 
 const disposables: Disposable[] = []
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(context: ExtensionContext) {
 
     // The server is implemented in node
     const serverModule = context.asAbsolutePath(path.join('dist', 'server.min.cjs'))
+    console.log('Loading server from ', serverModule)
 
     // The debug options for the server
     // --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
@@ -26,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     }
 
-    const includedLanguages = vscode.workspace.getConfiguration('masterCSS').includedLanguages
+    const includedLanguages = workspace.getConfiguration('masterCSS').includedLanguages
     const Languages: { scheme: 'file', language: string }[] = []
     includedLanguages.forEach((x: any) => {
         Languages.push({ scheme: 'file', language: x })
@@ -38,7 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
         documentSelector: Languages,
         synchronize: {
             // Notify the server about file changes to '.clientrc files contained in the workspace
-            fileEvents: vscode.workspace.createFileSystemWatcher('**/.clientrc')
+            fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
         }
     }
 
@@ -52,10 +54,27 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Start the client. This will also launch the server
     client.start()
-
     context.subscriptions.push(
-        vscode.commands.registerCommand('masterCSS.restart', () => {
-            client.stop().then(() => client.start())
+        commands.registerCommand('masterCSS.restart', async () => {
+            window.withProgress({
+                location: ProgressLocation.Notification,
+                title: 'Restarting Master CSS Language Server...',
+            }, async () => await client.restart())
+        }),
+        workspace.onDidChangeConfiguration(async (event) => {
+            const affectedProperties = []
+            for (const optionName in settings) {
+                const property = `masterCSS.${optionName}`
+                if (event.affectsConfiguration(property)) {
+                    affectedProperties.push(property)
+                }
+            }
+            if (affectedProperties.length) {
+                window.withProgress({
+                    location: ProgressLocation.Notification,
+                    title: `Updating for "${affectedProperties}" ...`,
+                }, async () => await client.restart())
+            }
         })
     )
 }
