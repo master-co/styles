@@ -52,7 +52,7 @@
         "@master/css-shared": "workspace:^"
     },
     "dependencies": {
-        "@techor/log": "^3.0.20",
-        "explore-config": "^3.0.20"
+        "@techor/log": "^3.0.22",
+        "explore-config": "^3.0.22"
     }
 }

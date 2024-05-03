@@ -69,11 +69,11 @@
         "@master/css": "workspace:^",
         "@master/css-validator": "workspace:^",
         "@master/css-explore-config": "workspace:^",
-        "@techor/extend": "^3.0.20",
-        "@techor/glob": "^3.0.20",
-        "@techor/log": "^3.0.20",
+        "@techor/extend": "^3.0.22",
+        "@techor/glob": "^3.0.22",
+        "@techor/log": "^3.0.22",
         "chokidar": "^3.6.0",
-        "explore-config": "^3.0.20",
+        "explore-config": "^3.0.22",
         "minimatch": "^9.0.3"
     },
     "devDependencies": {

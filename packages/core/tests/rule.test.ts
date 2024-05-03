@@ -23,7 +23,7 @@ test('registered Rule', () => {
         matchers: {
             key: /^content:/
         },
-        order: 185,
+        order: 186,
         variables: {}
     })
 })
@@ -57,7 +57,7 @@ test('variables', () => {
             key: /^content:/
         },
         keys: ['content'],
-        order: 185,
+        order: 186,
         variables: {
             2: {
                 key: '2',
