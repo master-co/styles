@@ -1,4 +1,4 @@
-import { createConnection, TextDocuments, ProposedFeatures, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder } from 'vscode-languageserver/node'
+import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, IPCMessageReader, IPCMessageWriter, Disposable, NotificationType } from 'vscode-languageserver/node'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -15,78 +15,99 @@ export default class CSSLanguageServer {
     workspaceCSSLanguageService: Record<string, CSSLanguageService> = {}
     workspaceSettings: Record<string, Settings> = {}
     workspaceConfigs: Record<string, Config | undefined> = {}
-    connection = createConnection(ProposedFeatures.all)
-    documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument)
+    connection
+    documents: TextDocuments<TextDocument>
+    private disposables: Disposable[] = []
 
     constructor(
         public customSettings?: Settings
     ) {
-        this.connection.onDidChangeConfiguration(this.revalidate)
-        this.documents.onDidSave(async change => {
-            // if the saved file is the master.css file, we need to refresh the css instance
-            if (path.parse(change.document.uri).name === 'master.css') {
-                const cssLanguageService = this.findWorkspaceCSSLanguageService(change.document.uri)
-                const workspaceFolder = this.findWorkspaceFolder(change.document.uri)
-                if (cssLanguageService)
-                    cssLanguageService.css.refresh(this.updateWorkspaceConfig(workspaceFolder.uri))
+        if (process.argv.includes('--stdio')) {
+            console.log = (...args: any[]) => {
+                console.warn(...args)
             }
-        })
-
-        this.connection.onInitialize((params: InitializeParams) => {
-            if (params.workspaceFolders?.length) {
-                this.workspaceFolders = params.workspaceFolders
-            } else {
-                if (params.rootUri) {
-                    this.workspaceFolders.push({ name: '', uri: params.rootUri })
+            this.connection = createConnection(process.stdin, process.stdout)
+        } else {
+            this.connection = createConnection(
+                new IPCMessageReader(process),
+                new IPCMessageWriter(process)
+            )
+        }
+        this.documents = new TextDocuments(TextDocument)
+        this.disposables.push(
+            this.documents.onDidSave(async change => {
+                // if the saved file is the master.css file, we need to refresh the css instance
+                const name = path.parse(change.document.uri).name
+                if (name === 'master.css' || name.endsWith('.css')) {
+                    // const cssLanguageService = this.findWorkspaceCSSLanguageService(change.document.uri)
+                    // const workspaceFolder = this.findWorkspaceFolder(change.document.uri)
+                    // if (cssLanguageService)
+                    // cssLanguageService.css.refresh(this.updateWorkspaceConfig(workspaceFolder.uri))
+                    this.connection.sendRequest('masterCSS/restart', {
+                        title: 'Updating configuration...',
+                    })
                 }
-            }
-            return {
-                capabilities: SERVER_CAPABILITIES
-            }
-        })
-
-        this.connection.onInitialized(async () => {
-            await this.workspaceFolders.map(async (folder) => {
-                this.workspaceCSSLanguageService[folder.uri] = await this.createLanguageService(folder.uri)
+            }),
+            // Make the text document manager listen on the connection
+            // for open, change and close text document events
+            this.documents.listen(this.connection),
+            this.connection.onDidChangeConfiguration(({ settings }) => {
+                if (settings?.masterCSS) {
+                    this.connection.sendNotification('masterCSS/globalSettingsChanged', settings.masterCSS)
+                    this.customSettings = settings.masterCSS
+                    this.reload()
+                }
+            }),
+            this.connection.onInitialize((params: InitializeParams) => {
+                if (params.workspaceFolders?.length) {
+                    this.workspaceFolders = params.workspaceFolders
+                } else {
+                    if (params.rootUri) {
+                        this.workspaceFolders.push({ name: '', uri: params.rootUri })
+                    }
+                }
+                return {
+                    capabilities: SERVER_CAPABILITIES
+                }
+            }),
+            this.connection.onInitialized(async () => {
+                await this.workspaceFolders.map(async (folder) => {
+                    this.workspaceCSSLanguageService[folder.uri] = await this.createLanguageService(folder.uri)
+                })
+                this.connection.client.register(DidChangeConfigurationNotification.type, undefined)
+            }),
+            this.connection.onHover((params) => {
+                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
+                if (cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return cssLanguageService.inspectSyntax(document, params.position)
+                }
+            }),
+            this.connection.onCompletion((params) => {
+                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
+                if (cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return cssLanguageService.suggestSyntax(document, params.position, params.context)
+                }
+            }),
+            this.connection.onDocumentColor((params) => {
+                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
+                if (cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return cssLanguageService.renderSyntaxColors(document)
+                }
+            }),
+            this.connection.onColorPresentation((params) => {
+                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
+                if (cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return cssLanguageService.editSyntaxColors(document, params.color, params.range)
+                }
+            }),
+            this.connection.onShutdown(() => {
+                this.dispose()
             })
-            this.connection.client.register(DidChangeConfigurationNotification.type, undefined)
-        })
-
-        this.connection.onHover((params) => {
-            const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-            if (cssLanguageService) {
-                const document = this.documents.get(params.textDocument.uri)
-                if (document) return cssLanguageService.inspectSyntax(document, params.position)
-            }
-        })
-
-        this.connection.onCompletion((params) => {
-            const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-            if (cssLanguageService) {
-                const document = this.documents.get(params.textDocument.uri)
-                if (document) return cssLanguageService.suggestSyntax(document, params.position, params.context)
-            }
-        })
-
-        this.connection.onDocumentColor((params) => {
-            const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-            if (cssLanguageService) {
-                const document = this.documents.get(params.textDocument.uri)
-                if (document) return cssLanguageService.renderSyntaxColors(document)
-            }
-        })
-
-        this.connection.onColorPresentation((params) => {
-            const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-            if (cssLanguageService) {
-                const document = this.documents.get(params.textDocument.uri)
-                if (document) return cssLanguageService.editSyntaxColors(document, params.color, params.range)
-            }
-        })
-
-        // Make the text document manager listen on the connection
-        // for open, change and close text document events
-        this.documents.listen(this.connection)
+        )
     }
 
     async createLanguageService(workspaceURI: string) {
@@ -142,12 +163,28 @@ export default class CSSLanguageServer {
     }
 
     // revalidate workspace language services by all documents
-    async revalidate() {
+    async revalidate(documents = this.documents.all()) {
+        this.connection.sendNotification('masterCSS/revalidate')
         return await Promise.all(
-            this.documents.all().map(async (textDocument) => {
+            documents.map(async (textDocument) => {
                 const workspaceFolder = this.findWorkspaceFolder(textDocument.uri)
                 return this.workspaceCSSLanguageService[workspaceFolder.uri] = await this.createLanguageService(workspaceFolder.uri)
             })
         )
+    }
+
+    async reload() {
+        await Promise.all(
+            Object.keys(this.workspaceCSSLanguageService)
+                .map(async (workspaceURI) => {
+                    this.workspaceCSSLanguageService[workspaceURI] = await this.createLanguageService(workspaceURI)
+                })
+        )
+    }
+
+    dispose(): void {
+        this.connection.sendNotification('masterCSS/dispose')
+        this.disposables.forEach((disposable) => disposable.dispose())
+        this.disposables.length = 0
     }
 }

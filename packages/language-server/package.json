@@ -18,11 +18,11 @@
     },
     "dependencies": {
         "@master/css": "workspace:^",
-        "@master/css-language-service": "workspace:^",
         "@master/css-explore-config": "workspace:^",
-        "@techor/extend": "^3.0.20",
+        "@master/css-language-service": "workspace:^",
+        "@techor/extend": "^3.0.22",
         "js-beautify": "^1.15.1",
-        "vscode-languageserver": "^7.0.0",
+        "vscode-languageserver": "^9.0.1",
         "vscode-languageserver-textdocument": "^1.0.11"
     },
     "devDependencies": {

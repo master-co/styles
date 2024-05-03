@@ -54,13 +54,19 @@ export function activate(context: ExtensionContext) {
 
     // Start the client. This will also launch the server
     client.start()
+
+    const restart = async (options = {
+        title: 'Restarting Master CSS Language Server...'
+    }) => {
+        window.withProgress({
+            location: ProgressLocation.Notification,
+            title: options.title,
+        }, async () => await client.restart())
+    }
+
     context.subscriptions.push(
-        commands.registerCommand('masterCSS.restart', async () => {
-            window.withProgress({
-                location: ProgressLocation.Notification,
-                title: 'Restarting Master CSS Language Server...',
-            }, async () => await client.restart())
-        }),
+        commands.registerCommand('masterCSS.restart', restart),
+        client.onRequest('masterCSS/restart', restart),
         workspace.onDidChangeConfiguration(async (event) => {
             const affectedProperties = []
             for (const optionName in settings) {
@@ -75,7 +81,7 @@ export function activate(context: ExtensionContext) {
                     title: `Updating for "${affectedProperties}" ...`,
                 }, async () => await client.restart())
             }
-        })
+        }),
     )
 }
 
