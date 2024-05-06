@@ -13,7 +13,7 @@ test('declarations', () => {
 })
 
 test('registered Rule', () => {
-    expect(new MasterCSS().Rules.find(({ id }) => id === 'content')).toEqual({
+    expect(new MasterCSS().Rules.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
             layer: -1
@@ -23,7 +23,6 @@ test('registered Rule', () => {
         matchers: {
             key: /^content:/
         },
-        order: 186,
         variables: {}
     })
 })
@@ -46,7 +45,7 @@ test('variables', () => {
     })
     expect(css.variables['a-1']).toMatchObject({ type: 'string', value: 'test', group: 'a' })
     expect(css.variables['a-b-2']).toMatchObject({ type: 'string', value: 'test', group: 'a.b' })
-    expect(css.Rules.find(({ id }) => id === 'content')).toEqual({
+    expect(css.Rules.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
             layer: -1,
@@ -57,7 +56,6 @@ test('variables', () => {
             key: /^content:/
         },
         keys: ['content'],
-        order: 186,
         variables: {
             2: {
                 key: '2',

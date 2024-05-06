@@ -16,3 +16,10 @@ it('checks inset order', () => {
             { className: 'top:0' }
         ])
 })
+
+test('directions', () => {
+    expect(new MasterCSS().create('top:0')?.text).toBe('.top\\:0{top:0rem}')
+    expect(new MasterCSS().create('left:0')?.text).toBe('.left\\:0{left:0rem}')
+    expect(new MasterCSS().create('right:0')?.text).toBe('.right\\:0{right:0rem}')
+    expect(new MasterCSS().create('bottom:0')?.text).toBe('.bottom\\:0{bottom:0rem}')
+})

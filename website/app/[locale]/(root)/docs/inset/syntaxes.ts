@@ -1,3 +1,9 @@
-const syntaxes = ['inset:offset', 'inset:offset|offset', 'inset:offset|offset|offset', 'inset:offset|offset|offset|offset']
+const syntaxes = [
+    'inset:`offset`',
+    'top',
+    'right',
+    'left',
+    'bottom',
+]
 
 export default syntaxes

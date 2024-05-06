@@ -156,6 +156,18 @@ const utilities = {
         width: '100%',
         height: '100%'
     },
+    top: {
+        top: 0
+    },
+    left: {
+        left: 0
+    },
+    right: {
+        right: 0
+    },
+    bottom: {
+        bottom: 0
+    },
     center: {
         left: 0,
         right: 0,
