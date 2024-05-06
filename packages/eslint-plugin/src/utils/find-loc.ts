@@ -8,26 +8,28 @@ export default function findLoc(text, lines, startLine, endLine) {
 
     for (let i = startLine; i <= endLine; i++) {
         const sourceCodeLine = lines[i - 1]
-
-        const index = sourceCodeLine.indexOf(targetLines[checkingTargetLine].replace(/\r\n|\n/, ''))
+        const content = targetLines[checkingTargetLine].replace(/\r\n|\n/, '')
+        const index = sourceCodeLine.indexOf(content)
         if (index !== -1) {
-            if (checkingTargetLine === 0) {
-                resultStart = {
-                    line: i,
-                    column: index
-                }
-            }
-            if (checkingTargetLine === targetLines.length - 1) {
-                return {
-                    start: resultStart,
-                    end: {
+            if (index === 0 || sourceCodeLine[index - 1].match(/^|[\s"'']/)) {
+                if (checkingTargetLine === 0) {
+                    resultStart = {
                         line: i,
-                        column: index + text.length
+                        column: index
                     }
                 }
+                if (checkingTargetLine === targetLines.length - 1 && (sourceCodeLine[index + content.length - 1].match(/$|[\s"'']/) || sourceCodeLine[index + content.length].match(/[\s"'']/))) {
+                    return {
+                        start: resultStart,
+                        end: {
+                            line: i,
+                            column: index + text.length
+                        }
+                    }
+                }
+                checking = true
+                checkingTargetLine++
             }
-            checking = true
-            checkingTargetLine++
         } else {
             if (checking) {
                 checking = false
