@@ -10,6 +10,7 @@ import CSSRuntimeProvider from '@master/css.react'
 import ThemeModeProvider from '@master/theme-mode.react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import i18n from '~/i18n.config.mjs'
+import { SearchProvider } from 'websites/contexts/search'
 
 export default function Client({ children, locale, translations }: any) {
     return (
@@ -19,7 +20,9 @@ export default function Client({ children, locale, translations }: any) {
                     <RedirectsProvider value={redirects}>
                         <I18nProvider value={{ ...i18n, translations }}>
                             <LocaleProvider value={locale}>
-                                {children}
+                                <SearchProvider>
+                                    {children}
+                                </SearchProvider>
                             </LocaleProvider>
                         </I18nProvider>
                     </RedirectsProvider>
