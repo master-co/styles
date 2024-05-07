@@ -1,25 +1,8 @@
 import cssEscape from '@master/css-shared/utils/css-escape'
 import type { Rule, RuleDefinition } from '../rule'
 import Layer from '../layer'
-import { COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE_REGEX, VALUE_DELIMITERS } from '../common'
-
-// values
-const BORDER_STYLE_VALUES = ['none', 'auto', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset']
-
-export const autofillSolidToValueComponent: RuleDefinition['transformValueComponents'] = function (valueComponents) {
-    if (valueComponents.length < 2) return valueComponents
-    const styleValueComponent = valueComponents.find((valueComponent) => {
-        return valueComponent.type === 'string' && BORDER_STYLE_VALUES.includes(valueComponent.value) ||
-            valueComponent.type === 'variable' && BORDER_STYLE_VALUES.includes(String(valueComponent.variable?.value))
-    })
-    if (!styleValueComponent) {
-        valueComponents.push(
-            { type: 'separator', value: ' ', token: '|' },
-            { type: 'string', value: 'solid', token: 'solid' }
-        )
-    }
-    return valueComponents
-}
+import { BORDER_STYLE_VALUES, COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE_REGEX, VALUE_DELIMITERS } from '../common'
+import autofillSolidStyle from '../utils/autofill-solid-style'
 
 const rules = {
     group: {
@@ -1188,31 +1171,31 @@ const rules = {
         key: 'bt',
         layer: Layer.NativeShorthand,
         unit: 'rem',
-        transformValueComponents: autofillSolidToValueComponent,
+        transformValueComponents: autofillSolidStyle,
     } as RuleDefinition,
     'border-bottom': {
         key: 'bb',
         layer: Layer.NativeShorthand,
         unit: 'rem',
-        transformValueComponents: autofillSolidToValueComponent,
+        transformValueComponents: autofillSolidStyle,
     } as RuleDefinition,
     'border-left': {
         key: 'bl',
         layer: Layer.NativeShorthand,
         unit: 'rem',
-        transformValueComponents: autofillSolidToValueComponent,
+        transformValueComponents: autofillSolidStyle,
     } as RuleDefinition,
     'border-right': {
         key: 'br',
         layer: Layer.NativeShorthand,
         unit: 'rem',
-        transformValueComponents: autofillSolidToValueComponent,
+        transformValueComponents: autofillSolidStyle,
     } as RuleDefinition,
     'border-x': {
         key: 'bx',
         unit: 'rem',
         layer: Layer.Shorthand,
-        transformValueComponents: autofillSolidToValueComponent,
+        transformValueComponents: autofillSolidStyle,
         declare(value) {
             return {
                 'border-left': value,
@@ -1224,7 +1207,7 @@ const rules = {
         key: 'by',
         unit: 'rem',
         layer: Layer.Shorthand,
-        transformValueComponents: autofillSolidToValueComponent,
+        transformValueComponents: autofillSolidStyle,
         declare(value) {
             return {
                 'border-top': value,
@@ -1236,7 +1219,7 @@ const rules = {
         key: 'b',
         unit: 'rem',
         layer: Layer.NativeShorthand,
-        transformValueComponents: autofillSolidToValueComponent,
+        transformValueComponents: autofillSolidStyle,
     } as RuleDefinition,
     'background-attachment': {
         ambiguousKeys: ['bg'],
@@ -1582,7 +1565,7 @@ const rules = {
             'outline-offset',
             'outline-color'
         ],
-        transformValueComponents: autofillSolidToValueComponent
+        transformValueComponents: autofillSolidStyle
     } as RuleDefinition,
     'accent-color': {
         key: 'accent',

@@ -23,3 +23,4 @@ export const OFFICIAL_URL = new URL('https://rc.css.master.co')
 export const CLASS_ATTRIBUTES = ['class', 'className']
 export const CLASS_DECLARATIONS = ['styles']
 export const CLASS_FUNCTIONS = ['clsx', 'cva', 'ctl', 'cv', 'class', 'classnames', 'classVariant', 'styled(?:\\s+)?(?:\\.\\w+)?', 'classList(?:\\s+)?\\.(?:add|remove|toggle|replace)']
+export const BORDER_STYLE_VALUES = ['none', 'auto', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset']

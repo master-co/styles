@@ -61,6 +61,7 @@ it('checks border order', () => {
 test('autofill solid', () => {
     expect(new MasterCSS().create('border:16|black')?.text).toContain('border:1rem rgb(0 0 0) solid')
     expect(new MasterCSS().create('border:16|black|solid')?.text).toContain('border:1rem rgb(0 0 0) solid')
+    expect(new MasterCSS().create('border:16|var(--style)')?.text).not.toContain('solid')
     expect(new MasterCSS({ variables: { line: 'solid' } }).create('border:16|black|line')?.text).toContain('border:1rem rgb(0 0 0) solid')
     expect(new MasterCSS({
         variables: {
