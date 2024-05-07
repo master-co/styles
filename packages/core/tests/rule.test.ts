@@ -1,5 +1,9 @@
 import { variables } from '../src'
 
+test('uncomplete', () => {
+    expect(new MasterCSS().generate('b:')[0]).toBeUndefined()
+})
+
 test('declarations', () => {
     const css = new MasterCSS({
         variables: {
