@@ -414,7 +414,7 @@ export default class MasterCSS {
                     }
                     if (keys.length) {
                         EachRule.keys = keys
-                        EachRule.matchers.key = new RegExp(`^${keys.length > 1 ? `(${keys.join('|')})` : keys[0]}:`)
+                        EachRule.matchers.key = new RegExp(`^${keys.length > 1 ? `(${keys.join('|')})` : keys[0]}:.`)
                     }
                 })
         }
@@ -467,7 +467,7 @@ export default class MasterCSS {
                 ? this.styles[className].map((eachSyntax) => this.create(eachSyntax))
                 : [this.create(className)]
         )
-            .filter(eachRule => eachRule && eachRule.text) as Rule[]
+            .filter(eachRule => eachRule && eachRule?.text) as Rule[]
     }
 
     /**

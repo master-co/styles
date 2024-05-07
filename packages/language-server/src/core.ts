@@ -1,4 +1,4 @@
-import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, IPCMessageReader, IPCMessageWriter, Disposable, NotificationType } from 'vscode-languageserver/node'
+import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, Disposable } from 'vscode-languageserver/node'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -9,6 +9,7 @@ import extend from '@techor/extend'
 import settings from './settings'
 import { Config } from '@master/css'
 import { SERVER_CAPABILITIES } from '@master/css-language-service'
+import interceptLogs from './utils/intercept-logs'
 
 export default class CSSLanguageServer {
     workspaceFolders: WorkspaceFolder[] = []
@@ -23,16 +24,11 @@ export default class CSSLanguageServer {
         public customSettings?: Settings
     ) {
         if (process.argv.includes('--stdio')) {
-            console.log = (...args: any[]) => {
-                console.warn(...args)
-            }
             this.connection = createConnection(process.stdin, process.stdout)
         } else {
-            this.connection = createConnection(
-                new IPCMessageReader(process),
-                new IPCMessageWriter(process)
-            )
+            this.connection = createConnection()
         }
+        interceptLogs(console, this.connection)
         this.documents = new TextDocuments(TextDocument)
         this.disposables.push(
             this.documents.onDidSave(async change => {
