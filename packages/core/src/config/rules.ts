@@ -589,6 +589,11 @@ const rules = {
         ambiguousValues: ['optimizeSpeed', 'optimizeLegibility', 'geometricPrecision'],
         layer: Layer.Native,
     } as RuleDefinition,
+    'text-wrap': {
+        ambiguousKeys: ['text', 't'],
+        ambiguousValues: ['wrap', 'nowrap', 'balance', 'pretty'],
+        layer: Layer.NativeShorthand,
+    } as RuleDefinition,
     'text-indent': {
         unit: 'rem',
         layer: Layer.Native
