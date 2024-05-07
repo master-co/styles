@@ -40,8 +40,8 @@
         "@techor/fs": "^3.0.22",
         "@techor/log": "^3.0.22",
         "commander": "^12.0.0",
-        "detect-package-manager": "^3.0.1",
-        "giget": "^1.2.1",
+        "detect-package-manager": "^3.0.2",
+        "giget": "^1.2.3",
         "ora": "^8.0.1"
     },
     "devDependencies": {
