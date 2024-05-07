@@ -18,6 +18,10 @@ test('border', () => {
     expect(new MasterCSS().create('border:auto|1')?.text).toContain('border:auto 0.0625rem')
 })
 
+test('shorthand', () => {
+    expect(new MasterCSS().create('border:calc(100%-20)|solid')?.text).toContain('border:calc(100% - 1.25rem) solid')
+})
+
 it('validates border rules', () => {
     expect(new MasterCSS().create('b:16|solid')?.text).toContain('border:1rem solid')
     expect(new MasterCSS().create('border:16|solid')?.text).toContain('border:1rem solid')
