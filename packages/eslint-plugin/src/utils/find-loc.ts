@@ -1,3 +1,4 @@
+import { indexOfAll } from "./index-of-all"
 
 export default function findLoc(text, lines, startLine, endLine) {
     const targetLines = text.match(/.+(?:\r\n|\n)?/g)
@@ -9,16 +10,24 @@ export default function findLoc(text, lines, startLine, endLine) {
     for (let i = startLine; i <= endLine; i++) {
         const sourceCodeLine = lines[i - 1]
         const content = targetLines[checkingTargetLine].replace(/\r\n|\n/, '')
-        const index = sourceCodeLine.indexOf(content)
-        if (index !== -1) {
-            if (index === 0 || sourceCodeLine[index - 1].match(/^|[\s"'']/)) {
+
+        const indexes = indexOfAll(sourceCodeLine, content)
+        if (indexes.length > 0) {
+            for (const index of indexes) {
+
+                if ((index !== 0 && sourceCodeLine[index - 1].match(/\w/)) ||
+                    (index + content.length < sourceCodeLine.length && sourceCodeLine[index + content.length].match(/\w/))) {
+                    continue
+                }
+
                 if (checkingTargetLine === 0) {
                     resultStart = {
                         line: i,
                         column: index
                     }
                 }
-                if (checkingTargetLine === targetLines.length - 1 && (sourceCodeLine[index + content.length - 1].match(/$|[\s"'']/) || sourceCodeLine[index + content.length].match(/[\s"'']/))) {
+
+                if (checkingTargetLine === targetLines.length - 1) {
                     return {
                         start: resultStart,
                         end: {
