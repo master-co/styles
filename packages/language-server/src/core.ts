@@ -1,7 +1,6 @@
 import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, Disposable, Connection, ExecuteCommandRequest } from 'vscode-languageserver/node'
 import { TextDocument } from 'vscode-languageserver-textdocument'
-import path, { relative } from 'path'
-import { fileURLToPath, pathToFileURL } from 'url'
+import path from 'path'
 import CSSLanguageService, { Settings as CSSLanguageServiceSettings } from '@master/css-language-service'
 import { Settings } from './settings'
 import exploreConfig from '@master/css-explore-config'
@@ -11,7 +10,7 @@ import { Config } from '@master/css'
 import { SERVER_CAPABILITIES } from '@master/css-language-service'
 import interceptLogs from './utils/intercept-logs'
 import glob from 'fast-glob'
-import { existsSync } from 'fs'
+import { URI } from 'vscode-uri'
 
 declare type Workspace = {
     path: string
@@ -139,7 +138,7 @@ export default class CSSLanguageServer {
     }
 
     private async initWorkspaceFolder(workspaceFolderURI: string) {
-        const workspaceFolderCWD = this.fileURLToPath(workspaceFolderURI)
+        const workspaceFolderCWD = URI.parse(workspaceFolderURI).fsPath
         const customWorkspaceFolderSettings = await this.connection.workspace.getConfiguration({
             scopeUri: workspaceFolderURI,
             section: 'masterCSS'
@@ -147,7 +146,7 @@ export default class CSSLanguageServer {
         const { workspaces, ...languageServiceSettings } = extend(settings, this.customSettings, customWorkspaceFolderSettings) as Settings
         const resolvedWorkspaceDirectories = new Set<string>([workspaceFolderCWD])
         console.info('Registered workspace folder')
-        console.log(workspaceFolderCWD)
+        console.log(workspaceFolderURI)
         if (workspaces === 'auto') {
             (await glob('**/master.css.*', {
                 cwd: workspaceFolderCWD,
@@ -167,10 +166,10 @@ export default class CSSLanguageServer {
         }
         resolvedWorkspaceDirectories.forEach(async (workspaceDir) => {
             console.info('Added workspace')
-            console.log(workspaceDir)
+            console.log(URI.file(workspaceDir).toString())
             this.workspaces.add({
                 path: workspaceDir,
-                uri: pathToFileURL(workspaceDir).href,
+                uri: URI.file(workspaceDir).toString(),
                 openedTextDocuments: new Set<TextDocument>(),
                 languageServiceSettings
             })
@@ -189,18 +188,14 @@ export default class CSSLanguageServer {
             console.error(e)
         }
         console.info('Initialized workspace', workspaceConfig ? '(with config file)' : '')
-        console.log(workspace.path)
+        console.log(workspace.uri)
         workspace.cssLanguageService = new CSSLanguageService({ ...workspace.languageServiceSettings, config: workspaceConfig })
     }
 
     destroyCSSLanguageService(workspace: Workspace) {
         console.info('Destroyed workspace')
-        console.log(workspace.path)
+        console.log(workspace.uri)
         delete workspace.cssLanguageService
-    }
-
-    fileURLToPath(workspaceURI: string) {
-        return fileURLToPath(workspaceURI.replace('%3A', ':'))
     }
 
     findClosestWorkspace(textDocumentURI: string) {
