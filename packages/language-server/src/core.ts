@@ -182,7 +182,7 @@ export default class CSSLanguageServer {
         try {
             workspaceConfig = exploreConfig({
                 cwd: workspace.path,
-                found: () => { }
+                found: undefined
             })
         } catch (e) {
             console.info('Failed to load config from', workspace)
