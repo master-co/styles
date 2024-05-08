@@ -145,8 +145,7 @@ export default class CSSLanguageServer {
         }) as Settings
         const { workspaces, ...languageServiceSettings } = extend(settings, this.customSettings, customWorkspaceFolderSettings) as Settings
         const resolvedWorkspaceDirectories = new Set<string>([workspaceFolderCWD])
-        console.info('Registered workspace folder')
-        console.log(workspaceFolderURI)
+        console.info('Registered workspace folder', workspaceFolderURI)
         if (workspaces === 'auto') {
             (await glob('**/master.css.*', {
                 cwd: workspaceFolderCWD,
@@ -165,11 +164,11 @@ export default class CSSLanguageServer {
                 .forEach((workspaceDir) => resolvedWorkspaceDirectories.add(workspaceDir))
         }
         resolvedWorkspaceDirectories.forEach(async (workspaceDir) => {
-            console.info('Added workspace')
-            console.log(URI.file(workspaceDir).toString())
+            const workspaceURI = URI.file(workspaceDir).toString()
+            console.info('Added workspace', workspaceURI)
             this.workspaces.add({
                 path: workspaceDir,
-                uri: URI.file(workspaceDir).toString(),
+                uri: workspaceURI,
                 openedTextDocuments: new Set<TextDocument>(),
                 languageServiceSettings
             })
@@ -187,14 +186,12 @@ export default class CSSLanguageServer {
             console.info('Failed to load config from', workspace)
             console.error(e)
         }
-        console.info('Initialized workspace', workspaceConfig ? '(with config file)' : '')
-        console.log(workspace.uri)
+        console.info('Initialized workspace', workspaceConfig ? '(with config file)' : '', workspace.uri)
         workspace.cssLanguageService = new CSSLanguageService({ ...workspace.languageServiceSettings, config: workspaceConfig })
     }
 
     destroyCSSLanguageService(workspace: Workspace) {
-        console.info('Destroyed workspace')
-        console.log(workspace.uri)
+        console.info('Destroyed workspace', workspace.uri)
         delete workspace.cssLanguageService
     }
 
