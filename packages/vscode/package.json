@@ -36,6 +36,16 @@
     "files": [
         "dist"
     ],
+    "capabilities": {
+        "virtualWorkspaces": {
+            "supported": false,
+            "description": "Using Master CSS is not possible in virtual workspaces."
+        },
+        "untrustedWorkspaces": {
+            "supported": false,
+            "description": "The extension requires workspace trust because it loads configuration files and code from the workspace and executes it."
+        }
+    },
     "contributes": {
         "commands": [
             {
@@ -239,9 +249,9 @@
                     "type": "boolean",
                     "default": true
                 },
-                "masterCSS.config": {
-                    "type": "string",
-                    "default": "master.css"
+                "masterCSS.workspaces": {
+                    "type": [ "string", "array" ],
+                    "default": "auto"
                 }
             }
         }

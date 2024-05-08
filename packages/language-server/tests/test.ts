@@ -12,6 +12,10 @@ it('run server', async () => {
 })
 
 test.todo('modify and refresh config')
+test.todo('detect monorepo workspaces')
+test.todo('specify workspaces')
+test.todo('workspace without any config file')
+test.todo('multi-workspace config files')
 
 afterAll(async () => {
     await serverProcess.destroy()

@@ -4,7 +4,6 @@ import EventEmitter from 'node:events'
 import type { Position } from 'vscode-languageserver-protocol'
 import settings, { type Settings } from './settings'
 import { minimatch } from 'minimatch'
-import { fileURLToPath } from 'node:url'
 import inspectSyntax from './features/inspect-syntax'
 import renderSyntaxColors from './features/render-syntax-colors'
 import editSyntaxColors from './features/edit-syntax-colors'
@@ -12,7 +11,6 @@ import suggestSyntax from './features/suggest-syntax'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import findMatchingPairs from './utils/find-matching-brackets'
 import escapeRegexp from 'lodash.escaperegexp'
-import { normalize, posix, resolve } from 'node:path'
 
 export type ClassPosition = { range: { start: number, end: number }, raw: string, token: string }
 

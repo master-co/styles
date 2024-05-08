@@ -31,7 +31,7 @@ export const SERVER_CAPABILITIES: ServerCapabilities = {
     hoverProvider: true,
     workspace: {
         workspaceFolders: {
-            supported: true
-        }
+            supported: true,
+        },
     }
 }

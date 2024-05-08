@@ -1,8 +1,8 @@
-import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, Disposable } from 'vscode-languageserver/node'
+import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, Disposable, Connection, ExecuteCommandRequest } from 'vscode-languageserver/node'
 import { TextDocument } from 'vscode-languageserver-textdocument'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import CSSLanguageService from '@master/css-language-service'
+import path, { relative } from 'path'
+import { fileURLToPath, pathToFileURL } from 'url'
+import CSSLanguageService, { Settings as CSSLanguageServiceSettings } from '@master/css-language-service'
 import { Settings } from './settings'
 import exploreConfig from '@master/css-explore-config'
 import extend from '@techor/extend'
@@ -10,14 +10,23 @@ import settings from './settings'
 import { Config } from '@master/css'
 import { SERVER_CAPABILITIES } from '@master/css-language-service'
 import interceptLogs from './utils/intercept-logs'
+import glob from 'fast-glob'
+import { existsSync } from 'fs'
+
+declare type Workspace = {
+    path: string
+    uri: string
+    openedTextDocuments: Set<TextDocument>
+    cssLanguageService?: CSSLanguageService
+    languageServiceSettings: CSSLanguageServiceSettings
+}
 
 export default class CSSLanguageServer {
     workspaceFolders: WorkspaceFolder[] = []
-    workspaceCSSLanguageService: Record<string, CSSLanguageService> = {}
-    workspaceSettings: Record<string, Settings> = {}
-    workspaceConfigs: Record<string, Config | undefined> = {}
-    connection
+    workspaces = new Set<Workspace>()
+    connection: Connection
     documents: TextDocuments<TextDocument>
+    initializing?: Promise<any[]>
     private disposables: Disposable[] = []
 
     constructor(
@@ -30,30 +39,81 @@ export default class CSSLanguageServer {
         }
         interceptLogs(console, this.connection)
         this.documents = new TextDocuments(TextDocument)
+    }
+
+    start() {
         this.disposables.push(
             this.documents.onDidSave(async change => {
                 // if the saved file is the master.css file, we need to refresh the css instance
                 const name = path.parse(change.document.uri).name
                 if (name === 'master.css' || name.endsWith('.css')) {
-                    // const cssLanguageService = this.findWorkspaceCSSLanguageService(change.document.uri)
-                    // const workspaceFolder = this.findWorkspaceFolder(change.document.uri)
-                    // if (cssLanguageService)
-                    // cssLanguageService.css.refresh(this.updateWorkspaceConfig(workspaceFolder.uri))
                     this.connection.sendRequest('masterCSS/restart', {
-                        title: 'Updating configuration...',
+                        title: 'Updating Master CSS configuration',
                     })
+                }
+            }),
+            this.documents.onDidOpen(async (params) => {
+                await this.initializing
+                const workspace = this.findClosestWorkspace(params.document.uri)
+                if (workspace.openedTextDocuments.has(params.document)) return
+                if (!workspace.openedTextDocuments.size) {
+                    this.initCSSLanguageService(workspace)
+                }
+                workspace.openedTextDocuments.add(params.document)
+            }),
+            this.documents.onDidClose(async (params) => {
+                await this.initializing
+                const workspace = this.findClosestWorkspace(params.document.uri)
+                workspace.openedTextDocuments.delete(params.document)
+                if (!workspace.openedTextDocuments.size) {
+                    this.destroyCSSLanguageService(workspace)
+                }
+            }),
+            this.documents.listen(this.connection),
+            this.connection.onDidChangeConfiguration(async ({ settings }) => {
+                await this.initializing
+                if (settings?.masterCSS) {
+                    this.connection.sendNotification('masterCSS/globalSettingsChanged', settings.masterCSS)
+                    this.customSettings = settings.masterCSS
+                    this.connection.sendRequest('masterCSS/restart', {
+                        title: 'Updating Master CSS settings',
+                    })
+                }
+            }),
+            this.connection.onHover(async (params) => {
+                await this.initializing
+                const workspace = this.findClosestWorkspace(params.textDocument.uri)
+                if (workspace?.cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return workspace.cssLanguageService.inspectSyntax(document, params.position)
+                }
+            }),
+            this.connection.onCompletion(async (params) => {
+                await this.initializing
+                const workspace = this.findClosestWorkspace(params.textDocument.uri)
+                if (workspace?.cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return workspace.cssLanguageService.suggestSyntax(document, params.position, params.context)
+                }
+            }),
+            this.connection.onDocumentColor(async (params) => {
+                await this.initializing
+                const workspace = this.findClosestWorkspace(params.textDocument.uri)
+                if (workspace?.cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return workspace.cssLanguageService.renderSyntaxColors(document)
+                }
+            }),
+            this.connection.onColorPresentation(async (params) => {
+                await this.initializing
+                const workspace = this.findClosestWorkspace(params.textDocument.uri)
+                if (workspace?.cssLanguageService) {
+                    const document = this.documents.get(params.textDocument.uri)
+                    if (document) return workspace.cssLanguageService.editSyntaxColors(document, params.color, params.range)
                 }
             }),
             // Make the text document manager listen on the connection
             // for open, change and close text document events
-            this.documents.listen(this.connection),
-            this.connection.onDidChangeConfiguration(({ settings }) => {
-                if (settings?.masterCSS) {
-                    this.connection.sendNotification('masterCSS/globalSettingsChanged', settings.masterCSS)
-                    this.customSettings = settings.masterCSS
-                    this.reload()
-                }
-            }),
             this.connection.onInitialize((params: InitializeParams) => {
                 if (params.workspaceFolders?.length) {
                     this.workspaceFolders = params.workspaceFolders
@@ -67,120 +127,99 @@ export default class CSSLanguageServer {
                 }
             }),
             this.connection.onInitialized(async () => {
-                await this.workspaceFolders.map(async (folder) => {
-                    this.workspaceCSSLanguageService[folder.uri] = await this.createLanguageService(folder.uri)
-                })
-                this.connection.client.register(DidChangeConfigurationNotification.type, undefined)
-            }),
-            this.connection.onHover((params) => {
-                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-                if (cssLanguageService) {
-                    const document = this.documents.get(params.textDocument.uri)
-                    if (document) return cssLanguageService.inspectSyntax(document, params.position)
-                }
-            }),
-            this.connection.onCompletion((params) => {
-                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-                if (cssLanguageService) {
-                    const document = this.documents.get(params.textDocument.uri)
-                    if (document) return cssLanguageService.suggestSyntax(document, params.position, params.context)
-                }
-            }),
-            this.connection.onDocumentColor((params) => {
-                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-                if (cssLanguageService) {
-                    const document = this.documents.get(params.textDocument.uri)
-                    if (document) return cssLanguageService.renderSyntaxColors(document)
-                }
-            }),
-            this.connection.onColorPresentation((params) => {
-                const cssLanguageService = this.findWorkspaceCSSLanguageService(params.textDocument.uri)
-                if (cssLanguageService) {
-                    const document = this.documents.get(params.textDocument.uri)
-                    if (document) return cssLanguageService.editSyntaxColors(document, params.color, params.range)
-                }
-            }),
-            this.connection.onShutdown(() => {
-                this.dispose()
+                this.initializing = Promise.all(
+                    [
+                        ...this.workspaceFolders.map((folder) => this.initWorkspaceFolder(folder.uri)),
+                        this.connection.client.register(DidChangeConfigurationNotification.type, undefined)
+                    ]
+                )
             })
         )
+        this.connection.listen()
     }
 
-    async createLanguageService(workspaceURI: string) {
-        const { config, ...workspaceCSSLanguageServiceSettings } = await this.updateWorkspaceSettings(workspaceURI)
-        const workspaceConfig = this.workspaceConfigs[workspaceURI]
-        return new CSSLanguageService({ ...workspaceCSSLanguageServiceSettings, config: workspaceConfig })
-    }
-
-    async updateWorkspaceSettings(workspaceURI: string) {
-        const customWorkspaceSettings = await this.connection.workspace.getConfiguration({
-            scopeUri: workspaceURI,
+    private async initWorkspaceFolder(workspaceFolderURI: string) {
+        const workspaceFolderCWD = this.fileURLToPath(workspaceFolderURI)
+        const customWorkspaceFolderSettings = await this.connection.workspace.getConfiguration({
+            scopeUri: workspaceFolderURI,
             section: 'masterCSS'
         }) as Settings
-        const resolvedSettings = extend(settings, this.customSettings, customWorkspaceSettings) as Settings
-        this.workspaceSettings[workspaceURI] = resolvedSettings
-        this.updateWorkspaceConfig(workspaceURI)
-        return resolvedSettings
-    }
-
-    updateWorkspaceConfig(workspaceURI: string) {
-        const workspaceSettings = this.workspaceSettings[workspaceURI]
-        const workspaceCWD = fileURLToPath(workspaceURI.replace('%3A', ':'))
-        let workspaceConfig: Config | undefined
-        if (typeof workspaceSettings.config === 'string') {
-            try {
-                workspaceConfig = exploreConfig({ name: workspaceSettings.config, cwd: workspaceCWD })
-            } catch (e) {
-                console.log('Config loading failed from', workspaceCWD)
-                console.error(e)
-                console.log('Fall back to default config')
-            }
-        } else {
-            workspaceConfig = workspaceSettings.config
+        const { workspaces, ...languageServiceSettings } = extend(settings, this.customSettings, customWorkspaceFolderSettings) as Settings
+        const resolvedWorkspaceDirectories = new Set<string>([workspaceFolderCWD])
+        console.info('Registered workspace folder')
+        console.log(workspaceFolderCWD)
+        if (workspaces === 'auto') {
+            (await glob('**/master.css.*', {
+                cwd: workspaceFolderCWD,
+                absolute: true,
+                onlyFiles: true,
+                ignore: ['**/node_modules/**']
+            }))
+                .forEach((workspaceFile) => resolvedWorkspaceDirectories.add(path.dirname(workspaceFile)))
+        } else if (workspaces?.length) {
+            (await glob(workspaces, {
+                cwd: workspaceFolderCWD,
+                absolute: true,
+                onlyDirectories: true,
+                ignore: ['**/node_modules/**']
+            }))
+                .forEach((workspaceDir) => resolvedWorkspaceDirectories.add(workspaceDir))
         }
-        return this.workspaceConfigs[workspaceURI] = workspaceConfig
-    }
-
-    // find the workspace language service for the given uri
-    findWorkspaceCSSLanguageService(uri: string): CSSLanguageService | undefined {
-        for (const workspaceURI in this.workspaceCSSLanguageService) {
-            if (uri.startsWith(workspaceURI)) {
-                return this.workspaceCSSLanguageService[workspaceURI]
-            }
-        }
-    }
-
-    findWorkspaceFolder(uri: string): WorkspaceFolder {
-        const workspaceFolder = this.workspaceFolders.find(workspace => uri.startsWith(workspace.uri))
-        if (!workspaceFolder) {
-            throw new Error(`Workspace folder not found for ${uri}`)
-        }
-        return workspaceFolder
-    }
-
-    // revalidate workspace language services by all documents
-    async revalidate(documents = this.documents.all()) {
-        this.connection.sendNotification('masterCSS/revalidate')
-        return await Promise.all(
-            documents.map(async (textDocument) => {
-                const workspaceFolder = this.findWorkspaceFolder(textDocument.uri)
-                return this.workspaceCSSLanguageService[workspaceFolder.uri] = await this.createLanguageService(workspaceFolder.uri)
+        resolvedWorkspaceDirectories.forEach(async (workspaceDir) => {
+            console.info('Added workspace')
+            console.log(workspaceDir)
+            this.workspaces.add({
+                path: workspaceDir,
+                uri: pathToFileURL(workspaceDir).href,
+                openedTextDocuments: new Set<TextDocument>(),
+                languageServiceSettings
             })
-        )
+        })
     }
 
-    async reload() {
-        await Promise.all(
-            Object.keys(this.workspaceCSSLanguageService)
-                .map(async (workspaceURI) => {
-                    this.workspaceCSSLanguageService[workspaceURI] = await this.createLanguageService(workspaceURI)
-                })
-        )
+    initCSSLanguageService(workspace: Workspace) {
+        let workspaceConfig: Config | undefined
+        try {
+            workspaceConfig = exploreConfig({
+                cwd: workspace.path,
+                found: () => { }
+            })
+        } catch (e) {
+            console.info('Failed to load config from', workspace)
+            console.error(e)
+        }
+        console.info('Initialized workspace', workspaceConfig ? '(with config file)' : '')
+        console.log(workspace.path)
+        workspace.cssLanguageService = new CSSLanguageService({ ...workspace.languageServiceSettings, config: workspaceConfig })
     }
 
-    dispose(): void {
+    destroyCSSLanguageService(workspace: Workspace) {
+        console.info('Destroyed workspace')
+        console.log(workspace.path)
+        delete workspace.cssLanguageService
+    }
+
+    fileURLToPath(workspaceURI: string) {
+        return fileURLToPath(workspaceURI.replace('%3A', ':'))
+    }
+
+    findClosestWorkspace(textDocumentURI: string) {
+        let foundWorkspace: Workspace | undefined
+        for (const workspace of this.workspaces) {
+            if (textDocumentURI.startsWith(workspace.uri) && (!foundWorkspace || workspace.uri.length > foundWorkspace.uri.length)) {
+                foundWorkspace = workspace
+            }
+        }
+        if (!foundWorkspace) {
+            throw new Error(`No workspace found for ${textDocumentURI}`)
+        }
+        return foundWorkspace
+    }
+
+    stop(): void {
         this.connection.sendNotification('masterCSS/dispose')
         this.disposables.forEach((disposable) => disposable.dispose())
         this.disposables.length = 0
+        this.connection.dispose()
     }
 }

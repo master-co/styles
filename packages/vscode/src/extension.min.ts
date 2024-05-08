@@ -15,7 +15,7 @@ export function activate(context: ExtensionContext) {
 
     // The debug options for the server
     // --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
-    const debugOptions = { execArgv: ['--nolazy', '--inspect=6010'] }
+    const debugOptions = { execArgv: ['--nolazy', '--inspect=6012'] }
 
     // If the extension is launched in debug mode then the debug server options are used
     // Otherwise the run options are used
@@ -56,30 +56,44 @@ export function activate(context: ExtensionContext) {
     client.start()
 
     const restart = async (options = {
-        title: 'Restarting Master CSS Language Server...'
+        title: 'Restarting Master CSS'
     }) => {
-        window.withProgress({
+        await window.withProgress({
             location: ProgressLocation.Notification,
-            title: options.title,
-        }, async () => await client.restart())
+            title: options.title
+        }, async (progress) => {
+            await client.restart()
+            const registeredCommands = await commands.getCommands(true)
+            await Promise.all(registeredCommands.map(async (eachRegisteredCommand) => {
+                if (eachRegisteredCommand === 'eslint.restart') {
+                    await commands.executeCommand(eachRegisteredCommand)
+                }
+            }))
+        })
     }
 
     context.subscriptions.push(
         commands.registerCommand('masterCSS.restart', restart),
         client.onRequest('masterCSS/restart', restart),
         workspace.onDidChangeConfiguration(async (event) => {
-            const affectedProperties = []
-            for (const optionName in settings) {
-                const property = `masterCSS.${optionName}`
-                if (event.affectsConfiguration(property)) {
-                    affectedProperties.push(property)
+            const workspaceFolders = workspace.workspaceFolders ?? []
+            const affectedProperties: string[] = []
+            const shouldRestart = workspaceFolders?.some((folder) => {
+                for (const optionName in settings) {
+                    const property = `masterCSS.${optionName}`
+                    if (event.affectsConfiguration(property, folder)) {
+                        affectedProperties.push(property)
+                        return true
+                    }
                 }
-            }
-            if (affectedProperties.length) {
+                return false
+            })
+            if (shouldRestart) {
                 window.withProgress({
                     location: ProgressLocation.Notification,
-                    title: `Updating for "${affectedProperties}" ...`,
+                    title: `Setting "${affectedProperties}"`,
                 }, async () => await client.restart())
+                commands.executeCommand('eslint.restart')
             }
         }),
     )

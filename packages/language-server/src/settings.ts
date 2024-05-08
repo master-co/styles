@@ -2,9 +2,11 @@ import { settings as cssLanguageServiceSettings, type Settings as CSSLanguageSer
 
 const settings: Settings = {
     ...cssLanguageServiceSettings,
-    config: 'master.css'
+    workspaces: 'auto'
 }
 
 export default settings
 
-export declare type Settings = CSSLanguageServiceSettings | { config: string }
+export declare type Settings = CSSLanguageServiceSettings & {
+    workspaces: string[] | 'auto'
+}

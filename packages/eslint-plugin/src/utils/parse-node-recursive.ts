@@ -16,7 +16,7 @@ import type { RuleContext } from '@typescript-eslint/utils/ts-eslint'
  * @param {Array} ignoredKeys Optional, set object keys which should not be parsed e.g. for `cva`
  * @returns {void}
  */
-export function parseNodeRecursive(rootNode, childNode, cb, skipConditional = false, isolate = false, ignoredKeys = [], context?: RuleContext<any, any>) {
+export function parseNodeRecursive(rootNode, childNode, cb, skipConditional = false, isolate = false, ignoredKeys = [], context: RuleContext<any, any>) {
     // TODO allow vue non litteral
     let originalClassNamesValue
     let classNames
@@ -55,7 +55,7 @@ export function parseNodeRecursive(rootNode, childNode, cb, skipConditional = fa
         switch (childNode.type) {
             case 'TemplateLiteral':
                 childNode.expressions.forEach((exp) => {
-                    parseNodeRecursive(rootNode, exp, cb, skipConditional, forceIsolation, ignoredKeys)
+                    parseNodeRecursive(rootNode, exp, cb, skipConditional, forceIsolation, ignoredKeys, context)
                 })
                 const sourceCode = context.sourceCode
                 originalClassNamesValue = sourceCode.getText(childNode)
@@ -66,15 +66,15 @@ export function parseNodeRecursive(rootNode, childNode, cb, skipConditional = fa
                 }
                 break
             case 'ConditionalExpression':
-                parseNodeRecursive(rootNode, childNode.consequent, cb, skipConditional, forceIsolation, ignoredKeys)
-                parseNodeRecursive(rootNode, childNode.alternate, cb, skipConditional, forceIsolation, ignoredKeys)
+                parseNodeRecursive(rootNode, childNode.consequent, cb, skipConditional, forceIsolation, ignoredKeys, context)
+                parseNodeRecursive(rootNode, childNode.alternate, cb, skipConditional, forceIsolation, ignoredKeys, context)
                 return
             case 'LogicalExpression':
-                parseNodeRecursive(rootNode, childNode.right, cb, skipConditional, forceIsolation, ignoredKeys)
+                parseNodeRecursive(rootNode, childNode.right, cb, skipConditional, forceIsolation, ignoredKeys, context)
                 return
             case 'ArrayExpression':
                 childNode.elements.forEach((el) => {
-                    parseNodeRecursive(rootNode, el, cb, skipConditional, forceIsolation, ignoredKeys)
+                    parseNodeRecursive(rootNode, el, cb, skipConditional, forceIsolation, ignoredKeys, context)
                 })
                 return
             case 'ObjectExpression':
@@ -97,12 +97,13 @@ export function parseNodeRecursive(rootNode, childNode, cb, skipConditional = fa
                         cb,
                         skipConditional,
                         forceIsolation,
-                        ignoredKeys
+                        ignoredKeys,
+                        context
                     )
                 })
                 return
             case 'Property':
-                parseNodeRecursive(rootNode, childNode.key, cb, skipConditional, forceIsolation, ignoredKeys)
+                parseNodeRecursive(rootNode, childNode.key, cb, skipConditional, forceIsolation, ignoredKeys, context)
                 return
             case 'Literal':
                 trim = true

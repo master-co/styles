@@ -9,6 +9,7 @@ export default {
         btn: `inline-flex text:center`
     },
     variables: {
-        foo: 123
+        foo: 123,
+        global: '#ff00ff'
     }
 } as Config
