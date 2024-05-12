@@ -1,4 +1,4 @@
-import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, Disposable, Connection, ExecuteCommandRequest } from 'vscode-languageserver/node'
+import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, Disposable, Connection, IPCMessageReader, IPCMessageWriter } from 'vscode-languageserver/node'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import path from 'path'
 import CSSLanguageService, { Settings as CSSLanguageServiceSettings } from '@master/css-language-service'
@@ -23,19 +23,16 @@ declare type Workspace = {
 export default class CSSLanguageServer {
     workspaceFolders: WorkspaceFolder[] = []
     workspaces = new Set<Workspace>()
-    connection: Connection
     documents: TextDocuments<TextDocument>
     initializing?: Promise<any[]>
     private disposables: Disposable[] = []
 
     constructor(
+        public connection: Connection = process.argv.includes('--stdio')
+            ? createConnection(process.stdin, process.stdout)
+            : createConnection(new IPCMessageReader(process), new IPCMessageWriter(process)),
         public customSettings?: Settings
     ) {
-        if (process.argv.includes('--stdio')) {
-            this.connection = createConnection(process.stdin, process.stdout)
-        } else {
-            this.connection = createConnection()
-        }
         interceptLogs(console, this.connection)
         this.documents = new TextDocuments(TextDocument)
     }
@@ -54,7 +51,7 @@ export default class CSSLanguageServer {
             this.documents.onDidOpen(async (params) => {
                 await this.initializing
                 const workspace = this.findClosestWorkspace(params.document.uri)
-                if (workspace.openedTextDocuments.has(params.document)) return
+                if (!workspace || workspace.openedTextDocuments.has(params.document)) return
                 if (!workspace.openedTextDocuments.size) {
                     this.initCSSLanguageService(workspace)
                 }
@@ -63,6 +60,7 @@ export default class CSSLanguageServer {
             this.documents.onDidClose(async (params) => {
                 await this.initializing
                 const workspace = this.findClosestWorkspace(params.document.uri)
+                if (!workspace) return
                 workspace.openedTextDocuments.delete(params.document)
                 if (!workspace.openedTextDocuments.size) {
                     this.destroyCSSLanguageService(workspace)
@@ -203,7 +201,7 @@ export default class CSSLanguageServer {
             }
         }
         if (!foundWorkspace) {
-            throw new Error(`No workspace found for ${textDocumentURI}`)
+            console.info('No workspace found for', textDocumentURI)
         }
         return foundWorkspace
     }
