@@ -1,6 +1,6 @@
-import { createConnection, TextDocuments, InitializeParams, DidChangeConfigurationNotification, WorkspaceFolder, Disposable, Connection, IPCMessageReader, IPCMessageWriter } from 'vscode-languageserver/node'
+import { createConnection, TextDocuments, InitializeParams, WorkspaceFolder, Disposable, Connection, InitializedNotification } from 'vscode-languageserver/node'
 import { TextDocument } from 'vscode-languageserver-textdocument'
-import path from 'path'
+import path from 'node:path'
 import CSSLanguageService, { Settings as CSSLanguageServiceSettings } from '@master/css-language-service'
 import { Settings } from './settings'
 import exploreConfig from '@master/css-explore-config'
@@ -30,10 +30,12 @@ export default class CSSLanguageServer {
     constructor(
         public connection: Connection = process.argv.includes('--stdio')
             ? createConnection(process.stdin, process.stdout)
-            : createConnection(new IPCMessageReader(process), new IPCMessageWriter(process)),
+            : createConnection(),
         public customSettings?: Settings
     ) {
-        interceptLogs(console, this.connection)
+        if (!process.env.TEST) {
+            interceptLogs(console, this.connection)
+        }
         this.documents = new TextDocuments(TextDocument)
     }
 
@@ -49,7 +51,7 @@ export default class CSSLanguageServer {
                 }
             }),
             this.documents.onDidOpen(async (params) => {
-                await this.initializing
+                await this.init()
                 const workspace = this.findClosestWorkspace(params.document.uri)
                 if (!workspace || workspace.openedTextDocuments.has(params.document)) return
                 if (!workspace.openedTextDocuments.size) {
@@ -58,7 +60,7 @@ export default class CSSLanguageServer {
                 workspace.openedTextDocuments.add(params.document)
             }),
             this.documents.onDidClose(async (params) => {
-                await this.initializing
+                await this.init()
                 const workspace = this.findClosestWorkspace(params.document.uri)
                 if (!workspace) return
                 workspace.openedTextDocuments.delete(params.document)
@@ -68,7 +70,7 @@ export default class CSSLanguageServer {
             }),
             this.documents.listen(this.connection),
             this.connection.onDidChangeConfiguration(async ({ settings }) => {
-                await this.initializing
+                await this.init()
                 if (settings?.masterCSS) {
                     this.connection.sendNotification('masterCSS/globalSettingsChanged', settings.masterCSS)
                     this.customSettings = settings.masterCSS
@@ -78,7 +80,7 @@ export default class CSSLanguageServer {
                 }
             }),
             this.connection.onHover(async (params) => {
-                await this.initializing
+                await this.init()
                 const workspace = this.findClosestWorkspace(params.textDocument.uri)
                 if (workspace?.cssLanguageService) {
                     const document = this.documents.get(params.textDocument.uri)
@@ -86,7 +88,7 @@ export default class CSSLanguageServer {
                 }
             }),
             this.connection.onCompletion(async (params) => {
-                await this.initializing
+                await this.init()
                 const workspace = this.findClosestWorkspace(params.textDocument.uri)
                 if (workspace?.cssLanguageService) {
                     const document = this.documents.get(params.textDocument.uri)
@@ -94,7 +96,7 @@ export default class CSSLanguageServer {
                 }
             }),
             this.connection.onDocumentColor(async (params) => {
-                await this.initializing
+                await this.init()
                 const workspace = this.findClosestWorkspace(params.textDocument.uri)
                 if (workspace?.cssLanguageService) {
                     const document = this.documents.get(params.textDocument.uri)
@@ -102,7 +104,7 @@ export default class CSSLanguageServer {
                 }
             }),
             this.connection.onColorPresentation(async (params) => {
-                await this.initializing
+                await this.init()
                 const workspace = this.findClosestWorkspace(params.textDocument.uri)
                 if (workspace?.cssLanguageService) {
                     const document = this.documents.get(params.textDocument.uri)
@@ -115,6 +117,9 @@ export default class CSSLanguageServer {
                 if (params.workspaceFolders?.length) {
                     this.workspaceFolders = params.workspaceFolders
                 } else {
+                    /**
+                     * @deprecated — in favour of workspaceFolders
+                     */
                     if (params.rootUri) {
                         this.workspaceFolders.push({ name: '', uri: params.rootUri })
                     }
@@ -123,24 +128,40 @@ export default class CSSLanguageServer {
                     capabilities: SERVER_CAPABILITIES
                 }
             }),
-            this.connection.onInitialized(async () => {
-                this.initializing = Promise.all(
-                    [
-                        ...this.workspaceFolders.map((folder) => this.initWorkspaceFolder(folder.uri)),
-                        this.connection.client.register(DidChangeConfigurationNotification.type, undefined)
-                    ]
-                )
+            this.connection.onInitialized(() => this.init()),
+            /**
+             * In the test environment, this.connection.onInitialized is not executed.
+             */
+            this.connection.onNotification(InitializedNotification.type, () => {
+                console.log('fuck')
+                this.init()
             })
         )
         this.connection.listen()
     }
 
+    init() {
+        if (this.initializing) return this.initializing
+        return this.initializing = Promise.all(
+            [
+                ...this.workspaceFolders.map((folder) => this.initWorkspaceFolder(folder.uri)),
+                // this.connection.client.register(DidChangeConfigurationNotification.type, undefined)
+            ]
+        )
+    }
+
     private async initWorkspaceFolder(workspaceFolderURI: string) {
         const workspaceFolderCWD = URI.parse(workspaceFolderURI).fsPath
-        const customWorkspaceFolderSettings = await this.connection.workspace.getConfiguration({
-            scopeUri: workspaceFolderURI,
-            section: 'masterCSS'
-        }) as Settings
+        let customWorkspaceFolderSettings: Settings | undefined
+        try {
+            customWorkspaceFolderSettings = await this.connection.workspace.getConfiguration({
+                scopeUri: workspaceFolderURI,
+                section: 'masterCSS'
+            }) as Settings
+        } catch (error) {
+            console.error('Failed to load workspace folder settings', workspaceFolderURI)
+            console.error(error)
+        }
         const { workspaces, ...languageServiceSettings } = extend(settings, this.customSettings, customWorkspaceFolderSettings) as Settings
         const resolvedWorkspaceDirectories = new Set<string>([workspaceFolderCWD])
         console.info('Registered workspace folder', workspaceFolderURI)
@@ -200,10 +221,14 @@ export default class CSSLanguageServer {
                 foundWorkspace = workspace
             }
         }
-        if (!foundWorkspace) {
+        if (process.env.DEBUG && !foundWorkspace) {
             console.info('No workspace found for', textDocumentURI)
         }
         return foundWorkspace
+    }
+
+    getWorkspace(uri: string) {
+        return Array.from(this.workspaces).find((workspace) => workspace.uri === uri)
     }
 
     stop(): void {
@@ -211,5 +236,6 @@ export default class CSSLanguageServer {
         this.disposables.forEach((disposable) => disposable.dispose())
         this.disposables.length = 0
         this.connection.dispose()
+        this.initializing = undefined
     }
 }

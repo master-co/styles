@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
         "lint": "eslint src",
-        "test": "jest"
+        "test": "vitest"
     },
     "description": "Master CSS Language Server",
     "author": "Aoyue Design LLC.",
@@ -23,12 +23,15 @@
         "@techor/extend": "^3.0.22",
         "fast-glob": "^3.3.2",
         "js-beautify": "^1.15.1",
+        "nanoid": "^5.0.6",
         "vscode-languageserver": "^9.0.1",
         "vscode-languageserver-textdocument": "^1.0.11",
         "vscode-uri": "^3.0.8"
     },
     "devDependencies": {
-        "@master/css-shared": "workspace:^"
+        "@master/css-shared": "workspace:^",
+        "vite-tsconfig-paths": "^4.3.2",
+        "vitest": "^1.6.0"
     },
     "sideEffects": false,
     "main": "./dist/index.cjs",

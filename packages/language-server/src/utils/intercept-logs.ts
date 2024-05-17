@@ -1,11 +1,10 @@
 import type { Connection } from 'vscode-languageserver'
 import { format } from 'node:util'
 
-function formatMessages(params: any[]): string {
-    return params.map((item) => format(item)).join(' ')
-}
-
 export default function interceptLogs(console: Console, connection: Connection) {
+    function formatMessages(params: any[]): string {
+        return params.map((item) => format(item)).join(' ')
+    }
     console.debug = (...params: any[]) => connection.console.info(formatMessages(params))
     console.error = (...params: any[]) => connection.console.error(formatMessages(params))
     console.warn = (...params: any[]) => connection.console.warn(formatMessages(params))
