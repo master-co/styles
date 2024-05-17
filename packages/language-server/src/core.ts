@@ -128,14 +128,7 @@ export default class CSSLanguageServer {
                     capabilities: SERVER_CAPABILITIES
                 }
             }),
-            this.connection.onInitialized(() => this.init()),
-            /**
-             * In the test environment, this.connection.onInitialized is not executed.
-             */
-            this.connection.onNotification(InitializedNotification.type, () => {
-                console.log('fuck')
-                this.init()
-            })
+            this.connection.onInitialized(() => this.init())
         )
         this.connection.listen()
     }

@@ -6,7 +6,6 @@ export function connect(settings?: Settings) {
     class TestStream extends Duplex {
         _write(chunk: string, _encoding: BufferEncoding, done: () => void) {
             this.emit('data', chunk)
-            // console.log(chunk.toString())
             done()
         }
         // eslint-disable-next-line @typescript-eslint/no-empty-function
