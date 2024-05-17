@@ -3,7 +3,6 @@ import CSSLanguageServer, { Settings } from '../src'
 import { beforeAll, describe } from 'vitest'
 import { resolve } from 'node:path'
 import { URI } from 'vscode-uri'
-import { Duplex } from 'node:stream'
 import createDocument from '../src/utils/create-document'
 import { connect } from './connection'
 
@@ -127,11 +126,10 @@ export function withFixture(fixture: string, cb: (context: FixtureContext) => vo
             await clientConnection.sendRequest(InitializeRequest.type, {
                 rootUri,
                 capabilities,
-                workspaceFolders,
-                trace: 'verbose'
+                workspaceFolders
             } as InitializeParams)
             await clientConnection.sendNotification(InitializedNotification.method, {})
-            // await server.init()
+            await server.init()
             return () => {
                 server.stop()
                 clientConnection.dispose()

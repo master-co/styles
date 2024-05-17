@@ -1,4 +1,4 @@
-import { createConnection, TextDocuments, InitializeParams, WorkspaceFolder, Disposable, Connection, InitializedNotification } from 'vscode-languageserver/node'
+import { createConnection, TextDocuments, InitializeParams, WorkspaceFolder, Disposable, Connection, InitializedNotification, DidChangeConfigurationNotification } from 'vscode-languageserver/node'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import path from 'node:path'
 import CSSLanguageService, { Settings as CSSLanguageServiceSettings } from '@master/css-language-service'
@@ -24,7 +24,7 @@ export default class CSSLanguageServer {
     workspaceFolders: WorkspaceFolder[] = []
     workspaces = new Set<Workspace>()
     documents: TextDocuments<TextDocument>
-    initializing?: Promise<any[]>
+    initializing?: Promise<void>
     private disposables: Disposable[] = []
 
     constructor(
@@ -135,26 +135,19 @@ export default class CSSLanguageServer {
 
     init() {
         if (this.initializing) return this.initializing
-        return this.initializing = Promise.all(
-            [
-                ...this.workspaceFolders.map((folder) => this.initWorkspaceFolder(folder.uri)),
-                // this.connection.client.register(DidChangeConfigurationNotification.type, undefined)
-            ]
-        )
+        // eslint-disable-next-line no-async-promise-executor
+        return this.initializing = new Promise(async (resolve) => {
+            await Promise.all(this.workspaceFolders.map((folder) => this.initWorkspaceFolder(folder.uri)))
+            resolve()
+        })
     }
 
     private async initWorkspaceFolder(workspaceFolderURI: string) {
         const workspaceFolderCWD = URI.parse(workspaceFolderURI).fsPath
-        let customWorkspaceFolderSettings: Settings | undefined
-        try {
-            customWorkspaceFolderSettings = await this.connection.workspace.getConfiguration({
-                scopeUri: workspaceFolderURI,
-                section: 'masterCSS'
-            }) as Settings
-        } catch (error) {
-            console.error('Failed to load workspace folder settings', workspaceFolderURI)
-            console.error(error)
-        }
+        const customWorkspaceFolderSettings = await this.connection.workspace.getConfiguration({
+            scopeUri: workspaceFolderURI,
+            section: 'masterCSS'
+        }) as Settings
         const { workspaces, ...languageServiceSettings } = extend(settings, this.customSettings, customWorkspaceFolderSettings) as Settings
         const resolvedWorkspaceDirectories = new Set<string>([workspaceFolderCWD])
         console.info('Registered workspace folder', workspaceFolderURI)

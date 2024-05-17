@@ -4,7 +4,7 @@ import CSSLanguageServer, { Settings } from '../src'
 
 export function connect(settings?: Settings) {
     class TestStream extends Duplex {
-        _write(chunk: string, _encoding: BufferEncoding, done: () => void) {
+        _write(chunk: Buffer, _encoding: BufferEncoding, done: () => void) {
             this.emit('data', chunk)
             done()
         }
