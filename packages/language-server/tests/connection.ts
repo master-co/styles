@@ -1,23 +1,23 @@
-import { Duplex } from 'stream'
-import { createConnection, createProtocolConnection } from 'vscode-languageserver/node'
+import { Writable, Readable, Duplex, DuplexOptions } from 'stream'
+import { MessageReader, StreamMessageReader, StreamMessageWriter, createConnection, createProtocolConnection } from 'vscode-languageserver/node'
 import CSSLanguageServer, { Settings } from '../src'
 
 export function connect(settings?: Settings) {
-    class TestStream extends Duplex {
-        _write(chunk: Buffer, _encoding: BufferEncoding, done: () => void) {
+    const duplexOptions = {
+        write(chunk, encoding, callback) {
             this.emit('data', chunk)
-            done()
-        }
+            callback()
+        },
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        _read(_size: number) { }
-    }
-    const input = new TestStream()
-    const output = new TestStream()
+        read() {}
+    } as DuplexOptions
+    const input = new Duplex(duplexOptions)
+    const output = new Duplex(duplexOptions)
     const serverConnection = createConnection(input, output)
-    const server = new CSSLanguageServer(serverConnection, settings)
     const clientConnection = createProtocolConnection(output, input)
-    clientConnection.listen()
+    const server = new CSSLanguageServer(serverConnection, settings)
     server.start()
+    clientConnection.listen()
     return {
         server,
         clientConnection,

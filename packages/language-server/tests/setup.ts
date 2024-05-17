@@ -129,7 +129,7 @@ export function withFixture(fixture: string, cb: (context: FixtureContext) => vo
                 workspaceFolders
             } as InitializeParams)
             await clientConnection.sendNotification(InitializedNotification.method, {})
-            await server.init()
+            // await server.init()
             return () => {
                 server.stop()
                 clientConnection.dispose()
