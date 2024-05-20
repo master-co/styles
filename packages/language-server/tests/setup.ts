@@ -1,4 +1,4 @@
-import { ClientCapabilities, Connection, InitializeParams, InitializeRequest, InitializedNotification } from 'vscode-languageserver/node'
+import { ClientCapabilities, InitializeParams, InitializeRequest, InitializedNotification, ProtocolConnection } from 'vscode-languageserver/node'
 import CSSLanguageServer, { Settings, Workspace } from '../src'
 import { beforeAll, describe } from 'vitest'
 import { resolve } from 'node:path'
@@ -13,7 +13,7 @@ declare type FixtureContext = {
     rootUri: string,
     rootWorkspace: Workspace | undefined,
     workspaceFolders: { uri: string, name: string }[],
-    clientConnection: Connection,
+    clientConnection: ProtocolConnection,
     createDocument: (text?: string, options?: { lang?: string, dir?: string }) => TextDocument
 }
 
@@ -21,7 +21,7 @@ export function withFixture(fixture: string, cb: (context: FixtureContext) => vo
     describe(fixture, async () => {
         const context = {}
         beforeAll(async () => {
-            const fixtureDir = resolve(__dirname, `../fixtures/${fixture}`)
+            const fixtureDir = resolve(__dirname, `./fixtures/${fixture}`)
             const workspaceFolders = [{
                 uri: URI.file(fixtureDir).toString(),
                 name: 'test'
@@ -97,7 +97,7 @@ export function withFixture(fixture: string, cb: (context: FixtureContext) => vo
                 workspaceFolders,
                 clientConnection,
                 rootWorkspace: server.getWorkspace(rootUri),
-                createDocument: (text = '<div></div>', options?: { lang?: string, dir?: string }) => {
+                createDocument: (text = '', options?: { lang?: string, dir?: string }) => {
                     return createDocument(text, { lang: options?.lang, dir: options?.dir || fixtureDir })
                 }
             } as FixtureContext)

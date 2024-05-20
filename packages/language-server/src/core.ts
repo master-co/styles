@@ -15,7 +15,7 @@ export declare type Workspace = {
     path: string
     uri: string
     openedTextDocuments: TextDocument[]
-    cssLanguageService?: CSSLanguageService
+    languageService?: CSSLanguageService
     languageServiceSettings: CSSLanguageServiceSettings
 }
 
@@ -91,36 +91,36 @@ export default class CSSLanguageServer {
     async onHover(params: HoverParams) {
         await this.init()
         const workspace = this.findClosestWorkspace(params.textDocument.uri)
-        if (workspace?.cssLanguageService) {
+        if (workspace.languageService) {
             const document = this.documents.get(params.textDocument.uri)
-            if (document) return workspace.cssLanguageService.inspectSyntax(document, params.position)
+            if (document) return workspace.languageService.inspectSyntax(document, params.position)
         }
     }
 
     async onCompletion(params: CompletionParams) {
         await this.init()
         const workspace = this.findClosestWorkspace(params.textDocument.uri)
-        if (workspace?.cssLanguageService) {
+        if (workspace.languageService) {
             const document = this.documents.get(params.textDocument.uri)
-            if (document) return workspace.cssLanguageService.suggestSyntax(document, params.position, params.context)
+            if (document) return workspace.languageService.suggestSyntax(document, params.position, params.context)
         }
     }
 
     async onDocumentColor(params: DocumentColorParams) {
         await this.init()
         const workspace = this.findClosestWorkspace(params.textDocument.uri)
-        if (workspace?.cssLanguageService) {
+        if (workspace.languageService) {
             const document = this.documents.get(params.textDocument.uri)
-            if (document) return workspace.cssLanguageService.renderSyntaxColors(document)
+            if (document) return workspace.languageService.renderSyntaxColors(document)
         }
     }
 
     async onColorPresentation(params: ColorPresentationParams) {
         await this.init()
         const workspace = this.findClosestWorkspace(params.textDocument.uri)
-        if (workspace?.cssLanguageService) {
+        if (workspace.languageService) {
             const document = this.documents.get(params.textDocument.uri)
-            if (document) return workspace.cssLanguageService.editSyntaxColors(document, params.color, params.range)
+            if (document) return workspace.languageService.editSyntaxColors(document, params.color, params.range)
         }
     }
 
@@ -129,7 +129,7 @@ export default class CSSLanguageServer {
         const workspace = this.findClosestWorkspace(params.document.uri)
         if (!workspace || workspace.openedTextDocuments.includes(params.document)) return
         if (!workspace.openedTextDocuments.length) {
-            this.initCSSLanguageService(workspace)
+            this.initLanguageService(workspace)
         }
         workspace.openedTextDocuments.push(params.document)
     }
@@ -140,7 +140,7 @@ export default class CSSLanguageServer {
         if (!workspace) return
         workspace.openedTextDocuments.splice(workspace.openedTextDocuments.indexOf(params.document), 1)
         if (!workspace.openedTextDocuments.length) {
-            this.destroyCSSLanguageService(workspace)
+            this.destroyLanguageService(workspace)
         }
     }
 
@@ -208,7 +208,7 @@ export default class CSSLanguageServer {
         })
     }
 
-    initCSSLanguageService(workspace: Workspace) {
+    initLanguageService(workspace: Workspace) {
         let workspaceConfig: Config | undefined
         try {
             workspaceConfig = exploreConfig({
@@ -220,12 +220,12 @@ export default class CSSLanguageServer {
             this.console.error(e)
         }
         this.console.info(`Initialized workspace ${workspaceConfig ? '(with config file)' : ''} ${workspace.uri}`)
-        workspace.cssLanguageService = new CSSLanguageService({ ...workspace.languageServiceSettings, config: workspaceConfig })
+        workspace.languageService = new CSSLanguageService({ ...workspace.languageServiceSettings, config: workspaceConfig })
     }
 
-    destroyCSSLanguageService(workspace: Workspace) {
+    destroyLanguageService(workspace: Workspace) {
         this.console.info(`Destroyed workspace ${workspace.uri}`)
-        delete workspace.cssLanguageService
+        delete workspace.languageService
     }
 
     findClosestWorkspace(textDocumentURI: string) {
@@ -236,9 +236,9 @@ export default class CSSLanguageServer {
             }
         }
         if (process.env.DEBUG && !foundWorkspace) {
-            this.console.info(`No workspace found for ${textDocumentURI}`)
+            this.console.info(`This is an external document ${textDocumentURI} assigned to the first workspace`)
         }
-        return foundWorkspace
+        return foundWorkspace || this.workspaces[0]
     }
 
     getWorkspace(uri: string) {

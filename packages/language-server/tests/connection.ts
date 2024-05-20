@@ -1,5 +1,5 @@
-import { Writable, Readable, Duplex, DuplexOptions } from 'stream'
-import { MessageReader, StreamMessageReader, StreamMessageWriter, createConnection, createProtocolConnection } from 'vscode-languageserver/node'
+import { Duplex, DuplexOptions } from 'stream'
+import { createConnection, createProtocolConnection } from 'vscode-languageserver/node'
 import CSSLanguageServer, { Settings } from '../src'
 
 export function connect(settings?: Settings) {
@@ -14,7 +14,7 @@ export function connect(settings?: Settings) {
     const input = new Duplex(duplexOptions)
     const output = new Duplex(duplexOptions)
     const serverConnection = createConnection(input, output)
-    const clientConnection = createConnection(output, input)
+    const clientConnection = createProtocolConnection(output, input)
     const server = new CSSLanguageServer(serverConnection, settings)
     server.start()
     clientConnection.listen()
