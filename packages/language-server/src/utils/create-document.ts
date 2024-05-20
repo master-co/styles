@@ -2,7 +2,6 @@ import { TextDocument } from 'vscode-languageserver-textdocument'
 import { nanoid } from 'nanoid'
 import path from 'path'
 import { URI } from 'vscode-uri'
-import { TextDocumentItem } from 'vscode-languageserver'
 
 const extOfLang = {
     typescript: 'ts',
@@ -24,5 +23,5 @@ export default function createDocument(text: string, options?: { lang?: string, 
     const dir = options?.dir || './'
     const filePath = path.join(dir, `${nanoid()}.${extOfLang[lang as keyof typeof extOfLang]}`)
     const fileURI = URI.file(filePath).toString()
-    return TextDocumentItem.create(fileURI, lang, 0, text)
+    return TextDocument.create(fileURI, lang, 0, text)
 }

@@ -14,7 +14,7 @@ export function connect(settings?: Settings) {
     const input = new Duplex(duplexOptions)
     const output = new Duplex(duplexOptions)
     const serverConnection = createConnection(input, output)
-    const clientConnection = createProtocolConnection(output, input)
+    const clientConnection = createConnection(output, input)
     const server = new CSSLanguageServer(serverConnection, settings)
     server.start()
     clientConnection.listen()
