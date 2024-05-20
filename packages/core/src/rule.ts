@@ -272,10 +272,7 @@ export class Rule {
                                     if (atComponentToken.startsWith('<=')) {
                                         extremumOperator = '<='
                                         featureName = 'max-width'
-                                    } else if (atComponentToken.startsWith('>=') || targetQuery) {
-                                        extremumOperator = '>='
-                                        featureName = 'min-width'
-                                    } else if (atComponentToken.startsWith('>')) {
+                                    } else if (atComponentToken.startsWith('>') && !atComponentToken.startsWith('>=')) {
                                         extremumOperator = '>'
                                         featureName = 'min-width'
                                         correction = .02
@@ -283,6 +280,9 @@ export class Rule {
                                         extremumOperator = '<'
                                         featureName = 'max-width'
                                         correction = -.02
+                                    } else if (atComponentToken.startsWith('>=') || targetQuery) {
+                                        extremumOperator = '>='
+                                        featureName = 'min-width'
                                     }
                                     const token
                                         = extremumOperator
