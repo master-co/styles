@@ -63,3 +63,19 @@ it('checks style declarations', () => {
         expect(new MasterCSS().add(...shuffle([...input])).rules).toMatchObject(output)
     }
 })
+
+it('checks media order', () => {
+    const input = [
+        'min-w:206', '{flex:row}@xs', 'jc:flex-end@xs', 'hidden@tablet&<desktop', '{flex:row}@2xs&<xs'
+    ]
+    const output = [
+        { className: 'min-w:206' },
+        { className: '{flex:row}@xs' },
+        { className: 'jc:flex-end@xs' },
+        { className: 'hidden@tablet&<desktop' },
+        { className: '{flex:row}@2xs&<xs' }
+    ]
+    for (let i = 0; i < 10; i++) {
+        expect(new MasterCSS({ queries: { tablet: 391, desktop: 1025 } }).add(...shuffle([...input])).rules).toMatchObject(output)
+    }
+})

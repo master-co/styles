@@ -745,34 +745,22 @@ export default class MasterCSS {
 
                                 let i = matchEndIndex
                                 const endI = matchStartIndex
-                                matchStartIndex = undefined
+                                matchStartIndex = matchEndIndex + 1
                                 for (; i >= endI; i--) {
                                     const eachRule = this.rules[i]
                                     const eachMaxWidthFeature = eachRule.at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent
                                     const eachMinWidthFeature = eachRule.at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent
-                                    const eachRange = (eachMaxWidthFeature.value as number) - (eachMinWidthFeature.value as number)
-                                    if (eachRange < range) {
-                                        matchEndIndex = i - 1
-                                    } else if (eachRange === range) {
-                                        matchStartIndex = i
+                                    if (!eachMaxWidthFeature || !eachMinWidthFeature) {
+                                        break
                                     } else {
-                                        break
-                                    }
-                                }
-                            }
-
-                            if (matchStartIndex !== -1 && matchStartIndex !== undefined) {
-                                const range = (maxWidthFeature.value) as number - (minWidthFeature.value as number)
-                                for (let i = matchEndIndex; i >= matchStartIndex; i--) {
-                                    const eachRule = this.rules[i]
-                                    const eachMaxWidthFeature = eachRule.at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent
-                                    const eachMinWidthFeature = eachRule.at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent
-                                    const eachRange = (eachMaxWidthFeature.value as number) - (eachMinWidthFeature.value as number)
-                                    if (eachRange < range) {
-                                        matchEndIndex = i - 1
-                                    } else if (eachRange > range) {
-                                        matchStartIndex = i + 1
-                                        break
+                                        const eachRange = (eachMaxWidthFeature.value as number) - (eachMinWidthFeature.value as number)
+                                        if (eachRange < range) {
+                                            matchEndIndex = i - 1
+                                        } else if (eachRange === range) {
+                                            matchStartIndex = i
+                                        } else {
+                                            break
+                                        }
                                     }
                                 }
                             }
