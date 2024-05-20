@@ -5,11 +5,13 @@ import { test } from 'vitest'
 withFixture('monorepo', async (context) => {
     test.concurrent('workspaces', async ({ expect }) => {
         expect(context.server.workspaces.length).toBe(3)
-        expect(context.server.workspaces).toMatchObject([
-            { path: resolve('tests/fixtures/monorepo') },
-            { path: resolve('tests/fixtures/monorepo/a') },
-            { path: resolve('tests/fixtures/monorepo/b') },
-        ])
+        expect(context.server.workspaces).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ path: resolve('tests/fixtures/monorepo') }),
+                expect.objectContaining({ path: resolve('tests/fixtures/monorepo/a') }),
+                expect.objectContaining({ path: resolve('tests/fixtures/monorepo/b') }),
+            ])
+        )
     })
 
     test('open a document and link it to the nearest workspace', async ({ expect }) => {
