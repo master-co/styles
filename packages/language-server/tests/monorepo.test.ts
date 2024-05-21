@@ -4,7 +4,7 @@ import { test } from 'vitest'
 import { URI } from 'vscode-uri'
 
 withFixture('monorepo', async (context) => {
-    test.concurrent('workspaces', async ({ expect }) => {
+    test('workspaces', async ({ expect }) => {
         expect(context.server.workspaces.length).toBe(3)
         expect(context.server.workspaces.map((x) => x.uri)).toEqual(
             expect.arrayContaining([
