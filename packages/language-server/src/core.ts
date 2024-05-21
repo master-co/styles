@@ -38,6 +38,7 @@ export default class CSSLanguageServer {
         this.settings = extend(settings, this.customSettings) as Settings
         this.console = new Proxy(this.connection.console, {
             get: (target, prop: keyof RemoteConsole) => {
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
                 if (!this.settings?.verbose) return () => { }
                 return this.connection.console[prop]
             }
