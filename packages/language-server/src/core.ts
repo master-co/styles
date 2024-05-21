@@ -12,7 +12,6 @@ import glob from 'fast-glob'
 import { URI } from 'vscode-uri'
 
 export declare type Workspace = {
-    path: string
     uri: string
     openedTextDocuments: TextDocument[]
     languageService?: CSSLanguageService
@@ -200,7 +199,6 @@ export default class CSSLanguageServer {
             const workspaceURI = URI.file(workspaceDir).toString()
             this.console.info(`Added workspace ${workspaceURI}`)
             this.workspaces.push({
-                path: workspaceDir,
                 uri: workspaceURI,
                 openedTextDocuments: [],
                 languageServiceSettings
@@ -212,7 +210,7 @@ export default class CSSLanguageServer {
         let workspaceConfig: Config | undefined
         try {
             workspaceConfig = exploreConfig({
-                cwd: workspace.path,
+                cwd: URI.parse(workspace.uri).fsPath,
                 found: undefined
             })
         } catch (e: any) {
