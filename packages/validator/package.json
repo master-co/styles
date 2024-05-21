@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "lint": "eslint ./src",
         "type-check": "tsc --noEmit",
-        "test": "jest --forceExit --detectOpenHandles"
+        "test": "vitest"
     },
     "license": "MIT",
     "description": "Validate Master CSS syntax",

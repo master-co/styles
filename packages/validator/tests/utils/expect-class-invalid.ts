@@ -1,3 +1,4 @@
+import { expect } from 'vitest'
 import { isClassValid } from '../../src'
 
 export default function expectClassInvalid(syntax: string) {

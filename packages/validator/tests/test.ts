@@ -1,3 +1,4 @@
+import { test, it, expect } from 'vitest'
 import { generateValidRules } from '../src'
 import expectClassWithErrors from './utils/expect-class-with-errors'
 import expectClassWithoutErrors from './utils/expect-class-without-errors'

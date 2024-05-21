@@ -1,3 +1,4 @@
+import { test, it, expect } from 'vitest'
 import validateCSS from '../src/validate-css'
 
 it('selector', () => {

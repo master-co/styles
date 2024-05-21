@@ -1,3 +1,4 @@
+import { test, it, expect } from 'vitest'
 import { execSync } from 'child_process'
 import { rm } from '@master/css-shared/utils/fs'
 import { join } from 'node:path'

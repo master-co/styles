@@ -1,3 +1,4 @@
+import { expect } from 'vitest'
 import { validate } from '../../src'
 
 export default function expectClassWithoutErrors(syntax: string) {
