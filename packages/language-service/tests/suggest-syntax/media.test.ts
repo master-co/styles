@@ -1,14 +1,15 @@
+import { test, it, expect, describe } from 'vitest'
 import { hint } from './test'
 
-test('screen size', () => expect(hint('hidden@')?.map(({ label }) => label)).toContain('@sm'))
-test('&', () => expect(hint('hidden@sm&')?.map(({ label }) => label)).toContain('&sm'))
-test('&>', () => expect(hint('hidden@sm&>')?.map(({ label }) => label)).toContain('>sm'))
-test('&>=', () => expect(hint('hidden@sm&>=')?.map(({ label }) => label)).toContain('>=sm'))
-test('&<', () => expect(hint('hidden@sm&<')?.map(({ label }) => label)).toContain('<sm'))
-test('&<=', () => expect(hint('hidden@sm&<=')?.map(({ label }) => label)).toContain('<=sm'))
+test.concurrent('screen size', () => expect(hint('hidden@')?.map(({ label }) => label)).toContain('@sm'))
+test.concurrent('&', () => expect(hint('hidden@sm&')?.map(({ label }) => label)).toContain('&sm'))
+test.concurrent('&>', () => expect(hint('hidden@sm&>')?.map(({ label }) => label)).toContain('>sm'))
+test.concurrent('&>=', () => expect(hint('hidden@sm&>=')?.map(({ label }) => label)).toContain('>=sm'))
+test.concurrent('&<', () => expect(hint('hidden@sm&<')?.map(({ label }) => label)).toContain('<sm'))
+test.concurrent('&<=', () => expect(hint('hidden@sm&<=')?.map(({ label }) => label)).toContain('<=sm'))
 
-describe('sorting', () => {
-    test('@', () => expect(hint('hidden@')?.map(({ label }) => label)).toEqual([
+describe.concurrent('sorting', () => {
+    test.concurrent('@', () => expect(hint('hidden@')?.map(({ label }) => label)).toEqual([
         '@4xs',
         '@3xs',
         '@2xs',
@@ -31,7 +32,7 @@ describe('sorting', () => {
         '@speech',
         '@supports()',
     ]))
-    test('@>', () => expect(hint('hidden@>')?.map(({ label }) => label)).toEqual([
+    test.concurrent('@>', () => expect(hint('hidden@>')?.map(({ label }) => label)).toEqual([
         '>4xs',
         '>3xs',
         '>2xs',

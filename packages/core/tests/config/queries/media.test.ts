@@ -1,6 +1,8 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
 import config from '../../config'
 
-test('orientation', () => {
+test.concurrent('orientation', () => {
     expect(new MasterCSS(config).add('hidden@landscape').text)
         .toBe('@media (orientation:landscape){.hidden\\@landscape{display:none}}')
 
@@ -8,7 +10,7 @@ test('orientation', () => {
         .toBe('@media (orientation:portrait){.hidden\\@portrait{display:none}}')
 })
 
-test('prefers-reduced-motion', () => {
+test.concurrent('prefers-reduced-motion', () => {
     expect(new MasterCSS(config).add('hidden@motion').text)
         .toBe('@media (prefers-reduced-motion:no-preference){.hidden\\@motion{display:none}}')
 
@@ -16,12 +18,12 @@ test('prefers-reduced-motion', () => {
         .toBe('@media (prefers-reduced-motion:reduce){.hidden\\@reduced-motion{display:none}}')
 })
 
-test('mixed', () => {
+test.concurrent('mixed', () => {
     expect(new MasterCSS(config).add('hidden@motion&landscape').text)
         .toBe('@media (prefers-reduced-motion:no-preference) and (orientation:landscape){.hidden\\@motion\\&landscape{display:none}}')
 })
 
-test('queries', () => {
+test.concurrent('queries', () => {
     expect(new MasterCSS(config).add('hidden@watch').text)
         .toBe('@media (max-device-width:42mm) and (min-device-width:38mm){.hidden\\@watch{display:none}}')
 
@@ -41,7 +43,7 @@ test('queries', () => {
         .toBe('@media (min-width:1024px){.christmas .fg\\:black\\@christmas\\@md{color:rgb(0 0 0)}}')
 })
 
-test('viewports', () => {
+test.concurrent('viewports', () => {
     expect(new MasterCSS(config).add('hidden@tablet').text)
         .toBe('@media (min-width:768px){.hidden\\@tablet{display:none}}')
 

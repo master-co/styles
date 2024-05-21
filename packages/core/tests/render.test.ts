@@ -1,6 +1,7 @@
-import '../src/polyfills/css-escape'
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
 
-it('class to string', () => {
+it.concurrent('class to string', () => {
     const css = new MasterCSS()
     for (const eachClass of ['text:center', 'font:32']) {
         css.add(eachClass)

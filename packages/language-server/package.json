@@ -29,9 +29,7 @@
         "vscode-uri": "^3.0.8"
     },
     "devDependencies": {
-        "@master/css-shared": "workspace:^",
-        "vite-tsconfig-paths": "^4.3.2",
-        "vitest": "^1.6.0"
+        "@master/css-shared": "workspace:^"
     },
     "sideEffects": false,
     "main": "./dist/index.cjs",

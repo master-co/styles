@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
         "lint": "eslint src",
-        "test": "jest"
+        "test": "vitest"
     },
     "description": "Master CSS Language Service",
     "author": "Aoyue Design LLC.",

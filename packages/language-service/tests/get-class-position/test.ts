@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest'
 import { Settings } from '../../src'
 import CSSLanguageService from '../../src/core'
 import createDoc, { languageIdOfExt } from '../../src/utils/create-doc'
@@ -20,49 +21,49 @@ export const expectClassPosition = (target: string, contents: string[], ext: key
     return classPosition
 }
 
-test('empty class with single quotes', () => {
+test.concurrent('empty class with single quotes', () => {
     const target = ''
     const contents = ['<div class=\'', target, '\'></div>']
     expectClassPosition(target, contents)
 })
 
-test('empty class with double quotes', () => {
+test.concurrent('empty class with double quotes', () => {
     const target = ''
     const contents = ['<div class="', target, '"></div>']
     expectClassPosition(target, contents)
 })
 
-test('one class', () => {
+test.concurrent('one class', () => {
     const target = 'class-a'
     const contents = ['<div class="', target, '"></div>']
     expectClassPosition(target, contents)
 })
 
-test('two classes', () => {
+test.concurrent('two classes', () => {
     const target = 'class-b'
     const contents = ['<div class="class-a ', target, '"></div>']
     expectClassPosition(target, contents)
 })
 
-test('valid classes', () => {
+test.concurrent('valid classes', () => {
     const target = 'bg:black'
     const contents = ['<div class="class-a ', target, '"></div>']
     expectClassPosition(target, contents)
 })
 
-test('quote in class', () => {
+test.concurrent('quote in class', () => {
     const target = `content:''`
     const contents = ['<div class="class-a ', target, '"></div>']
     expectClassPosition(target, contents)
 })
 
-test('group syntax', () => {
+test.concurrent('group syntax', () => {
     const target = '{abs}'
     const contents = ['<div class="class-a ', target, '"></div>']
     expectClassPosition(target, contents)
 })
 
-test('nested strings and literals', () => {
+test.concurrent('nested strings and literals', () => {
     const target = `content:\\'\\'`
     const contents = [`export default () => <div className={'block `, target, `'}>hello world</div>`]
     expectClassPosition(target, contents, 'tsx')

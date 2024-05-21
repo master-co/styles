@@ -1,4 +1,7 @@
-test('styles', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
+test.concurrent('styles', () => {
     expect(new MasterCSS({
         styles: {
             '?': 'font:14 text:center h:40 px:20 fg:#fff:hover'
@@ -12,7 +15,7 @@ test('styles', () => {
     )
 })
 
-test('viewports', () => {
+test.concurrent('viewports', () => {
     expect(new MasterCSS({
         queries: {
             'xss': 500
@@ -22,7 +25,7 @@ test('viewports', () => {
     )
 })
 
-test('colors', () => {
+test.concurrent('colors', () => {
     expect(new MasterCSS({
         variables: {
             newColor: {
@@ -37,7 +40,7 @@ test('colors', () => {
     )
 })
 
-test('queries', () => {
+test.concurrent('queries', () => {
     expect(new MasterCSS({
         queries: {
             'min-600': 'media (min-width: 600px)'
@@ -47,7 +50,7 @@ test('queries', () => {
     )
 })
 
-test('animations', () => {
+test.concurrent('animations', () => {
     expect(new MasterCSS({
         variables: {
             float: '#000000'

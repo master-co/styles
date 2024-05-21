@@ -1,3 +1,4 @@
+import { it, test, expect } from 'vitest'
 import { render } from '../../../../../../src'
 import fs from 'fs'
 import path from 'path'

@@ -1,6 +1,8 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
 import shuffle from 'shuffle-array'
 
-it('checks that different input sources should have the same output', () => {
+it.concurrent('checks that different input sources should have the same output', () => {
     const input = [
         'px:0', 'pl:0', 'pr:0', 'p:0', 'pt:0', 'pb:0', 'py:0',
         'mx:0', 'ml:0', 'mr:0', 'm:0', 'mt:0', 'mb:0', 'my:0',
@@ -44,7 +46,7 @@ it('checks that different input sources should have the same output', () => {
     }
 })
 
-it('checks style declarations', () => {
+it.concurrent('checks style declarations', () => {
     const input = [
         'font:12', 'font:32@md', 'font:24@sm', 'm:32', 'block', 'px:16', 'bg:blue-60:hover', 'round', 'mb:48'
     ]
@@ -64,7 +66,7 @@ it('checks style declarations', () => {
     }
 })
 
-it('checks media order', () => {
+it.concurrent('checks media order', () => {
     const input = [
         'min-w:206', '{flex:row}@xs', 'jc:flex-end@xs', 'hidden@tablet&<desktop', '{flex:row}@2xs&<xs'
     ]

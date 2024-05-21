@@ -1,4 +1,7 @@
-test('queries', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
+
+test.concurrent('queries', () => {
     expect(new MasterCSS({
         queries: {
             watch: 'media (max-device-width:42mm) and (min-device-width:38mm)',

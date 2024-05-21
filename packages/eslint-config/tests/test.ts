@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest'
 import { ESLint } from 'eslint'
 
 test('ESLint Configuration is valid', async () => {

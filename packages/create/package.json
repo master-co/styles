@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "lint": "eslint ./src",
         "type-check": "tsc --noEmit",
-        "test": "jest"
+        "test": "vitest"
     },
     "license": "MIT",
     "description": "Initialize a new Master CSS project",
@@ -37,6 +37,7 @@
         "provenance": true
     },
     "dependencies": {
+        "@master/css": "2.0.0-rc.38",
         "@techor/fs": "^3.0.22",
         "@techor/log": "^3.0.22",
         "commander": "^12.0.0",

@@ -1,8 +1,9 @@
-import MasterCSS from '../../../src'
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
 import config from '../../config'
 import extend from '@techor/extend'
 
-test('styles', () => {
+test.concurrent('styles', () => {
     expect(new MasterCSS(config).add('btn').text)
         .toBe('.font\\:14,.btn,.blue-btn{font-size:0.875rem}.h\\:40,.btn,.blue-btn{height:2.5rem}.text\\:center,.btn,.blue-btn{text-align:center}.light .bg\\:primary\\@light,.light .btn,.light .blue-btn{background-color:rgb(0 0 0)}.light .fg\\:white\\@light,.light .btn,.light .blue-btn{color:rgb(255 255 255)}.light .font\\:semibold\\@light,.light .btn,.light .blue-btn{font-weight:600}.dark .bg\\:white\\@dark,.dark .btn,.dark .blue-btn{background-color:rgb(255 255 255)}.dark .fg\\:primary\\@dark,.dark .btn,.dark .blue-btn{color:rgb(255 255 255)}.dark .font\\:medium\\@dark,.dark .btn,.dark .blue-btn{font-weight:500}')
 

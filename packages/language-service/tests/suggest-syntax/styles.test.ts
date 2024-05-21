@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import dedent from 'ts-dedent'
 import { hint } from './test'
 import { Settings } from '../../src'
@@ -9,7 +10,7 @@ const settings: Settings = {
         }
     }
 }
-it('info', () => expect(hint('b', settings)?.find(({ label }) => label === 'btn')).toMatchObject({
+it.concurrent('info', () => expect(hint('b', settings)?.find(({ label }) => label === 'btn')).toMatchObject({
     detail: 'inline-block (style)',
     documentation: {
         kind: 'markdown',
@@ -25,4 +26,4 @@ it('info', () => expect(hint('b', settings)?.find(({ label }) => label === 'btn'
         `
     }
 }))
-it('types btn: and should not hint', () => expect(hint('btn:', settings)).toBe(undefined))
+it.concurrent('types btn: and should not hint', () => expect(hint('btn:', settings)).toBe(undefined))

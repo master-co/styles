@@ -1,13 +1,14 @@
+import { test, it, expect, describe } from 'vitest'
 import dedent from 'ts-dedent'
 import { hint } from './test'
 
-describe('pseudo-class', () => {
-    test(':', () => expect(hint('text:center:')?.map(({ label }) => label)).toContain(':active'))
-    test('two', () => expect(hint('text:center:hover:')?.map(({ label }) => label)).toContain(':active'))
-    test('utility', () => expect(hint('block:')?.map(({ label }) => label)).toContain(':active'))
-    it('should take into account trigger character :', () => expect(hint('text:center:')?.find(({ label }) => label === ':active')).toMatchObject({ insertText: 'active' }))
-    it('should take into account trigger character +', () => expect(hint('text:center+')?.find(({ label }) => label === ':active')?.insertText).toBeUndefined())
-    test('info', () => expect(hint('block:')?.find(({ label }) => label === ':first')).toEqual({
+describe.concurrent('pseudo-class', () => {
+    test.concurrent(':', () => expect(hint('text:center:')?.map(({ label }) => label)).toContain(':active'))
+    test.concurrent('two', () => expect(hint('text:center:hover:')?.map(({ label }) => label)).toContain(':active'))
+    test.concurrent('utility', () => expect(hint('block:')?.map(({ label }) => label)).toContain(':active'))
+    it.concurrent('should take into account trigger character :', () => expect(hint('text:center:')?.find(({ label }) => label === ':active')).toMatchObject({ insertText: 'active' }))
+    it.concurrent('should take into account trigger character +', () => expect(hint('text:center+')?.find(({ label }) => label === ':active')?.insertText).toBeUndefined())
+    test.concurrent('info', () => expect(hint('block:')?.find(({ label }) => label === ':first')).toEqual({
         'data': {
             'browsers': [
                 'E12',
@@ -50,14 +51,14 @@ describe('pseudo-class', () => {
     }))
 })
 
-describe('pseudo-element', () => {
-    test('::', () => expect(hint('text:center::')?.map(({ label }) => label)).toContain('::after'))
-    test('two', () => expect(hint('text:center::after::')?.map(({ label }) => label)).toContain('::after'))
-    test('utility', () => expect(hint('block::')?.map(({ label }) => label)).toContain('::after'))
-    it('should take into account trigger character :', () => expect(hint('text:center:')?.find(({ label }) => label === '::after')).toMatchObject({ insertText: ':after' }))
-    it('should take into account trigger character ::', () => expect(hint('text:center::')?.find(({ label }) => label === '::after')).toMatchObject({ insertText: 'after' }))
-    it('should take into account trigger character +', () => expect(hint('text:center+')?.find(({ label }) => label === '::after')?.insertText).toBeUndefined())
-    test('info', () => expect(hint('block::')?.find(({ label }) => label === '::placeholder')).toEqual({
+describe.concurrent('pseudo-element', () => {
+    test.concurrent('::', () => expect(hint('text:center::')?.map(({ label }) => label)).toContain('::after'))
+    test.concurrent('two', () => expect(hint('text:center::after::')?.map(({ label }) => label)).toContain('::after'))
+    test.concurrent('utility', () => expect(hint('block::')?.map(({ label }) => label)).toContain('::after'))
+    it.concurrent('should take into account trigger character :', () => expect(hint('text:center:')?.find(({ label }) => label === '::after')).toMatchObject({ insertText: ':after' }))
+    it.concurrent('should take into account trigger character ::', () => expect(hint('text:center::')?.find(({ label }) => label === '::after')).toMatchObject({ insertText: 'after' }))
+    it.concurrent('should take into account trigger character +', () => expect(hint('text:center+')?.find(({ label }) => label === '::after')?.insertText).toBeUndefined())
+    test.concurrent('info', () => expect(hint('block::')?.find(({ label }) => label === '::placeholder')).toEqual({
         'data': {
             'browsers': [
                 'E79',
@@ -97,7 +98,7 @@ describe('pseudo-element', () => {
     }))
 })
 
-describe('sorting', () => {
+test.concurrent('sorting', () => {
     expect(hint('text:center:')?.map(({ label }) => label)).toEqual([
         ':active',
         ':any-link',

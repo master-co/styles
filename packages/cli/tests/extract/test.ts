@@ -1,6 +1,7 @@
 import { execSync } from 'child_process'
 import fs, { readFileSync } from 'fs'
 import { join } from 'path'
+import { it, expect } from 'vitest'
 
 it('basic extract', async () => {
     fs.rmSync(join(__dirname, '.virtual/master.css'), { force: true })

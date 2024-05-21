@@ -1,4 +1,7 @@
-test('overflow', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
+test.concurrent('overflow', () => {
     expect(new MasterCSS().create('overflowed')?.text).toContain('overflow:visible')
     expect(new MasterCSS().create('overflow:hidden')?.text).toContain('overflow:hidden')
     expect(new MasterCSS().create('overflow:overlay')?.text).toContain('overflow:auto;overflow:overlay')

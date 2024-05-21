@@ -1,3 +1,4 @@
+import { it, test, expect } from 'vitest'
 import { readFileSync } from 'fs'
 import { render } from '../../../src'
 import path from 'path'

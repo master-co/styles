@@ -1,3 +1,5 @@
+import { it, test, expect, describe } from 'vitest'
+import { MasterCSS } from '../../../src'
 import { Config } from '../../../src'
 
 /**
@@ -5,19 +7,19 @@ import { Config } from '../../../src'
  * 2. { space: 'rgb', value: '0 0 0' }
  * 3. --primary: 0 0 0
  */
-test('#hex to rgb()', () => {
+test.concurrent('#hex to rgb()', () => {
     expect(new MasterCSS({
         variables: { primary: '#000000' }
     }).create('fg:primary')?.text).toBe('.fg\\:primary{color:rgb(0 0 0)}')
 })
 
-test('color/opacity to rgb(r g b/opacity)', () => {
+test.concurrent('color/opacity to rgb(r g b/opacity)', () => {
     expect(new MasterCSS({
         variables: { primary: '#000000' }
     }).create('fg:primary/.5')?.text).toBe('.fg\\:primary\\/\\.5{color:rgb(0 0 0/.5)}')
 })
 
-describe('with themes', () => {
+describe.concurrent('with themes', () => {
     const config: Config = {
         variables: {
             primary: {
@@ -32,7 +34,7 @@ describe('with themes', () => {
         }
     }
 
-    it('checks resolved colors', () => {
+    it.concurrent('checks resolved colors', () => {
         const css = new MasterCSS(config)
         expect(css.variables.primary).toEqual({
             name: 'primary',
@@ -48,7 +50,7 @@ describe('with themes', () => {
         })
     })
 
-    it('color', () => {
+    it.concurrent('color', () => {
         expect(new MasterCSS(config).add('fg:primary')?.text).toBe([
             ':root{--primary:0 0 0}',
             '.dark{--primary:255 255 255}',
@@ -58,7 +60,7 @@ describe('with themes', () => {
         ].join(''))
     })
 
-    it('color/.5', () => {
+    it.concurrent('color/.5', () => {
         expect(new MasterCSS(config).add('fg:primary/.5')?.text).toBe([
             ':root{--primary:0 0 0}',
             '.dark{--primary:255 255 255}',

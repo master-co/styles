@@ -1,4 +1,7 @@
-test('functions', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
+
+test.concurrent('functions', () => {
     expect(new MasterCSS().create('blur(32)')?.text).toBe('.blur\\(32\\){filter:blur(2rem)}')
     expect(new MasterCSS().create('filter:invert(1)')?.text).toBe('.filter\\:invert\\(1\\){filter:invert(1)}')
 
@@ -16,6 +19,6 @@ test('functions', () => {
     expect(new MasterCSS().create('$primary:black/.5')?.text).toBe('.\\$primary\\:black\\/\\.5{--primary:rgb(0 0 0/.5)}')
 })
 
-test('checks gradient-related functions with color variables', () => {
+test.concurrent('checks gradient-related functions with color variables', () => {
     expect(new MasterCSS().create('bg:linear-gradient(0deg,black|0%,white|100%)')?.text).toContain('background-image:linear-gradient(0deg,rgb(0 0 0) 0%,rgb(255 255 255) 100%)')
 })

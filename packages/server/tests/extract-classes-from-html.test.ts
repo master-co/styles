@@ -1,3 +1,4 @@
+import { it, test, expect } from 'vitest'
 import parseHTML from '../src/parse-html'
 
 test('basic', ()=> {

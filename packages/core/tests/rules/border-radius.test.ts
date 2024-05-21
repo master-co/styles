@@ -1,4 +1,7 @@
-it('validates border-radius rules', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
+it.concurrent('validates border-radius rules', () => {
     expect(new MasterCSS().create('r:16')?.text).toContain('border-radius:1rem')
     expect(new MasterCSS().create('border-radius:1rem')?.text).toContain('border-radius:1rem')
 
@@ -14,7 +17,7 @@ it('validates border-radius rules', () => {
     expect(new MasterCSS().create('rr:16')?.text).toContain('border-top-right-radius:1rem;border-bottom-right-radius:1rem')
 })
 
-// it('checks border-radius order', () => {
+// it.concurrent('checks border-radius order', () => {
 //     expect(new MasterCSS().add('rtr:16', 'r:16', 'rl:16', 'rbr:16').rules)
 //         .toMatchObject([
 //             { className: 'r:16' },

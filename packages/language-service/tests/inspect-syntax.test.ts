@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import CSSLanguageService from '../src/core'
 import getRange from '../src/utils/get-range'
 import createDoc from '../src/utils/create-doc'
@@ -13,7 +14,7 @@ export const inspect = (target: string, settings: Settings = {}) => {
     return languageService.inspectSyntax(doc, range?.start as Position)
 }
 
-test('text:center', async () => {
+test.concurrent('text:center', async () => {
     const target = 'text:center'
     const hover = inspect(target)
     expect(hover?.contents).toEqual({
@@ -36,7 +37,7 @@ test('text:center', async () => {
     })
 })
 
-test('hidden', async () => {
+test.concurrent('hidden', async () => {
     const target = 'hidden'
     const hover = inspect(target)
     expect(hover?.contents).toEqual({

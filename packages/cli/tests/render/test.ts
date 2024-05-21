@@ -2,6 +2,7 @@ import { execSync } from 'child_process'
 import fs from 'fs'
 import dedent from 'ts-dedent'
 import { join } from 'path'
+import { it, expect } from 'vitest'
 
 it('render css text into <head>', async () => {
     const filePath = join(__dirname, './a.test.html')

@@ -1,8 +1,9 @@
+import { test, it, expect, describe } from 'vitest'
 import { Position } from 'vscode-languageserver-textdocument'
 import CSSLanguageService from '../../src/core'
 import createDoc from '../../src/utils/create-doc'
 
-it('types next class and starts with white space', () => {
+it.concurrent('types next class and starts with white space', () => {
     const target = ''
     const contents = [`export default () => <div className="abs `, target, `"></div>`]
     const doc = createDoc('tsx', contents.join(''))
@@ -14,7 +15,7 @@ it('types next class and starts with white space', () => {
     expect(completionItems?.find(({ label }) => label === 'block')).toBeDefined()
 })
 
-it('types next class and starts with b', () => {
+it.concurrent('types next class and starts with b', () => {
     const target = 'b'
     const contents = [`export default () => <div className="abs `, target, `"></div>`]
     const doc = createDoc('tsx', contents.join(''))

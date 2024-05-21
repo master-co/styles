@@ -1,6 +1,7 @@
+import { test, it, expect, describe } from 'vitest'
 import { expectClassPosition } from './test'
 
-test('class in ternary operator', () => {
+test.concurrent('class in ternary operator', () => {
     const target = 'class-a'
     const contents = ['<div class={ isActive ? \'', target, '\' : inactiveClass }></div>']
     expectClassPosition(target, contents, 'svelte')

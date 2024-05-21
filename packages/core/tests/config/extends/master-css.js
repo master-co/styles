@@ -1,8 +1,11 @@
+import config1 from './master-1.css'
+import config2 from './master-2.css'
+
 /** @type {import('../../../src').Config} */
 const config = {
     extends: [
-        require('./master-1.css'),
-        require('./master-2.css')
+        config1,
+        config2
     ],
     variables:  {
         first: {

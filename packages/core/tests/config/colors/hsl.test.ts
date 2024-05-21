@@ -1,3 +1,4 @@
+import { it, test, expect, describe } from 'vitest'
 import MasterCSS, { Config } from '../../../src'
 
 // color functions 使用該格式 "hsl(0deg 0% 0%/.5)".match(/([a-zA-Z]+)\((.*?)\)/) 提取 space 及 value
@@ -8,21 +9,21 @@ import MasterCSS, { Config } from '../../../src'
  * 2. { space: 'hsl', value: '0deg 0% 0%/.5' }
  * 3. --primary: 0deg 0% 0%/.5
  */
-test('hsl()', () => {
+test.concurrent('hsl()', () => {
     expect(new MasterCSS({
         variables: { primary: 'hsl(0deg 0% 0%/.5)' }
     }).create('fg:primary')?.text
     ).toBe('.fg\\:primary{color:hsl(0deg 0% 0%/.5)}')
 })
 
-test('color/opacity to hsl(h s l/opacity / opacity) invalid rule', () => {
+test.concurrent('color/opacity to hsl(h s l/opacity / opacity) invalid rule', () => {
     expect(new MasterCSS({
         variables: { primary: 'hsl(0deg 0% 0%/.5)' }
     }).create('fg:primary/.5')?.text
     ).toBe('.fg\\:primary\\/\\.5{color:hsl(0deg 0% 0%/.5/.5)}')
 })
 
-describe('with themes', () => {
+describe.concurrent('with themes', () => {
     const config: Config = {
         variables: {
             primary: {
@@ -35,7 +36,7 @@ describe('with themes', () => {
         modes: { chrisma: 'class' }
     }
 
-    it('checks resolved colors', () => {
+    it.concurrent('checks resolved colors', () => {
         const css = new MasterCSS(config)
         expect(css.variables.primary).toEqual({
             name: 'primary',
@@ -51,7 +52,7 @@ describe('with themes', () => {
         })
     })
 
-    it('color', () => {
+    it.concurrent('color', () => {
         expect(new MasterCSS(config).add('fg:primary')?.text).toBe([
             ':root{--primary:0deg 0% 0%}',
             '.dark{--primary:0deg 0% 100%}',
@@ -61,7 +62,7 @@ describe('with themes', () => {
         ].join(''))
     })
 
-    it('color/.5', () => {
+    it.concurrent('color/.5', () => {
         expect(new MasterCSS(config).add('fg:primary/.5')?.text).toBe([
             ':root{--primary:0deg 0% 0%}',
             '.dark{--primary:0deg 0% 100%}',

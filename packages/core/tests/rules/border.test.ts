@@ -1,4 +1,7 @@
-test('border', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
+test.concurrent('border', () => {
     expect(new MasterCSS().create('border:current')?.text).toContain('border-color:currentColor')
     expect(new MasterCSS().create('border:transparent')?.text).toContain('border-color:transparent')
     expect(new MasterCSS().create('border:black')?.text).toContain('border-color:rgb(0 0 0)')
@@ -18,11 +21,11 @@ test('border', () => {
     expect(new MasterCSS().create('border:auto|1')?.text).toContain('border:auto 0.0625rem')
 })
 
-test('shorthand', () => {
+test.concurrent('shorthand', () => {
     expect(new MasterCSS().create('border:calc(100%-20)|solid')?.text).toContain('border:calc(100% - 1.25rem) solid')
 })
 
-it('validates border rules', () => {
+it.concurrent('validates border rules', () => {
     expect(new MasterCSS().create('b:16|solid')?.text).toContain('border:1rem solid')
     expect(new MasterCSS().create('border:16|solid')?.text).toContain('border:1rem solid')
 
@@ -49,7 +52,7 @@ it('validates border rules', () => {
     expect(new MasterCSS().create('br:1px|black')?.text).toContain('border-right:1px rgb(0 0 0) solid')
 })
 
-it('checks border order', () => {
+it.concurrent('checks border order', () => {
     expect(new MasterCSS().add('bt:1|solid', 'b:1|solid', 'br:1|solid').rules)
         .toMatchObject([
             { className: 'b:1|solid' },
@@ -58,7 +61,7 @@ it('checks border order', () => {
         ])
 })
 
-test('autofill solid', () => {
+test.concurrent('autofill solid', () => {
     expect(new MasterCSS().create('border:16|black')?.text).toContain('border:1rem rgb(0 0 0) solid')
     expect(new MasterCSS().create('border:16|black|solid')?.text).toContain('border:1rem rgb(0 0 0) solid')
     expect(new MasterCSS().create('border:16|var(--style)')?.text).not.toContain('solid')

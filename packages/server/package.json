@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "lint": "eslint ./src",
         "type-check": "tsc --noEmit",
-        "test": "jest"
+        "test": "vitest"
     },
     "license": "MIT",
     "description": "Render Master CSS on the server side",

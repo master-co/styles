@@ -1,4 +1,7 @@
-it('validates border-width rules', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
+it.concurrent('validates border-width rules', () => {
     expect(new MasterCSS().create('b:16')?.text).toContain('border-width:1rem')
     expect(new MasterCSS().create('border:16')?.text).toContain('border-width:1rem')
     expect(new MasterCSS().create('border-width:16')?.text).toContain('border-width:1rem')
@@ -26,7 +29,7 @@ it('validates border-width rules', () => {
     expect(new MasterCSS().create('border:16|solid')?.text).toContain('border:1rem solid')
 })
 
-it('checks border-width order', () => {
+it.concurrent('checks border-width order', () => {
     expect(new MasterCSS().add('bt:16', 'b:16', 'bl:16', 'bx:16').rules)
         .toMatchObject([
             { className: 'b:16' },

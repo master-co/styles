@@ -1,4 +1,7 @@
-it('checks scroll-margin order', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
+it.concurrent('checks scroll-margin order', () => {
     expect(new MasterCSS().add('scroll-mx:0', 'scroll-ml:0', 'scroll-mr:0', 'scroll-m:0', 'scroll-mt:0', 'scroll-mb:0', 'scroll-my:0').rules)
         .toMatchObject([
             { className: 'scroll-m:0' },
@@ -11,7 +14,7 @@ it('checks scroll-margin order', () => {
         ])
 })
 
-it('validates scroll-margin rules', () => {
+it.concurrent('validates scroll-margin rules', () => {
     expect(new MasterCSS().create('scroll-ml:16')?.text).toContain('scroll-margin-left:1rem')
     expect(new MasterCSS().create('scroll-mr:16')?.text).toContain('scroll-margin-right:1rem')
     expect(new MasterCSS().create('scroll-mt:16')?.text).toContain('scroll-margin-top:1rem')

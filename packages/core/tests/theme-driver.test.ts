@@ -1,6 +1,7 @@
-import config from './config'
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
 
-test('modes', () => {
+test.concurrent('modes', () => {
     // expect(new MasterCSS({ ...config, modes: { light: 'media', dark: 'media' } }).add('fg:primary').text).toBe(':root{--primary:0 0 0}@media(prefers-color-scheme:light){:root{--primary:0 0 0}}@media(prefers-color-scheme:dark){:root{--primary:255 255 255}}.fg\\:primary{color:rgb(var(--primary))}',)
     // expect(new MasterCSS({
     //     variables: {

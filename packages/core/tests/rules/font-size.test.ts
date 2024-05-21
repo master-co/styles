@@ -1,4 +1,7 @@
-it('font-size', () => {
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
+it.concurrent('font-size', () => {
     expect(new MasterCSS().create('font:16')?.text).toContain('font-size:1rem')
     expect(new MasterCSS().create('font:.5')?.text).toContain('font-size:0.03125rem')
     expect(new MasterCSS().create('font:min(10,calc(25-10))')?.text).toContain('font-size:min(0.625rem,calc(1.5625rem - 0.625rem))')
