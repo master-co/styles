@@ -1,7 +1,7 @@
 import SyntaxTable from '~/components/SyntaxTable'
 import SyntaxTr from '~/components/SyntaxTr'
 // @ts-ignore
-import allSyntaxes from '../../../docs/*/**/syntaxes.ts'
+import allSyntaxes from '../../*/**/syntaxes.js'
 
 const syntaxes = (allSyntaxes as any[])
     .flat()

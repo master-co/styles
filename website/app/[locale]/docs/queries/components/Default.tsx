@@ -1,6 +1,6 @@
 import { queries } from '@master/css'
 import DocTable from 'websites/components/DocTable'
-import InlineCode from '../../../../../../../../../components/InlineCode'
+import InlineCode from '../../../../../../../../components/InlineCode'
 
 export default () =>
     <DocTable>

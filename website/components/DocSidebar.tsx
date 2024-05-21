@@ -3,7 +3,7 @@
 import SearchButton from 'websites/components/SearchButton'
 import { Fragment, useRef, useState } from 'react'
 import Link from 'websites/components/Link'
-import { pageCategories } from '~/app/[locale]/(root)/pages'
+import pageCategories from '~/data/page-categories.json'
 import { useTranslation } from 'websites/contexts/i18n'
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'

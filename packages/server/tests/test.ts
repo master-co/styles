@@ -7,7 +7,7 @@ import fg from 'fast-glob'
 fg.sync('../../../website/app/**/tests/**/template.html', { cwd: __dirname })
     .forEach(templatePath => {
         const templateDirname = dirname(templatePath)
-        test(templateDirname.replace('../app/[locale]/(root)', ''), async () => {
+        test(templateDirname.replace('../app/[locale]/', ''), async () => {
             const config = (await import(join(__dirname, templateDirname, 'master.css.js'))).default
             expect(
                 render(
