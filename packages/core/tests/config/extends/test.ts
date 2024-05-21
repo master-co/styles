@@ -1,6 +1,6 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
-import { config } from './master-css'
+import config from './master-css'
 
 it.concurrent('config extends', () => {
     const css = new MasterCSS(config)
