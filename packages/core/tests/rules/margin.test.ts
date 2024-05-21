@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('checks margin order', () => {
+it.concurrent('checks margin order', () => {
     expect(new MasterCSS().add('mx:0', 'ml:0', 'mr:0', 'm:0', 'mt:0', 'mb:0', 'my:0').rules)
         .toMatchObject([
             { className: 'm:0' },
@@ -14,7 +14,7 @@ it('checks margin order', () => {
         ])
 })
 
-test('margin', () => {
+test.concurrent('margin', () => {
     expect(new MasterCSS().create('ml:16')?.text).toContain('margin-left:1rem')
     expect(new MasterCSS().create('ml:4x')?.text).toContain('margin-left:1rem')
     expect(new MasterCSS().create('mr:16')?.text).toContain('margin-right:1rem')
@@ -27,7 +27,7 @@ test('margin', () => {
     expect(new MasterCSS().create('margin-y:16')?.text).toContain('margin-top:1rem;margin-bottom:1rem')
 })
 
-test('margin inline', () => {
+test.concurrent('margin inline', () => {
     expect(new MasterCSS().create('mis:16')?.text).toContain('margin-inline-start:1rem')
     expect(new MasterCSS().create('mie:16')?.text).toContain('margin-inline-end:1rem')
     expect(new MasterCSS().create('mi:16')?.text).toContain('margin-inline:1rem')

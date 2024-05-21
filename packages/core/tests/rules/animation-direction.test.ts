@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('animation-direction', () => {
+it.concurrent('animation-direction', () => {
     expect(new MasterCSS().create('animation-direction:normal')?.declarations).toStrictEqual({ 'animation-direction': 'normal' })
     expect(new MasterCSS().create('@direction:normal')?.declarations).toStrictEqual({ 'animation-direction': 'normal' })
 

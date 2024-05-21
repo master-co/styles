@@ -2,7 +2,7 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
 import config from '../../config'
 
-// it('uses with $ function', () => {
+// it.concurrent('uses with $ function', () => {
 //     expect(new MasterCSS().create('font-weight:$(font-weight-thin)')?.text).toContain('font-weight:100')
 //     expect(new MasterCSS().create('font-weight:$(font-weight-thin,123)')?.text).toContain('font-weight:100')
 //     expect(new MasterCSS().create('font-weight:$(font-weight,font-weight-thin)')?.text).toContain('font-weight:var(--font-weight,100)')
@@ -12,7 +12,7 @@ import config from '../../config'
 //     expect(new MasterCSS().create('background-color:$(my-gray,$(my-gray-2,black))')?.text).toContain('background-color:var(--my-gray,var(--my-gray-2,rgb(0 0 0)))')
 // })
 
-// it('uses with var function', () => {
+// it.concurrent('uses with var function', () => {
 //     expect(new MasterCSS().create('font-weight:var(--font-weight-thin)')?.text).toContain('font-weight:var(--font-weight-thin)')
 //     expect(new MasterCSS().create('font-weight:var(--font-weight-thin,123)')?.text).toContain('font-weight:var(--font-weight-thin,123)')
 //     expect(new MasterCSS().create('font-weight:var(--font-weight,font-weight-thin)')?.text).toContain('font-weight:var(--font-weight,100)')
@@ -22,7 +22,7 @@ import config from '../../config'
 //     expect(new MasterCSS().create('background-color:var(--my-gray,$(my-gray-2,black))')?.text).toContain('background-color:var(--my-gray,var(--my-gray-2,rgb(0 0 0)))')
 // })
 
-test('rule variables', () => {
+test.concurrent('rule variables', () => {
     expect(new MasterCSS(config).create('font:sm')?.text).toBe('.font\\:sm{font-size:1rem}')
     // expect(new MasterCSS(config).create('font-size:sm')?.text).toBe('.font-size\\:sm{font-size:1rem}')
     // expect(new MasterCSS(config).create('tracking:wide')?.text).toBe('.tracking\\:wide{letter-spacing:0.025em}')

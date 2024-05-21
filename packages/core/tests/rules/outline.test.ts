@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-test('outline', () => {
+test.concurrent('outline', () => {
     expect(new MasterCSS().create('outline:current')?.text).toContain('outline-color:currentColor')
     expect(new MasterCSS().create('outline:transparent')?.text).toContain('outline-color:transparent')
     expect(new MasterCSS().create('outline:black')?.text).toContain('outline-color:rgb(0 0 0)')
@@ -21,7 +21,7 @@ test('outline', () => {
     expect(new MasterCSS().create('outline:auto|1')?.text).toContain('outline:auto 0.0625rem')
 })
 
-test('autofill solid', () => {
+test.concurrent('autofill solid', () => {
     expect(new MasterCSS().create('outline:16|black')?.text).toContain('outline:1rem rgb(0 0 0) solid')
     expect(new MasterCSS().create('outline:16|black|solid')?.text).toContain('outline:1rem rgb(0 0 0) solid')
     expect(new MasterCSS({ variables: { line: 'solid' } }).create('outline:16|black|line')?.text).toContain('outline:1rem rgb(0 0 0) solid')

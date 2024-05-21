@@ -65,8 +65,8 @@ export const textConfig: Config = {
 
 const config = extendConfig(colorConfig, textConfig, buttonConfig)
 
-describe('jetsai', () => {
-    test('button config', () => {
+describe.concurrent('jetsai', () => {
+    test.concurrent('button config', () => {
         expect(new MasterCSS(config).add('bg:button-primary').text)
         .toBe('.bg\\:button-primary,.btn-primary{background-color:rgb(34 66 163)}')
 
@@ -87,7 +87,7 @@ describe('jetsai', () => {
 
     })
 
-    test('color config', () => {
+    test.concurrent('color config', () => {
         expect(new MasterCSS(config).add('bg:blue200').text)
         .toBe('.bg\\:blue200{background-color:rgb(205 224 247)}')
 
@@ -105,7 +105,7 @@ describe('jetsai', () => {
 
     })
 
-    test('text config', () => {
+    test.concurrent('text config', () => {
         expect(new MasterCSS(config).add('bg:text-disabled').text)
         .toBe('.bg\\:text-disabled{background-color:rgb(146 151 161)}')
 

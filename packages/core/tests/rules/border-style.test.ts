@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('validates border-style rules', () => {
+it.concurrent('validates border-style rules', () => {
     expect(new MasterCSS().create('b:solid')?.text).toContain('border-style:solid')
     expect(new MasterCSS().create('border:solid')?.text).toContain('border-style:solid')
     expect(new MasterCSS().create('border-style:solid')?.text).toContain('border-style:solid')
@@ -29,7 +29,7 @@ it('validates border-style rules', () => {
     expect(new MasterCSS().create('border:solid|1')?.text).toContain('border:solid 0.0625rem')
 })
 
-it('checks border-style order', () => {
+it.concurrent('checks border-style order', () => {
     expect(new MasterCSS().add('bt:solid', 'b:solid', 'bl:dotted', 'bx:solid').rules)
         .toMatchObject([
             { className: 'b:solid' },

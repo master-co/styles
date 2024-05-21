@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../src'
 
-it('calc', () => {
+it.concurrent('calc', () => {
     expect(new MasterCSS().create('w:calc(var(--h)|/|var(--w)*100%)')?.text).toContain('width:calc(var(--h) / var(--w) * 100%)')
     expect(new MasterCSS().create('w:calc($(h)/$(w)*100)')?.text).toContain('width:calc(var(--h) / var(--w) * 100)')
     expect(new MasterCSS({ variables: { w: 1, h: 1 } }).create('w:calc($(h)/$(w)*100)')?.text).toContain('width:calc(1 / 1 * 100 / 16 * 1rem)')

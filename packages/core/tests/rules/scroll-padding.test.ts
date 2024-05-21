@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('checks scroll-padding order', () => {
+it.concurrent('checks scroll-padding order', () => {
     expect(new MasterCSS().add('scroll-px:0', 'scroll-pl:0', 'scroll-pr:0', 'scroll-p:0', 'scroll-pt:0', 'scroll-pb:0', 'scroll-py:0').rules)
         .toMatchObject([
             { className: 'scroll-p:0' },
@@ -14,7 +14,7 @@ it('checks scroll-padding order', () => {
         ])
 })
 
-it('validates scroll-padding rules', () => {
+it.concurrent('validates scroll-padding rules', () => {
     expect(new MasterCSS().create('scroll-pl:16')?.text).toContain('scroll-padding-left:1rem')
     expect(new MasterCSS().create('scroll-pr:16')?.text).toContain('scroll-padding-right:1rem')
     expect(new MasterCSS().create('scroll-pt:16')?.text).toContain('scroll-padding-top:1rem')

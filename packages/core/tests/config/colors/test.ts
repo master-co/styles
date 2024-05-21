@@ -2,7 +2,7 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
 import config from '../../config'
 
-test('colors', () => {
+test.concurrent('colors', () => {
     expect(new MasterCSS(config).add('fg:primary').text)
         .toBe(':root{--primary:0 0 0}.light{--primary:0 0 0}.dark{--primary:255 255 255}.fg\\:primary{color:rgb(var(--primary))}')
 
@@ -174,7 +174,7 @@ test('colors', () => {
 
 })
 
-it('checks if similar color names collide.', () => {
+it.concurrent('checks if similar color names collide.', () => {
     expect(new MasterCSS({
         variables: {
             a: {

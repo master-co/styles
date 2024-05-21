@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-test('inset', () => {
+test.concurrent('inset', () => {
     expect(new MasterCSS().create('top:20')?.text).toBe('.top\\:20{top:1.25rem}')
     expect(new MasterCSS().create('bottom:10')?.text).toBe('.bottom\\:10{bottom:0.625rem}')
     expect(new MasterCSS().create('inset:16')?.text).toBe('.inset\\:16{inset:1rem}')
@@ -9,7 +9,7 @@ test('inset', () => {
     expect(new MasterCSS().create('right:max(0,calc(50%-725))')?.text).toBe('.right\\:max\\(0\\,calc\\(50\\%-725\\)\\){right:max(0rem,calc(50% - 45.3125rem))}')
 })
 
-it('checks inset order', () => {
+it.concurrent('checks inset order', () => {
     expect(new MasterCSS().add('top:0', 'left:0', 'inset:0', 'right:0', 'bottom:0').rules)
         .toMatchObject([
             { className: 'inset:0' },
@@ -20,7 +20,7 @@ it('checks inset order', () => {
         ])
 })
 
-test('directions', () => {
+test.concurrent('directions', () => {
     expect(new MasterCSS().create('top:0')?.text).toBe('.top\\:0{top:0rem}')
     expect(new MasterCSS().create('left:0')?.text).toBe('.left\\:0{left:0rem}')
     expect(new MasterCSS().create('right:0')?.text).toBe('.right\\:0{right:0rem}')

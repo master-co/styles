@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
 
-test('modes and scale', () => {
+test.concurrent('modes and scale', () => {
     expect(new MasterCSS({
         variables: {
             primary: {

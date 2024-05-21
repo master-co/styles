@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('validates border-color rules', () => {
+it.concurrent('validates border-color rules', () => {
     expect(new MasterCSS().create('b:white')?.text).toContain('border-color:rgb(255 255 255)')
     expect(new MasterCSS().create('b:rgb(0,0,0,0.75)')?.text).toContain('border-color:rgb(0,0,0,0.75)')
     expect(new MasterCSS().create('border:white')?.text).toContain('border-color:rgb(255 255 255)')
@@ -35,7 +35,7 @@ it('validates border-color rules', () => {
     expect(new MasterCSS().create('border:white|solid')?.text).toContain('border:rgb(255 255 255) solid')
 })
 
-it('checks border-color order', () => {
+it.concurrent('checks border-color order', () => {
     expect(new MasterCSS().add('bt:white', 'b:white', 'bl:white', 'bx:white').rules)
         .toMatchObject([
             { className: 'b:white' },

@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
 
-test('number', () => {
+test.concurrent('number', () => {
     expect(new MasterCSS({
         variables: {
             spacing: { x1: 16 }
@@ -9,7 +9,7 @@ test('number', () => {
     }).add('m:x1').text).toBe('.m\\:x1{margin:1rem}')
 })
 
-test('number with themes', () => {
+test.concurrent('number with themes', () => {
     expect(new MasterCSS({
         variables: {
             spacing: {
@@ -46,7 +46,7 @@ test('number with themes', () => {
     ].join(''))
 })
 
-test('number using variable function', () => {
+test.concurrent('number using variable function', () => {
     expect(new MasterCSS({
         variables: {
             spacing: { x1: 16 }
@@ -54,7 +54,7 @@ test('number using variable function', () => {
     }).add('m:$(spacing-x1)').text).toBe('.m\\:\\$\\(spacing-x1\\){margin:1rem}')
 })
 
-test('number with themes using variable function', () => {
+test.concurrent('number with themes using variable function', () => {
     expect(new MasterCSS({
         variables: {
             spacing: {
@@ -91,7 +91,7 @@ test('number with themes using variable function', () => {
     ].join(''))
 })
 
-test('variables', () => {
+test.concurrent('variables', () => {
     expect(new MasterCSS({
         variables: {
             spacing: { x1: 16, x2: 32 },
@@ -99,7 +99,7 @@ test('variables', () => {
     }).create('m:$(spacing-x1)')?.text).toBe('.m\\:\\$\\(spacing-x1\\){margin:1rem}')
 })
 
-test('negative variables', () => {
+test.concurrent('negative variables', () => {
     expect(new MasterCSS({
         variables: {
             spacing: { x1: 16, x2: 32 }

@@ -3,7 +3,7 @@ import { MasterCSS } from '../src'
 import shuffle from 'shuffle-array'
 
 /** [':disabled', ':active', ':focus', ':hover'] */
-it('checks the ordering of state selectors', () => {
+it.concurrent('checks the ordering of state selectors', () => {
     expect(new MasterCSS().add('block:disabled', 'block:hover', 'block:active', 'block:focus').rules)
         .toMatchObject([
             { className: 'block:hover' },
@@ -13,7 +13,7 @@ it('checks the ordering of state selectors', () => {
         ])
 })
 
-it('checks the ordering of state selectors, :where(), and @media', () => {
+it.concurrent('checks the ordering of state selectors, :where(), and @media', () => {
     const expected = [
         // :where()
         { className: 'block:where(button)' },

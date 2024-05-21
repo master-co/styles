@@ -2,11 +2,11 @@ import { it, test, expect, describe } from 'vitest'
 import { MasterCSS } from '../src'
 import { variables } from '../src'
 
-test('uncomplete', () => {
+test.concurrent('uncomplete', () => {
     expect(new MasterCSS().generate('b:')[0]).toBeUndefined()
 })
 
-test('declarations', () => {
+test.concurrent('declarations', () => {
     const css = new MasterCSS({
         variables: {
             primary: {
@@ -18,7 +18,7 @@ test('declarations', () => {
     expect(css.generate('fg:primary')[0].declarations).toEqual({ color: 'rgb(var(--primary))' })
 })
 
-test('registered Rule', () => {
+test.concurrent('registered Rule', () => {
     expect(new MasterCSS().Rules.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
@@ -33,7 +33,7 @@ test('registered Rule', () => {
     })
 })
 
-test('variables', () => {
+test.concurrent('variables', () => {
     const css = new MasterCSS({
         variables: {
             a: {
@@ -74,27 +74,27 @@ test('variables', () => {
     })
 })
 
-test('text variables', () => {
+test.concurrent('text variables', () => {
     expect(Object.keys(new MasterCSS().Rules.find(({ id }) => id === 'color')?.variables || {})).toEqual(Object.keys(variables.text))
 })
 
-describe('token', () => {
-    test('value', () => {
+describe.concurrent('token', () => {
+    test.concurrent('value', () => {
         expect(new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0].valueToken).toBe('1|solid|blue-60')
     })
-    test('state', () => {
+    test.concurrent('state', () => {
         expect(new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0].stateToken).toBe(':hover[disabled]@sm')
     })
-    test('at', () => {
+    test.concurrent('at', () => {
         expect(new MasterCSS().generate('b:1|solid|blue-60:hover[disabled]@sm')[0].atToken).toBe('@sm')
     })
-    test('empty at', () => {
+    test.concurrent('empty at', () => {
         expect(new MasterCSS().generate('text:center@')[0].atToken).toBe('@')
     })
 })
 
-describe('value components', () => {
-    test('basic', () => {
+describe.concurrent('value components', () => {
+    test.concurrent('basic', () => {
         const cls = 'font:32@sm'
         const rule = new MasterCSS().generate(cls)[0]
         expect(rule.valueComponents).toEqual([{
@@ -107,7 +107,7 @@ describe('value components', () => {
         expect(rule.atToken).toBe('@sm')
     })
 
-    test('shorthand', () => {
+    test.concurrent('shorthand', () => {
         expect(new MasterCSS().generate('b:1|solid|blue-60/.5')[0].valueComponents)
             .toStrictEqual([
                 { token: '1', text: '0.0625rem', type: 'number', unit: 'rem', value: 0.0625 },
@@ -118,7 +118,7 @@ describe('value components', () => {
             ])
     })
 
-    test('function', () => {
+    test.concurrent('function', () => {
         expect(new MasterCSS().generate('bg:rgb(125,125,0)!')[0].valueComponents).toStrictEqual([
             {
                 type: 'function',
@@ -137,7 +137,7 @@ describe('value components', () => {
         ])
     })
 
-    test('gradient', () => {
+    test.concurrent('gradient', () => {
         expect(new MasterCSS().generate('gradient(#000,#fff)')[0].valueComponents).toStrictEqual([
             {
                 text: 'gradient(#000,#fff)',

@@ -1,12 +1,12 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('validates width rules', () => {
+it.concurrent('validates width rules', () => {
     expect(new MasterCSS().create('w:screen-sm')?.text).toContain('width:52.125rem')
     expect(new MasterCSS().create('w:1/4')?.text).toContain('width:25%')
 })
 
-test('sizing', () => {
+test.concurrent('sizing', () => {
     expect(new MasterCSS().create('w:full')?.text).toContain('width:100%')
     expect(new MasterCSS().create('w:fit')?.text).toContain('width:fit-content')
     expect(new MasterCSS().create('w:max')?.text).toContain('width:max-content')

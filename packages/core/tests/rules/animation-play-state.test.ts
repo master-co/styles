@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('animation-play-state', () => {
+it.concurrent('animation-play-state', () => {
     expect(new MasterCSS().create('animation-play-state:running')?.declarations).toStrictEqual({ 'animation-play-state': 'running' })
     expect(new MasterCSS().create('@play:running')?.declarations).toStrictEqual({ 'animation-play-state': 'running' })
 

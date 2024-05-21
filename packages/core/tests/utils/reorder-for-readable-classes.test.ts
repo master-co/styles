@@ -3,7 +3,7 @@ import { MasterCSS } from '../../src'
 import { reorderForReadableClasses } from '../../src'
 import shuffle from 'shuffle-array'
 
-test('mixed', () => {
+test.concurrent('mixed', () => {
     for (let i = 0; i < 10; i++) {
         expect(reorderForReadableClasses(shuffle(
             'font:12 font:32@sm font:48@lg m:32 block my:16 px:16 my:32@lg bg:red bg:purple:focus bg:blue:hover round mb:48'.split(' ')
@@ -29,7 +29,7 @@ test('mixed', () => {
     }
 })
 
-it('sorts by layers', () => {
+it.concurrent('sorts by layers', () => {
     for (let i = 0; i < 10; i++) {
         expect(reorderForReadableClasses(shuffle(
             'b:1|blue b:1'.split(' ')
@@ -39,7 +39,7 @@ it('sorts by layers', () => {
     }
 })
 
-test('selectors', () => {
+test.concurrent('selectors', () => {
     for (let i = 0; i < 10; i++) {
         expect(reorderForReadableClasses(shuffle(
             'block:active display:block block:hover block[data-id] block:has(:focus) block:disabled block block[required]'.split(' ')
@@ -49,7 +49,7 @@ test('selectors', () => {
     }
 })
 
-test('theme modes', () => {
+test.concurrent('theme modes', () => {
     for (let i = 0; i < 10; i++) {
         expect(reorderForReadableClasses(shuffle(
             'bg:slate-90@light bg:white/.1@dark bg:red'.split(' ')
@@ -59,7 +59,7 @@ test('theme modes', () => {
     }
 })
 
-test('collision properties', () => {
+test.concurrent('collision properties', () => {
     for (let i = 0; i < 10; i++) {
         expect(reorderForReadableClasses(shuffle(
             'm:10 m:20 m:30:hover m:40@dark'.split(' ')
@@ -69,7 +69,7 @@ test('collision properties', () => {
     }
 })
 
-test('responsive breakpoints', () => {
+test.concurrent('responsive breakpoints', () => {
     for (let i = 0; i < 10; i++) {
         expect(reorderForReadableClasses(shuffle(
             'font:12 font:24@sm font:36@lg'.split(' ')

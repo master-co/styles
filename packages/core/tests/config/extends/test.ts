@@ -2,7 +2,7 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
 import { config } from './master-css'
 
-it('config extends', () => {
+it.concurrent('config extends', () => {
     const css = new MasterCSS(config)
     expect(css.config.styles).toMatchObject({
         'blue': {

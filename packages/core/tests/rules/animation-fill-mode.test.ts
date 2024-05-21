@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it('animation-fill-mode', () => {
+it.concurrent('animation-fill-mode', () => {
     expect(new MasterCSS().create('animation-fill-mode:forwards')?.declarations).toStrictEqual({ 'animation-fill-mode': 'forwards' })
     expect(new MasterCSS().create('@fill:forwards')?.declarations).toStrictEqual({ 'animation-fill-mode': 'forwards' })
 

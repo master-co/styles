@@ -2,7 +2,7 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 import { variables } from '../../src'
 
-it('customizes fonts', () => {
+it.concurrent('customizes fonts', () => {
     const css = new MasterCSS({
         variables: {
             'font-family': {
@@ -22,7 +22,7 @@ it('customizes fonts', () => {
     })
 })
 
-// it('customizes fonts using strings', () => {
+// it.concurrent('customizes fonts using strings', () => {
 //     const css = new MasterCSS({
 //         variables: {
 //             fontFamily: {

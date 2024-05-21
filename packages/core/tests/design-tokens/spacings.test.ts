@@ -7,7 +7,7 @@ const config = {
     }
 }
 
-test('spacing', () => {
+test.concurrent('spacing', () => {
     expect(new MasterCSS(config).create('m:x1')?.text).toContain('margin:1rem')
     expect(new MasterCSS(config).create('mt:x1')?.text).toContain('margin-top:1rem')
     expect(new MasterCSS(config).create('scroll-mt:x1')?.text).toContain('scroll-margin-top:1rem')

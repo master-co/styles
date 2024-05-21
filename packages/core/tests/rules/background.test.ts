@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-test('background', () => {
+test.concurrent('background', () => {
     expect(new MasterCSS().create('bg:black')?.text).toContain('background-color:rgb(0 0 0)')
     expect(new MasterCSS().create('bg:#fff')?.text).toContain('background-color:#fff')
     expect(new MasterCSS().create('bg:black:hover@md&landscape')?.text).toBe('@media (min-width:1024px) and (orientation:landscape){.bg\\:black\\:hover\\@md\\&landscape:hover{background-color:rgb(0 0 0)}}')
@@ -13,7 +13,7 @@ test('background', () => {
     expect(new MasterCSS().create('gradient(45deg,#f3ec78,#af4261)')?.text).toContain('background-image:linear-gradient(45deg,#f3ec78,#af4261)')
 })
 
-it('gradient-related functions should transform "current" to "currentColor"', () => {
+it.concurrent('gradient-related functions should transform "current" to "currentColor"', () => {
     expect(new MasterCSS().create('bg:conic-gradient(current,black)')?.text).toContain('background-image:conic-gradient(currentColor,rgb(0 0 0))')
     expect(new MasterCSS().create('bg:linear-gradient(current,black)')?.text).toContain('background-image:linear-gradient(currentColor,rgb(0 0 0))')
     expect(new MasterCSS().create('bg:radial-gradient(current,black)')?.text).toContain('background-image:radial-gradient(currentColor,rgb(0 0 0))')

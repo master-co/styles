@@ -2,7 +2,7 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../src'
 import config from './config'
 
-test('utilities', () => {
+test.concurrent('utilities', () => {
     expect(new MasterCSS(config).create('show')?.text).toBe('.show{display:block}')
     expect(new MasterCSS().create('gradient-text')?.text).toBe('.gradient-text{-webkit-text-fill-color:transparent;-webkit-background-clip:text;background-clip:text}')
     expect(new MasterCSS({
