@@ -5,7 +5,7 @@
         "dev": "pnpm build --watch",
         "lint": "eslint ./src",
         "type-check": "tsc --noEmit",
-        "test": "jest"
+        "test": "vitest"
     },
     "type": "module",
     "license": "MIT",

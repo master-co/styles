@@ -92,6 +92,12 @@ importers:
       tsx:
         specifier: ^4.7.1
         version: 4.7.1
+      vite-tsconfig-paths:
+        specifier: ^4.3.2
+        version: 4.3.2(typescript@5.4.5)(vite@5.2.10(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2))
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.0(@types/node@20.12.10)(jsdom@24.0.0)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)
     devDependencies:
       '@master/create-css':
         specifier: workspace:^
@@ -1128,12 +1134,6 @@ importers:
         specifier: workspace:^
         version: link:../../shared
 
-  packages/create/tests/with-no-deps:
-    dependencies:
-      '@master/css':
-        specifier: 2.0.0-rc.38
-        version: 2.0.0-rc.38
-
   packages/eslint-config:
     dependencies:
       '@master/eslint-plugin-css':
@@ -1338,12 +1338,6 @@ importers:
       '@master/css-shared':
         specifier: workspace:^
         version: link:../../shared
-      vite-tsconfig-paths:
-        specifier: ^4.3.2
-        version: 4.3.2(typescript@5.4.5)(vite@5.2.10(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2))
-      vitest:
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.12.10)(jsdom@24.0.0)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)
 
   packages/language-service:
     dependencies:
@@ -1710,7 +1704,7 @@ importers:
         version: 2.47.0(react@18.2.0)
       '@vercel/speed-insights':
         specifier: ^1.0.10
-        version: 1.0.10(@sveltejs/kit@2.5.4(svelte@4.2.12))(next@14.2.1(@babel/core@7.24.5)(@playwright/test@1.41.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.77.0))(react@18.2.0)(svelte@4.2.12)(vue-router@4.3.2(vue@3.4.21(typescript@5.4.2)))(vue@3.4.21(typescript@5.4.2))
+        version: 1.0.10(@sveltejs/kit@2.5.4(svelte@4.2.12)(vite@5.2.10(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)))(next@14.2.1(@babel/core@7.24.5)(@playwright/test@1.41.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.77.0))(react@18.2.0)(svelte@4.2.12)(vue-router@4.3.2(vue@3.4.21(typescript@5.4.2)))(vue@3.4.21(typescript@5.4.2))
       accept-language:
         specifier: ^3.0.18
         version: 3.0.18
@@ -1765,7 +1759,7 @@ importers:
         version: 0.8.2
       '@testing-library/jest-dom':
         specifier: ^6.4.2
-        version: 6.4.2(@jest/globals@29.7.0)(@types/jest@29.5.12)(jest@29.7.0(@types/node@20.11.28)(ts-node@10.9.2(@swc/core@1.4.16(@swc/helpers@0.5.5))(@types/node@20.11.28)(typescript@5.4.2)))(vitest@1.6.0(@types/node@20.11.28)(sass@1.77.0))
+        version: 6.4.2(@jest/globals@29.7.0)(@types/jest@29.5.12)(jest@29.7.0(@types/node@20.11.28)(ts-node@10.9.2(@swc/core@1.4.16(@swc/helpers@0.5.5))(@types/node@20.11.28)(typescript@5.4.2)))(vitest@1.6.0(@types/node@20.11.28)(jsdom@24.0.0)(less@4.2.0)(sass@1.77.0)(terser@5.29.2))
       '@testing-library/react':
         specifier: ^14.2.1
         version: 14.2.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -4192,10 +4186,6 @@ packages:
 
   '@master/colors@2.0.0':
     resolution: {integrity: sha512-0s4DzBSXthRVCFKkKbGvAioT6oVlN54f9H4MX6GN1YoNG0/x0NECyIv/5Tx9p5nDMr+ClDHSDbQ37DJUp8CHFg==}
-
-  '@master/css@2.0.0-rc.38':
-    resolution: {integrity: sha512-fCPCW4j7YgPpr354C4v9OmsGr/3Ri4cGR1vxpDNIjS7eaptnelWfCTjxjqvoIhs+QOqHJ7ylZsvTY5XJh45h6Q==}
-    hasBin: true
 
   '@master/normal.css@2.1.1':
     resolution: {integrity: sha512-u5NQLjTLmhwVzfrro40EfuAtDpYb/HCXEwlsBibyCc9Fpc5IjZVWZDSXpcejYiX7SJUuwdZnlJ+HBBZfBHMqkw==}
@@ -17635,13 +17625,6 @@ snapshots:
 
   '@master/colors@2.0.0': {}
 
-  '@master/css@2.0.0-rc.38':
-    dependencies:
-      '@master/colors': 2.0.0
-      '@master/normal.css': 3.0.0
-      '@techor/extend': 3.0.22
-      csstype: 3.1.3
-
   '@master/normal.css@2.1.1': {}
 
   '@master/normal.css@3.0.0': {}
@@ -19204,6 +19187,24 @@ snapshots:
       tiny-glob: 0.2.9
       vite: 5.1.6(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)
 
+  '@sveltejs/kit@2.5.4(svelte@4.2.12)(vite@5.2.10(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2))':
+    dependencies:
+      '@types/cookie': 0.6.0
+      cookie: 0.6.0
+      devalue: 4.3.2
+      esm-env: 1.0.0
+      import-meta-resolve: 4.0.0
+      kleur: 4.1.5
+      magic-string: 0.30.8
+      mrmime: 2.0.0
+      sade: 1.8.1
+      set-cookie-parser: 2.6.0
+      sirv: 2.0.4
+      svelte: 4.2.12
+      tiny-glob: 0.2.9
+      vite: 5.2.10(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)
+    optional: true
+
   '@sveltejs/package@2.3.0(svelte@4.2.12)(typescript@5.4.2)':
     dependencies:
       chokidar: 3.6.0
@@ -19438,7 +19439,7 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@testing-library/jest-dom@6.4.2(@jest/globals@29.7.0)(@types/jest@29.5.12)(jest@29.7.0(@types/node@20.11.28)(ts-node@10.9.2(@swc/core@1.4.16(@swc/helpers@0.5.5))(@types/node@20.11.28)(typescript@5.4.2)))(vitest@1.6.0(@types/node@20.11.28)(sass@1.77.0))':
+  '@testing-library/jest-dom@6.4.2(@jest/globals@29.7.0)(@types/jest@29.5.12)(jest@29.7.0(@types/node@20.11.28)(ts-node@10.9.2(@swc/core@1.4.16(@swc/helpers@0.5.5))(@types/node@20.11.28)(typescript@5.4.2)))(vitest@1.6.0(@types/node@20.11.28)(jsdom@24.0.0)(less@4.2.0)(sass@1.77.0)(terser@5.29.2))':
     dependencies:
       '@adobe/css-tools': 4.3.3
       '@babel/runtime': 7.24.0
@@ -19452,7 +19453,7 @@ snapshots:
       '@jest/globals': 29.7.0
       '@types/jest': 29.5.12
       jest: 29.7.0(@types/node@20.11.28)(ts-node@10.9.2(@swc/core@1.4.16(@swc/helpers@0.5.5))(@types/node@20.11.28)(typescript@5.4.2))
-      vitest: 1.6.0(@types/node@20.11.28)(sass@1.77.0)
+      vitest: 1.6.0(@types/node@20.11.28)(jsdom@24.0.0)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)
 
   '@testing-library/react@14.2.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
@@ -20422,9 +20423,9 @@ snapshots:
       - encoding
       - supports-color
 
-  '@vercel/speed-insights@1.0.10(@sveltejs/kit@2.5.4(svelte@4.2.12))(next@14.2.1(@babel/core@7.24.5)(@playwright/test@1.41.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.77.0))(react@18.2.0)(svelte@4.2.12)(vue-router@4.3.2(vue@3.4.21(typescript@5.4.2)))(vue@3.4.21(typescript@5.4.2))':
+  '@vercel/speed-insights@1.0.10(@sveltejs/kit@2.5.4(svelte@4.2.12)(vite@5.2.10(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)))(next@14.2.1(@babel/core@7.24.5)(@playwright/test@1.41.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.77.0))(react@18.2.0)(svelte@4.2.12)(vue-router@4.3.2(vue@3.4.21(typescript@5.4.2)))(vue@3.4.21(typescript@5.4.2))':
     optionalDependencies:
-      '@sveltejs/kit': 2.5.4(@sveltejs/vite-plugin-svelte@3.0.2(svelte@4.2.12)(vite@5.1.6(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)))(svelte@4.2.12)(vite@5.1.6(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2))
+      '@sveltejs/kit': 2.5.4(svelte@4.2.12)(vite@5.2.10(@types/node@20.12.10)(less@4.2.0)(sass@1.77.0)(terser@5.29.2))
       next: 14.2.1(@babel/core@7.24.5)(@playwright/test@1.41.2)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(sass@1.77.0)
       react: 18.2.0
       svelte: 4.2.12
@@ -31858,7 +31859,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-node@1.6.0(@types/node@20.11.28)(sass@1.77.0):
+  vite-node@1.6.0(@types/node@20.11.28)(less@4.2.0)(sass@1.77.0)(terser@5.29.2):
     dependencies:
       cac: 6.7.14
       debug: 4.3.4
@@ -32193,7 +32194,7 @@ snapshots:
       - supports-color
       - terser
 
-  vitest@1.6.0(@types/node@20.11.28)(sass@1.77.0):
+  vitest@1.6.0(@types/node@20.11.28)(jsdom@24.0.0)(less@4.2.0)(sass@1.77.0)(terser@5.29.2):
     dependencies:
       '@vitest/expect': 1.6.0
       '@vitest/runner': 1.6.0
@@ -32213,10 +32214,11 @@ snapshots:
       tinybench: 2.6.0
       tinypool: 0.8.4
       vite: 5.2.10(@types/node@20.11.28)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)
-      vite-node: 1.6.0(@types/node@20.11.28)(sass@1.77.0)
+      vite-node: 1.6.0(@types/node@20.11.28)(less@4.2.0)(sass@1.77.0)(terser@5.29.2)
       why-is-node-running: 2.2.2
     optionalDependencies:
       '@types/node': 20.11.28
+      jsdom: 24.0.0
     transitivePeerDependencies:
       - less
       - lightningcss

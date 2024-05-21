@@ -6,6 +6,7 @@ import cssEscape from '@master/css-shared/utils/css-escape'
 import waitForDataMatch from '@master/css-shared/utils/wait-for-data-match'
 import dedent from 'ts-dedent'
 import { SpawndChildProcess, spawnd } from 'spawnd'
+import { it, beforeAll, afterAll, expect } from 'vitest'
 
 const HTMLFilepath = path.join(__dirname, 'test.html')
 const originHTMLText = dedent`
