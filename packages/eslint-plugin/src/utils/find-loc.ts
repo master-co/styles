@@ -1,4 +1,4 @@
-import { indexOfAll } from "./index-of-all"
+import { indexOfAll } from './index-of-all'
 
 export default function findLoc(text, lines, startLine, endLine) {
     const targetLines = text.match(/.+(?:\r\n|\n)?/g)
