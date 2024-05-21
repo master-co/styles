@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import { CSSLanguageService } from '../../src'
 import createDoc from '../../src/utils/create-doc'
 import { expectClassPosition } from './test'

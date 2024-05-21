@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import { expectClassPosition } from './test'
 
 test('clsx', () => {

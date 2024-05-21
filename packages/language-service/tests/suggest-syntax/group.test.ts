@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import { hint } from './test'
 
 test('one declaration', () => expect(hint('{text:')?.find(({ label }) => label === 'center')).toMatchObject({ label: 'center' }))

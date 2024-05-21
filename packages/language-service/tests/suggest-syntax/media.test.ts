@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import { hint } from './test'
 
 test('screen size', () => expect(hint('hidden@')?.map(({ label }) => label)).toContain('@sm'))

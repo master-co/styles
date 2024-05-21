@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import { hint } from './test'
 
 it('should not hint selectors', () => expect(hint('text:')?.[0]).not.toMatchObject({ insertText: 'active' }))

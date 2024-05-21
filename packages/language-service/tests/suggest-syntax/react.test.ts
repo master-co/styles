@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import { Position } from 'vscode-languageserver-textdocument'
 import CSSLanguageService from '../../src/core'
 import createDoc from '../../src/utils/create-doc'

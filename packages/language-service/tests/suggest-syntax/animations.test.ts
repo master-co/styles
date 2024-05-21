@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import { hint } from './test'
 
 test('@', () => expect(hint('@')?.map(({ label }) => label)).toContain('fade|1s'))

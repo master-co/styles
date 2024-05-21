@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import dedent from 'ts-dedent'
 import { hint } from './test'
 
@@ -97,7 +98,7 @@ describe('pseudo-element', () => {
     }))
 })
 
-describe('sorting', () => {
+test('sorting', () => {
     expect(hint('text:center:')?.map(({ label }) => label)).toEqual([
         ':active',
         ':any-link',

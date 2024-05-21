@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest'
 import { Settings } from '../../src'
 import CSSLanguageService from '../../src/core'
 import createDoc, { languageIdOfExt } from '../../src/utils/create-doc'

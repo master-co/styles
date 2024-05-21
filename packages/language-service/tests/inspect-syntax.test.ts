@@ -1,3 +1,4 @@
+import { test, it, expect, describe } from 'vitest'
 import CSSLanguageService from '../src/core'
 import getRange from '../src/utils/get-range'
 import createDoc from '../src/utils/create-doc'
