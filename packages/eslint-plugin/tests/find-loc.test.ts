@@ -1,3 +1,4 @@
+import { it, expect, describe } from 'vitest'
 import findLoc from '../src/utils/find-loc'
 
 describe('findLoc', () => {
