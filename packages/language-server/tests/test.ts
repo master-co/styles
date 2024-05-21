@@ -3,7 +3,7 @@ import { withFixture } from './setup'
 import { test } from 'vitest'
 
 withFixture('basic', async (context) => {
-    test.concurrent('root workspace', async ({ expect }) => {
+    test('root workspace', async ({ expect }) => {
         expect(context.server.workspaces.length).toBe(1)
         expect(context.server.workspaces[0].uri).toBe(context.rootUri)
     })
