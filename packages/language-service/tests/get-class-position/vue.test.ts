@@ -2,31 +2,31 @@ import { test, it, expect, describe } from 'vitest'
 import dedent from 'ts-dedent'
 import { expectClassPosition } from './test'
 
-test('class in class array', () => {
+test.concurrent('class in class array', () => {
     const target = 'class-a'
     const contents = ['<div :class="[ isActive && `', target, '` ]"></div>']
     expectClassPosition(target, contents, 'vue')
 })
 
-test('class in object syntax', () => {
+test.concurrent('class in object syntax', () => {
     const target = 'class-a'
     const contents = ['<div :class="{ \'', target, '\': isActive }"></div>']
     expectClassPosition(target, contents, 'vue')
 })
 
-test('class in ternary operator', () => {
+test.concurrent('class in ternary operator', () => {
     const target = 'class-a'
     const contents = ['<div :class="isActive ? \'', target, '\' : inactiveClass"></div>']
     expectClassPosition(target, contents, 'vue')
 })
 
-test('class in v-bind', () => {
+test.concurrent('class in v-bind', () => {
     const target = 'class-a'
     const contents = ['<div v-bind:class="{ active: isActive, \'', target, '\': hasError }"></div>']
     expectClassPosition(target, contents, 'vue')
 })
 
-test('multiple :class assignments', () => {
+test.concurrent('multiple :class assignments', () => {
     const target = 'a'
     const contents = [dedent`
         <template>

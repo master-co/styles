@@ -13,10 +13,10 @@ export const hint = (target: string, settings: Settings = {}) => {
     })
 }
 
-// it('types a', () => expect(hint('a')?.length).toBeDefined())
+// it.concurrent('types a', () => expect(hint('a')?.length).toBeDefined())
 
-it('types " should hint completions', () => expect(hint('')?.length).toBeGreaterThan(0))
-it('types   should hint completions', () => expect(hint('text:center ')?.length).toBeGreaterThan(0))
+it.concurrent('types " should hint completions', () => expect(hint('')?.length).toBeGreaterThan(0))
+it.concurrent('types   should hint completions', () => expect(hint('text:center ')?.length).toBeGreaterThan(0))
 
 test.todo('types any trigger character in "" should not hint')
 test.todo(`types any trigger character in '' should not hint`)

@@ -5,19 +5,19 @@ import { CompletionItemKind } from 'vscode-languageserver-protocol'
 
 test.todo('convert any color spaces to RGB and hint correctly')
 
-it('should ignore values containing blanks', () => expect(hint('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
-it('types | delimiter', () => expect(hint('b:1|')?.map(({ label }) => label)).toContain('solid'))
-it('types , separator', () => expect(hint('s:1|1|2|black,')?.map(({ label }) => label)).toContain('inset'))
-it('ends with @ and not to hint values', () => expect(hint('text:center@')?.map(({ label }) => label)).not.toContain('center'))
-it('ends with : and not to hint values', () => expect(hint('text:center:')?.map(({ label }) => label)).not.toContain('center'))
+it.concurrent('should ignore values containing blanks', () => expect(hint('font-family:')?.map(({ label }) => label)).not.toContain('Arial, Helvetica, sans-serif'))
+it.concurrent('types | delimiter', () => expect(hint('b:1|')?.map(({ label }) => label)).toContain('solid'))
+it.concurrent('types , separator', () => expect(hint('s:1|1|2|black,')?.map(({ label }) => label)).toContain('inset'))
+it.concurrent('ends with @ and not to hint values', () => expect(hint('text:center@')?.map(({ label }) => label)).not.toContain('center'))
+it.concurrent('ends with : and not to hint values', () => expect(hint('text:center:')?.map(({ label }) => label)).not.toContain('center'))
 
-describe('ambiguous', () => {
-    test('text:capitalize', () => expect(hint('text:')?.map(({ label }) => label)).toContain('capitalize'))
-    test('text:center', () => expect(hint('text:')?.map(({ label }) => label)).toContain('center'))
+describe.concurrent('ambiguous', () => {
+    test.concurrent('text:capitalize', () => expect(hint('text:')?.map(({ label }) => label)).toContain('capitalize'))
+    test.concurrent('text:center', () => expect(hint('text:')?.map(({ label }) => label)).toContain('center'))
 })
 
-describe('detail and documentation', () => {
-    test('font:', () => expect(hint('font:')?.find(({ label }) => label === 'sans')).toEqual({
+describe.concurrent('detail and documentation', () => {
+    test.concurrent('font:', () => expect(hint('font:')?.find(({ label }) => label === 'sans')).toEqual({
         detail: '(scope) ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji',
         kind: CompletionItemKind.Value,
         label: 'sans',
@@ -41,7 +41,7 @@ describe('detail and documentation', () => {
                 `
         }
     }))
-    test('font-style:', () => expect(hint('font-style:')?.find(({ label }) => label === 'italic')).toEqual({
+    test.concurrent('font-style:', () => expect(hint('font-style:')?.find(({ label }) => label === 'italic')).toEqual({
         detail: 'font-style: italic',
         kind: 12,
         label: 'italic',
@@ -63,9 +63,9 @@ describe('detail and documentation', () => {
     }))
 })
 
-describe('retype on no hints', () => {
-    it('"text:c"', () => expect(hint('text:c')?.length).toBeGreaterThan(0))
-    it('"d:b"', () => expect(hint('d:b')?.find(({ label }) => label === 'block')).toEqual({
+describe.concurrent('retype on no hints', () => {
+    it.concurrent('"text:c"', () => expect(hint('text:c')?.length).toBeGreaterThan(0))
+    it.concurrent('"d:b"', () => expect(hint('d:b')?.find(({ label }) => label === 'block')).toEqual({
         label: 'block',
         kind: 12,
         sortText: 'cccccblock',
@@ -87,13 +87,13 @@ describe('retype on no hints', () => {
     }))
 })
 
-describe('negative values', () => {
-    it('should hint negative values', () => expect(hint('font:')?.map(({ label }) => label)).not.toContain('-bold'))
+describe.concurrent('negative values', () => {
+    it.concurrent('should hint negative values', () => expect(hint('font:')?.map(({ label }) => label)).not.toContain('-bold'))
     test.todo('types - to hint number values')
 })
 
-describe('sorting', () => {
-    test('colors', () => {
+describe.concurrent('sorting', () => {
+    test.concurrent('colors', () => {
         expect(
             hint('fg:')
                 ?.filter(({ label }) => label.startsWith('yellow'))
@@ -115,6 +115,6 @@ describe('sorting', () => {
     })
 })
 
-describe('functions', () => {
+describe.concurrent('functions', () => {
     test.todo('fucntions')
 })

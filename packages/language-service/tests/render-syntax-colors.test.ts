@@ -3,7 +3,7 @@ import CSSLanguageService from '../src/core'
 import getRange from '../src/utils/get-range'
 import createDoc from '../src/utils/create-doc'
 
-test('hex', async () => {
+test.concurrent('hex', async () => {
     const target = '#999999'
     const content = `export default () => <div className='fg:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -14,7 +14,7 @@ test('hex', async () => {
     }])
 })
 
-test('shorthand', async () => {
+test.concurrent('shorthand', async () => {
     const target = 'black'
     const content = `export default () => <div className='b:1|solid|${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -25,7 +25,7 @@ test('shorthand', async () => {
     }])
 })
 
-test('with |', async () => {
+test.concurrent('with |', async () => {
     const target = 'rgb(0|0|0/.5)'
     const content = `export default () => <div className='fg:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -36,7 +36,7 @@ test('with |', async () => {
     }])
 })
 
-test('with !', async () => {
+test.concurrent('with !', async () => {
     const target = 'rgb(0|0|0)'
     const content = `export default () => <div className='fg:${target}!'></div>`
     const doc = createDoc('tsx', content)
@@ -47,7 +47,7 @@ test('with !', async () => {
     }])
 })
 
-test('should ignore invalid rgb', async () => {
+test.concurrent('should ignore invalid rgb', async () => {
     const target = 'rgb(0,0,)'
     const content = `export default () => <div className='fg:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -55,7 +55,7 @@ test('should ignore invalid rgb', async () => {
     expect(await languageService.renderSyntaxColors(doc)).toStrictEqual([])
 })
 
-test('should ignore single #', async () => {
+test.concurrent('should ignore single #', async () => {
     const target = '#'
     const content = `export default () => <div className='fg:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -63,7 +63,7 @@ test('should ignore single #', async () => {
     expect(await languageService.renderSyntaxColors(doc)).toStrictEqual([])
 })
 
-test('should ignore utility', async () => {
+test.concurrent('should ignore utility', async () => {
     const target = 'block'
     const content = `export default () => <div className='fg:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -71,7 +71,7 @@ test('should ignore utility', async () => {
     expect(await languageService.renderSyntaxColors(doc)).toStrictEqual([])
 })
 
-test('should ignore number', async () => {
+test.concurrent('should ignore number', async () => {
     const target = '4x'
     const content = `export default () => <div className='m:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -79,7 +79,7 @@ test('should ignore number', async () => {
     expect(await languageService.renderSyntaxColors(doc)).toStrictEqual([])
 })
 
-test('box-shadow', async () => {
+test.concurrent('box-shadow', async () => {
     const target1 = 'black'
     const target2 = 'white'
     const content = `export default () => <div className='shadow:1|1|2|${target1},2|2|3|${target2}'></div>`
@@ -97,7 +97,7 @@ test('box-shadow', async () => {
     ])
 })
 
-test('gradient', async () => {
+test.concurrent('gradient', async () => {
     const target1 = 'black'
     const target2 = 'white'
     const content = `export default () => <div className='gradient(${target1},${target2})'></div>`
@@ -115,7 +115,7 @@ test('gradient', async () => {
     ])
 })
 
-test('custom variable', async () => {
+test.concurrent('custom variable', async () => {
     const target = 'custom'
     const content = `export default () => <div className='fg:${target}!'></div>`
     const doc = createDoc('tsx', content)
@@ -132,7 +132,7 @@ test('custom variable', async () => {
     }])
 })
 
-test('custom variable/alpha', async () => {
+test.concurrent('custom variable/alpha', async () => {
     const target = 'custom/.5'
     const content = `export default () => <div className='fg:${target}!'></div>`
     const doc = createDoc('tsx', content)
@@ -149,7 +149,7 @@ test('custom variable/alpha', async () => {
     }])
 })
 
-test('variable', async () => {
+test.concurrent('variable', async () => {
     const target = 'black'
     const content = `export default () => <div className='fg:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -160,7 +160,7 @@ test('variable', async () => {
     }])
 })
 
-test('variable/opacity', async () => {
+test.concurrent('variable/opacity', async () => {
     const target = 'blue-50/.5'
     const content = `export default () => <div className='fg:${target}'></div>`
     const doc = createDoc('tsx', content)
@@ -175,8 +175,8 @@ test.todo('CSS color() function')
 test.todo('CSS color-mix() function')
 test.todo('click to switch color spaces')
 
-describe('color space', () => {
-    test('rgb', async () => {
+describe.concurrent('color space', () => {
+    test.concurrent('rgb', async () => {
         const target = 'rgb(125,125,0)'
         const content = `export default () => <div className='fg:${target}'></div>`
         const doc = createDoc('tsx', content)
@@ -187,7 +187,7 @@ describe('color space', () => {
         }])
     })
 
-    test('lab', async () => {
+    test.concurrent('lab', async () => {
         const target = 'lab(75%|-120|125)'
         const content = `export default () => <div className='fg:${target}'></div>`
         const doc = createDoc('tsx', content)
@@ -198,7 +198,7 @@ describe('color space', () => {
         }])
     })
 
-    test('hsla', async () => {
+    test.concurrent('hsla', async () => {
         const target = 'hsla(150deg,30%,60%,.1)'
         const content = `export default () => <div className='fg:${target}'></div>`
         const doc = createDoc('tsx', content)
@@ -211,7 +211,7 @@ describe('color space', () => {
 })
 
 // ? not supported yet
-// test('group', async () => {
+// test.concurrent('group', async () => {
 //     const target = '#000'
 //     const content = `
 //         export default () => <div className='{fg:${target}}'></div>

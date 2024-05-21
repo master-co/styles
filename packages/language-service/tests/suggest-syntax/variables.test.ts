@@ -2,10 +2,10 @@ import { test, it, expect, describe } from 'vitest'
 import dedent from 'ts-dedent'
 import { hint } from './test'
 
-describe('scope', () => {
-    test('font:semibold', () => expect(hint('font:')?.map(({ label }) => label)).toContain('semibold'))
-    test('font:sans', () => expect(hint('font:')?.map(({ label }) => label)).toContain('semibold'))
-    test('fg:blue', () => expect(hint('fg:')?.find(({ label }) => label === 'blue')).toEqual({
+describe.concurrent('scope', () => {
+    test.concurrent('font:semibold', () => expect(hint('font:')?.map(({ label }) => label)).toContain('semibold'))
+    test.concurrent('font:sans', () => expect(hint('font:')?.map(({ label }) => label)).toContain('semibold'))
+    test.concurrent('fg:blue', () => expect(hint('fg:')?.find(({ label }) => label === 'blue')).toEqual({
         'detail': '(scope) text-blue',
         'kind': 16,
         'label': 'blue',
@@ -35,7 +35,7 @@ describe('scope', () => {
              `,
         }
     }))
-    test('box:content', () => expect(hint('box:')?.find(({ label }) => label === 'content')).toEqual({
+    test.concurrent('box:content', () => expect(hint('box:')?.find(({ label }) => label === 'content')).toEqual({
         'detail': '(scope) content-box',
         'kind': 12,
         'label': 'content',
@@ -60,12 +60,12 @@ describe('scope', () => {
     }))
 })
 
-describe('global', () => {
-    test('fg:yellow-30', () => expect(hint('fg:')?.map(({ label }) => label)).toContain('yellow-30'))
+describe.concurrent('global', () => {
+    test.concurrent('fg:yellow-30', () => expect(hint('fg:')?.map(({ label }) => label)).toContain('yellow-30'))
 })
 
-describe('scope and global', () => {
-    test('scope', () => expect(hint('fg:')?.find(({ label }) => label === 'blue')).toEqual({
+describe.concurrent('scope and global', () => {
+    test.concurrent('scope', () => expect(hint('fg:')?.find(({ label }) => label === 'blue')).toEqual({
         'detail': '(scope) text-blue',
         'documentation': {
             'kind': 'markdown',
@@ -94,7 +94,7 @@ describe('scope and global', () => {
         'label': 'blue',
         'sortText': 'aaaablue',
     }))
-    test('global and scope collide', () => expect(hint('fg:')?.find(({ label }) => label === '$(blue)')).toEqual({
+    test.concurrent('global and scope collide', () => expect(hint('fg:')?.find(({ label }) => label === '$(blue)')).toEqual({
         'detail': '(global) blue',
         'documentation': {
             'kind': 'markdown',
@@ -125,8 +125,8 @@ describe('scope and global', () => {
     }))
 })
 
-describe('sorting', () => {
-    test('positive screen', () => {
+describe.concurrent('sorting', () => {
+    test.concurrent('positive screen', () => {
         expect(
             hint('w:screen-')
                 ?.filter(({ label }) => label.startsWith('screen-'))
@@ -145,7 +145,7 @@ describe('sorting', () => {
             'screen-4xl',
         ])
     })
-    test('negative screen', () => {
+    test.concurrent('negative screen', () => {
         expect(
             hint('w:-screen-')
                 ?.filter(({ label }) => label.startsWith('-screen-'))
