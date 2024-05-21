@@ -1,7 +1,7 @@
 import { queries } from '@master/css'
 import InlineCode from 'websites/components/InlineCode'
 import DocTable from 'websites/components/DocTable'
-import descriptions from '../../screens/descriptions'
+import descriptions from '../../../reference/screens/descriptions'
 
 export default () =>
     <DocTable>

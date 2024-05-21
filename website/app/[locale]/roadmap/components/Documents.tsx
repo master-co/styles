@@ -1,4 +1,4 @@
-import allPages from '~/data/all-pages.json'
+import pages from '~/data/pages.json'
 import Link from 'websites/components/Link'
 import clsx from 'clsx'
 import { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'
@@ -12,7 +12,7 @@ export default function Documents({ category, first }: any) {
             </tr>
         </thead>
         <tbody>
-            {allPages
+            {pages
                 .filter(({ metadata }: Page) => metadata.category === category)
                 .map(({ metadata, pathname }: Page) => {
                     const subject = metadata.other?.subject as string || (metadata.title as AbsoluteTemplateString).absolute || (metadata.title as string)

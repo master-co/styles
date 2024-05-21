@@ -3,13 +3,12 @@
 import SearchButton from 'websites/components/SearchButton'
 import { Fragment, useRef, useState } from 'react'
 import Link from 'websites/components/Link'
-import pageCategories from '~/data/page-categories.json'
 import { useTranslation } from 'websites/contexts/i18n'
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 
-export default function DocSidebar() {
+export default function DocSidebar({ pageCategories }: any) {
     const $ = useTranslation()
     const [opened, setOpened] = useState(false)
     const pathname = usePathname()
@@ -44,6 +43,7 @@ export default function DocSidebar() {
                         <Fragment key={eachPageCategory.name}>
                             <h4>{$(eachPageCategory.name)}</h4>
                             {eachPageCategory.pages
+                                .filter((eachPage: any) => eachPage.pathname.split('/').length === 3)
                                 .map((eachPage: any) => (
                                     <Link activeClassName="active font:semibold"
                                         ambiguous

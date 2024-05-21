@@ -4,23 +4,27 @@ import path from 'upath'
 // import docsInstallationMetadata from './app/[locale]/docs/installation/(tabs)/metadata'
 import { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types.js'
 import { writeFile } from 'fs'
+import categories from './categories.json'
 
 export declare type Page = { metadata: Metadata, pathname: string }
 
 (async () => {
-    const generatePages = async (pattern: string) => {
+    const generatePages = async (pattern: string | string[]) => {
         return await Promise.all(
             fg.sync(pattern)
                 .map(async (eachPath) => {
                     return {
                         metadata: (await import(eachPath)).default,
-                        pathname: '/' + path.relative('./app/[locale]', path.dirname(eachPath))
+                        pathname: '/' + path.relative('./app/[locale]', path.dirname(
+                            eachPath
+                                .replace(/\/\(.*\)/g, '')
+                        ))
                     }
                 })
         )
     }
 
-    const allPages: Page[] = (await generatePages('./app/[locale]/docs/*/**/metadata.js'))
+    const pages: Page[] = (await generatePages('./app/[locale]/**/*/metadata.ts'))
         .sort((a, b) => {
             const titleA = ((a.metadata.title as AbsoluteTemplateString)?.absolute || a.metadata.title as string).toLowerCase()
             const titleB = ((b.metadata.title as AbsoluteTemplateString)?.absolute || b.metadata.title as string).toLowerCase()
@@ -33,17 +37,6 @@ export declare type Page = { metadata: Metadata, pathname: string }
             }
             return 0
         })
-    const pages: Page[] = await generatePages('./app/[locale]/docs/*/metadata.ts')
-    const categoryOrder = [
-        'Getting Started',
-        'Syntax Tutorial',
-        'Fundamentals',
-        'Design Variables',
-        'Custom Syntax',
-        'Production Optimization',
-        'Syntax',
-        'Package'
-    ]
     const pageCategories = pages.reduce((categories: any[], eachPage: any) => {
         const eachPageCategoryName = eachPage?.metadata?.category
         if (eachPageCategoryName) {
@@ -68,8 +61,8 @@ export declare type Page = { metadata: Metadata, pathname: string }
         return categories
     }, [])
         .sort((a, b) => {
-            const indexA = categoryOrder.indexOf(a.name)
-            const indexB = categoryOrder.indexOf(b.name)
+            const indexA = categories.indexOf(a.name)
+            const indexB = categories.indexOf(b.name)
 
             if (indexA === -1 && indexB === -1) {
                 return a.name.localeCompare(b.name)
@@ -90,15 +83,8 @@ export declare type Page = { metadata: Metadata, pathname: string }
         console.log('page-categories.json written')
     })
 
-    writeFile('./data/pages.json', JSON.stringify(pages
-        .map((eachPageCategory: any) => eachPageCategory.pages)
-        .flat()
-        , null, 4), () => {
-            console.log('pages.json written')
-        })
-
-    writeFile('./data/all-pages.json', JSON.stringify(allPages, null, 4), () => {
-        console.log('all-pages.json written')
+    writeFile('./data/pages.json', JSON.stringify(pages, null, 4), () => {
+        console.log('pages.json written')
     })
 
 })()
