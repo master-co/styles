@@ -186,7 +186,7 @@ export default class CSSLanguageServer {
                 onlyFiles: true,
                 ignore: ['**/node_modules/**']
             }))
-                .forEach((workspaceFile) => resolvedWorkspaceDirectories.add(path.dirname(workspaceFile)))
+                .forEach((workspaceFile) => resolvedWorkspaceDirectories.add(path.dirname(path.resolve(workspaceFile))))
         } else if (workspaces?.length) {
             (await glob(workspaces, {
                 cwd: workspaceFolderCWD,
@@ -194,7 +194,7 @@ export default class CSSLanguageServer {
                 onlyDirectories: true,
                 ignore: ['**/node_modules/**']
             }))
-                .forEach((workspaceDir) => resolvedWorkspaceDirectories.add(workspaceDir))
+                .forEach((workspaceDir) => resolvedWorkspaceDirectories.add(path.resolve(workspaceDir)))
         }
         resolvedWorkspaceDirectories.forEach(async (workspaceDir) => {
             const workspaceURI = URI.file(workspaceDir).toString()
