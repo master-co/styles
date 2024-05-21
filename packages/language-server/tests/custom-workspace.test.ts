@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import { withFixture } from './setup'
 import { test } from 'vitest'
 import { Settings } from '../src'
+import { URI } from 'vscode-uri'
 
 const settings: Settings = {
     workspaces: [
@@ -12,10 +13,10 @@ const settings: Settings = {
 withFixture('monorepo', async (context) => {
     test.concurrent('workspaces', async ({ expect }) => {
         expect(context.server.workspaces.length).toBe(2)
-        expect(context.server.workspaces).toEqual(
+        expect(context.server.workspaces.map((x) => x.uri)).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ path: resolve('tests/fixtures/monorepo') }),
-                expect.objectContaining({ path: resolve('tests/fixtures/monorepo/c') }),
+                URI.file(resolve('tests/fixtures/monorepo')).toString(),
+                URI.file(resolve('tests/fixtures/monorepo/c')).toString(),
             ])
         )
     })

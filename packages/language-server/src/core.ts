@@ -168,7 +168,7 @@ export default class CSSLanguageServer {
     }
 
     private async initWorkspaceFolder(workspaceFolderURI: string) {
-        const workspaceFolderCWD = URI.parse(workspaceFolderURI).fsPath
+        const workspaceFolderCWD = path.resolve(URI.parse(workspaceFolderURI).fsPath)
         let customWorkspaceFolderSettings: Settings | undefined
         if (this.clientCapabilities.workspace?.configuration) {
             customWorkspaceFolderSettings = await this.connection.workspace.getConfiguration({
