@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "lint": "eslint ./src",
         "type-check": "tsc --noEmit",
-        "test": "jest"
+        "test": "vitest"
     },
     "license": "MIT",
     "description": "A utility for exploring a Master CSS config file.",
