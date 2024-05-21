@@ -1,3 +1,5 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
 import areRuleQueriesEqual from '../../src/utils/are-rule-queries-equal'
 
 test('min-width', () => {

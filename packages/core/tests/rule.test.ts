@@ -1,3 +1,5 @@
+import { it, test, expect, describe } from 'vitest'
+import { MasterCSS } from '../src'
 import { variables } from '../src'
 
 test('uncomplete', () => {

@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 it('checks margin order', () => {
     expect(new MasterCSS().add('mx:0', 'ml:0', 'mr:0', 'm:0', 'mt:0', 'mb:0', 'my:0').rules)
         .toMatchObject([

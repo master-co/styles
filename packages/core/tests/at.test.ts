@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
+
 test('media', () => {
     const css = new MasterCSS().add('font:12@sm&<md')
     expect(css.rules[0].at).toEqual({

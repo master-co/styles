@@ -1,3 +1,5 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
 import shuffle from 'shuffle-array'
 
 it('checks that different input sources should have the same output', () => {

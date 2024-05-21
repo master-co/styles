@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('stroke-width', () => {
     expect(new MasterCSS().create('stroke:.75!')?.text).toContain('stroke-width:.75!important')
 })

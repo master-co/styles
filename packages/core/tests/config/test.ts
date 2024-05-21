@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('styles', () => {
     expect(new MasterCSS({
         styles: {

@@ -1,4 +1,7 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
 import config from '../../config'
+
 test('colors', () => {
     expect(new MasterCSS(config).add('fg:primary').text)
         .toBe(':root{--primary:0 0 0}.light{--primary:0 0 0}.dark{--primary:255 255 255}.fg\\:primary{color:rgb(var(--primary))}')

@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('overflow', () => {
     expect(new MasterCSS().create('overflowed')?.text).toContain('overflow:visible')
     expect(new MasterCSS().create('overflow:hidden')?.text).toContain('overflow:hidden')

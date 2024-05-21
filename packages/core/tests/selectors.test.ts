@@ -1,3 +1,5 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
 import config from './config'
 
 test('selectors', () => {

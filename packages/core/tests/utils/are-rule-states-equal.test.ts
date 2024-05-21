@@ -1,3 +1,5 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
 import areRuleStatesEqual from '../../src/utils/are-rule-states-equal'
 
 test('states', () => {

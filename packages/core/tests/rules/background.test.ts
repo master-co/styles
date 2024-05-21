@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('background', () => {
     expect(new MasterCSS().create('bg:black')?.text).toContain('background-color:rgb(0 0 0)')
     expect(new MasterCSS().create('bg:#fff')?.text).toContain('background-color:#fff')

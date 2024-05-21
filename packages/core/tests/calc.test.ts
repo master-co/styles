@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
+
 it('calc', () => {
     expect(new MasterCSS().create('w:calc(var(--h)|/|var(--w)*100%)')?.text).toContain('width:calc(var(--h) / var(--w) * 100%)')
     expect(new MasterCSS().create('w:calc($(h)/$(w)*100)')?.text).toContain('width:calc(var(--h) / var(--w) * 100)')

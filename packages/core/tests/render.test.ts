@@ -1,3 +1,5 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../src'
 import '../src/polyfills/css-escape'
 
 it('class to string', () => {

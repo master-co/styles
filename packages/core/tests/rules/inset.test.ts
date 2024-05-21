@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('inset', () => {
     expect(new MasterCSS().create('top:20')?.text).toBe('.top\\:20{top:1.25rem}')
     expect(new MasterCSS().create('bottom:10')?.text).toBe('.bottom\\:10{bottom:0.625rem}')

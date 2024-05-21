@@ -1,3 +1,5 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
 import { Config, Layer } from '../../../src'
 import { NUMBER_VALUE_REGEX } from '../../../src/common'
 

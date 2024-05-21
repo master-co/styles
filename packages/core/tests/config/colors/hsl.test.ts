@@ -1,3 +1,4 @@
+import { it, test, expect, describe } from 'vitest'
 import MasterCSS, { Config } from '../../../src'
 
 // color functions 使用該格式 "hsl(0deg 0% 0%/.5)".match(/([a-zA-Z]+)\((.*?)\)/) 提取 space 及 value

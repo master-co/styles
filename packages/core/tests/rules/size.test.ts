@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('size', () => {
     expect(new MasterCSS().create('size:4x')?.declarations).toStrictEqual({ width: '1rem', height: '1rem' })
     expect(new MasterCSS().create('size:16|32')?.declarations).toStrictEqual({ width: '1rem', height: '2rem' })

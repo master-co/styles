@@ -1,7 +1,10 @@
+import config1 from './master-1-1.css'
+import config2 from './master-1-2.css'
+
 const config = {
     extends: [
-        require('./master-1-1.css'),
-        require('./master-1-2.css'),
+        config1,
+        config2,
     ],
     variables: {
         fourth: '$(first)',

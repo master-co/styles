@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 it('checks scroll-padding order', () => {
     expect(new MasterCSS().add('scroll-px:0', 'scroll-pl:0', 'scroll-pr:0', 'scroll-p:0', 'scroll-pt:0', 'scroll-pb:0', 'scroll-py:0').rules)
         .toMatchObject([

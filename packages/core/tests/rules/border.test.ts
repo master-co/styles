@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('border', () => {
     expect(new MasterCSS().create('border:current')?.text).toContain('border-color:currentColor')
     expect(new MasterCSS().create('border:transparent')?.text).toContain('border-color:transparent')

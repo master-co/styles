@@ -1,4 +1,5 @@
-import MasterCSS from '../../../src'
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
 import config from '../../config'
 import extend from '@techor/extend'
 

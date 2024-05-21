@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('group', () => {
     expect(new MasterCSS().create('{color:black!;bb:2|solid}')?.text).toBe('.\\{color\\:black\\!\\;bb\\:2\\|solid\\}{color:rgb(0 0 0)!important;border-bottom:0.125rem solid}')
     expect(new MasterCSS().create('.content\\:\\\'abc\\\\\\\'_bdc\\\\\\\'\\\'_{fg:#fff}[data-title=\'abc_def\']')?.text).toBe('.content\\:\\\'abc\\\\\\\'_bdc\\\\\\\'\\\' .\\.content\\\\\\:\\\\\\\'abc\\\\\\\\\\\\\\\'_bdc\\\\\\\\\\\\\\\'\\\\\\\'_\\{fg\\:\\#fff\\}\\[data-title\\=\\\'abc_def\\\'\\][data-title=\'abc_def\']{color:#fff}')

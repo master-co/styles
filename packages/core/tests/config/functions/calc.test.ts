@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
+
 it('calc', () => {
     expect(new MasterCSS().create('line-height:calc(32-16)')?.text).toBe('.line-height\\:calc\\(32-16\\){line-height:calc(32 - 16)}')
     expect(new MasterCSS().create('font-size:calc(32-16)')?.text).toBe('.font-size\\:calc\\(32-16\\){font-size:calc(2rem - 1rem)}')

@@ -1,3 +1,6 @@
+import { it, test, expect, describe } from 'vitest'
+import { MasterCSS } from '../../src'
+
 describe('@tve', () => {
     it('scope', () => {
         expect(new MasterCSS({ scope: '.master-css' }).add('pt:2ex').text)

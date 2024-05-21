@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 const config = {
     variables: {
         spacing: { x1: 16 }

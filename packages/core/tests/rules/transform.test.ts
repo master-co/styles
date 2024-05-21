@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('transform', () => {
     expect(new MasterCSS().create('translate(16)')?.text).toBe('.translate\\(16\\){transform:translate(1rem)}')
     expect(new MasterCSS().create('translateY(-5):hover')?.text).toBe('.translateY\\(-5\\)\\:hover:hover{transform:translateY(-0.3125rem)}')

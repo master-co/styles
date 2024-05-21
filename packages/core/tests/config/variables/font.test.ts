@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
+
 it('should be able to access related font variables using inherited rules', () => {
     expect(Object.keys(new MasterCSS().Rules.find(({ id }) => id === 'font')?.variables || {})).toEqual([
         'mono',

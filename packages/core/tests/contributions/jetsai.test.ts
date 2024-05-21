@@ -1,3 +1,5 @@
+import { it, test, expect, describe } from 'vitest'
+import { MasterCSS } from '../../src'
 import { Config } from '../../src/config'
 import { extendConfig } from '../../src'
 
@@ -64,7 +66,6 @@ export const textConfig: Config = {
 const config = extendConfig(colorConfig, textConfig, buttonConfig)
 
 describe('jetsai', () => {
-
     test('button config', () => {
         expect(new MasterCSS(config).add('bg:button-primary').text)
         .toBe('.bg\\:button-primary,.btn-primary{background-color:rgb(34 66 163)}')

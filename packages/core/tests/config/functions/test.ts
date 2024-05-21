@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
+
 test('functions', () => {
     expect(new MasterCSS().create('blur(32)')?.text).toBe('.blur\\(32\\){filter:blur(2rem)}')
     expect(new MasterCSS().create('filter:invert(1)')?.text).toBe('.filter\\:invert\\(1\\){filter:invert(1)}')

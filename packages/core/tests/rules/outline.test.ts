@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('outline', () => {
     expect(new MasterCSS().create('outline:current')?.text).toContain('outline-color:currentColor')
     expect(new MasterCSS().create('outline:transparent')?.text).toContain('outline-color:transparent')

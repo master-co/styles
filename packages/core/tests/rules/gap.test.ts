@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 it('validates gap rules', () => {
     expect(new MasterCSS().create('gap-x:16')?.text).toContain('column-gap:1rem')
     expect(new MasterCSS().create('gap-y:16')?.text).toContain('row-gap:1rem')

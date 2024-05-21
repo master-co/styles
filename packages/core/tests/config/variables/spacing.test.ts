@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
+
 it('should be able to access custom spacing variables using inherited rules', () => {
     const css = new MasterCSS({
         variables: {

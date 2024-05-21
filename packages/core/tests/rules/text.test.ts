@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('text', () => {
     expect(new MasterCSS().create('text:20')?.text).toContain('font-size:1.25rem;line-height:calc(1.25rem + 0.875em)')
     expect(new MasterCSS().create('text:50%')?.text).toContain('font-size:50%;line-height:calc(50% + 0.875em)')

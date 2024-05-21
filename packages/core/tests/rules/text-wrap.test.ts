@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 test('basic', () => {
     expect(new MasterCSS().create('text:wrap')?.text).toContain('.text\\:wrap{text-wrap:wrap}')
     expect(new MasterCSS().create('text:nowrap')?.text).toContain('.text\\:nowrap{text-wrap:nowrap}')

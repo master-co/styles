@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../../src'
+
 test('variable', () => {
     expect(new MasterCSS({ variables: { placement: 'center' } }).create('text-align:$(placement)')?.text).toBe('.text-align\\:\\$\\(placement\\){text-align:center}')
 })

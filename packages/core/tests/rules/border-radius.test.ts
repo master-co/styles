@@ -1,3 +1,6 @@
+import { it, test, expect } from 'vitest'
+import { MasterCSS } from '../../src'
+
 it('validates border-radius rules', () => {
     expect(new MasterCSS().create('r:16')?.text).toContain('border-radius:1rem')
     expect(new MasterCSS().create('border-radius:1rem')?.text).toContain('border-radius:1rem')
