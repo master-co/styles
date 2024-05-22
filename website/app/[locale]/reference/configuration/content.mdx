@@ -6,6 +6,7 @@ import QueriesOverview from '../queries/components/Overview.mdx'
 import SelectorsOverview from '../selectors/components/Overview.mdx'
 import FunctionsOverview from '../functions/components/Overview.mdx'
 import StylesOverview from '../styles/components/Overview.mdx'
+import { config } from '@master/css'
 
 ## Setup [sr-only]
 ```bash name=Terminal
@@ -162,9 +163,9 @@ Generated CSS:
 }
 ```
 
-### `.modeDriver`
+### `.modes`
 Sets how the theme should drive and generate CSS rules.
-<DocProp defaultValue="'class'" types={["'class'", "'media'", "'host'"]} />
+<DocProp defaultValue={JSON.stringify(config.modes)} types={["{ [key: string]: 'class' | 'media' | 'host' | false }"]} />
 ```html
 <div class="bg:black@dark">
 ```
@@ -172,7 +173,9 @@ Sets how the theme should drive and generate CSS rules.
 #### Drive theme styles through CSS classes
 ```js name=master.css.js
 export default {
-+    modeDriver: 'class'
+    modes: {
++        dark: 'class'
+    }
 }
 ```
 Generated CSS:
@@ -183,7 +186,9 @@ Generated CSS:
 #### Drive theme styles through media queries
 ```js name=master.css.js
 export default {
-+    modeDriver: 'media'
+    modes: {
++        dark: 'class'
+    }
 }
 ```
 Generated CSS:
@@ -194,10 +199,13 @@ Generated CSS:
 #### Drive theme styles through shadow DOM's host
 ```js name=master.css.js
 export default {
-+    modeDriver: 'host'
+    modes: {
++        dark: 'host'
+    }
 }
 ```
 Generated CSS:
 ```css
 :host(.dark) .bg\:#000000 { background-color: #000000 }
 ```
+
