@@ -1,29 +1,29 @@
-import pageCategories from '~/data/page-categories.json'
+import referenceCategories from '~/data/reference-categories.json'
 
 ---
 
 ## Variable
 <OverviewButtons>
-    {pageCategories.find(category => category.name === 'Variable').pages}
+    {referenceCategories.find(category => category.name === 'Variable').pages}
 </OverviewButtons>
 
 ---
 
 ## Configuration
 <OverviewButtons>
-    {pageCategories.find(category => category.name === 'Configuration').pages}
+    {referenceCategories.find(category => category.name === 'Configuration').pages}
 </OverviewButtons>
 
 ---
 
 ## Syntax
 <OverviewButtons>
-    {pageCategories.find(category => category.name === 'Syntax').pages}
+    {referenceCategories.find(category => category.name === 'Syntax').pages}
 </OverviewButtons>
 
 ---
 
 ## Package
 <OverviewButtons>
-    {pageCategories.find(category => category.name === 'Package').pages}
+    {referenceCategories.find(category => category.name === 'Package').pages}
 </OverviewButtons>

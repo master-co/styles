@@ -1,3 +1,6 @@
+import MASTER_CSS_CJS_RAW from '~/../packages/create/src/master.css.js.js'
+import MASTER_CSS_ESM_RAW from '~/../packages/create/src/master.css.mjs.js'
+import MASTER_CSS_TS_RAW from '~/../packages/create/src/master.css.ts.js'
 
 ---
 
@@ -53,7 +56,7 @@ npm create @master/css@rc **--ext esm**
     <summary>View the generated file</summary>
     <div>
         <Code lang="js" name="master.css.mjs">
-            {require('../../../../../../packages/create/src/master.css.mjs').default}
+            {MASTER_CSS_ESM_RAW}
         </Code>
     </div>
 </details>
@@ -68,7 +71,7 @@ npm create @master/css@rc **--ext cjs**
     <summary>View the generated file</summary>
     <div>
         <Code lang="js" name="master.css.js">
-            {require('../../../../../../packages/create/src/master.css.js.js').default}
+            {MASTER_CSS_CJS_RAW}
         </Code>
     </div>
 </details>
@@ -83,7 +86,7 @@ npm create @master/css@rc **--ext ts**
     <summary>View the generated file</summary>
     <div>
         <Code lang="js" name="master.css.ts">
-            {require('../../../../../../packages/create/src/master.css.ts.js').default}
+            {MASTER_CSS_TS_RAW}
         </Code>
     </div>
 </details>
@@ -108,4 +111,3 @@ Override the existing Master CSS config file.
 ```bash name=Terminal
 npm create @master/css@rc **--override**
 ```
-../../../../../packages/create/src/master.css.mjs.js../../../../../packages/create/src/master.css.js.js../../../../../packages/create/src/master.css.ts.js

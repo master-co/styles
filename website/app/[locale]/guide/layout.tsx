@@ -3,7 +3,7 @@ import RootLayout from '../../root-layout'
 import i18n from '~/i18n.config.mjs'
 import DocHeader from '~/components/DocHeader'
 import DocSidebar from '~/components/DocSidebar'
-import pageCategories from '~/data/page-categories.json'
+import guideCategories from '~/data/guide-categories.json'
 
 export const metadata = {
     title: {
@@ -23,14 +23,7 @@ export default async function Layout({ children, params }: {
     return (
         <RootLayout bodyClassName='bg:base' locale={params.locale} translations={await importTranslations(params.locale)}>
             <DocHeader contained />
-            <DocSidebar pageCategories={
-                pageCategories.filter(({ name }) => [
-                    'Getting Started',
-                    'Syntax Tutorial',
-                    'Fundamentals',
-                    'Production Optimization'
-                ].includes(name))
-            } />
+            <DocSidebar pageCategories={guideCategories} />
             {children}
         </RootLayout>
     )
