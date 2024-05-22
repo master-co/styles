@@ -8,9 +8,9 @@ import PageContent from 'websites/components/PageContent'
 import fetchLastCommit from 'websites/utils/fetch-last-commit'
 import project from '~/project'
 
-export default async function Layout({ children, pageDirname, params, toc, $hideLeftSide, pageCategories, ...props }: any) {
+export default async function Layout({ children, pageDirname, params, toc, $hideLeftSide, pageCategories, className, ...props }: any) {
     return <>
-        <DocMain $hideRightSide={!toc} $hideLeftSide={$hideLeftSide}>
+        <DocMain $hideRightSide={!toc} $hideLeftSide={$hideLeftSide} className={className}>
             <Article>
                 <ArticleHeader {...props} metadata={props.metadata} />
                 {children}

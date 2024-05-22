@@ -22,7 +22,6 @@ export default async function Layout({ children, params }: {
     return (
         <RootLayout bodyClassName='bg:base' locale={params.locale} translations={await importTranslations(params.locale)}>
             <DocHeader />
-            <DocSidebar />
             {children}
         </RootLayout>
     )

@@ -1734,6 +1734,7 @@ const rules = {
         layer: Layer.Native
     } as RuleDefinition,
     'clip-path': {
+        key: 'clip',
         layer: Layer.Native
     } as RuleDefinition,
     quotes: {

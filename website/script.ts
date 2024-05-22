@@ -96,7 +96,7 @@ export declare type Page = { metadata: Metadata, pathname: string }
         const eachPages = pageGroups[pageGroupKey]
         const eachPagesCategories = generateCategories(eachPages)
         writeFile(`./data/${pageGroupKey}-categories.json`, JSON.stringify(eachPagesCategories, null, 4), () => {
-            console.log(`${pageGroupKey}.json written`)
+            console.log(`${pageGroupKey}-categories.json written`)
         })
         eachPagesCategories.forEach((eachCategory) => {
             sortedPages.push(...eachCategory.pages)

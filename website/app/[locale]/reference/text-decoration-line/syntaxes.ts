@@ -1,6 +1,6 @@
 const syntaxes = [
     ['text-decoration-line:`line`|`…`'],
-    'text:none',
+    'text-decoration:none',
     'text:underline',
     'text:overline',
     'text:line-through'
