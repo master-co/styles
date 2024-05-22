@@ -12,13 +12,13 @@ export default async function Layout(props: any) {
                 description: 'Guide to setting up Master CSS in your Vite project.',
                 category: 'Installation'
             }}
-            backOnClickCategory='/docs/installation'
+            backOnClickCategory='/guide/installation'
             brand={brands.find(({ name }) => name === 'Vite')}
 
         >
             <Tabs className="mb:8x">
-                <Tab href='/docs/installation/vite'>{$('Runtime Rendering')}</Tab>
-                <Tab href='/docs/installation/vite/static-extraction'>{$('Static Extraction')}</Tab>
+                <Tab href='/guide/installation/vite'>{$('Runtime Rendering')}</Tab>
+                <Tab href='/guide/installation/vite/static-extraction'>{$('Static Extraction')}</Tab>
             </Tabs>
             {props.children}
         </DocLayout >

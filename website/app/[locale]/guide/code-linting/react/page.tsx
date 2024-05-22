@@ -16,7 +16,7 @@ export default async function Page(props: any) {
         <Layout {...props} pageDirname={__dirname}
             metadata={metadata}
 
-            backOnClickCategory='/docs/code-linting'
+            backOnClickCategory='/guide/code-linting'
             icon={<LogoSvg width={75} />}
         >
             <Content />

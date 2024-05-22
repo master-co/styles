@@ -1,7 +1,7 @@
 import fg from 'fast-glob'
 import { Metadata } from 'websites/types/Metadata'
 import path from 'upath'
-// import docsInstallationMetadata from './app/[locale]/docs/installation/(tabs)/metadata'
+// import docsInstallationMetadata from './app/[locale]/guide/installation/(tabs)/metadata'
 import { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types.js'
 import { writeFile } from 'fs'
 import categories from './categories.json'

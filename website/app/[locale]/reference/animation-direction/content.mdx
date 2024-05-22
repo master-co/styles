@@ -29,7 +29,7 @@ The animation **reverses direction each cycle** and **the first iteration plays 
 <Basic className="@direction:alt-reverse"/>
 
 ### Fade out
-Reverse the [`@fade`](/docs/animation) animation so that you don't need to define a new keyframe for `fade-out`.
+Reverse the [`@fade`](/reference/animation) animation so that you don't need to define a new keyframe for `fade-out`.
 <Demo>
     <IconCircle className="app-icon-primary stroke:.5 @fade|1s|reverse|infinite" width="48" height="48" />
 </Demo>
@@ -41,7 +41,7 @@ For one-shot animations, remove `infinite`.
 ---
 
 ## Conditionally apply
-Apply styles based on different states using [selectors](/docs/state-selectors) and [conditional queries](/docs/conditional-queries).
+Apply styles based on different states using [selectors](/guide/state-selectors) and [conditional queries](/guide/conditional-queries).
 ```html
 <div class="@direction:normal**:hover**">…</div>
 <div class="@direction:normal**@sm**">…</div>

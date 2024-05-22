@@ -12,14 +12,14 @@ export default async function Layout(props: any) {
                 description: 'Guide to setting up Master CSS in your Next.js project.',
                 category: 'Installation'
             }}
-            backOnClickCategory='/docs/installation'
+            backOnClickCategory='/guide/installation'
             brand={brands.find(({ name }) => name === 'Next.js')}
 
         >
             <Tabs className="mb:8x">
-                <Tab href='/docs/installation/nextjs'>{$('Progressive Rendering')} <TabBadge>{$('Recommanded')}</TabBadge></Tab>
-                <Tab href='/docs/installation/nextjs/runtime-rendering'>{$('Runtime Rendering')}</Tab>
-                <Tab href='/docs/installation/nextjs/static-extraction'>{$('Static Extraction')}</Tab>
+                <Tab href='/guide/installation/nextjs'>{$('Progressive Rendering')} <TabBadge>{$('Recommanded')}</TabBadge></Tab>
+                <Tab href='/guide/installation/nextjs/runtime-rendering'>{$('Runtime Rendering')}</Tab>
+                <Tab href='/guide/installation/nextjs/static-extraction'>{$('Static Extraction')}</Tab>
             </Tabs>
             {props.children}
         </DocLayout >

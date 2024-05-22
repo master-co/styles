@@ -8,10 +8,10 @@ export default async function Layout(props: any) {
     return (
         <DocLayout {...props} metadata={metadata}>
             <Tabs className="mb:8x">
-                <Tab href='/docs/installation'>{$('Guides')}</Tab>
-                <Tab href='/docs/installation/cdn'>{$('CDN')}</Tab>
-                <Tab href='/docs/installation/general'>{$('General')}</Tab>
-                <Tab href='/docs/installation/download' disabled>{$('Download')}</Tab>
+                <Tab href='/guide/installation'>{$('Guides')}</Tab>
+                <Tab href='/guide/installation/cdn'>{$('CDN')}</Tab>
+                <Tab href='/guide/installation/general'>{$('General')}</Tab>
+                <Tab href='/guide/installation/download' disabled>{$('Download')}</Tab>
             </Tabs>
             {props.children}
         </DocLayout >

@@ -1,5 +1,5 @@
 ## Using spacing scale [sr-only]
-The spacing and sizing system is constructed using a [base unit](/docs/configuration#baseunit) of **4 pixels**. For visual consistency, you can use the multiplier unit `x` to apply spacing with the same scale.
+The spacing and sizing system is constructed using a [base unit](/reference/configuration#baseunit) of **4 pixels**. For visual consistency, you can use the multiplier unit `x` to apply spacing with the same scale.
 ```html
 <div class="m:**1x**">4px, margin: 0.25rem</div>
 <div class="p:**2x**">8px, padding: 0.5rem</div>
@@ -32,7 +32,7 @@ export default {
 
 ## Basic usage
 ### Add a spacing
-Customize your spacing [variables](/docs/variables), in `xs~xl`.
+Customize your spacing [variables](/reference/variables), in `xs~xl`.
 ```js name=master.css.js
 export default {
     variables: {
@@ -50,7 +50,7 @@ Apply the defined `spacing` variables using the inherited rules <Heirs />.
     <summary>View the unit test</summary>
     <div>
         <Code lang="ts">
-            {require('!!raw-loader!../../../../../../packages/core/tests/config/variables/spacing.test.ts').default}
+            {require('!!raw-loader!~/../packages/core/tests/config/variables/spacing.test.ts').default}
         </Code>
     </div>
 </details>
@@ -70,4 +70,4 @@ export default {
     }
 }
 ```
-It can be confused with the [unitless values](/docs/style-declarations##unit-sensing).
+It can be confused with the [unitless values](/guide/style-declarations##unit-sensing).

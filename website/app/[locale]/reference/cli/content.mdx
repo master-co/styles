@@ -6,15 +6,15 @@ Scan source files, extract syntax classes, generate CSS rules, and output as a C
 ```bash name=Terminal
 mcss **extract** …
 ```
-The command runs according to the preset [extractor options](/docs/extractor/#options).
+The command runs according to the preset [extractor options](/reference/extractor/#options).
 
 ### `extract [source paths]`
-Explicitly specify sources to scan, ignoring [`options.include`](/docs/extractor#include) and [`options.exclude`](/docs/extractor#exclude) restrictions.
+Explicitly specify sources to scan, ignoring [`options.include`](/reference/extractor#include) and [`options.exclude`](/reference/extractor#exclude) restrictions.
 <DocProp defaultValue="undefined" types={['FastGlobPattern[]']} />
 ```bash name=Terminal
 mcss extract **index.html** **main.js**
 ```
-If no sources are specified, by default, all directories of your current project will be scanned according to [`options.include`](/docs/extractor#include) and [`options.exclude`](/docs/extractor#exclude).
+If no sources are specified, by default, all directories of your current project will be scanned according to [`options.include`](/reference/extractor#include) and [`options.exclude`](/reference/extractor#exclude).
 ```bash name=Terminal
 mcss extract
 ```
@@ -63,7 +63,7 @@ mcss render **"**/*.html"**
 ```
 
 ### `render -c, --config <path>`
-The source path of the Master CSS [configuration](/docs/configuration).
+The source path of the Master CSS [configuration](/reference/configuration).
 <DocProp defaultValue="'master.css.*'" types={['string']} />
 ```bash name=Terminal
 mcss render "**/*.html" **--config dir/master.css.js**

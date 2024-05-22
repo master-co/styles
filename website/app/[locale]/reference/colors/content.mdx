@@ -33,7 +33,7 @@ Apply it using color-related syntax and even change the opacity.
 ### Add a color with opacity
 Add color variables with opacity using `#00000080`, `rgb(0 0 0/.5)`, or `hsl(0 0% 0%/.5)`.
 <Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-a-color-with-opacity/master.css.js').default}</Code>
-Apply it using color-related syntax like [`fg:`](/docs/color).
+Apply it using color-related syntax like [`fg:`](/reference/color).
 <Code lang="html">{require('!!raw-loader!./tests/add-a-color-with-opacity/template.html').default}</Code>
 <details>
     <summary>Generated CSS</summary>
@@ -62,7 +62,7 @@ For example, say you have multiple color variables referencing the same color to
 ### Add an alias with opacity
 Create an alias for a color with opacity to link its value to an existing color.
 <Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-an-alias-with-opacity/master.css.js').default}</Code>
-Apply it using color-related syntax like [`fg:`](/docs/color).
+Apply it using color-related syntax like [`fg:`](/reference/color).
 <Code lang="html">{require('!!raw-loader!./tests/add-an-alias-with-opacity/template.html').default}</Code>
 <details>
     <summary>Generated CSS</summary>
@@ -85,7 +85,7 @@ export default {
     }
 }
 ```
-Apply it using color-related syntax like [`fill:`](/docs/fill).
+Apply it using color-related syntax like [`fill:`](/reference/fill).
 ```html
 <svg class="**fill:primary-20** …">20</svg>
 ```
@@ -101,7 +101,7 @@ Using modes for variables, you can access a single source of truth and simplify 
         <Code lang="css" beautify>{require('!!raw-loader!./tests/add-colors-by-theme/generated.css').default}</Code>
     </div>
 </details>
-By default, theme variables [drive](/docs/configuration#modedriver) inheritance by adding `.light` or `.dark` to the parent element.
+By default, theme variables [drive](/reference/configuration#modedriver) inheritance by adding `.light` or `.dark` to the parent element.
 
 ### Override default colors
 (!) Access the same key as the preset to override default colors, like `blue-5` ~ `blue-95`.

@@ -14,14 +14,14 @@ export default async function Layout(props: any) {
     return (
         <DocLayout {...props}
             metadata={metadata}
-            backOnClickCategory='/docs/installation'
+            backOnClickCategory='/guide/installation'
             brand={brands.find(({ name }) => name === 'Svelte')}
 
         >
             <Tabs className="mb:8x">
-                <Tab href='/docs/installation/svelte'>{$('Progressive Rendering')} <TabBadge>{$('Recommanded')}</TabBadge></Tab>
-                <Tab href='/docs/installation/svelte/runtime-rendering'>{$('Runtime Rendering')}</Tab>
-                <Tab href='/docs/installation/svelte/static-extraction'>{$('Static Extraction')}</Tab>
+                <Tab href='/guide/installation/svelte'>{$('Progressive Rendering')} <TabBadge>{$('Recommanded')}</TabBadge></Tab>
+                <Tab href='/guide/installation/svelte/runtime-rendering'>{$('Runtime Rendering')}</Tab>
+                <Tab href='/guide/installation/svelte/static-extraction'>{$('Static Extraction')}</Tab>
             </Tabs>
             {props.children}
         </DocLayout >

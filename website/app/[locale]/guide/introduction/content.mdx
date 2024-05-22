@@ -7,9 +7,9 @@ The CSS language and framework for rapidly building modern and high-performance 
 Whether you're a solo developer or part of a large team, Master CSS can help you build the [fastest](#minimal-css-on-the-market) and beautiful websites.
 
 ### The CSS language
-Master CSS is a [markup-driven](/docs/markup-driven) CSS language with smart rules allowing you to write familiar CSS using concise syntax within HTML/JSX.
+Master CSS is a [markup-driven](/guide/markup-driven) CSS language with smart rules allowing you to write familiar CSS using concise syntax within HTML/JSX.
 
-Under the hood, Master CSS automatically adds [vendor prefixes](/docs/browser-support), smartly [ordering CSS rules](/docs/markup-driven#smart-rule-ordering), and more. This allows you to focus on building your website rather than spending a lot of effort writing and maintaining CSS rules.
+Under the hood, Master CSS automatically adds [vendor prefixes](/guide/browser-support), smartly [ordering CSS rules](/guide/markup-driven#smart-rule-ordering), and more. This allows you to focus on building your website rather than spending a lot of effort writing and maintaining CSS rules.
 
 <Demo $py={0}>
     <h1 className="fg:indigo fg:red:hover font:32 font:40@sm font:heavy m:10x text:center">Hello World</h1>
@@ -19,14 +19,14 @@ Under the hood, Master CSS automatically adds [vendor prefixes](/docs/browser-su
     Hello World
 </h1>
 ```
-[Declaring styles](/docs/style-declarations) through the `class` attribute, attaching [selector states](/docs/state-selectors), and even base them on [conditional queries](/docs/conditional-queries). There's no need to write any inline style sheets, including creating external CSS files; just add syntax classes in your HTML.
+[Declaring styles](/guide/style-declarations) through the `class` attribute, attaching [selector states](/guide/state-selectors), and even base them on [conditional queries](/guide/conditional-queries). There's no need to write any inline style sheets, including creating external CSS files; just add syntax classes in your HTML.
 
-You can write atomic classes `text:center` or [abstract styles](/docs/styles) `btn` based on the characteristics of your project and team.
+You can write atomic classes `text:center` or [abstract styles](/reference/styles) `btn` based on the characteristics of your project and team.
 
 ### The CSS framework
-Master CSS is a standalone CSS framework that provides various packages and solutions to expedite the development, including integrations for popular JavaScript frameworks, [code linting](#code-linting) for unifying team style, [language service](#language-service) to enhance the developer experience, [configuration](/docs/configuration) API for design systems, and [more](#main-features).
+Master CSS is a standalone CSS framework that provides various packages and solutions to expedite the development, including integrations for popular JavaScript frameworks, [code linting](#code-linting) for unifying team style, [language service](#language-service) to enhance the developer experience, [configuration](/reference/configuration) API for design systems, and [more](#main-features).
 <Packages />
-Is the framework you're using not mentioned above? Check out the official [installation guides](/docs/installation).
+Is the framework you're using not mentioned above? Check out the official [installation guides](/guide/installation).
 
 ---
 
@@ -34,9 +34,9 @@ Is the framework you're using not mentioned above? Check out the official [insta
 The reasons why to use Master CSS with an overview of features, syntax benefits, benchmarks, and a comprehensive comparison:
 
 ### Rendering Modes
-Master CSS provides three [rendering modes](/docs/rendering-modes), and you can choose according to project scale and application scenarios to meet your business needs.
+Master CSS provides three [rendering modes](/guide/rendering-modes), and you can choose according to project scale and application scenarios to meet your business needs.
 
-One of the most unique, the [progressive rendering](/docs/rendering-modes/progressive-rendering) works by pre-rendering the critical CSS based on the element's class names and deferring the loading of the runtime engine for any future dynamic class names.
+One of the most unique, the [progressive rendering](/guide/rendering-modes/progressive-rendering) works by pre-rendering the critical CSS based on the element's class names and deferring the loading of the runtime engine for any future dynamic class names.
 ```html name=index.html
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +53,7 @@ One of the most unique, the [progressive rendering](/docs/rendering-modes/progre
 This ensures the page generates the [ultra-lightweight CSS](#minimal-css-on-the-market) and the fastest first-page render, unlike traditionally bundling styles across the entire application.
 
 ### Design System APIs
-Master CSS provides a set of systematic [configuration](/docs/configuration) APIs to help you build a consistent, easy-to-manage, and scalable design system:
+Master CSS provides a set of systematic [configuration](/reference/configuration) APIs to help you build a consistent, easy-to-manage, and scalable design system:
 <Configuration />
 
 We have built a series of neutral tokens in the default configuration and created a universal Master Design System, which make your design system on top of or use it as a quick starting point.
@@ -87,10 +87,10 @@ Master CSS is the first language to highlight class names fully, making identify
         <InlineCode lang="html" className="font:16@sm">{'<div class="bg:#ceb195:hover@sm …">'}</InlineCode>
     </DemoPanel>
 </Demo>
-This feature is included in the [Master CSS Language Service](/docs/language-service).
+This feature is included in the [Master CSS Language Service](/guide/language-service).
 
 ### Code Linting
-Have you ever felt anxious about adding styles to class attributes? Master CSS was the first to introduce [syntax validation](/docs/code-linting#syntax-error-checks) of classes in template markup, which helps you find errors early before building and dramatically improves the developer experience.
+Have you ever felt anxious about adding styles to class attributes? Master CSS was the first to introduce [syntax validation](/guide/code-linting#syntax-error-checks) of classes in template markup, which helps you find errors early before building and dramatically improves the developer experience.
 <Image className="aspect:2/1 r:2x max-w:screen-xs w:full" src={require('~/public/syntax-error-checks.webp').default} alt="Syntax error checks" unoptimized />
 
 (x) <span className="text:error">Invalid value for \`font\` property.</span>
@@ -99,7 +99,7 @@ Have you ever felt anxious about adding styles to class attributes? Master CSS w
 ```
 This is just a piece of cake; we also allow you to **enforce consistent class ordering**, **legitimate class checks**, **class collision checks**, and checks for JavaScript utilities like **`clsx()`**.
 
-To learn more, check out the [Code Linting](/docs/code-linting) documentation.
+To learn more, check out the [Code Linting](/guide/code-linting) documentation.
 
 ### Minimal CSS on the market
 Initially, Master CSS was intended to create a CSS engine for production browser runtimes, so we concentrated on performance such as syntax parsing, rule generation, cache sharing, and even browser rendering.
@@ -131,7 +131,7 @@ A few notes on using these documents:
     - **Getting Started** for installation, setting up developer tools, and migration guides.
     - **Syntax Tutorial** for learning the core syntax.
     - **Fundamentals** for understanding core principles and concepts.
-    - **Design Variables** for customizing design tokens.
+    - **Variable** for customizing design tokens.
     - **Configuration** for customizing your syntax.
     - **Production Optimization** for minimization and performance.
     - **Syntax** for all syntax references.

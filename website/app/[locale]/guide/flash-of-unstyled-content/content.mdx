@@ -9,7 +9,7 @@ Upon accessing the page, the browser starts rendering the document. However, the
 The unstyled state can occur in a flash if the browser doesn't block rendering while a stylesheet is downloaded and processed.
 
 ### Prevent premature rendering
-When you [pre-render](/docs/rendering-modes/progressive-rendering) the page, the required styles will be included during the page load. FOUC occurs when using only [runtime rendering](/docs/rendering-modes/runtime-rendering).
+When you [pre-render](/guide/rendering-modes/progressive-rendering) the page, the required styles will be included during the page load. FOUC occurs when using only [runtime rendering](/guide/rendering-modes/runtime-rendering).
 
 (o) Include `css display: none` in the `html <html>` to avoid FOUC.
 ```html
@@ -19,7 +19,7 @@ Once the style is injected, the engine will remove the above and notify the brow
 
 The initialization is typically completed within milliseconds, and you don't need to worry about the impact of `css display: none` as it's instantaneous.
 
-By [preloading critical resources](/docs/preload-critical-resources), there will be a bonus effect.
+By [preloading critical resources](/guide/preload-critical-resources), there will be a bonus effect.
 
 ---
 

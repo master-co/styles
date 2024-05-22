@@ -17,7 +17,7 @@
         </div>
     </DemoPanel>
 </Demo>
-Using shorthand with predefined [variables](/docs/variables) to simplify the native syntax.
+Using shorthand with predefined [variables](/reference/variables) to simplify the native syntax.
 ```html
 <div class="font-family:sans">
 +<div class="font:sans">Recommanded
@@ -39,7 +39,7 @@ Set the typeface of an element using the `font-family:` syntax.
 ```html
 <p class="**font-family:cursive**">Heavy boxes perform quick waltzes and jigs.</p>
 ```
-In practice, you wouldn't arbitrarily set the font family within the template; instead, you would unify your fonts through [custom variables](/docs/fonts).
+In practice, you wouldn't arbitrarily set the font family within the template; instead, you would unify your fonts through [custom variables](/reference/fonts).
 
 ### Apply fonts globally
 Relying on the `font-family` inherited behavior, you can set the entire page font in `html <body>`.
@@ -54,7 +54,7 @@ Whitespace is used in the class attribute of the template to separate different 
 ```
 Is it not very kind to use `\00a0` in markup?
 
-(o) Predefine your [font](/docs/fonts) variables without `\00a0`.
+(o) Predefine your [font](/reference/fonts) variables without `\00a0`.
 ```js name=master.css.js
 /** @type {import('@master/css').Config} */
 export default {
@@ -73,7 +73,7 @@ Apply your custom fonts:
 ---
 
 ## Conditionally apply
-Apply styles based on different states using [selectors](/docs/state-selectors) and [conditional queries](/docs/conditional-queries).
+Apply styles based on different states using [selectors](/guide/state-selectors) and [conditional queries](/guide/conditional-queries).
 ```html
 <div class="font:mono**:hover** font:mono**@sm** font:mono**@dark** font:mono**@print**">…</div>
 ```
@@ -86,4 +86,4 @@ Use the `mcss _:where(code,pre)` to select specified elements and apply the font
 ---
 
 ## Customization
-Check out the [custom font guide](/docs/fonts).
+Check out the [custom font guide](/reference/fonts).

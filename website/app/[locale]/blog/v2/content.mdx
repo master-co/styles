@@ -16,7 +16,7 @@ Vestibulum fringilla varius semper. Sed in placerat est, in iaculis urna. Sed at
 ## New Configuration API
 
 ### `.animations`
-You can now customize CSS [animations](/docs/configuration#animations) in `master.css.js`:
+You can now customize CSS [animations](/reference/configuration#animations) in `master.css.js`:
 ```js name=master.css.js
 export default {
     animations: {
@@ -28,7 +28,7 @@ export default {
     }
 }
 ```
-Apply the `fade` keyframe via [animation syntax](/docs/animation):
+Apply the `fade` keyframe via [animation syntax](/reference/animation):
 ```html
 <div class="**@fade|.5s|ease**"></div>
 ```
@@ -60,7 +60,7 @@ It only generates the CSS keyframe rule used:
 +<div class="@play:paused">
 +<div class="@play:running">
 ```
-To learn more, check out the [Animaiton Play State](/docs/animation-play-state) documentation.
+To learn more, check out the [Animaiton Play State](/reference/animation-play-state) documentation.
 
 ### `animation-fill-mode:` to `@fill:`
 ```html
@@ -71,14 +71,14 @@ To learn more, check out the [Animaiton Play State](/docs/animation-play-state) 
 +<div class="@fill:backwards">
 +<div class="@fill:both">
 ```
-To learn more, check out the [Animaiton Fill Mode](/docs/animation-fill-mode) documentation.
+To learn more, check out the [Animaiton Fill Mode](/reference/animation-fill-mode) documentation.
 
 ### `animation-iteration-count:` to `@iteration:`
 ```html
 -<div class="animation-iteration-count:infinite">
 +<div class="@fill:infinite">
 ```
-To learn more, check out the [Animaiton Fill Mode](/docs/animation-iteration-count) documentation.
+To learn more, check out the [Animaiton Fill Mode](/reference/animation-iteration-count) documentation.
 
 ### `animation-direction` values
 ```html
@@ -87,4 +87,4 @@ To learn more, check out the [Animaiton Fill Mode](/docs/animation-iteration-cou
 +<div class="@direction:alt">
 +<div class="@direction:alt-reverse">
 ```
-To learn more, check out the [Animaiton Direction](/docs/animation-direction) documentation.
+To learn more, check out the [Animaiton Direction](/reference/animation-direction) documentation.

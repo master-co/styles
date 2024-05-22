@@ -12,7 +12,7 @@ export default async function Layout(props: any) {
                 description: metadata.description,
                 category: metadata.category
             }}
-            backOnClickCategory='/docs/installation'
+            backOnClickCategory='/guide/installation'
             brand={brands.find(({ name }) => name === 'esm.sh')}
 
         >

@@ -8,7 +8,7 @@ Our syntax concepts draw inspiration from [Sass](https://sass-lang.com) and [Typ
 
 ## Property differences
 
-Master provides various structured property types such as **utilities**, **abbreviations**, **shorthands**, and **symbols**, as well as automatic conversion of property unit values. For detailed usage, please refer to [Style Declarations](/docs/style-declarations).
+Master provides various structured property types such as **utilities**, **abbreviations**, **shorthands**, and **symbols**, as well as automatic conversion of property unit values. For detailed usage, please refer to [Style Declarations](/guide/style-declarations).
 
 ### Colon instead of dash
 
@@ -25,7 +25,7 @@ To avoid conflicts with spaces in `class="a b"`, use the delimiter `|` to separa
 - <div class="shadow-[0_1px_2px_-3px_rgba(0,0,0,0.3)]"></div>
 + <div class="shadow:0|1|2|-3|rgba(0,0,0,.3)"></div>
 ```
-You can observe that the reduced contrast of the delimiter `|`, as highlighted in Master's [syntax highlighting](/docs/language-service) above, is intentional to provide a smoother visual appearance that closely resembles native CSS's whitespace separator ` `:
+You can observe that the reduced contrast of the delimiter `|`, as highlighted in Master's [syntax highlighting](/guide/language-service) above, is intentional to provide a smoother visual appearance that closely resembles native CSS's whitespace separator ` `:
 ```css
 div { box-shadow: 0rem** **0.0625rem** **0.125rem** **-0.1875rem** **rgba(0,0,0,.3) }
 ```
@@ -86,7 +86,7 @@ You can use decimals or percentages to adjust the opacity of colors.
 
 ## 🚧 Configuration
 ### Customizing screens
-Define responsive breakpoints using [queries](/docs/queries).
+Define responsive breakpoints using [queries](/reference/queries).
 ```js name=master.css.js
 -/** @type {import('tailwindcss').Config} */
 -module.exports = {
@@ -125,13 +125,13 @@ Define responsive breakpoints using [queries](/docs/queries).
 -    }
 -}
 ```
-(o) Liberate flexibility with [syntax-first](/docs/responsive-design#syntax-first).
+(o) Liberate flexibility with [syntax-first](/guide/responsive-design#syntax-first).
 ```html
 <div class="hidden**@sm&<md**">
 ```
 
 ### Customizing media queries
-Using [queries](/docs/queries) to define media queries, feature queries, and even container queries.
+Using [queries](/reference/queries) to define media queries, feature queries, and even container queries.
 ```js name=master.css.js
 -/** @type {import('tailwindcss').Config} */
 -module.exports = {

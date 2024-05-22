@@ -14,7 +14,7 @@ export default async function Page(props: any) {
     return (
         <Layout {...props} pageDirname={__dirname}
             metadata={metadata}
-            backOnClickCategory='/docs/language-service'
+            backOnClickCategory='/guide/language-service'
         >
             <Content />
         </Layout >

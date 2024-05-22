@@ -12,13 +12,13 @@ export default async function Layout(props: any) {
                 description: 'Guide to setting up Master CSS in your Blazor project.',
                 category: 'Installation'
             }}
-            backOnClickCategory='/docs/installation'
+            backOnClickCategory='/guide/installation'
             brand={brands.find(({ name }) => name === 'Blazor')}
 
         >
             <Tabs className="mb:8x">
-                <Tab href='/docs/installation/blazor'>{$('Runtime Rendering')}</Tab>
-                <Tab href='/docs/installation/blazor/static-extraction' disabled>{$('Static Extraction')}</Tab>
+                <Tab href='/guide/installation/blazor'>{$('Runtime Rendering')}</Tab>
+                <Tab href='/guide/installation/blazor/static-extraction' disabled>{$('Static Extraction')}</Tab>
             </Tabs>
             {props.children}
         </DocLayout >

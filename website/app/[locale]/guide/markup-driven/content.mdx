@@ -58,9 +58,9 @@ Semantic secondary:
 - Styles that need to be visually consistent, such as primary color, secondary color.
 - Has a standard design system.
 
-Design token is a core methodology for practicing design systems, so appropriately abstracting styles and markup can help you create visually consistent user interfaces more effectively, and Master CSS [configuration](/docs/configuration) is born for this.
+Design token is a core methodology for practicing design systems, so appropriately abstracting styles and markup can help you create visually consistent user interfaces more effectively, and Master CSS [configuration](/reference/configuration) is born for this.
 
-Assuming the card can be reused, you can abstract it using [styles](/docs/styles) with a concise syntax:
+Assuming the card can be reused, you can abstract it using [styles](/reference/styles) with a concise syntax:
 ```js name=master.css.js
 export default {
     styles: {
@@ -208,7 +208,7 @@ It can be elegant:
 <!-- Use a utility class that translates to "display: block" -->
 <div class="block">
 ```
-It can be [stateful and selectable](/docs/selectors):
+It can be [stateful and selectable](/reference/selectors):
 ```html
 <!-- Set a pink background on hover -->
 <div class="bg:pink:hover">
@@ -225,7 +225,7 @@ It can be [stateful and selectable](/docs/selectors):
 <!-- Use simplified :first instead of :nth-child to set pink background -->
 <div class="bg:pink:first">
 ```
-It can be [responsive](/docs/responsive-design) and [conditional](/docs/queries):
+It can be [responsive](/guide/responsive-design) and [conditional](/reference/queries):
 ```html
 <!-- Set width to 50rem, when screen width >=1024 -->
 <div class="width:800@>=1024">
@@ -266,7 +266,7 @@ We take pride in the experience improvement of syntax highlighting in template m
 
 Thanks to the [structured syntax](#structured-syntax) of Master CSS, you can now grasp the prettier markup.
 
-Master CSS also features autocompletion, generated CSS preview, and more. Check out our [Language Service](/docs/language-service) for more information.
+Master CSS also features autocompletion, generated CSS preview, and more. Check out our [Language Service](/guide/language-service) for more information.
 
 ---
 

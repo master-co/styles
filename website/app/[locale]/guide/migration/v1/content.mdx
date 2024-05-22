@@ -13,14 +13,14 @@ The Master CSS Runtime has been separated from the `@master/css` package and is 
 -init()
 +initCSSRuntime(config)
 ```
-To fully step in, check out the [General Installation](/docs/installation/general) documentation.
+To fully step in, check out the [General Installation](/guide/installation/general) documentation.
 
 #### Using CDNs
 ```html
 -<script src="https://cdn.master.co/css"></script>
 +<script src="https://cdn.master.co/css-runtime@rc"></script>
 ```
-To fully step in, check out the [Using CDNs](/docs/installation/cdn) documentation.
+To fully step in, check out the [Using CDNs](/guide/installation/cdn) documentation.
 
 ### Pre-rendering on server
 The Master CSS Renderer has been separated from the `@master/css` package and is now available as `@master/css-server`.
@@ -38,7 +38,7 @@ app.get('/', function(req, res) {
     })
 })
 ```
-Learn how to enable Master CSS progressive rendering in frameworks with [guides](/docs/installation).
+Learn how to enable Master CSS progressive rendering in frameworks with [guides](/guide/installation).
 
 ---
 
@@ -69,10 +69,10 @@ Apply the variables:
 ```html
 <div class="fg:primary mt:md"></div>
 ```
-To learn more, check out those documents: [Colors](/docs/colors), [Fonts](/docs/fonts), [Screen Sizes](/docs/screen-sizes), [Spacing & Sizing](/docs/spacing-and-sizing), [Variables](/docs/variables)
+To learn more, check out those documents: [Colors](/reference/colors), [Fonts](/reference/fonts), [Screen Sizes](/reference/screen-sizes), [Spacing & Sizing](/reference/spacing-and-sizing), [Variables](/reference/variables)
 
 ### Using new custom animations
-In v2, you can apply the [default animations](/docs/animations) out of the box:
+In v2, you can apply the [default animations](/reference/animations) out of the box:
 ```html
 <div class="**@ping|1s|infinite**"></div>
 ```
@@ -80,7 +80,7 @@ We built in commonly used animations, and the `@master/keyframes.css` package is
 ```css name=main.css
 -@import '@master/keyframes.css';
 ```
-To customize keyframes, check out the [Animations](/docs/animations) documentation.
+To customize keyframes, check out the [Animations](/reference/animations) documentation.
 
 ### Using abstract styles
 Deprecate extended `classes` ​​in favor of `config.styles`.
@@ -101,7 +101,7 @@ Apply the style:
 ```html
 <button class="btn"></button>
 ```
-To learn more, check out the [Styles](/docs/styles) documentation.
+To learn more, check out the [Styles](/reference/styles) documentation.
 
 ### Merging media queries
 Deprecate extended `breakpoints` and `queries` ​​in favor of `config.queries`.
@@ -123,7 +123,7 @@ Deprecate extended `breakpoints` and `queries` ​​in favor of `config.queries
 +    }
 +}
 ```
-To learn more, check out the [Queries](/docs/queries) documentation.
+To learn more, check out the [Queries](/reference/queries) documentation.
 
 ### Unknown tokens as themes
 Deprecated `colorSchemes` and considered unknown media query tokens as themes.
@@ -157,8 +157,8 @@ In v1, the default value for `color` was linked to `color-50`. In v2, the defaul
 ```
 
 To learn more, check out:
-- [Color](/docs/color) for text and foreground colors
-- [Colors](/docs/colors) for default colors and color variables
+- [Color](/reference/color) for text and foreground colors
+- [Colors](/reference/colors) for default colors and color variables
 
 ### Accessing variables
 In v1, `$(key)` equals `var(--key)`.
@@ -204,7 +204,7 @@ The good news is that this significantly improves runtime performance, as the nu
 ### Refactoring colors
 Following the above, we found that each color had to rely on visual adjustments after going through the design system and component construction.
 
-See the [Colors](/docs/colors) documentation.
+See the [Colors](/reference/colors) documentation.
 
 Also, we inverted the colors, which was probably the most painful change from v1 to v2.
 ```html
@@ -216,7 +216,7 @@ Also, we inverted the colors, which was probably the most painful change from v1
 
 ## Compatibility
 ### Using v1 colors
-For those who prefer v1 colors, we separated colors from `@master/css` and created a new package [`@master/colors`](https://github.com/master-co/colors) to allow you to continue using [v1 colors](https://v1.css.master.co/docs/colors).
+For those who prefer v1 colors, we separated colors from `@master/css` and created a new package [`@master/colors`](https://github.com/master-co/colors) to allow you to continue using [v1 colors](https://v1.css.master.co/reference/colors).
 
 Since the structure exported by Master Colors v1 and v2 is the same, you can override the dependent `@master/colors@2` version in `@master/css@2` to v1 by specifying the [`overrides`](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#overrides) field in `package.json`.
 ```json name=package.json

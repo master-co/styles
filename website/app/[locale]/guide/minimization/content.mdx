@@ -14,9 +14,9 @@
 This works fine, but even if you only used one `animation1` of the keyframes, the other unused ones would still be included in the final output and runtime style sheet.
 
 ### Using animations API
-Master CSS [animations](/docs/animations) work by parsing the `animation` and `animation-name` component values and generating the corresponding CSS keyframe into the stylesheet.
+Master CSS [animations](/reference/animations) work by parsing the `animation` and `animation-name` component values and generating the corresponding CSS keyframe into the stylesheet.
 
-(o) Customize your keyframes using the Master CSS [animations API](/docs/animations).
+(o) Customize your keyframes using the Master CSS [animations API](/reference/animations).
 ```js name=master.css.js
 export default {
     animations: {
@@ -26,7 +26,7 @@ export default {
     }
 }
 ```
-For example, apply the custom `animation1` using the [animation](/docs/animation) syntax:
+For example, apply the custom `animation1` using the [animation](/reference/animation) syntax:
 ```html
 <div class="**@animation1|.5s**"></div>
 ```

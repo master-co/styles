@@ -20,10 +20,10 @@ Master CSS 2.0 might be one of the most time-consuming versions, nearly two year
 
 Thus, there's a plethora of amazing features brewing for a grand explosion upon the official release!
 
-Here's a sneak peek into some of the new features, or you can check out the [migration guide from v1](/docs/migration/v1) to glimpse at some of the new functionalities.
+Here's a sneak peek into some of the new features, or you can check out the [migration guide from v1](/guide/migration/v1) to glimpse at some of the new functionalities.
 
 ### Master CSS Nuxt
-A new integration package, `@master/css.nuxt`, which helps you set up the Master CSS server in your [Nuxt.js](/docs/installation/nuxtjs) project with ease.
+A new integration package, `@master/css.nuxt`, which helps you set up the Master CSS server in your [Nuxt.js](/guide/installation/nuxtjs) project with ease.
 ```ts name=nuxt.config.ts
 export default defineNuxtConfig({
     modules: [
@@ -41,15 +41,15 @@ One of our proud products, Master CSS ESLint, the first CSS framework with synta
 ```html
 <div class="**font:**">…</div>
 ```
-This is just one of the features, see the [Code Linting](/docs/code-linting) for complete details.
+This is just one of the features, see the [Code Linting](/guide/code-linting) for complete details.
 
 ### Master Colors
-Refactoring a color palette is a challenging task with no formulas or standards. The all-new [colors](/docs/colors) in 2.0 relies entirely on our experience with UI components and intuitive blending.
+Refactoring a color palette is a challenging task with no formulas or standards. The all-new [colors](/reference/colors) in 2.0 relies entirely on our experience with UI components and intuitive blending.
 <figure>
     <Image src={require('~/public/colors.svg').default} className="r:2x" alt="Master Colors" />
     <figcaption>A crafted color system for beautiful user interfaces</figcaption>
 </figure>
-There are built-in Master CSS color variables based on theme modes. For example, applying a meticulously designed [text color](/docs/text-colors) that works in light/dark mode.
+There are built-in Master CSS color variables based on theme modes. For example, applying a meticulously designed [text color](/reference/text-colors) that works in light/dark mode.
 <Demo $py={0} $px={0}>
     <DemoLight>
         <div className="fg:violet font:heavy font:96">M</div>
@@ -76,7 +76,7 @@ Now, you can install it separately anywhere.
 ```
 
 ### Master CSS Configuration
-The protagonist of v2 is here - a brand-new [configuration API](/docs/configuration) designed specifically for design systems. For keeping a fresh feeling of what's released, please refer to the documentation first.
+The protagonist of v2 is here - a brand-new [configuration API](/reference/configuration) designed specifically for design systems. For keeping a fresh feeling of what's released, please refer to the documentation first.
 
 ### Master Theme Mode
 Used for setting and switching theme modes, the "packages/theme-mode" has been spun off into a new repository [master-co/theme-mode](https://github.com/master-co/theme-mode).
@@ -152,7 +152,7 @@ The CDN is changed to "css-runtime".
 There are no major changes; it operates as usual.
 
 ### Master Normal CSS
-The "packages/normal.css" for normalizing [global styles](/docs/global-styles) has been spun off into a new repository [master-co/normal.css](https://github.com/master-co/normal.css).
+The "packages/normal.css" for normalizing [global styles](/guide/global-styles) has been spun off into a new repository [master-co/normal.css](https://github.com/master-co/normal.css).
 
 Now, install the stable version without specifying `@rc`!
 ```install
@@ -166,7 +166,7 @@ There's more, let's save it for a big bang with the v2 release!
 ---
 
 ## Product planning
-Initially planned to sprint full throttle towards Master UI after v1's release, but after absorbing some community feedback and delving into more real-world applications, we realized that Master CSS's support for design systems was insufficient. Hence, we focused on strengthening the [configuration API](/docs/configuration) and shaping the syntax instead.
+Initially planned to sprint full throttle towards Master UI after v1's release, but after absorbing some community feedback and delving into more real-world applications, we realized that Master CSS's support for design systems was insufficient. Hence, we focused on strengthening the [configuration API](/reference/configuration) and shaping the syntax instead.
 
 We don't want to hastily release peripherals or even paid products before the product matures, leaving a heavy burden for future improvements.
 
@@ -225,7 +225,7 @@ Great, but what about framework-agnostic?
 ```
 Or embrace utilities again!
 
-(i) D. Import all Master UI [styles](/docs/styles) in the configuration.
+(i) D. Import all Master UI [styles](/reference/styles) in the configuration.
 ```js name=master.css.js
 export default {
     extends: [
@@ -254,7 +254,7 @@ There are still some peripheral features and core documentation that are not yet
 - [ ] Minor － Refactoring the Master CSS Language Service based on new features and improving development experience.
 - [ ] Minor － Basic usage and examples for various syntax documentation.
 
-Major tasks will be completed before the v2 release; minor tasks like extensive use cases of CSS properties will be filled in our future day-to-day work. Here's an example, [`text-transform`](/docs/text-transform)：
+Major tasks will be completed before the v2 release; minor tasks like extensive use cases of CSS properties will be filled in our future day-to-day work. Here's an example, [`text-transform`](/reference/text-transform)：
 <Demo $py={0}>
     <DemoPanel>
         <DemoP><b className="bg:stripe-pink">H</b>eavy <b className="bg:stripe-pink">B</b>oxes <b className="bg:stripe-pink">P</b>erform <b className="bg:stripe-pink">Q</b>uick <b className="bg:stripe-pink">W</b>altzes <b className="bg:stripe-pink">A</b>nd <b className="bg:stripe-pink">J</b>igs.</DemoP>

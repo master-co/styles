@@ -25,7 +25,7 @@ export default async function Layout({ children, params }: {
             <DocHeader contained />
             <DocSidebar pageCategories={
                 pageCategories.filter(({ name }) => [
-                    'Design Variables',
+                    'Variable',
                     'Configuration',
                     'Syntax',
                     'Package'

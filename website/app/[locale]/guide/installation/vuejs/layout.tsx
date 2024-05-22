@@ -12,13 +12,13 @@ export default async function Layout(props: any) {
                 description: 'Guide to setting up Master CSS in your Vue.js project.',
                 category: 'Installation'
             }}
-            backOnClickCategory='/docs/installation'
+            backOnClickCategory='/guide/installation'
             brand={brands.find(({ name }) => name === 'Vue.js')}
 
         >
             <Tabs className="mb:8x">
-                <Tab href='/docs/installation/vuejs'>{$('Runtime Rendering')} <TabBadge>{$('Recommanded')}</TabBadge></Tab>
-                <Tab href='/docs/installation/vuejs/static-extraction'>{$('Static Extraction')}</Tab>
+                <Tab href='/guide/installation/vuejs'>{$('Runtime Rendering')} <TabBadge>{$('Recommanded')}</TabBadge></Tab>
+                <Tab href='/guide/installation/vuejs/static-extraction'>{$('Static Extraction')}</Tab>
             </Tabs>
             {props.children}
         </DocLayout >
