@@ -1,6 +1,5 @@
 const syntaxes = [
     ['text-decoration-style:`style`'],
-    'text:none',
     'text:dashed',
     'text:dotted',
     'text:double',
