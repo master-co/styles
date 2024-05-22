@@ -2,7 +2,7 @@ import { Metadata } from 'websites/types/Metadata'
 
 const metadata: Metadata = {
     title: 'API Reference',
-    description: 'Get a quick overview of Master CSS references.',
+    description: 'This section provides detailed reference documentation for working with Master CSS.',
     category: 'Overview'
 }
 

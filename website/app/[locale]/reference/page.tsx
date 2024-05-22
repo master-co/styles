@@ -1,7 +1,7 @@
 import Layout from '~/layouts/doc'
 import metadata from './metadata'
 /* @ts-expect-error toc */
-import Content, { toc } from './content.mdx'
+import Content from './content.mdx'
 import { generate } from '~/utils/metadata'
 
 export const dynamic = 'force-static'
@@ -13,7 +13,7 @@ export async function generateMetadata(props: any, parent: any) {
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageDirname={__dirname} metadata={metadata} toc={toc}>
+        <Layout {...props} pageDirname={__dirname} metadata={metadata}>
             <Content />
         </Layout >
     )

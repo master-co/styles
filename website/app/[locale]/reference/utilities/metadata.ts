@@ -3,7 +3,7 @@ import { Metadata } from 'websites/types/Metadata'
 const metadata: Metadata = {
     title: 'Utilities',
     description: 'Customizing utility classes for your design system.',
-    category: 'Custom Syntax',
+    category: 'Configuration',
     unfinished: true
 }
 

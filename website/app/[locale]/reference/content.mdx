@@ -1,2 +1,30 @@
-## What is Master CSS?
-The CSS language and framework for rapidly building modern and high-performance websites.
+import pageCategories from '~/data/page-categories.json'
+
+---
+
+## Design Variables
+Variable references based on the Master Design System help you customize consistent web fonts, spacing, colors, and more.
+<OverviewButtons>
+    {pageCategories.find(category => category.name === 'Design Variables').pages}
+</OverviewButtons>
+
+---
+
+## Configuration
+<OverviewButtons>
+    {pageCategories.find(category => category.name === 'Configuration').pages}
+</OverviewButtons>
+
+---
+
+## Syntax
+<OverviewButtons>
+    {pageCategories.find(category => category.name === 'Syntax').pages}
+</OverviewButtons>
+
+---
+
+## Package
+<OverviewButtons>
+    {pageCategories.find(category => category.name === 'Package').pages}
+</OverviewButtons>

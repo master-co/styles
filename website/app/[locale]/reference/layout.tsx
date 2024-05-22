@@ -26,7 +26,7 @@ export default async function Layout({ children, params }: {
             <DocSidebar pageCategories={
                 pageCategories.filter(({ name }) => [
                     'Design Variables',
-                    'Custom Syntax',
+                    'Configuration',
                     'Syntax',
                     'Package'
                 ].includes(name))
