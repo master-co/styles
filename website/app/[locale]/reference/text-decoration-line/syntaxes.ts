@@ -1,8 +1,8 @@
 const syntaxes = [
     ['text-decoration-line:`line`|`…`'],
-    'text:underline',
-    'text:overline',
-    'text:line-through'
+    'text-decoration:underline',
+    'text-decoration:overline',
+    'text-decoration:line-through'
 ]
 
 export default syntaxes
