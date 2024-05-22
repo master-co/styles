@@ -3,6 +3,7 @@ import Content from './content.mdx'
 import { generate } from '~/utils/metadata'
 import { createTranslation } from '~/i18n'
 import DocLayout from '~/layouts/reference'
+import pageCategories from '~/data/guide-categories.json'
 
 export const dynamic = 'force-static'
 export const revalidate = false
@@ -14,7 +15,7 @@ export async function generateMetadata(props: any, parent: any) {
 export default async function Layout(props: any) {
     const $ = await createTranslation(props.params.locale)
     return (
-        <DocLayout {...props} metadata={metadata}>
+        <DocLayout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
             <Content />
         </DocLayout >
     )

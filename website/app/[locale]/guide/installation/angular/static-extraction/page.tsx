@@ -1,4 +1,5 @@
 import Layout from '~/layouts/reference'
+import pageCategories from '~/data/guide-categories.json'
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'

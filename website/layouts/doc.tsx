@@ -3,13 +3,12 @@ import ArticleHeader from 'websites/components/ArticleHeader'
 import PageNavs from 'websites/components/PageNavs'
 import DocMain from '../components/DocMain'
 import DocFooter from '../components/DocFooter'
-import pages from '~/data/pages.json'
 import PageContent from 'websites/components/PageContent'
 import clsx from 'clsx'
 import fetchLastCommit from 'websites/utils/fetch-last-commit'
 import project from '~/project'
 
-export default async function Layout({ children, pageDirname, params, toc, $prose, $hideLeftSide, ...props }: any) {
+export default async function Layout({ children, pageDirname, params, toc, $prose, $hideLeftSide, pageCategories, ...props }: any) {
     return (
         <>
             <DocMain $hideRightSide={!toc} $hideLeftSide={$hideLeftSide}>
@@ -17,7 +16,7 @@ export default async function Layout({ children, pageDirname, params, toc, $pros
                     <ArticleHeader {...props} metadata={props.metadata} />
                     {children}
                 </Article>
-                <PageNavs metadata={props.metadata} pages={pages} />
+                <PageNavs metadata={props.metadata} pageCategories={pageCategories} />
                 <DocFooter locale={params.locale} />
             </DocMain>
             {toc && <PageContent locale={params.locale} metadata={props.metadata} pageDirname={pageDirname} lastCommit={await fetchLastCommit(pageDirname, project)}>{toc}</PageContent>}

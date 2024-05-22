@@ -1,12 +1,13 @@
 import Tabs, { Tab } from 'websites/components/Tabs'
 import { createTranslation } from '~/i18n'
 import DocLayout from '~/layouts/reference'
+import pageCategories from '~/data/guide-categories.json'
 import metadata from './metadata'
 
 export default async function Layout(props: any) {
     const $ = await createTranslation(props.params.locale)
     return (
-        <DocLayout {...props} metadata={metadata}>
+        <DocLayout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
             <Tabs className="mb:8x">
                 <Tab href='/guide/installation'>{$('Guides')}</Tab>
                 <Tab href='/guide/installation/cdn'>{$('CDN')}</Tab>

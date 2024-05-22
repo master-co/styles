@@ -1,4 +1,5 @@
 import Layout from '~/layouts/reference'
+import pageCategories from '~/data/guide-categories.json'
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
@@ -13,7 +14,7 @@ export async function generateMetadata(props: any, parent: any) {
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageDirname={__dirname} metadata={metadata} toc={toc} backOnClickCategory='/guide/migration'>
+        <Layout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata} toc={toc} backOnClickCategory='/guide/migration'>
             <Content />
         </Layout >
     )

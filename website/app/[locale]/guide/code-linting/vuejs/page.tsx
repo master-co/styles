@@ -1,4 +1,5 @@
 import Layout from '~/layouts/reference'
+import pageCategories from '~/data/guide-categories.json'
 import metadata from './metadata'
 import Content from './content.mdx'
 import { generate } from '~/utils/metadata'
@@ -13,7 +14,7 @@ export async function generateMetadata(props: any, parent: any) {
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageDirname={__dirname}
+        <Layout {...props} pageCategories={pageCategories} pageDirname={__dirname}
             metadata={metadata}
             backOnClickCategory='/guide/code-linting'
             icon={<LogoSvg width={64} />}

@@ -8,14 +8,14 @@ import PageContent from 'websites/components/PageContent'
 import fetchLastCommit from 'websites/utils/fetch-last-commit'
 import project from '~/project'
 
-export default async function Layout({ children, pageDirname, params, toc, $hideLeftSide, ...props }: any) {
+export default async function Layout({ children, pageDirname, params, toc, $hideLeftSide, pageCategories, ...props }: any) {
     return <>
         <DocMain $hideRightSide={!toc} $hideLeftSide={$hideLeftSide}>
             <Article>
                 <ArticleHeader {...props} metadata={props.metadata} />
                 {children}
             </Article>
-            <PageNavs metadata={props.metadata} pages={pages} />
+            <PageNavs metadata={props.metadata} pageCategories={pageCategories} />
             <DocFooter locale={params.locale} />
         </DocMain>
         {toc && <PageContent locale={params.locale} metadata={props.metadata} pageDirname={pageDirname} lastCommit={await fetchLastCommit(pageDirname, project)}>{toc}</PageContent>}
