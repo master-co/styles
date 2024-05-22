@@ -5,8 +5,7 @@ const redirects = [
     { source: '/sandbox/:path*', destination: '/play/:path*', permanent: false },
     { source: '/docs/guides', destination: '/guide/installation', permanent: false },
     { source: '/docs/spacing', destination: '/reference/spacing-and-sizing', permanent: false },
-    { source: '/docs', destination: '/guide/introduction', permanent: false },
-    { source: '/guide', destination: '/guide/introduction', permanent: false }
+    { source: '/docs', destination: '/guide', permanent: false },
 ]
 
 export default [

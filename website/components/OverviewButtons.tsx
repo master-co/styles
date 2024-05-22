@@ -7,7 +7,7 @@ export default ({ children, className, url }: any) =>
         children.map((page: Page) =>
             <Link key={page.pathname}
                 className={clsx(
-                    'app-object app-object-interactive flex:col p:5x|6x r:5 align-items:start! justify-content:start!',
+                    'app-object app-object-interactive align-items:start! flex:col justify-content:start! p:5x|6x r:5 text:left',
                     {
                         'disabled': page.metadata?.disabled
                     }
@@ -15,7 +15,7 @@ export default ({ children, className, url }: any) =>
                 href={page.pathname}
                 disabled={page.metadata?.disabled}
                 rel="noreferrer noopener">
-                <div className='text:18'>{page.metadata.title as string}</div>
+                <div className='text:18'>{((page.metadata.title as any)?.absolute || page.metadata.title) as string}</div>
                 <div className='text:14 fg:light lines:2'>{page.metadata.description as string}</div>
             </Link>
         )

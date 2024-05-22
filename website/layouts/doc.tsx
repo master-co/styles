@@ -12,7 +12,7 @@ export default async function Layout({ children, pageDirname, params, toc, $pros
     return (
         <>
             <DocMain $hideRightSide={!toc} $hideLeftSide={$hideLeftSide}>
-                <Article className={clsx({ 'max-w:screen-sm_:where(p)': !toc })} $prose>
+                <Article $prose>
                     <ArticleHeader {...props} metadata={props.metadata} />
                     {children}
                 </Article>

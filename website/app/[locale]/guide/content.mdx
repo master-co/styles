@@ -1,0 +1,61 @@
+import guideCategories from '~/data/guide-categories.json'
+
+---
+
+## Getting Started
+<OverviewButtons>
+    {guideCategories.find(category => category.name === 'Getting Started').pages}
+</OverviewButtons>
+
+---
+
+## Syntax Tutorial
+<OverviewButtons>
+    {guideCategories.find(category => category.name === 'Syntax Tutorial').pages}
+</OverviewButtons>
+
+---
+
+## Fundamentals
+<OverviewButtons>
+    {guideCategories.find(category => category.name === 'Fundamentals').pages}
+</OverviewButtons>
+
+---
+
+## Production Optimization
+<OverviewButtons>
+    {guideCategories.find(category => category.name === 'Production Optimization').pages}
+</OverviewButtons>
+
+---
+
+## Get ready for the journey
+### Use documentation
+You can embark on an in-depth study of Master CSS without prior CSS expertise. Each document features demonstrations and fundamental usages of the intended functionalities.
+
+The Master CSS helps you lower the threshold for learning CSS.
+
+A few notes on using these documents:
+
+1. Get an overview of almost all the documents via the navigation on the left side of the screen, and there are only a few categories.
+2. On the right side, you'll see a table of contents that makes navigating between page sections easier.
+3. Click the search box on the left side or use the shortcut <KeyCap>Ctrl</KeyCap> + <KeyCap>K</KeyCap> or <KeyCap>⌘ Command</KeyCap> + <KeyCap>K</KeyCap> to search the entire site.
+4. Every class name in the document can preview the generated CSS rules by hovering.
+    ```html
+    <div class="**hidden@<sm&>md**">Try hovering over the class</div>
+    ```
+
+### Try Master CSS online
+You can use the official [Master CSS Play](/play) to edit, preview, view the generated size, and even share your design online.
+
+<Image className="r:2x max-w:screen-xs w:full" src={require('~/public/images/play.png').default} alt="Master CSS Play" placeholder="blur" />
+
+### Join our community
+If you have questions about Master CSS, you're always welcome to ask our community on:
+
+- [GitHub Discussions](https://github.com/master-co/css/discussions): Ask questions and share insights.
+- [Discord](https://discord.com/invite/sZNKpAAAw6): Join real-time conversations with humans.
+- [Twitter](https://twitter.com/mastercorg): Stay updated on Master CSS
+
+We're here to support your Master CSS journey!
