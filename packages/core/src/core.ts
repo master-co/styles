@@ -31,7 +31,7 @@ export default class MasterCSS {
     readonly Rules: RegisteredRule[] = []
 
     constructor(
-        public customConfig: Config = defaultConfig
+        public customConfig?: Config
     ) {
         if (!customConfig?.override) {
             this.config = extendConfig(defaultConfig, customConfig)
