@@ -1,8 +1,8 @@
-import { IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
+import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
 import roadmap from './app/[locale]/roadmap/metadata'
 
 const links = [
-    { name: 'Guide', href: '/guide', Icon: IconFileText },
+    { name: 'Guide', href: '/guide', Icon: IconCompass },
     { name: 'Reference', fullName: 'API Reference', href: '/reference', Icon: IconFileText },
     { name: 'Play', href: '/play', Icon: IconSourceCode },
     { name: 'Roadmap', href: '/roadmap', Icon: IconRoad, date: roadmap.date },

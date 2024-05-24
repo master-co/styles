@@ -8,8 +8,7 @@ const metadata: Metadata = {
     category: 'Getting Started',
     other: {
         subject: 'Migration'
-    },
-    order: 5
+    }
 }
 
 export default metadata

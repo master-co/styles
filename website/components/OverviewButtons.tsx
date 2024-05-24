@@ -15,8 +15,8 @@ export default ({ children, className, url }: any) =>
                 href={page.pathname}
                 disabled={page.metadata?.disabled}
                 rel="noreferrer noopener">
-                <div className='text:18'>{((page.metadata.title as any)?.absolute || page.metadata.title) as string}</div>
-                <div className='text:14 fg:light lines:2'>{page.metadata.description as string}</div>
+                <div className='font:16 leading:1.6 font:semibold'>{((page.metadata.title as any)?.absolute || page.metadata.title) as string}</div>
+                <div className='fg:light lines:2 text:12 mt:1x'>{page.metadata.description as string}</div>
             </Link>
         )
     }</div >

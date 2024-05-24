@@ -1,27 +1,19 @@
 import guideCategories from '~/data/guide-categories.json'
 
----
-
 ## Getting Started
 <OverviewButtons>
     {guideCategories.find(category => category.name === 'Getting Started').pages}
 </OverviewButtons>
-
----
 
 ## Syntax Tutorial
 <OverviewButtons>
     {guideCategories.find(category => category.name === 'Syntax Tutorial').pages}
 </OverviewButtons>
 
----
-
 ## Fundamentals
 <OverviewButtons>
     {guideCategories.find(category => category.name === 'Fundamentals').pages}
 </OverviewButtons>
-
----
 
 ## Production Optimization
 <OverviewButtons>

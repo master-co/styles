@@ -33,7 +33,14 @@ Is the framework you're using not mentioned above? Check out the official [insta
 ## Why Master CSS?
 The reasons why to use Master CSS with an overview of features, syntax benefits, benchmarks, and a comprehensive comparison:
 
-### Rendering Modes
+### Minimal CSS Output
+This is a real-world benchmark of [critical CSS](https://web.dev/articles/codelab-extract-and-inline-critical-css) on page load for well-known official documentation websites.
+<CriticalCSSForDocsSitesBenchmark />
+According to HTTP Archive [CSS Bytes](https://httparchive.org/reports/page-weight#bytesCss), the sum of transfer size kilobytes of all external stylesheets requested by the page is **~82 kB**, excluding internal and inline styles.
+
+Master CSS only injects the CSS required by the page, so the official documentation site is super tiny, about **~6 kB per page** (brotli).
+{/* Reducing [critical CSS](https://web.dev/articles/codelab-extract-and-inline-critical-css) can improve page loading speed, browser rendering performance, and SEO metrics. */}
+
 Master CSS provides three [rendering modes](/guide/rendering-modes), and you can choose according to project scale and application scenarios to meet your business needs.
 
 One of the most unique, the [progressive rendering](/guide/rendering-modes/progressive-rendering) works by pre-rendering the critical CSS based on the element's class names and deferring the loading of the runtime engine for any future dynamic class names.
@@ -42,7 +49,12 @@ One of the most unique, the [progressive rendering](/guide/rendering-modes/progr
 <html lang="en">
 <head>
     …
-+    <style id="master">.block{display:block}</style>
+    <!-- Generate only the critical CSS required for the page. -->
+    <style id="master">
++       .block {
++           display: block
++       }
+    </style>
     <script src="https://cdn.master.co/css-runtime@rc" defer></script>
 </head>
 <body>
@@ -50,13 +62,17 @@ One of the most unique, the [progressive rendering](/guide/rendering-modes/progr
 </body>
 </html>
 ```
-This ensures the page generates the [ultra-lightweight CSS](#minimal-css-on-the-market) and the fastest first-page render, unlike traditionally bundling styles across the entire application.
+This ensures the page generates the ultra-lightweight CSS and the fastest first-page render, unlike traditionally bundling styles across the entire application.
 
-### Design System APIs
+Initially, Master CSS was intended to create a CSS engine for production browser runtimes, so we concentrated on performance such as syntax parsing, rule generation, cache sharing, and even browser rendering.
+
+Master CSS doesn't use heavy-duty build tools like PostCSS, Autoprefixer, or any minifiers, as these rules are generated with optimization.
+
+### Custom Design Systems
 Master CSS provides a set of systematic [configuration](/reference/configuration) APIs to help you build a consistent, easy-to-manage, and scalable design system:
 <Configuration />
 
-We have built a series of neutral tokens in the default configuration and created a universal Master Design System, which make your design system on top of or use it as a quick starting point.
+We've built a series of neutral tokens in the default configuration and created a universal Master Design System, which make your design system on top of or use it as a quick starting point.
 <DesignVariables />
 This is just one part; more design variables and tokens are scattered throughout the syntax documentation.
 
@@ -70,7 +86,7 @@ For example, the utility class `capitalize` is used to simplify `css text-transf
 <p class="**capitalize**">Heavy boxes perform quick waltzes and jigs.</p>
 ```
 
-### Syntax Highlighting
+### Innovative Syntax Highlighting
 Master CSS is the first language to highlight class names fully, making identifying their properties, appearance, and state faster.
 
 (!) Do you find writing utility classes sometimes seem lengthy or hard to read?
@@ -89,7 +105,7 @@ Master CSS is the first language to highlight class names fully, making identify
 </Demo>
 This feature is included in the [Master CSS Language Service](/guide/language-service).
 
-### Code Linting
+### Reliable Code Linting
 Have you ever felt anxious about adding styles to class attributes? Master CSS was the first to introduce [syntax validation](/guide/code-linting#syntax-error-checks) of classes in template markup, which helps you find errors early before building and dramatically improves the developer experience.
 <Image className="aspect:2/1 r:2x max-w:screen-xs w:full" src={require('~/public/syntax-error-checks.webp').default} alt="Syntax error checks" unoptimized />
 
@@ -100,18 +116,6 @@ Have you ever felt anxious about adding styles to class attributes? Master CSS w
 This is just a piece of cake; we also allow you to **enforce consistent class ordering**, **legitimate class checks**, **class collision checks**, and checks for JavaScript utilities like **`clsx()`**.
 
 To learn more, check out the [Code Linting](/guide/code-linting) documentation.
-
-### Minimal CSS on the market
-Initially, Master CSS was intended to create a CSS engine for production browser runtimes, so we concentrated on performance such as syntax parsing, rule generation, cache sharing, and even browser rendering.
-
-Master CSS doesn't use heavy-duty build tools like PostCSS, Autoprefixer, or any minifiers, as these rules are generated with optimization.
-
-This is a real-world benchmark of [critical CSS](https://web.dev/articles/codelab-extract-and-inline-critical-css) on page load for well-known official documentation websites.
-<CriticalCSSForDocsSitesBenchmark />
-According to HTTP Archive [CSS Bytes](https://httparchive.org/reports/page-weight#bytesCss), the sum of transfer size kilobytes of all external stylesheets requested by the page is **~82 kB**, excluding internal and inline styles.
-
-Master CSS only injects the CSS required by the page, so the official documentation site is super tiny, about **~6 kB per page** (brotli).
-{/* Reducing [critical CSS](https://web.dev/articles/codelab-extract-and-inline-critical-css) can improve page loading speed, browser rendering performance, and SEO metrics. */}
 
 ### Comparisons
 Here’s a comprehensive comparison of Master CSS, Tailwind CSS and Bootstrap:

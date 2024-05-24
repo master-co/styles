@@ -2,8 +2,8 @@ import { Metadata } from 'websites/types/Metadata'
 
 const metadata: Metadata = {
     title: 'Reusing Styles',
-    description: 'This guide helps develop concepts for code reuse and de-duplication techniques.',
-    category: 'Fundamentals',
+    description: 'A guide to reusing styles and code de-duplication.',
+    category: 'Development Strategy',
     disabled: true
 }
 
