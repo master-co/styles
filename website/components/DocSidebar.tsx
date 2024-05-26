@@ -31,7 +31,7 @@ export default function DocSidebar({ pageCategories }: any) {
     return (
         // eslint-disable-next-line @master/css/class-validation
         <aside id="sidebar" ref={sidebarRef} className={clsx(
-            'scrollbar fixed hidden@print invisible:not(:hover)::scrollbar invisible:not(:hover)::scrollbar-thumb bd:blur(25)@<md bg:transparent!::scrollbar bg:base/.8@<md direction:rtl h:calc(100%-49) h:calc(100%-3.75rem)@md left:max(0px,calc(50%-45.3125rem)) overflow-y:auto overflow-y:overlay!@supports(overflow:overlay) overscroll-behavior:contain top:49 top:60@md w:full w:260@md w:300@xl z:1050@<md',
+            'scrollbar fixed hidden@print invisible:not(:hover)::scrollbar invisible:not(:hover)::scrollbar-thumb bd:blur(25)@<md bg:transparent!::scrollbar bg:base/.8@<md direction:rtl h:calc(100%-49) h:calc(100%-3.75rem)@md left:max(0px,calc(50%-730)) overflow-y:auto overflow-y:overlay!@supports(overflow:overlay) overscroll-behavior:contain top:49 top:60@md w:full w:260@md w:280@xl z:1050@<md',
             { 'hidden@<md': !opened }
         )}>
             <div className="direction:ltr p:0|15|20|15">
