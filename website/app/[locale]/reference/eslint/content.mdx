@@ -19,13 +19,12 @@ Or compatible with ESLint legacy configurations.
     "extends": ["@master/css"]
 }
 ```
-
 To learn more about features, check out the [Code Linting](/guide/code-linting).
 
 ---
 
-## Rules
-### `class-order`
+## Interfaces
+### `rules.class-order`
 Enforce a consistent and logical order of classes.
 ```json name=.eslintrc.json
 {
@@ -35,7 +34,7 @@ Enforce a consistent and logical order of classes.
 }
 ```
 
-### `class-validation`
+### `rules.class-validation`
 Detect syntax errors early when writing classes.
 ```json name=.eslintrc.json
 {
@@ -55,7 +54,7 @@ Set `disallowUnknownClass: true` to disallow unknow classes and enforce strict c
 }
 ```
 
-### `class-collision`
+### `rules.class-collision`
 Avoid applying classes with the same CSS declaration.
 ```json name=.eslintrc.json
 {
@@ -65,10 +64,7 @@ Avoid applying classes with the same CSS declaration.
 }
 ```
 
----
-
-## Settings
-### `classAttributes`
+### `settings.classAttributes`
 Specify the element attribute containing classes.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
@@ -80,7 +76,7 @@ Specify the element attribute containing classes.
 `}
 </Code>
 
-### `classFunctions`
+### `settings.classFunctions`
 Specify the names of the function to check its arguments.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
@@ -92,7 +88,7 @@ Specify the names of the function to check its arguments.
 `}
 </Code>
 
-### `classDeclarations`
+### `settings.classDeclarations`
 Specify the names of the variable/member to check its declarations.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
@@ -104,7 +100,7 @@ Specify the names of the variable/member to check its declarations.
 `}
 </Code>
 
-### `ignoredKeys`
+### `settings.ignoredKeys`
 Specifies object keys to ignore checking.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
@@ -116,7 +112,7 @@ Specifies object keys to ignore checking.
 `}
 </Code>
 
-### `config`
+### `settings.config`
 Specify a custom Master CSS configuration or path.
 <Code lang="json" name=".eslintrc.json">
 {`

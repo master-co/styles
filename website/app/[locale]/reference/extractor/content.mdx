@@ -1,4 +1,9 @@
-## Usage [sr-only]
+import options from '@master/css-extractor/options'
+
+---
+
+## Interfaces
+### CSSExtractor
 
 ```js
 import { CSSExtractor } from '@master/css-extractor'
@@ -16,12 +21,9 @@ This package is specific to the **Node.js** environment.
 
 To start using Master CSS static extraction, check out the [guide](http://localhost:3000/guide/installation) first.
 
+🚧 Check out the [source code](https://github.com/master-co/css/blob/dev/rc/packages/extractor/src/core.ts) temporarily.
 
----
-
-import options from '@master/css-extractor/options'
-
-## Options
+### `options`
 <OptionsCodes cli vite webpack>
     {JSON.stringify(options, null, 4)}
 </OptionsCodes>
@@ -32,7 +34,7 @@ import { options } from '@master/css-extractor'
 import options from '@master/css-extractor/options'
 ```
 
-### `.module`
+### `options.module`
 Custom Master CSS virtual module ID, this option does not support Master CSS CLI.
 <DocProp defaultValue={`'${options.module}'`} types={['string']} />
 Set the virtual CSS module of Master CSS to `virtual:master.css`:
@@ -46,24 +48,24 @@ Then you can import with a custom virtual module ID in the entry file like `main
 import '.virtual/master.css'
 ```
 
-### `.config`
+### `options.config`
 Customize your Master CSS [configuration](/reference/configuration) or the path to the configuration file, the default configuration file is read with [.cwd](#cwd) in the root directory of the project.
 <DocProp defaultValue={`'${options.config}'`} types={['string', 'Config']} />
 
-### `.include`
+### `options.include`
 Broadly specify source files/directories to be scanned by Master CSS.
 <DocProp defaultValue={options.include} types={['FastGlobPattern[]']} />
 
-### `.exclude`
+### `options.exclude`
 Broadly exclude source files/directories from scanning by Master CSS.
 <DocProp defaultValue={options.exclude} types={['FastGlobPattern[]']} />
 
-### `.sources`
+### `options.sources`
 Mandatory source files/directories are to be scanned by Master CSS.
 <DocProp defaultValue={options.sources} types={['FastGlobPattern[]']} />
 This option is similar to [`.include`](#include) but not excluded by [`.exclude`](#exclude). Usually, you will use it to specify what is accidentally excluded by [`.exclude`](#exclude) file/directory.
 
-### `.classes.fixed`
+### `options.classes.fixed`
 Generate fixed CSS rules based on the specified class name, regardless of source.
 <DocProp defaultValue={options.fixed} types={['string[]']} />
 Typically you would use it with the following limitations:
@@ -71,13 +73,9 @@ Typically you would use it with the following limitations:
 - Irregular class names.
 - Class names from asynchronous data.
 
-### `.classes.ignored`
+### `options.classes.ignored`
 Exclude class names accidentally extracted by the scanning process.
 <DocProp defaultValue={options.ignored} types={['string[]', 'RegExp[]']} />
-
----
-
-## Functions
 
 ### `extractLatentClasses()`
 Extract latent classes from string content.
@@ -113,8 +111,3 @@ Result:
     'setupCounter(counterElement!)'
 ]
 ```
-
----
-
-## Properties
-🚧 Please refer to the [source code](https://github.com/master-co/css/blob/dev/rc/packages/extractor/src/core.ts) temporarily.

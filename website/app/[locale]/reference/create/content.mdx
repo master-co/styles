@@ -45,8 +45,8 @@ Or you can specify an argument to create a new project, which by default uses th
 
 ---
 
-## Options
-### `--ext esm`
+## Interfaces
+### `create --ext esm`
 Specify creating a `master.css.mjs` file in ECMAScript Modules format. If `package.json` is set `"type": "module"` will be enabled automatically.
 <DocProp defaultValue="auto" types={['boolean']} />
 ```bash name=Terminal
@@ -61,7 +61,7 @@ npm create @master/css@rc **--ext esm**
     </div>
 </details>
 
-### `--ext cjs`
+### `create --ext cjs`
 Specify creating a `master.css.js` file in CommonJS format.
 <DocProp defaultValue="auto" types={['boolean']} />
 ```bash name=Terminal
@@ -76,7 +76,7 @@ npm create @master/css@rc **--ext cjs**
     </div>
 </details>
 
-### `--ext ts`
+### `create --ext ts`
 Specify creating a `master.css.ts` file in TypeScript format. Automatically enabled if `tsconfig.json` exists.
 <DocProp defaultValue="auto" types={['boolean']} />
 ```bash name=Terminal
@@ -91,21 +91,21 @@ npm create @master/css@rc **--ext ts**
     </div>
 </details>
 
-### `--example`
+### `create --example`
 Create a Master CSS App using [official examples](https://github.com/master-co/css/tree/rc/examples).
 <DocProp defaultValue="'blank'" types={['string']} />
 ```bash name=Terminal
 npm create @master/css@rc __project__ **--example react**
 ```
 
-### `--pm`
+### `create --pm`
 Manually specify the package manager you are using.
 <DocProp defaultValue="auto" types={['string']} />
 ```bash name=Terminal
 npm create @master/css@rc **--pm bun**
 ```
 
-### `-o, --override`
+### `create -o, --override`
 Override the existing Master CSS config file.
 <DocProp defaultValue="false" types={['boolean']} />
 ```bash name=Terminal
