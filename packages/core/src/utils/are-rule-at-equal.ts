@@ -1,6 +1,6 @@
 import type { Rule } from '../rule'
 
-export default function areRuleQueriesEqual(aRule: Rule, bRule: Rule) {
+export default function areRuleAtEqual(aRule: Rule, bRule: Rule) {
     const aQueryTypes = Object.keys(aRule.at)
     const bQueryTypes = Object.keys(bRule.at)
 

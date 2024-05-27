@@ -86,7 +86,7 @@ You can use decimals or percentages to adjust the opacity of colors.
 
 ## 🚧 Configuration
 ### Customizing screens
-Define responsive breakpoints using [queries](/reference/queries).
+Define responsive breakpoints using [queries](/reference/at).
 ```js name=master.css.js
 -/** @type {import('tailwindcss').Config} */
 -module.exports = {
@@ -102,7 +102,7 @@ Define responsive breakpoints using [queries](/reference/queries).
 -}
 +/** @type {import('@master/css').Config} */
 +export default {
-+    queries: {
++    at: {
 +        'sm': 640,
 +        'md': 768,
 +        'lg': 1024,
@@ -131,7 +131,7 @@ Define responsive breakpoints using [queries](/reference/queries).
 ```
 
 ### Customizing media queries
-Using [queries](/reference/queries) to define media queries, feature queries, and even container queries.
+Using [at](/reference/at) to define media queries, feature queries, and even container queries.
 ```js name=master.css.js
 -/** @type {import('tailwindcss').Config} */
 -module.exports = {
@@ -145,7 +145,7 @@ Using [queries](/reference/queries) to define media queries, feature queries, an
 -}
 +/** @type {import('@master/css').Config} */
 +export default {
-+    queries: {
++    at: {
 +        tall: 'media (min-height: 800px)'
 +    }
 +}

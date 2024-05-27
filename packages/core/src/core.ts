@@ -49,7 +49,7 @@ export default class MasterCSS {
         this.stylesBy = {}
         this.selectors = {}
         this.variables = {}
-        this.queries = {}
+        this.at = {}
         this.animations = {}
         this.Rules.length = 0
         this.variablesNativeRules = {}
@@ -60,7 +60,7 @@ export default class MasterCSS {
             transparent: undefined
         }
 
-        const { styles, selectors, variables, utilities, queries, rules, animations } = this.config
+        const { styles, selectors, variables, utilities, at, rules, animations } = this.config
 
         function escapeString(str: string) {
             return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
@@ -117,6 +117,12 @@ export default class MasterCSS {
                             }
                         }
                         colorVariableNames[flatName] = undefined
+                    }
+                    /**
+                     * resolve `variables.screen-*` to `at.*`
+                     */
+                    if (variable.name.startsWith('screen-') && variable.type === 'number') {
+                        this.at[variable.name.slice(7)] = variable.value
                     }
                     const currentMode = replacedMode ?? mode
                     if (currentMode !== undefined) {
@@ -252,8 +258,8 @@ export default class MasterCSS {
             }
         }
 
-        if (queries) {
-            this.queries = flattenObject(queries)
+        if (at) {
+            Object.assign(this.at, flattenObject(at))
         }
 
         if (animations) {
@@ -1215,7 +1221,7 @@ export default interface MasterCSS {
     stylesBy: Record<string, string[]>
     selectors: Record<string, [RegExp, string[]][]>
     variables: Record<string, Variable>
-    queries: Record<string, string | number>
+    at: Record<string, string | number>
     variablesNativeRules: Record<string, NativeRule>
     hasKeyframesRule: boolean
     animations: Record<string, AnimationDefinitions & { usage?: number, native?: NativeRule }>

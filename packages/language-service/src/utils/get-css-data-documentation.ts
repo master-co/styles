@@ -31,7 +31,7 @@ export function getCSSDataDocumentation(data?: IPropertyData | IValueData, addit
     if (additional?.docs) {
         references.unshift({
             name: 'Master CSS',
-            url: new URL(`/docs/${additional.docs}`, OFFICIAL_URL).href
+            url: new URL(additional.docs, OFFICIAL_URL).href
         })
     }
     if (references.length) {

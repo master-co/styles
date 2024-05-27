@@ -23,7 +23,7 @@ test.concurrent('mixed', () => {
         .toBe('@media (prefers-reduced-motion:no-preference) and (orientation:landscape){.hidden\\@motion\\&landscape{display:none}}')
 })
 
-test.concurrent('queries', () => {
+test.concurrent('at', () => {
     expect(new MasterCSS(config).add('hidden@watch').text)
         .toBe('@media (max-device-width:42mm) and (min-device-width:38mm){.hidden\\@watch{display:none}}')
 

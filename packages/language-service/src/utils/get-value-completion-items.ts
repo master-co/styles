@@ -20,7 +20,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
         const appliedValue = scoped ? variable.key : variable.name
         const documentation = getCSSDataDocumentation(eachNativePropertyData, {
             generatedCSS: generateCSS([ruleKey + ':' + appliedValue], css),
-            docs: eachNativePropertyData?.name || 'variables'
+            docs: '/reference/' + (eachNativePropertyData?.name || 'variables')
         })
         const completionItem: CompletionItem = {
             label: variable.name,
@@ -31,12 +31,12 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
             completionItem.label = '$(' + completionItem.label + ')'
             completionItem.documentation = getCSSDataDocumentation(eachNativePropertyData, {
                 generatedCSS: generateCSS([ruleKey + ':' + completionItem.label], css),
-                docs: eachNativePropertyData?.name || 'variables'
+                docs: '/reference/' + (eachNativePropertyData?.name || 'variables')
             })
         } else {
             completionItem.documentation = getCSSDataDocumentation(eachNativePropertyData, {
                 generatedCSS: generateCSS([ruleKey + ':' + appliedValue], css),
-                docs: eachNativePropertyData?.name || 'variables'
+                docs: '/reference/' + (eachNativePropertyData?.name || 'variables')
             })
         }
         if (variable.type === 'color') {
@@ -103,7 +103,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                     kind: CompletionItemKind.Value,
                     documentation: getCSSDataDocumentation(undefined, {
                         generatedCSS: generateCSS([ruleKey + ':' + animationName], css),
-                        docs: isCoreRule(EachRule.id) && EachRule.id
+                        docs: '/reference/' + isCoreRule(EachRule.id) && EachRule.id
                     }),
                     detail: isNative ? EachRule.id + ': ' + animationName : animationName
                 })
@@ -131,7 +131,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                         references: nativePropertyData?.references
                     }, {
                         generatedCSS: generateCSS([ruleKey + ':' + ambiguousValue], css),
-                        docs: isCoreRule(EachRule.id) && EachRule.id
+                        docs: '/reference/' + isCoreRule(EachRule.id) && EachRule.id
                     }),
                     detail: isNative ? EachRule.id + ': ' + ambiguousValue : ambiguousValue
                 })
@@ -163,7 +163,7 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                         references: nativePropertyData?.references
                     }, {
                         generatedCSS: generateCSS([ruleKey + ':' + value.name], css),
-                        docs: nativeKey
+                        docs: '/reference/' + nativeKey
                     }),
                     detail: nativeKey + ': ' + value.name
                 })

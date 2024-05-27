@@ -1,5 +1,5 @@
 export default {
-    queries: {
+    at: {
 /*+*/   landscape: 'media (orientation:landscape)' // @landscape
     }
 }

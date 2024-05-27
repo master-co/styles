@@ -78,6 +78,6 @@ it.concurrent('checks media order', () => {
         { className: '{flex:row}@2xs&<xs' }
     ]
     for (let i = 0; i < 10; i++) {
-        expect(new MasterCSS({ queries: { tablet: 391, desktop: 1025 } }).add(...shuffle([...input])).rules).toMatchObject(output)
+        expect(new MasterCSS({ at: { tablet: 391, desktop: 1025 } }).add(...shuffle([...input])).rules).toMatchObject(output)
     }
 })

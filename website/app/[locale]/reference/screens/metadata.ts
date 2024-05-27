@@ -2,7 +2,7 @@ import { Metadata } from 'websites/types/Metadata'
 
 const metadata: Metadata = {
     title: 'Screens',
-    description: 'Customizing screens and breakpoints or starting with the official design system.',
+    description: 'Customizing screen sizes and breakpoints for your design system.',
     category: 'Variable'
 }
 

@@ -17,7 +17,7 @@ test.concurrent('styles', () => {
 
 test.concurrent('viewports', () => {
     expect(new MasterCSS({
-        queries: {
+        at: {
             'xss': 500
         }
     }).add('hidden@xss').text).toBe(
@@ -40,9 +40,9 @@ test.concurrent('colors', () => {
     )
 })
 
-test.concurrent('queries', () => {
+test.concurrent('at', () => {
     expect(new MasterCSS({
-        queries: {
+        at: {
             'min-600': 'media (min-width: 600px)'
         }
     }).add('f:12@min-600').text).toBe(

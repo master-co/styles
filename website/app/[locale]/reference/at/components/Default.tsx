@@ -1,4 +1,4 @@
-import { queries } from '@master/css'
+import { at } from '@master/css'
 import DocTable from 'websites/components/DocTable'
 import InlineCode from '../../../../../../../../components/InlineCode'
 
@@ -13,10 +13,10 @@ export default () =>
         <tbody>
             {
                 [
-                    ...Object.keys(queries)
+                    ...Object.keys(at)
                         .map((eachBreakpointName) => {
                             // @ts-ignore
-                            const eachBreakpoint = queries[eachBreakpointName]
+                            const eachBreakpoint = at[eachBreakpointName]
                             return (
                                 <tr key={eachBreakpointName}>
                                     <th><code>{eachBreakpointName}</code></th>

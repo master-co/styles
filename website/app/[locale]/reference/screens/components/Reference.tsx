@@ -18,7 +18,7 @@ export default () => {
                     Object.entries(variables.screen)
                         .map(([name, value], index) => (
                             <tr key={index}>
-                                <th className="white-space:nowrap"><code>screen-{name}</code></th>
+                                <td className="white-space:nowrap"><code>screen-{name}</code></td>
                                 <td><code className='token number'>{value}<span className='token unit'>px</span></code></td>
                                 <td><code className='token number'>{value / 16}<span className='token unit'>rem</span></code></td>
                                 <td>{descriptions[name as keyof typeof descriptions]}</td>

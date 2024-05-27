@@ -5,7 +5,7 @@ export default {
     variables: {},
     utilities: {},
     breakpoints: {},
-    queries: {},
+    at: {},
     keyframes: {},
     selectors: {},
     functions: {}

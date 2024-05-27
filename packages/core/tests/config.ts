@@ -88,7 +88,7 @@ export default {
             '1': '~div'
         }
     },
-    queries: {
+    at: {
         tablet: 768,
         laptop: 1024,
         desktop: 1280,

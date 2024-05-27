@@ -1,6 +1,4 @@
-import screenSizes from '../tokens/screen-sizes'
-
-const queries = {
+const at = {
     all: 'media all',
     print: 'media print',
     screen: 'media screen',
@@ -9,7 +7,6 @@ const queries = {
     portrait: 'media (orientation:portrait)',
     motion: 'media (prefers-reduced-motion:no-preference)',
     'reduced-motion': 'media (prefers-reduced-motion:reduce)',
-    ...screenSizes,
 }
 
-export default queries
+export default at

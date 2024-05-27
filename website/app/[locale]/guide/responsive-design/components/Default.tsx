@@ -1,4 +1,4 @@
-import { queries } from '@master/css'
+import { at } from '@master/css'
 import InlineCode from 'websites/components/InlineCode'
 import DocTable from 'websites/components/DocTable'
 import descriptions from '../../../reference/screens/descriptions'
@@ -15,11 +15,11 @@ export default () =>
         <tbody>
             {
                 [
-                    ...Object.keys(queries)
-                        .filter((eachBreakpointName) => typeof queries[eachBreakpointName as keyof typeof queries] === 'number')
+                    ...Object.keys(at)
+                        .filter((eachBreakpointName) => typeof at[eachBreakpointName as keyof typeof at] === 'number')
                         .map((eachBreakpointName) => {
                             // @ts-ignore
-                            const eachBreakpoint = queries[eachBreakpointName]
+                            const eachBreakpoint = at[eachBreakpointName]
                             return (
                                 <tr key={eachBreakpointName}>
                                     <th><code>{eachBreakpointName}</code></th>
