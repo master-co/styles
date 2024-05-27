@@ -73,7 +73,10 @@ function getBracketContent(source: string, startSymbol = '<', endSymbol = '>') {
     return source.slice(startIndex, currentIndex + 1)
 }
 
-const domain: { name: string, units: Record<string, string> } = { name: `https://${currentBranch === 'main' ? '' : currentBranch + '.'}css.master.co`, units: { docs: '/guide/installation' } }
+const domain: { name: string, units: Record<string, string> } = {
+    name: `https://${currentBranch === 'main' ? '' : currentBranch + '.'}css.master.co`,
+    units: {}
+}
 const storage = getStorage(app)
 const locale = process.env.LOCALE ?? 'en'
 
@@ -83,7 +86,7 @@ const file = bucket.file(name) as any as File
 
 (async () => {
     const sha = process.env.GITHUB_SHA
-    console.log('sha: '+ sha)
+    console.log('sha: ' + sha)
     console.log('file name: ' + name)
 
     try {
