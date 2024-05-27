@@ -53,4 +53,4 @@
 </div>
 
 ## Documentation
-Check out the official [documentation](https://rc.css.master.co/docs/server).
+Check out the official [documentation](https://rc.css.master.co/reference/server).

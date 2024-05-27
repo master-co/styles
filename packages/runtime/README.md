@@ -60,5 +60,5 @@
 </div>
 
 ## Documentation
-- [General Installation](https://rc.css.master.co/docs/installation/general)
-- [Using CDNs](https://rc.css.master.co/docs/installation/cdn)
+- [General Installation](https://rc.css.master.co/guide/installation/general)
+- [Using CDNs](https://rc.css.master.co/guide/installation/cdn)

@@ -53,4 +53,4 @@
 </div>
 
 ## Documentation
-Check out the official [documentation](https://rc.css.master.co/docs/code-linting).
+Check out the official [documentation](https://rc.css.master.co/guide/code-linting).

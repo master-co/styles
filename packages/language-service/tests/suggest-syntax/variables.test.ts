@@ -31,7 +31,7 @@ describe.concurrent('scope', () => {
 
                     Syntax: &lt;color&gt;
 
-                    [Master CSS](https://rc.css.master.co/docs/color) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/color)
+                    [Master CSS](https://rc.css.master.co/reference/color) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/color)
              `,
         }
     }))
@@ -55,7 +55,7 @@ describe.concurrent('scope', () => {
 
                     Syntax: content\\-box | border\\-box
 
-                    [Master CSS](https://rc.css.master.co/docs/box-sizing) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/box-sizing)
+                    [Master CSS](https://rc.css.master.co/reference/box-sizing) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/box-sizing)
                 `}
     }))
 })
@@ -88,7 +88,7 @@ describe.concurrent('scope and global', () => {
 
                     Syntax: &lt;color&gt;
 
-                    [Master CSS](https://rc.css.master.co/docs/color) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/color)`,
+                    [Master CSS](https://rc.css.master.co/reference/color) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/color)`,
         },
         'kind': 16,
         'label': 'blue',
@@ -117,7 +117,7 @@ describe.concurrent('scope and global', () => {
 
                     Syntax: &lt;color&gt;
 
-                    [Master CSS](https://rc.css.master.co/docs/color) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/color)`,
+                    [Master CSS](https://rc.css.master.co/reference/color) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/color)`,
         },
         'kind': 16,
         'label': '$(blue)',
