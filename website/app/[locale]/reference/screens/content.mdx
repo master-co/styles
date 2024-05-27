@@ -8,33 +8,53 @@
         </Code>
     </div>
 </details>
-Apply the default screen variables using any syntax:
-```html
-<div class="**w:screen-sm** **max-w:screen-lg**">…</div>
-```
+The `screen` in the variable is a reserved section. In addition to being used as a property value token `screen-*`, it also serves as a responsive breakpoint `@*`.
 
 ---
 
 ## Basic usage
-### Add a screen size
-Customize your screen size tokens by defining [variables](/reference/variables).
-```js name=master.css.js
-export default {
-    variables: {
-        screen: {
-+            desktop: 1280
-        }
-    }
-}
-```
-Apply the defined `screen` variables anywhere:
+### Apply a screen size
+Apply default screen variables using any syntax, such as [`width`](/reference/width) and [`max-width`](/reference/max-width).
 ```html
-<div class="**max-w:screen-desktop** mx:auto">…</div>
+<div class="**w:screen-sm** **max-w:screen-lg**">…</div>
 ```
+
+### Apply a responsive breakpoint
+Conditionally apply styles using default screen variables as responsive breakpoints.
+```html
+<div class="font:24 font:32**@sm** font:48**@md**">…</div>
+```
+The responsive breakpoints can be flexibly used with operators, see the [responsive design](/guide/responsive-design) documentation.
 
 ### Create a responsive container
 Fixed element width to a screen size as a responsive container.
 ```html
 <div class="**max-w:screen-sm@sm** **max-w:screen-md@md** **max-w:screen-lg@lg** …">…</div>
 ```
-To customize the responsive breakpoints, like `@sm`, define [media queries](/reference/at).
+
+---
+
+## Customization
+### Add a screen size
+Customize your screen size tokens by defining [variables](/reference/variables).
+<Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-a-screen-size/master.css.js').default}</Code>
+Apply the defined screen variables anywhere:
+<Code lang="html">{require('!!raw-loader!./tests/add-a-screen-size/template.html').default}</Code>
+<details>
+    <summary>Generated CSS</summary>
+    <div>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-screen-size/generated.css').default}</Code>
+    </div>
+</details>
+
+### Add a responsive breakpoint
+Create a responsive breakpoint, such as `@desktop`.
+<Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-a-responsive-breakpoint/master.css.js').default}</Code>
+Apply them:
+<Code lang="html">{require('!!raw-loader!./tests/add-a-responsive-breakpoint/template.html').default}</Code>
+<details>
+    <summary>Generated CSS</summary>
+    <div>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-responsive-breakpoint/generated.css').default}</Code>
+    </div>
+</details>
