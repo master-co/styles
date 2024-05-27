@@ -49,7 +49,7 @@ export default function inspectSyntax(this: CSSLanguageService, document: TextDo
                 const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === rule.id)
                 const documentation = getCSSDataDocumentation(nativeCSSPropertyData, {
                     generatedCSS: generateCSS([token], this.css),
-                    docs: '/reference/' + isCoreRule(rule.id) && rule.id
+                    docs: '/reference/' + (isCoreRule(rule.id) && rule.id)
                 })
                 if (documentation) {
                     return {

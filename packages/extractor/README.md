@@ -53,4 +53,4 @@
 </div>
 
 ## Documentation
-Check out the official [documentation](https://rc.css.master.co/docs/extractor).
+Check out the official [documentation](https://rc.css.master.co/reference/extractor).

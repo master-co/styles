@@ -37,7 +37,7 @@ describe.concurrent('detail and documentation', () => {
 
                     Syntax: &lt;family\\-name&gt;
 
-                    [Master CSS](https://rc.css.master.co/docs/font-family) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/font-family)
+                    [Master CSS](https://rc.css.master.co/reference/font-family) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/font-family)
                 `
         }
     }))
@@ -57,7 +57,7 @@ describe.concurrent('detail and documentation', () => {
 
                     Selects a font that is labeled as an 'italic' face, or an 'oblique' face if one is not
 
-                    [Master CSS](https://rc.css.master.co/docs/font-style) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/font-style)
+                    [Master CSS](https://rc.css.master.co/reference/font-style) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/font-style)
                 `
         }
     }))
@@ -81,7 +81,7 @@ describe.concurrent('retype on no hints', () => {
 
                     The element generates a block\\-level box
 
-                    [Master CSS](https://rc.css.master.co/docs/display) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/display)
+                    [Master CSS](https://rc.css.master.co/reference/display) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/display)
                 `
         }
     }))
