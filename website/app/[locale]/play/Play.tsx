@@ -25,7 +25,7 @@ import Header from 'websites/components/Header'
 import HeaderNav from 'websites/components/HeaderNav'
 import links from '~/links'
 import i18n from '~/i18n.config.mjs'
-import { at } from '@master/css'
+import { variables } from '@master/css'
 import config from '~/master.css'
 import clsx from 'clsx'
 import dynamic from 'next/dynamic'
@@ -145,7 +145,7 @@ export default function Play(props: any) {
      */
     useEffect(() => {
         const onResize = () => {
-            if (window.innerWidth >= at.md) {
+            if (window.innerWidth >= variables.screen.md) {
                 if (tab === 'Preview' || tab === 'Generated CSS') {
                     router.push(getSearchPath('tab', shareItem.files[0].title))
                 }
