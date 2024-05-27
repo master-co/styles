@@ -1,0 +1,89 @@
+## Overview [sr-only]
+<Overview/>
+
+<Demo $py={0}>
+    <DemoPanel className="flex flex:col gap:8x">
+        <div className="w:full">
+            <DemoLabel>sans</DemoLabel>
+            <DemoP className="font:sans">Heavy boxes perform quick waltzes and jigs.</DemoP>
+        </div>
+        <div className="w:full">
+            <DemoLabel>serif</DemoLabel>
+            <DemoP className="font:serif">Heavy boxes perform quick waltzes and jigs.</DemoP>
+        </div>
+        <div className="w:full">
+            <DemoLabel>mono</DemoLabel>
+            <DemoP className="font:mono">Heavy boxes perform quick waltzes and jigs.</DemoP>
+        </div>
+    </DemoPanel>
+</Demo>
+Using shorthand with predefined [variables](/reference/variables) to simplify the native syntax.
+```html
+<div class="font-family:sans">
++<div class="font:sans">Recommanded
+<div class="f:sans">
+```
+
+---
+
+## Basic usage
+### Set the font family
+Set the typeface of an element using the `font-family:` syntax.
+<Demo $py={0}>
+    <DemoPanel className="flex flex:col gap:8x">
+        <div className="w:full">
+            <DemoP className="font-family:cursive">Heavy boxes perform quick waltzes and jigs.</DemoP>
+        </div>
+    </DemoPanel>
+</Demo>
+```html
+<p class="**font-family:cursive**">Heavy boxes perform quick waltzes and jigs.</p>
+```
+In practice, you wouldn't arbitrarily set the font family within the template; instead, you would unify your fonts through [custom variables](/reference/fonts).
+
+### Apply fonts globally
+Relying on the `font-family` inherited behavior, you can set the entire page font in `html <body>`.
+```html
+<body class="**font:sans**">…</body>
+```
+
+### Resolve whitespaces in the value
+Whitespace is used in the class attribute of the template to separate different classes. To replace whitespaces ` ` with non-breaking spaces `\00a0`.
+```html
+<p class="font-family:'Open**\00a0**Sans'">…</p>
+```
+Is it not very kind to use `\00a0` in markup?
+
+(o) Predefine your [font](/reference/fonts) variables without `\00a0`.
+```js name=master.css.js
+/** @type {import('@master/css').Config} */
+export default {
+    variables: {
+        'font-family': {
++           'open-sans': 'Open Sans'
+        }
+    }
+}
+```
+Apply your custom fonts:
+```html
+<p class="font:**open-sans**">…</p>
+```
+
+---
+
+## Conditionally apply
+Apply styles based on different states using [selectors](/guide/state-selectors) and [applying conditionally](/guide/applying-conditionally).
+```html
+<div class="font:mono**:hover** font:mono**@sm** font:mono**@dark** font:mono**@print**">…</div>
+```
+### Apply fonts to specified elements
+Use the `mcss _:where(code,pre)` to select specified elements and apply the font.
+```html
+<body class="**font:mono_:where(code,pre)**">…</body>
+```
+
+---
+
+## Customization
+Check out the [custom font guide](/reference/fonts).

@@ -1,0 +1,85 @@
+## Default [sr-only]
+| Token                                             | Keywords                                                                  |
+|---------------------------------------------------|---------------------------------------------------------------------------|
+| <small>Semantic</small>                                                                                                       |
+| <Aa className="fg:strong" />`text-strong`         | page titles, subheadings, emphasized fields                               |
+| <Aa className="fg:neutral" />`text-neutral`       | body text, descriptions, and general content                              |
+| <Aa className="fg:light" />`text-light`           | light color, icons                                                        |
+| <Aa className="fg:lighter" />`text-lighter`       | lighter color, icons                                                      |
+| <Aa className="fg:lightest" />`text-lightest`     | dim color, placeholder, disabled text                                     |
+| <Aa className="fg:invert" />`text-invert`         | inverted color of the foreground                                          |
+| <small>Primitive</small>                                                                                                      |
+| <Aa className="fg:gray" />`text-gray`             | neutral, subtle, muted                                                    |
+| <Aa className="fg:slate" />`text-slate`           | cool, calm, sophisticated                                                 |
+| <Aa className="fg:brown" />`text-brown`           | earthy, warm, rustic                                                      |
+| <Aa className="fg:orange" />`text-orange`         | vibrant, energetic, lively                                                |
+| <Aa className="fg:amber" />`text-amber`           | warm, glowing, radiant                                                    |
+| <Aa className="fg:yellow" />`text-yellow`         | cheerful, sunny, bright                                                   |
+| <Aa className="fg:lime" />`text-lime`             | fresh, lively, zesty                                                      |
+| <Aa className="fg:green" />`text-green`           | nature, growth, harmony                                                   |
+| <Aa className="fg:beryl" />`text-beryl`           | calm, soothing, tranquil                                                  |
+| <Aa className="fg:teal" />`text-teal`             | sophisticated, elegant, refined                                           |
+| <Aa className="fg:cyan" />`text-cyan`             | modern, futuristic, technological                                         |
+| <Aa className="fg:sky" />`text-sky`               | peaceful, serene, tranquil                                                |
+| <Aa className="fg:blue" />`text-blue`             | calm, trustworthy, reliable                                               |
+| <Aa className="fg:indigo" />`text-indigo`         | mysterious, deep, spiritual                                               |
+| <Aa className="fg:violet" />`text-violet`         | creative, imaginative, magical                                            |
+| <Aa className="fg:purple" />`text-purple`         | royal, luxurious, majestic                                                |
+| <Aa className="fg:fuchsia" />`text-fuchsia`       | vibrant, bold, playful                                                    |
+| <Aa className="fg:pink" />`text-pink`             | feminine, romantic, delicate                                              |
+| <Aa className="fg:crimson" />`text-crimson`       | passionate, intense, powerful                                             |
+| <Aa className="fg:red" />`text-red`               | bold, energetic, attention-grabbing                                       |
+
+By default, theme modes [drive](/reference/configuration#modedriver) text variables meticulously adjusted in light and dark modes.
+<Overview />
+[View the default variables on GitHub](https://github.com/master-co/css/blob/rc/packages/core/src/config/variables.ts)
+
+---
+
+## Basic usage
+### Apply a text color
+Apply the defined `text-*` variables using the inherited rules <TextHeirs />.
+```html
+<html class="**light**">
+-    <body class="fg:$(text-neutral)">equals</body>
+-    <body class="fg:text-neutral">equals</body>
++    <body class="fg:neutral"></body>
+</html>
+```
+(!) Typically, we set the [foreground color](/reference/color) of elements using `fg:color` rather than the [text-specific](/reference/text-fill-color) `text:color`.
+```html
+-<p class="text:pink">text-fill-color properity</p>
++<p class="fg:pink">color properity</p>
+```
+
+### Apply text color to any syntax
+Besides inheriting the above rules, you can use `text-*` to access global text color variables in other syntax.
+```html
+<svg class="stroke:**text-light**"></svg>
+```
+
+### Escape inherited text colors
+Use `$(blue)` to apply `variables.blue` instead of `variables.text.blue`.
+```html
+<p class="fg:**$(blue)**">…</p>
+```
+
+---
+
+## Customization
+### Add a text color
+Add a color to the text variables group.
+```js name=master.css.js
+export default {
+    variables: {
+        text: {
++            primary: '#000'
+        }
+    }
+}
+```
+Apply the custom color:
+```html
+<p class="fg:**primary**"></p>
+```
+See the [Color Customization](/reference/colors#customization) documentation to learn more about color variable behavior.

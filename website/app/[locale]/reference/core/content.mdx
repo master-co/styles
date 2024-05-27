@@ -1,0 +1,86 @@
+
+---
+
+## Interfaces
+### `MasterCSS`
+The main body of this package is the class `MasterCSS`, which encapsulates the core business of Master CSS.
+```js
+import MasterCSS from '@master/css'
+
+const css = new MasterCSS(customConfig)
+```
+<DocFn>
+    {[
+        { name: 'customConfig', type: 'Config?', defaultValue: 'undefined' },
+    ]}
+</DocFn>
+
+### `css.config`
+The `css.config` property is the result of extending the default config with the custom config you passed by the constructor.
+<DocProp defaultValue="undefined" types={['Config']} />
+
+### `css.text`
+This `css.text` getter returns the result of joining the text of all CSS rules.
+<DocProp defaultValue="''" types={['string']} />
+
+### `css.add()`
+Add a new syntax class.
+<DocFn>
+    {[
+        { name: '...classNames', type: 'string[]' },
+        { name: 'return', type: 'boolean' }
+    ]}
+</DocFn>
+```ts
+css.add('text:center', ...)
+```
+
+### `css.delete()`
+Remove an existing syntax class.
+<DocFn>
+    {[
+        { name: '...classNames', type: 'string[]' },
+        { name: 'return', type: 'boolean' }
+    ]}
+</DocFn>
+```ts
+css.delete('text:center', ...)
+```
+
+### `css.refresh()`
+Refresh the Master CSS with the configuration.
+<DocFn>
+    {[
+        { name: 'config?', type: 'Config', defaultValue: 'this.customConfig' },
+        { name: 'return', type: 'this' },
+    ]}
+</DocFn>
+```ts
+css.refresh(config)
+```
+
+### `css.reset()`
+Clear all rules and reset to initial.
+<DocFn>
+    {[ { name: 'return', type: 'this' } ]}
+</DocFn>
+```ts
+css.reset()
+```
+
+### `css.destroy()`
+Destroy and remove the current instance from `globalThis.masterCSSs`.
+<DocFn>
+    {[ { name: 'return', type: 'this' } ]}
+</DocFn>
+```ts
+css.destroy()
+```
+
+### `globalThis.masterCSSs`
+All objects instantiated via `js new MasterCSS()`.
+<DocProp defaultValue="[]" types={['MasterCSS[]']} />
+
+### `globalThis.MasterCSS`
+<DocProp defaultValue="MasterCSS" types={['typeof RuntimeCSS']} />
+

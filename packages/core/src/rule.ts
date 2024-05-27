@@ -28,7 +28,7 @@ export class Rule {
         if (!definition.unit) definition.unit = ''
         if (!definition.separators) definition.separators = [',']
         const { scope, important, modes } = css.config
-        const { selectors, queries, stylesBy, animations } = css
+        const { selectors, at, stylesBy, animations } = css
         const classNames = stylesBy[className]
 
         if (create) create.call(this, className)
@@ -254,14 +254,14 @@ export class Rule {
                             if (atComponentToken === '&') {
                                 atComponents.push({ type: 'operator', token: atComponentToken, value: 'and' })
                             } else if (atComponentToken.startsWith('')) {
-                                const targetQuery = queries[atComponentToken]
-                                if (targetQuery && typeof targetQuery === 'string') {
-                                    const match = targetQuery.match(queryTypeRegExp)
+                                const targetAt = at[atComponentToken]
+                                if (targetAt && typeof targetAt === 'string') {
+                                    const match = targetAt.match(queryTypeRegExp)
                                     queryType = match ? match[1] : ''
-                                    if (!queryType) throw new Error(`Invalid query '${atComponentToken}': '${targetQuery}'`)
+                                    if (!queryType) throw new Error(`Invalid query '${atComponentToken}': '${targetAt}'`)
                                     atComponents.push({
                                         type: 'arbitrary',
-                                        value: targetQuery.slice(match ? match[1].length + 1 : 0)
+                                        value: targetAt.slice(match ? match[1].length + 1 : 0)
                                     })
                                 } else {
                                     // todo: container queries
@@ -280,7 +280,7 @@ export class Rule {
                                         extremumOperator = '<'
                                         featureName = 'max-width'
                                         correction = -.02
-                                    } else if (atComponentToken.startsWith('>=') || targetQuery) {
+                                    } else if (atComponentToken.startsWith('>=') || targetAt) {
                                         extremumOperator = '>='
                                         featureName = 'min-width'
                                     }
@@ -288,7 +288,7 @@ export class Rule {
                                         = extremumOperator
                                             ? atComponentToken.replace(extremumOperator, '')
                                             : atComponentToken
-                                    const viewport = queries[token]
+                                    const viewport = at[token]
                                     switch (featureName) {
                                         case 'max-width':
                                         case 'min-width':

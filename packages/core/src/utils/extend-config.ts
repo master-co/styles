@@ -1,7 +1,7 @@
 import extend from '@techor/extend'
 import type { AnimationDefinitions, Config } from '../config'
 
-export default function extendConfig(...configs: Config[]) {
+export default function extendConfig(...configs: (Config | undefined)[]) {
     const formatConfig = (config: Config) => {
         const clonedConfig: Config = extend({}, config)
         const formatDeeply = (obj: Record<string, any>) => {
@@ -17,8 +17,8 @@ export default function extendConfig(...configs: Config[]) {
         if (clonedConfig.styles) {
             formatDeeply(clonedConfig.styles)
         }
-        if (clonedConfig.queries) {
-            formatDeeply(clonedConfig.queries)
+        if (clonedConfig.at) {
+            formatDeeply(clonedConfig.at)
         }
         if (clonedConfig.variables) {
             formatDeeply(clonedConfig.variables)
@@ -28,6 +28,7 @@ export default function extendConfig(...configs: Config[]) {
 
     const formattedConfigs: Config[] = []
     for (const eachConfig of configs) {
+        if (!eachConfig) continue
         (function getConfigsDeeply(config: Config) {
             if (config.extends?.length) {
                 for (const eachExtend of config.extends) {
@@ -41,7 +42,7 @@ export default function extendConfig(...configs: Config[]) {
     let extendedConfig: Config = {
         animations: {},
         styles: {},
-        queries: {},
+        at: {},
         variables: {},
     }
     for (let i = 0; i < formattedConfigs.length; i++) {

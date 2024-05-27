@@ -46,7 +46,7 @@ const config: Config = {
     },
     rules: {},
     utilities: {},
-    queries: {},
+    at: {},
     animations: {},
     selectors: {},
     functions: {}

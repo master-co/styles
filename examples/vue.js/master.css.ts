@@ -5,7 +5,7 @@ export default {
     rules: {},
     variables: {},
     utilities: {},
-    queries: {},
+    at: {},
     animations: {},
     selectors: {},
     functions: {}

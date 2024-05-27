@@ -27,7 +27,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             const eachCompletionItem = {
                 kind: CompletionItemKind.Property,
                 documentation: getCSSDataDocumentation(nativeCSSPropertyData, {
-                    docs: isCoreRule(EachRule.id) && EachRule.id
+                    docs: '/reference/' + isCoreRule(EachRule.id) && EachRule.id
                 }),
                 detail: nativeCSSPropertyData?.syntax,
             }
@@ -94,7 +94,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
                 kind: CompletionItemKind.Value,
                 documentation: getCSSDataDocumentation({} as any, {
                     generatedCSS: generateCSS([styleName], css),
-                    docs: 'styles'
+                    docs: '/reference/styles'
                 }),
                 detail: styleClasses.join(' ') + ' (style)',
             })

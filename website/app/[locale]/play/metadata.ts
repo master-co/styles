@@ -2,7 +2,7 @@ import { Metadata } from 'websites/types/Metadata'
 import version from '~/version'
 
 const metadata: Metadata = {
-    title: 'Master CSS Play',
+    title: 'Play',
     description: 'A real-time code editor for Master CSS.',
     category: `v${version}`,
     openGraph: {

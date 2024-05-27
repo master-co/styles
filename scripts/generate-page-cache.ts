@@ -73,7 +73,7 @@ function getBracketContent(source: string, startSymbol = '<', endSymbol = '>') {
     return source.slice(startIndex, currentIndex + 1)
 }
 
-const domain: { name: string, units: Record<string, string> } = { name: `https://${currentBranch === 'main' ? '' : currentBranch + '.'}css.master.co`, units: { docs: 'installation' } }
+const domain: { name: string, units: Record<string, string> } = { name: `https://${currentBranch === 'main' ? '' : currentBranch + '.'}css.master.co`, units: { docs: '/guide/installation' } }
 const storage = getStorage(app)
 const locale = process.env.LOCALE ?? 'en'
 
@@ -85,7 +85,7 @@ const file = bucket.file(name) as any as File
     const sha = process.env.GITHUB_SHA
     console.log('sha: '+ sha)
     console.log('file name: ' + name)
-    
+
     try {
         if (
             (await file.exists())[0]
@@ -104,7 +104,7 @@ const file = bucket.file(name) as any as File
     const nullData: Record<string, boolean> = {}
     const crawle = async (baseUrl: string, crawleUrl: string) => {
         const url = new URL(crawleUrl, baseUrl)
-    
+
         if (
             !(url.pathname in data)
             && !(url.pathname in nullData)
@@ -113,10 +113,10 @@ const file = bucket.file(name) as any as File
             console.log(url.pathname)
             const html = await (await fetch(url.href)).text()
             const $ = cheerio.load(html)
-    
+
             let content = html
             content = content.slice(content.indexOf('<article')).replace(commentRegexp, '')
-    
+
             let i = 0
             const nodes: { text: string, id: string, tag: string }[] = [];
             (function reorganizate(tag, isParentTextTag, isParentBypassTag, bypassHandleTag) {
@@ -124,11 +124,11 @@ const file = bucket.file(name) as any as File
                 i += tagContent.length
                 if (tagContent.endsWith('/>') || SELF_CLOSING_TAGS.includes(tag))
                     return ''
-    
+
                 const closedTag = '</' + tag + '>'
                 const isBypassTag = isParentBypassTag || BYPASS_TAGS.includes(tag)
                 const isTextTag = !isBypassTag && (isParentTextTag || TEXT_TAGS.includes(tag))
-    
+
                 let currentData = ''
                 let nextTagName = ''
                 for (; i < content.length; i++) {
@@ -139,17 +139,17 @@ const file = bucket.file(name) as any as File
                         } else {
                             if (nextTagName.length > 1) {
                                 i -= nextTagName.length
-    
+
                                 const innerData = reorganizate(nextTagName.slice(1), isTextTag, isBypassTag, bypassHandleTag || nextTagName.slice(1) === 'code')
                                 if (isTextTag) {
                                     currentData += innerData
                                 }
-    
+
                                 i--
                             } else {
                                 currentData += nextTagName + char
                             }
-    
+
                             nextTagName = ''
                         }
                     } else if (char === '<') {
@@ -165,7 +165,7 @@ const file = bucket.file(name) as any as File
                         currentData += char
                     }
                 }
-    
+
                 if (isTextTag && !isParentTextTag && !bypassHandleTag) {
                     if (currentData) {
                         let id = ''
@@ -174,7 +174,7 @@ const file = bucket.file(name) as any as File
                         if (idResult) {
                             id = idResult[1]
                         }
-    
+
                         nodes.push({ text: currentData.replace(/&nbsp;/g, ' '), id, tag })
                     }
                     return ''
@@ -182,7 +182,7 @@ const file = bucket.file(name) as any as File
                     return currentData
                 }
             })('article', false, false, false)
-    
+
             if (nodes.length) {
                 data[url.pathname] = {
                     title: $('title').text().replace(/- Master (CSS|UI|Components|Templates)/, ''),
@@ -194,7 +194,7 @@ const file = bucket.file(name) as any as File
             } else {
                 nullData[url.pathname] = true
             }
-    
+
             const hrefs = $('a')
                 .map((index, element) => $(element).attr('href'))
                 .get()
@@ -203,7 +203,7 @@ const file = bucket.file(name) as any as File
             }
         }
     }
-    
+
     const content: Array<typeof data[0] & { url: string }> = []
     const suffix = (locale === defaultLocale) ? '' : ('/' + locale)
     for (const eachUnit in domain.units) {
@@ -217,11 +217,11 @@ const file = bucket.file(name) as any as File
             delete data[eachUrl]
         }
     }
-    
+
     if (content.length) {
         const filePath = path.resolve(process.cwd(), name).replace(/:[0-9]+/, '')
         fs.writeFileSync(filePath, zlib.brotliCompressSync(JSON.stringify(content)), { encoding: 'utf-8' })
-    
+
         await bucket.upload(filePath, { destination: name, contentType: 'application/json', metadata: { contentEncoding: 'br', metadata: { sha } } })
         await bucket.file(name).makePublic()
 

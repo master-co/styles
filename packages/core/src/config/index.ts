@@ -1,4 +1,4 @@
-import queries from './queries'
+import at from './at'
 import selectors from './selectors'
 import utilities from './utilities'
 import animations from './animations'
@@ -10,7 +10,7 @@ import type { PropertiesHyphen } from 'csstype'
 import type { Rule, RuleDefinition, ValueComponent } from '../rule'
 
 const config: Config = {
-    queries,
+    at,
     selectors,
     utilities,
     rules,
@@ -27,7 +27,7 @@ const config: Config = {
 
 export {
     config,
-    queries,
+    at,
     selectors,
     utilities,
     rules,
@@ -42,7 +42,7 @@ export type VariableDefinition = { [key in '' | `@${string}` | string]?: Variabl
 export type CSSKeyframes = { [key in 'from' | 'to' | string]: PropertiesHyphen }
 export type AnimationDefinitions = { [key: string]: CSSKeyframes }
 export type SelectorDefinitions = { [key: string]: string | string[] }
-export type MediaQueryDefinitions = { [key: string]: number | string | MediaQueryDefinitions }
+export type AtDefinitions = { [key: string]: number | string | AtDefinitions }
 export type StyleDefinitions = { [key: string]: string | StyleDefinitions }
 export type RuleDefinitions = { [key in keyof typeof rules | string]?: RuleDefinition }
 export type VariableDefinitions = { [key in keyof typeof rules]?: VariableDefinition } & { [key: string]: VariableDefinition }
@@ -57,7 +57,7 @@ export type FunctionDefinitions = { [key: string]: FunctionDefinition }
 export interface Config {
     extends?: (Config | any)[]
     styles?: StyleDefinitions
-    queries?: MediaQueryDefinitions
+    at?: AtDefinitions
     selectors?: SelectorDefinitions
     utilities?: UtilityDefinitions
     variables?: VariableDefinitions

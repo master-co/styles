@@ -3,7 +3,7 @@ import { MasterCSS } from '../../../src'
 
 test.concurrent('queries', () => {
     expect(new MasterCSS({
-        queries: {
+        at: {
             watch: 'media (max-device-width:42mm) and (min-device-width:38mm)',
             support: {
                 backdrop: 'supports (backdrop-filter:blur(0px))',

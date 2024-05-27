@@ -8,7 +8,7 @@ export default function getUtilityInfo(EachRule: RegisteredRule, css = new Maste
     const propsLength = Object.keys(declarations || {}).length
     const propName = Object.keys(declarations || {})[0] as keyof typeof declarations
     const propValue = declarations?.[propName]
-    let data: IPropertyData  | undefined
+    let data: IPropertyData | undefined
     let detail: string | undefined
     /**
      * Remaps to native CSS properties when only one property is declared
@@ -28,7 +28,7 @@ export default function getUtilityInfo(EachRule: RegisteredRule, css = new Maste
         }
     }
     return {
-        docs: data ? propName : 'utilities',
+        docs: '/reference/' + (data ? propName : 'utilities'),
         data,
         detail
     }
