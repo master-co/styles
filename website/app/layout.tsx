@@ -5,6 +5,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export const metadata = {
+    title: {
+        template: '%s - Master CSS',
+        default: 'Master CSS'
+    },
     metadataBase: new URL(process.env.HOST as string)
 }
 

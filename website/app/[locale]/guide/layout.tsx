@@ -5,13 +5,6 @@ import DocHeader from '~/components/DocHeader'
 import DocSidebar from '~/components/DocSidebar'
 import guideCategories from '~/data/guide-categories.json'
 
-export const metadata = {
-    title: {
-        template: '%s - Master CSS',
-        default: 'Master CSS'
-    }
-}
-
 export async function generateStaticParams() {
     return i18n.locales.map((locale: any) => ({ locale }))
 }

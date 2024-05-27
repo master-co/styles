@@ -1,7 +1,7 @@
 import { Metadata } from 'websites/types/Metadata'
 
 const metadata: Metadata = {
-    title: 'Master CSS 2.0',
+    title: 'Blog',
     description: 'The latest Master CSS things',
     unfinished: true
 }

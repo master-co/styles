@@ -9,7 +9,16 @@
 </div>
 
 ## Documentation
-Visit the [Language Service - Master CSS](https://rc.css.master.co/docs/language-service) to learn all the features.
+See the [guide](https://rc.css.master.co/guide/language-service) to learn about Master CSS language services features.
+
+## Settings
+Set options in __.vscode/settings.json__ with the `masterCSS.` prefix, for example:
+```json
+{
+    "masterCSS.suggestSyntax": true
+}
+```
+The extension's settings are inherited from the Master CSS [language service](https://rc.css.master.co/reference/language-service) and [language server](https://rc.css.master.co/reference/language-server).
 
 ## Community
 The Master CSS community can be found here:

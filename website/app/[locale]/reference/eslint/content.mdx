@@ -23,8 +23,8 @@ To learn more about features, check out the [Code Linting](/guide/code-linting).
 
 ---
 
-## Interfaces
-### `rules.class-order`
+## Rules
+### Class Order
 Enforce a consistent and logical order of classes.
 ```json name=.eslintrc.json
 {
@@ -34,7 +34,7 @@ Enforce a consistent and logical order of classes.
 }
 ```
 
-### `rules.class-validation`
+### Class Validation
 Detect syntax errors early when writing classes.
 ```json name=.eslintrc.json
 {
@@ -54,7 +54,7 @@ Set `disallowUnknownClass: true` to disallow unknow classes and enforce strict c
 }
 ```
 
-### `rules.class-collision`
+### Class Collision
 Avoid applying classes with the same CSS declaration.
 ```json name=.eslintrc.json
 {
@@ -64,61 +64,74 @@ Avoid applying classes with the same CSS declaration.
 }
 ```
 
-### `settings.classAttributes`
+---
+
+## Settings
+### `classAttributes`
 Specify the element attribute containing classes.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
     {
         "settings": {
-            "classAttributes": ${JSON.stringify(settings.classAttributes, null, 4)}
+            "@master/css": {
+                "classAttributes": ${JSON.stringify(settings.classAttributes, null, 4)}
+            }
         }
     }
 `}
 </Code>
 
-### `settings.classFunctions`
+### `classFunctions`
 Specify the names of the function to check its arguments.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
     {
         "settings": {
-            "classFunctions": ${JSON.stringify(settings.classFunctions, null, 4)}
+            "@master/css": {
+                "classFunctions": ${JSON.stringify(settings.classFunctions, null, 4)}
+            }
         }
     }
 `}
 </Code>
 
-### `settings.classDeclarations`
+### `classDeclarations`
 Specify the names of the variable/member to check its declarations.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
     {
         "settings": {
-            "classDeclarations": ${JSON.stringify(settings.classDeclarations, null, 4)}
+            "@master/css": {
+                "classDeclarations": ${JSON.stringify(settings.classDeclarations, null, 4)}
+            }
         }
     }
 `}
 </Code>
 
-### `settings.ignoredKeys`
+### `ignoredKeys`
 Specifies object keys to ignore checking.
 <Code lang="json" name=".eslintrc.json" beautify>
 {`
     {
         "settings": {
-            "ignoredKeys": ${JSON.stringify(settings.ignoredKeys, null, 4)}
+            "@master/css": {
+                "ignoredKeys": ${JSON.stringify(settings.ignoredKeys, null, 4)}
+            }
         }
     }
 `}
 </Code>
 
-### `settings.config`
+### `config`
 Specify a custom Master CSS configuration or path.
 <Code lang="json" name=".eslintrc.json">
 {`
     {
         "settings": {
-            "config": "${settings.config}"
+            "@master/css": {
+                "config": "${settings.config}"
+            }
         }
     }
 `}
