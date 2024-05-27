@@ -19,7 +19,7 @@ export default () =>
                             const eachBreakpoint = at[eachBreakpointName]
                             return (
                                 <tr key={eachBreakpointName}>
-                                    <th><code>{eachBreakpointName}</code></th>
+                                    <td><code>{eachBreakpointName}</code></td>
                                     <td>
                                         <InlineCode lang="js">{JSON.stringify(eachBreakpoint)}</InlineCode>
                                     </td>

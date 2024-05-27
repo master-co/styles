@@ -10,7 +10,7 @@ const syntaxes = [
     'max-h:screen-2xs',
     'max-h:screen-xs',
     'max-h:screen-sm',
-    ['max-h:screen-md',],
+    'max-h:screen-md',
     'max-h:screen-lg',
     'max-h:screen-xl',
     'max-h:screen-2xl',

@@ -2,7 +2,7 @@ import { Metadata } from 'websites/types/Metadata'
 
 const metadata: Metadata = {
     title: 'At',
-    description: 'Customizing feature queries and breakpoints for your design system.',
+    description: 'Customizing at-rules for your design system.',
     category: 'Configuration',
 }
 

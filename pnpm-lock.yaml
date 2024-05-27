@@ -1413,6 +1413,12 @@ importers:
         specifier: workspace:^
         version: link:../../shared
 
+  packages/create/tests/with-no-deps/dist:
+    dependencies:
+      '@master/css':
+        specifier: 2.0.0-rc.39
+        version: 2.0.0-rc.39
+
   packages/eslint-config:
     dependencies:
       '@master/eslint-plugin-css':
@@ -4776,6 +4782,10 @@ packages:
 
   '@master/css@2.0.0-rc.38':
     resolution: {integrity: sha512-fCPCW4j7YgPpr354C4v9OmsGr/3Ri4cGR1vxpDNIjS7eaptnelWfCTjxjqvoIhs+QOqHJ7ylZsvTY5XJh45h6Q==}
+    hasBin: true
+
+  '@master/css@2.0.0-rc.39':
+    resolution: {integrity: sha512-ZNl1ZpsD8XlPr+Hj+titWJE1jSX/u7mosSFdNm9gpODeUG3H3m5fRLIDGw9UTzmxP41QeL9/H9T9zM74cYoQwg==}
     hasBin: true
 
   '@master/normal.css@2.1.1':
@@ -19968,6 +19978,13 @@ snapshots:
   '@master/colors@2.0.0': {}
 
   '@master/css@2.0.0-rc.38':
+    dependencies:
+      '@master/colors': 2.0.0
+      '@master/normal.css': 3.0.0
+      '@techor/extend': 3.0.22
+      csstype: 3.1.3
+
+  '@master/css@2.0.0-rc.39':
     dependencies:
       '@master/colors': 2.0.0
       '@master/normal.css': 3.0.0
