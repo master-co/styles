@@ -27,7 +27,6 @@ const redirects = [
     ...generateRedirect('/docs/lazy-loading', '/guide/lazy-loading'),
     ...generateRedirect('/docs/minimization', '/guide/minimization'),
     ...generateRedirect('/docs/preload-critical-resources', '/guide/preload-critical-resources'),
-    { source: '/docs/:path*', destination: '/reference/:path*', permanent: false },
 ]
 
 export default [
