@@ -12,6 +12,19 @@ import zlib from 'zlib'
 // const defaultLocale = i18n.defaultLocale
 const defaultLocale = 'en'
 const currentBranch = process.env.GITHUB_REF_NAME
+const domain: { name: string, units: Record<string, string> } = {
+    name: `https://${currentBranch === 'main' ? '' : currentBranch + '.'}css.master.co`,
+    units: {
+        guide: '',
+        reference: '',
+        roadmap: ''
+    }
+}
+const TEXT_TAGS = ['p', 'span', 'h1', 'h2', 'h3', 'h4', 'li', 'a', 'code', 'mark']
+const SELF_CLOSING_TAGS = ['path', 'area', 'base', 'img', 'hr', 'br', 'col', 'embed', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']
+const BYPASS_TAGS = ['svg']
+const commentRegexp = /<!--.*?-->/g
+const idRegexp = / id="(.*?)"/
 
 console.log('Generating Page Cache...')
 
@@ -30,12 +43,6 @@ const app = initializeApp({
         'universe_domain': 'googleapis.com'
     } as any)
 })
-
-const TEXT_TAGS = ['p', 'span', 'h1', 'h2', 'h3', 'h4', 'li', 'a', 'code', 'mark']
-const SELF_CLOSING_TAGS = ['path', 'area', 'base', 'img', 'hr', 'br', 'col', 'embed', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']
-const BYPASS_TAGS = ['svg']
-const commentRegexp = /<!--.*?-->/g
-const idRegexp = / id="(.*?)"/
 
 function getBracketContent(source: string, startSymbol = '<', endSymbol = '>') {
     const startIndex = source.indexOf(startSymbol)
@@ -73,13 +80,8 @@ function getBracketContent(source: string, startSymbol = '<', endSymbol = '>') {
     return source.slice(startIndex, currentIndex + 1)
 }
 
-const domain: { name: string, units: Record<string, string> } = {
-    name: `https://${currentBranch === 'main' ? '' : currentBranch + '.'}css.master.co`,
-    units: {}
-}
 const storage = getStorage(app)
 const locale = process.env.LOCALE ?? 'en'
-
 const bucket = storage.bucket('master-co.appspot.com')
 const name = `${currentBranch === 'main' ? '' : currentBranch + '.'}css.master.co-${locale}.br`
 const file = bucket.file(name) as any as File
