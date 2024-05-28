@@ -3,7 +3,7 @@ import { Metadata } from 'websites/types/Metadata'
 const metadata: Metadata = {
     title: 'Screens',
     description: 'Customizing screen sizes and breakpoints for your design system.',
-    category: 'Variable'
+    category: 'Design Token'
 }
 
 export default metadata
