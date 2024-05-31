@@ -238,7 +238,7 @@ export class Rule {
                     let queryType: string | undefined
                     const atComponents: AtComponent[] = []
                     // x font-face, counter-style, keyframes, font-feature-values, property, layer
-                    const queryTypeRegExp = /^(media|supports|container)/
+                    const queryTypeRegExp = /^(media|supports|container|layer)/
                     const atRuleResult = queryTypeRegExp.exec(atToken)
                     if (atRuleResult) {
                         queryType = atRuleResult[1]

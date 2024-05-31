@@ -1,2 +1,108 @@
+import { buttonSizes } from '~/styles/btn'
+
 ## Foreword [sr-only]
-🚧
+As the styles grow, you will notice similar class name combinations and the same design patterns repeatedly appearing in your code. To improve development efficiency and maintain design consistency, you will need to reuse or access them in some way.
+
+In addition to offering some general methods, this guide also provides specialized solutions tailored for frameworks.
+
+The UI is gradually composed of 1 to 4:
+
+1. [Variables](/reference/variables) / [Animations](/reference/animations) / [Functions](/reference/functions) / [Selectors](/reference/selectors) / [At](/reference/at) / [Utilities](/reference/utilities)
+1. [Rules](/reference/styles)
+1. [Styles](/reference/styles)
+1. [Components](#componentization)
+
+---
+
+## Abstract styles
+Traditionally, we define styles like `.btn` or `.card` by writing CSS rules. In Master CSS, we abstract them using [styles](/reference/styles), which is similar to [Figma's Styles](https://help.figma.com/hc/en-us/articles/360039238753-Styles-in-Figma).
+
+To design a scalable style, you should ensure the single responsibility of class composition; otherwise, you may end up using a lot of `!important` to override rules or the `@preset` layer to lower default styles, ultimately leading to chaotic styles.
+
+### Create button styles
+Let's implement a rich button as an example.
+<Code lang="ts" name="styles/btn.ts">
+    {require('!!raw-loader!~/styles/btn').default}
+</Code>
+To apply the button sizes.
+<Demo className="gap:8x">
+    <button className="btn btn-xs yellow touch-yellow">Submit</button>
+    <button className="btn btn-sm yellow touch-yellow">Submit</button>
+    <button className="btn btn-md yellow touch-yellow">Submit</button>
+    <button className="btn btn-lg yellow touch-yellow">Submit</button>
+    <button className="btn btn-xl yellow touch-yellow">Submit</button>
+</Demo>
+```html
+<button class="btn **btn-xs** …">Submit</button>
+<button class="btn **btn-sm** …">Submit</button>
+<button class="btn **btn-md** …">Submit</button>
+<button class="btn **btn-lg** …">Submit</button>
+<button class="btn **btn-xl** …">Submit</button>
+```
+To apply the button sizes that are finely tuned for rounded styles.
+<Demo className="gap:8x">
+    <button className="btn btn-xs rounded yellow touch-yellow">Submit</button>
+    <button className="btn btn-sm rounded yellow touch-yellow">Submit</button>
+    <button className="btn btn-md rounded yellow touch-yellow">Submit</button>
+    <button className="btn btn-lg rounded yellow touch-yellow">Submit</button>
+    <button className="btn btn-xl rounded yellow touch-yellow">Submit</button>
+</Demo>
+```html
+<button class="btn btn-xs **rounded** …">Submit</button>
+<button class="btn btn-sm **rounded** …">Submit</button>
+<button class="btn btn-md **rounded** …">Submit</button>
+<button class="btn btn-lg **rounded** …">Submit</button>
+<button class="btn btn-xl **rounded** …">Submit</button>
+```
+
+### Create common variables and styles
+We pre-use [variables and modes](/guide/variables-and-modes) to create tokens supporting light/dark modes. This not only simplifies template markup but also reduces CSS rule output.
+<Code lang="ts" name="styles/master.css.ts">
+    {require('!!raw-loader!~/styles/base').default}
+</Code>
+- Variables
+    - `yellow-ring` is an outline color that complements a yellow background.
+    - `touch-yellow` is a background color on hover.
+    - `text-yellow-contrast` is a contrasting color fine-tuned against a yellow background.
+
+<Demo className="gap:8x">
+    <button className="btn btn-md yellow touch-yellow">Submit</button>
+</Demo>
+```html
+<button class="btn btn-md **yellow** **touch-yellow**">Submit</button>
+```
+
+
+### Manage style files
+As usual, you can split the styles into multiple files for management.
+```treeview
+🗂️ styles
+|-- 📄 btn.ts
+`-- 📄 card.ts
+📄 master.css.ts
+```
+This is a standard button style file, which is exported in configuration form.
+```js name=styles/btn.ts
+import type { Config } from '@master/css'
+
+export default {
+    styles: {
+        btn: '…'
+    }
+} as Config
+```
+[Extend](/reference/configuration#extends) them uniformly in the __master.css.ts__ entry file.
+```js name=master.css.js
+import type { Config } from '@master/css'
+
+export default {
+    extends: [
+        require('./styles/btn')
+    ]
+} as Config
+```
+When the project is small in scale, you don't necessarily have to insist on splitting stylesheet files. Sometimes a single __master.css.ts__ configuration is sufficient.
+
+---
+
+## Componentization
