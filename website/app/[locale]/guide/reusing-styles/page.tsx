@@ -1,4 +1,4 @@
-import Layout from '~/layouts/reference'
+import Layout from '~/layouts/doc'
 import pageCategories from '~/data/guide-categories.json'
 import metadata from './metadata'
 /* @ts-expect-error toc */

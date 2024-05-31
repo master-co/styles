@@ -1,6 +1,7 @@
 import extend from '@techor/extend'
 import type { AnimationDefinitions, Config } from '../config'
 
+// todo: split resolveConfig into a function
 export default function extendConfig(...configs: (Config | undefined)[]) {
     const formatConfig = (config: Config) => {
         const clonedConfig: Config = extend({}, config)

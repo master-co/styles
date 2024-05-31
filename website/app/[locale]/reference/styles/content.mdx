@@ -60,36 +60,3 @@ You can see that `b` inherits the text lime color of `a`:
         <Code lang="css" beautify>{require('!!raw-loader!./tests/extend-an-existing-style/generated.css').default}</Code>
     </div>
 </details>
-
----
-
-## Style guides
-### Split styles into files
-Whether to split into multiple files depends on how many abstract styles you have.
-```treeview
-project/
-|-- 🗂️ styles
-|   |-- 📄 btn.css.js
-|   `-- 📄 card.css.js
-`-- 📄 master.css.js
-```
-Typically, frameworks or standard directory structures come with a "styles/" folder for CSS files, and we recommend placing your custom styles there with "styles/*.css.js".
-```js name=styles/btn.css.js
-/** @type {import('@master/css').Config} */
-export default {
-    styles: {
-        btn: '…'
-    }
-}
-```
-
-Extend "styles/btn.css.js" in "master.css.js".
-
-```js name=master.css.js
-/** @type {import('@master/css').Config} */
-export default {
-    extends: [
-        require('./styles/btn.css')
-    ]
-}
-```
