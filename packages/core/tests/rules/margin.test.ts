@@ -2,7 +2,7 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
 it.concurrent('checks margin order', () => {
-    expect(new MasterCSS().add('mx:0', 'ml:0', 'mr:0', 'm:0', 'mt:0', 'mb:0', 'my:0').rules)
+    expect(new MasterCSS().add('mx:0', 'ml:0', 'mr:0', 'm:0', 'mt:0', 'mb:0', 'my:0').syntaxes)
         .toMatchObject([
             { className: 'm:0' },
             { className: 'mx:0' },

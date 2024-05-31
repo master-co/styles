@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import { Rule, type NativeRule, type RuleDefinition, type RegisteredRule, AtFeatureComponent } from './rule'
+import { Rule, type NativeRule, type SyntaxDefinition, type RegisteredRule, AtFeatureComponent } from './rule'
 import type { Config, AnimationDefinitions, VariableDefinition } from './config'
 import { config as defaultConfig } from './config'
 import Layer from './layer'
@@ -24,7 +24,7 @@ export type Variable = TypeVariable & VariableCommon
 
 export default class MasterCSS {
     static config: Config = defaultConfig
-    readonly rules: Rule[] = []
+    readonly syntaxes: Rule[] = []
     readonly ruleBy: Record<string, Rule> = {}
     readonly classesUsage: Record<string, number> = {}
     readonly config: Config
@@ -60,7 +60,7 @@ export default class MasterCSS {
             transparent: undefined
         }
 
-        const { styles, selectors, variables, utilities, at, rules, animations } = this.config
+        const { styles, selectors, variables, utilities, at, syntaxes, animations } = this.config
 
         function escapeString(str: string) {
             return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
@@ -323,16 +323,16 @@ export default class MasterCSS {
             handleUtilityName(eachUtilityName)
         }
 
-        if (rules || utilities) {
-            const rulesEntries: [string, RuleDefinition][] = []
+        if (syntaxes || utilities) {
+            const rulesEntries: [string, SyntaxDefinition][] = []
             if (utilities) {
                 for (const utilityName in utilities) {
                     const declarations = utilities[utilityName] as any
                     rulesEntries.push([utilityName, { declarations, layer: Layer.Utility }])
                 }
             }
-            if (rules) {
-                rulesEntries.push(...Object.entries(rules) as [string, RuleDefinition][])
+            if (syntaxes) {
+                rulesEntries.push(...Object.entries(syntaxes) as [string, SyntaxDefinition][])
             }
             const rulesEntriesLength = rulesEntries.length
             const colorNames = Object.keys(colorVariableNames)
@@ -343,17 +343,17 @@ export default class MasterCSS {
                     }
                     return b[0].localeCompare(a[0])
                 })
-                .forEach(([id, eachRuleDefinition], index: number) => {
+                .forEach(([id, eachSyntaxDefinition], index: number) => {
                     const EachRule: RegisteredRule = {
                         id,
                         keys: [],
                         variables: {},
                         matchers: {},
                         order: rulesEntriesLength - 1 - index,
-                        definition: eachRuleDefinition
+                        definition: eachSyntaxDefinition
                     }
                     this.Rules.push(EachRule)
-                    const { matcher, layer, subkey, ambiguousKeys, ambiguousValues, sign } = eachRuleDefinition
+                    const { matcher, layer, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxDefinition
                     if (layer === Layer.Utility) {
                         EachRule.id = '.' + id
                         EachRule.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
@@ -369,9 +369,9 @@ export default class MasterCSS {
                         }
                     }
 
-                    // 1. custom `config.rules[id].variables`
-                    if (eachRuleDefinition.variables) {
-                        for (const eachVariableGroup of eachRuleDefinition.variables) {
+                    // 1. custom `config.syntaxes[id].variables`
+                    if (eachSyntaxDefinition.variables) {
+                        for (const eachVariableGroup of eachSyntaxDefinition.variables) {
                             addResolvedVariables(eachVariableGroup)
                         }
                     }
@@ -379,9 +379,9 @@ export default class MasterCSS {
                     // 2. custom `config.variables`
                     addResolvedVariables(id)
                     const keys = []
-                    let { key } = eachRuleDefinition
+                    let { key } = eachSyntaxDefinition
                     if (layer === Layer.NativeShorthand || layer === Layer.Native) {
-                        if (!key) eachRuleDefinition.key = key = id
+                        if (!key) eachSyntaxDefinition.key = key = id
                         keys.push(id)
                     }
                     if (sign) {
@@ -463,7 +463,7 @@ export default class MasterCSS {
     }
 
     /**
-     * Generate rules from class name
+     * Generate syntaxes from class name
      * @param className
      * @returns Rule[]
      */
@@ -473,7 +473,7 @@ export default class MasterCSS {
                 ? this.styles[className].map((eachSyntax) => this.create(eachSyntax))
                 : [this.create(className)]
         )
-            .filter(eachRule => eachRule && eachRule?.text) as Rule[]
+            .filter(eachSyntax => eachSyntax && eachSyntax?.text) as Rule[]
     }
 
     /**
@@ -507,12 +507,12 @@ export default class MasterCSS {
             this.config = extendConfig(customConfig)
         }
         this.resolve()
-        this.rules.length = 0
+        this.syntaxes.length = 0
         // @ts-ignore
         this.ruleBy = {}
         /**
-         * 拿當前所有的 classNames 按照最新的 colors, config.rules 匹配並生成新的 style
-         * 所以 refresh 過後 rules 可能會變多也可能會變少
+         * 拿當前所有的 classNames 按照最新的 colors, config.syntaxes 匹配並生成新的 style
+         * 所以 refresh 過後 syntaxes 可能會變多也可能會變少
          */
         for (const name in this.classesUsage) {
             this.add(name)
@@ -525,7 +525,7 @@ export default class MasterCSS {
         this.ruleBy = {}
         // @ts-ignore
         this.classesUsage = {}
-        this.rules.length = 0
+        this.syntaxes.length = 0
         this.hasKeyframesRule = false
         this.variablesNativeRules = {}
         for (const keyframeName in this.animations) {
@@ -548,9 +548,9 @@ export default class MasterCSS {
 
     add(...classNames: string[]) {
         for (const className of classNames) {
-            const rules = this.generate(className)
-            if (rules.length) {
-                for (const rule of rules) {
+            const syntaxes = this.generate(className)
+            if (syntaxes.length) {
+                for (const rule of syntaxes) {
                     this.insert(rule)
                 }
             }
@@ -585,7 +585,7 @@ export default class MasterCSS {
                 }
             }
 
-            this.rules.splice(this.rules.indexOf(rule), 1)
+            this.syntaxes.splice(this.syntaxes.indexOf(rule), 1)
             delete this.ruleBy[name]
 
             // variables
@@ -598,13 +598,13 @@ export default class MasterCSS {
                             const nativeRule = this.variablesNativeRules[mode];
                             (nativeRule.cssRule as CSSStyleRule).style.removeProperty('--' + eachVariableName)
                             if (!(nativeRule.cssRule as CSSStyleRule).style.length) {
-                                const variablesRule = this.rules[0]
+                                const variablesRule = this.syntaxes[0]
                                 const index = variablesRule.natives.indexOf(nativeRule)
                                 sheet?.deleteRule(index)
                                 variablesRule.natives.splice(index, 1)
                                 delete this.variablesNativeRules[mode]
                                 if (!variablesRule.natives.length) {
-                                    this.rules.splice(0, 1)
+                                    this.syntaxes.splice(0, 1)
                                     this.variablesNativeRules = {}
                                 }
                             }
@@ -624,7 +624,7 @@ export default class MasterCSS {
             // animations
             if (rule.animationNames) {
                 const keyframeRulesIndex = Object.keys(this.variablesNativeRules).length ? 1 : 0
-                const keyframeRule = this.rules[keyframeRulesIndex]
+                const keyframeRule = this.syntaxes[keyframeRulesIndex]
                 for (const eachKeyframeName of rule.animationNames) {
                     const keyframe = this.animations[eachKeyframeName]
                     if (!keyframe.usage) keyframe.usage = 0
@@ -637,7 +637,7 @@ export default class MasterCSS {
                 }
 
                 if (!keyframeRule.natives.length) {
-                    this.rules.splice(keyframeRulesIndex, 1)
+                    this.syntaxes.splice(keyframeRulesIndex, 1)
                     this.hasKeyframesRule = false
                 }
             }
@@ -686,18 +686,18 @@ export default class MasterCSS {
          * @example <1  <2  <3  ALL  >=1 >=2 >=3
          * @description
          */
-        const endIndex = this.rules.length - 1
+        const endIndex = this.syntaxes.length - 1
         const { at, atToken, order, priority, hasWhere, className } = rule
 
         const findIndex = (startIndex: number, stopCheck?: (rule: Rule) => any, matchCheck?: (rule: Rule) => any) => {
             let i = startIndex
             for (; i <= endIndex; i++) {
-                const eachRule = this.rules[i]
-                if (stopCheck?.(eachRule))
+                const eachSyntax = this.syntaxes[i]
+                if (stopCheck?.(eachSyntax))
                     return matchCheck
                         ? -1
                         : i - 1
-                if (matchCheck?.(eachRule))
+                if (matchCheck?.(eachSyntax))
                     return i
             }
 
@@ -709,14 +709,14 @@ export default class MasterCSS {
         let matchStartIndex: number | undefined
         let matchEndIndex: number | undefined
         if (atToken) {
-            const mediaStartIndex = this.rules.findIndex(eachRule => eachRule.at?.media)
+            const mediaStartIndex = this.syntaxes.findIndex(eachSyntax => eachSyntax.at?.media)
             if (mediaStartIndex === -1) {
                 index = endIndex + 1
             } else {
                 const maxWidthFeature = at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent
                 const minWidthFeature = at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent
                 if (maxWidthFeature || minWidthFeature) {
-                    const mediaWidthStartIndex = this.rules.findIndex(eachRule => eachRule.at?.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width'))
+                    const mediaWidthStartIndex = this.syntaxes.findIndex(eachSyntax => eachSyntax.at?.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width'))
                     if (mediaWidthStartIndex === -1) {
                         index = endIndex + 1
                     } else {
@@ -730,18 +730,18 @@ export default class MasterCSS {
                             if (priority === -1) {
                                 matchStartIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.priority !== -1,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width')
+                                    eachSyntax => eachSyntax.priority !== -1,
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width')
                                 )
                                 matchEndIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.priority !== -1
                                 )
                             } else {
                                 matchStartIndex = findIndex(
                                     mediaWidthStartIndex,
                                     undefined,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width') && eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
                                 )
                                 matchEndIndex = endIndex
                             }
@@ -753,9 +753,9 @@ export default class MasterCSS {
                                 const endI = matchStartIndex
                                 matchStartIndex = matchEndIndex + 1
                                 for (; i >= endI; i--) {
-                                    const eachRule = this.rules[i]
-                                    const eachMaxWidthFeature = eachRule.at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent
-                                    const eachMinWidthFeature = eachRule.at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent
+                                    const eachSyntax = this.syntaxes[i]
+                                    const eachMaxWidthFeature = eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent
+                                    const eachMinWidthFeature = eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent
                                     if (!eachMaxWidthFeature || !eachMinWidthFeature) {
                                         break
                                     } else {
@@ -778,28 +778,28 @@ export default class MasterCSS {
                             if (priority === -1) {
                                 matchStartIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width') || eachRule.priority !== -1,
-                                    eachRule => !eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width')
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1,
+                                    eachSyntax => !eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width')
                                 )
                                 matchEndIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width') || eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1
                                 )
                             } else {
                                 matchStartIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width') && eachRule.priority !== -1,
-                                    eachRule => !eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width') && eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1,
+                                    eachSyntax => !eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
                                 )
                                 matchEndIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.at.media?.find(({ name }: any) => name === 'min-width') && eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
                                 )
                             }
 
                             if (matchStartIndex !== -1) {
                                 for (let i = matchEndIndex; i >= matchStartIndex; i--) {
-                                    const value = (this.rules[i].at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent).value
+                                    const value = (this.syntaxes[i].at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent).value
                                     if (value > minWidthFeature.value) {
                                         matchEndIndex = i - 1
                                     } else if (value < minWidthFeature.value) {
@@ -816,28 +816,28 @@ export default class MasterCSS {
                             if (priority === -1) {
                                 matchStartIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'min-width') || eachRule.priority !== -1,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width')
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1,
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width')
                                 )
                                 matchEndIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'min-width') || eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1
                                 )
                             } else {
                                 matchStartIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'min-width') && eachRule.priority !== -1,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width') && eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1,
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.priority !== -1
                                 )
                                 matchEndIndex = findIndex(
                                     mediaWidthStartIndex,
-                                    eachRule => eachRule.at.media?.find(({ name }: any) => name === 'min-width') && eachRule.priority !== -1
+                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
                                 )
                             }
 
                             if (matchStartIndex !== -1) {
                                 for (let i = matchEndIndex; i >= matchStartIndex; i--) {
-                                    const value = (this.rules[i].at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent).value
+                                    const value = (this.syntaxes[i].at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent).value
                                     if (value < maxWidthFeature.value) {
                                         matchEndIndex = i - 1
                                     } else if (value > maxWidthFeature.value) {
@@ -853,17 +853,17 @@ export default class MasterCSS {
                         matchStartIndex = mediaStartIndex
                         matchEndIndex = findIndex(
                             mediaStartIndex,
-                            eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width') || eachRule.priority !== -1
+                            eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width') || eachSyntax.priority !== -1
                         )
                     } else {
                         matchStartIndex = findIndex(
                             mediaStartIndex,
-                            eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width'),
-                            eachRule => eachRule.priority !== -1
+                            eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width'),
+                            eachSyntax => eachSyntax.priority !== -1
                         )
                         matchEndIndex = findIndex(
                             mediaStartIndex,
-                            eachRule => eachRule.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width')
+                            eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width')
                         )
                     }
                 }
@@ -881,17 +881,17 @@ export default class MasterCSS {
                 matchStartIndex = findStartIndex
                 matchEndIndex = findIndex(
                     findStartIndex,
-                    eachRule => eachRule.atToken || eachRule.priority !== -1
+                    eachSyntax => eachSyntax.atToken || eachSyntax.priority !== -1
                 )
             } else {
                 matchStartIndex = findIndex(
                     findStartIndex,
-                    eachRule => eachRule.atToken,
-                    eachRule => eachRule.priority !== -1
+                    eachSyntax => eachSyntax.atToken,
+                    eachSyntax => eachSyntax.priority !== -1
                 )
                 matchEndIndex = findIndex(
                     findStartIndex,
-                    eachRule => eachRule.atToken
+                    eachSyntax => eachSyntax.atToken
                 )
             }
         }
@@ -902,7 +902,7 @@ export default class MasterCSS {
             } else {
                 if (priority === -1) {
                     for (let i = matchStartIndex; i <= matchEndIndex; i++) {
-                        const currentRule = this.rules[i]
+                        const currentRule = this.syntaxes[i]
                         if (!hasWhere && currentRule.hasWhere)
                             continue
 
@@ -916,7 +916,7 @@ export default class MasterCSS {
                     }
                 } else {
                     for (let i = matchStartIndex; i <= matchEndIndex; i++) {
-                        const currentRule = this.rules[i]
+                        const currentRule = this.syntaxes[i]
                         if (!hasWhere && currentRule.hasWhere)
                             continue
 
@@ -945,14 +945,14 @@ export default class MasterCSS {
             }
         }
 
-        this.rules.splice(index as number, 0, rule)
+        this.syntaxes.splice(index as number, 0, rule)
         this.ruleBy[className] = rule
 
         if (this.style) {
             const sheet = this.style.sheet
             let cssRuleIndex = 0
             const getCssRuleIndex = (index: number): void => {
-                const previousRule = this.rules[index]
+                const previousRule = this.syntaxes[index]
                 if (previousRule) {
                     if (!previousRule.natives.length)
                         return getCssRuleIndex(index - 1)
@@ -994,7 +994,7 @@ export default class MasterCSS {
     }
 
     get text() {
-        return this.rules.map((eachRule) => eachRule.text).join('')
+        return this.syntaxes.map((eachSyntax) => eachSyntax.text).join('')
     }
 
     handleRuleWithAnimationNames(rule: Rule, initializing = false) {
@@ -1018,9 +1018,9 @@ export default class MasterCSS {
                     const keyframeRulesIndex = Object.keys(this.variablesNativeRules).length ? 1 : 0
                     let keyframeRule: Rule
                     if (this.hasKeyframesRule) {
-                        (keyframeRule = this.rules[keyframeRulesIndex]).natives.push(nativeRule)
+                        (keyframeRule = this.syntaxes[keyframeRulesIndex]).natives.push(nativeRule)
                     } else {
-                        this.rules.splice(
+                        this.syntaxes.splice(
                             keyframeRulesIndex,
                             0,
                             keyframeRule = {
@@ -1100,7 +1100,7 @@ export default class MasterCSS {
 
                             if (sheet) {
                                 const newCSSRuleIndex = Object.keys(this.variablesNativeRules).length
-                                    ? this.rules[0].natives.length
+                                    ? this.syntaxes[0].natives.length
                                     : 0
                                 sheet.insertRule(
                                     (mediaConditionText ? mediaConditionText + '{' : '')
@@ -1186,7 +1186,7 @@ export default class MasterCSS {
                     return this.natives.map((eachNative: any) => eachNative.text).join('')
                 }
             }
-            this.rules.splice(0, 0, newRule as any)
+            this.syntaxes.splice(0, 0, newRule as any)
         }
 
         let prefix = ''
@@ -1208,7 +1208,7 @@ export default class MasterCSS {
                 return prefix + properties.join(';') + suffix
             }
         }
-        this.rules[0].natives.push(this.variablesNativeRules[mode] = nativeRule)
+        this.syntaxes[0].natives.push(this.variablesNativeRules[mode] = nativeRule)
         return nativeRule
     }
 }

@@ -2,7 +2,7 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
 it.concurrent('checks padding order', () => {
-    expect(new MasterCSS().add('px:0', 'pl:0', 'pr:0', 'p:0', 'pt:0', 'pb:0', 'py:0').rules)
+    expect(new MasterCSS().add('px:0', 'pl:0', 'pr:0', 'p:0', 'pt:0', 'pb:0', 'py:0').syntaxes)
         .toMatchObject([
             { className: 'p:0' },
             { className: 'px:0' },
@@ -14,7 +14,7 @@ it.concurrent('checks padding order', () => {
         ])
 })
 
-it.concurrent('validates padding rules', () => {
+it.concurrent('validates padding syntaxes', () => {
     expect(new MasterCSS().create('pl:16')?.text).toContain('padding-left:1rem')
     expect(new MasterCSS().create('pr:16')?.text).toContain('padding-right:1rem')
     expect(new MasterCSS().create('pt:16')?.text).toContain('padding-top:1rem')

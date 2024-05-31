@@ -847,10 +847,10 @@ export interface RegisteredRule {
     }
     variables: Record<string, Variable>
     order: number
-    definition: RuleDefinition
+    definition: SyntaxDefinition
 }
 
-export interface RuleDefinition {
+export interface SyntaxDefinition {
     layer?: Layer
     matcher?: RegExp
     sign?: string

@@ -9,8 +9,8 @@ import MasterCSS from '../core'
  */
 export default function reorderForReadableClasses(classes: string[], css = new MasterCSS()) {
     css.add(...classes)
-    const orderedClasses = css.rules
-        // 只保留樣式語法相關的 rules, 排除 keyframes 與 variables 在外
+    const orderedClasses = css.syntaxes
+        // 只保留樣式語法相關的 syntaxes, 排除 keyframes 與 variables 在外
         .filter(eachRule => eachRule.layer)
         .sort((a, b) => {
             if (a.layer === Layer.Utility && b.layer !== Layer.Utility) {

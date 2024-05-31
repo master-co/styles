@@ -1,10 +1,10 @@
 import cssEscape from '@master/css-shared/utils/css-escape'
-import type { Rule, RuleDefinition } from '../rule'
+import type { Rule, SyntaxDefinition } from '../rule'
 import Layer from '../layer'
 import { BORDER_STYLE_VALUES, COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE_REGEX, VALUE_DELIMITERS } from '../common'
 import autofillSolidStyle from '../utils/autofill-solid-style'
 
-const rules = {
+const syntaxes = {
     group: {
         matcher: /^(?:.+?[*_>~+])?\{.+?\}/,
         layer: Layer.Shorthand,
@@ -115,9 +115,9 @@ const rules = {
             addName()
 
             for (const eachName of names) {
-                const rules = this.css.generate(eachName)
-                if (rules.length) {
-                    for (const eachRule of rules) {
+                const syntaxes = this.css.generate(eachName)
+                if (syntaxes.length) {
+                    for (const eachRule of syntaxes) {
                         handleRule(eachRule)
                     }
                 } else {
@@ -127,7 +127,7 @@ const rules = {
 
             return declarations
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     variable: {
         matcher: /^\$[\w-]+:/, // don't use 'rem' as default, because css variable is common API
         layer: Layer.Shorthand,
@@ -136,22 +136,22 @@ const rules = {
                 ['--' + this.keyToken.slice(1, -1)]: value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-size': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-weight': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['bolder'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-family': {
         ambiguousKeys: ['font', 'f'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-smoothing': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['antialiased', 'subpixel-antialiased'],
@@ -170,18 +170,18 @@ const rules = {
                     }
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-style': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['normal', 'italic', 'oblique'],
         layer: Layer.Native,
         unit: 'deg'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-variant-numeric': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['ordinal', 'slashed-zero', 'lining-nums', 'oldstyle-nums', 'proportional-nums', 'tabular-nums', 'diagonal-fractions', 'stacked-fractions'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-variant': {
         ambiguousKeys: ['font', 'f'],
         layer: Layer.NativeShorthand,
@@ -197,41 +197,41 @@ const rules = {
             'font-style',
             'line-height'
         ]
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'font-feature-settings': {
         key: 'font-feature',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     color: {
         key: 'fg',
         layer: Layer.Native,
         variables: ['text']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // margin
     'margin-left': {
         key: 'ml',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'margin-right': {
         key: 'mr',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'margin-top': {
         key: 'mt',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'margin-bottom': {
         key: 'mb',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'margin-x': {
         key: 'mx',
         subkey: 'margin-x',
@@ -244,7 +244,7 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'margin-y': {
         key: 'my',
         unit: 'rem',
@@ -256,57 +256,57 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     margin: {
         key: 'm',
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // margin inline
     'margin-inline-start': {
         key: 'mis',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'margin-inline-end': {
         key: 'mie',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'margin-inline': {
         key: 'mi',
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // padding
     'padding-left': {
         key: 'pl',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'padding-right': {
         key: 'pr',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'padding-top': {
         key: 'pt',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'padding-bottom': {
         key: 'pb',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'padding-x': {
         key: 'px',
         unit: 'rem',
@@ -318,7 +318,7 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'padding-y': {
         key: 'py',
         unit: 'rem',
@@ -330,83 +330,83 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     padding: {
         key: 'p',
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // padding inline
     'padding-inline-start': {
         key: 'pis',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'padding-inline-end': {
         key: 'pie',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'padding-inline': {
         key: 'pi',
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // flex
     'flex-basis': {
         ambiguousKeys: ['flex'],
         unit: 'rem',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'flex-wrap': {
         ambiguousKeys: ['flex'],
         ambiguousValues: ['wrap', 'nowrap', 'wrap-reverse'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'flex-grow': {
         ambiguousKeys: ['flex'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'flex-shrink': {
         ambiguousKeys: ['flex'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'flex-direction': {
         ambiguousKeys: ['flex'],
         ambiguousValues: ['row', 'row-reverse', 'column', 'column-reverse'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     flex: {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     display: {
         key: 'd',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     width: {
         key: 'w',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     height: {
         key: 'h',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'min-width': {
         key: 'min-w',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'min-height': {
         key: 'min-h',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     size: {
         layer: Layer.Shorthand,
         unit: 'rem',
@@ -421,7 +421,7 @@ const rules = {
                     : valueComponents[2].text
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'min-size': {
         key: 'min',
         layer: Layer.Shorthand,
@@ -437,7 +437,7 @@ const rules = {
                     : valueComponents[2].text
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'max-size': {
         key: 'max',
         layer: Layer.Shorthand,
@@ -453,11 +453,11 @@ const rules = {
                     : valueComponents[2].text
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'box-sizing': {
         ambiguousKeys: ['box'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'box-decoration-break': {
         key: 'box-decoration',
         layer: Layer.Native,
@@ -467,67 +467,67 @@ const rules = {
                 'box-decoration-break': value,
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     contain: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     content: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'counter-increment': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'counter-reset': {
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'letter-spacing': {
         key: 'tracking',
         subkey: 'ls',
         layer: Layer.Native,
         unit: 'em'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'line-height': {
         key: 'leading',
         subkey: 'line-h',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'object-fit': {
         ambiguousKeys: ['object', 'obj'],
         ambiguousValues: ['contain', 'cover', 'fill', 'scale-down'],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'object-position': {
         ambiguousKeys: ['object', 'obj'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center'],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-align': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['justify', 'center', 'left', 'right', 'start', 'end'],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-decoration-color': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
         variables: ['text']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-decoration-style': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['solid', 'double', 'dotted', 'dashed', 'wavy'],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-decoration-thickness': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['from-font', NUMBER_VALUE_REGEX],
         layer: Layer.Native,
         unit: 'em'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-decoration-line': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['underline', 'overline', 'line-through'],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-decoration': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['underline', 'overline', 'line-through'],
@@ -540,109 +540,109 @@ const rules = {
                 'text-decoration': value,
             }
         },
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-underline-offset': {
         ambiguousKeys: ['text-underline'],
         unit: 'rem',
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-underline-position': {
         ambiguousKeys: ['text-underline'],
         ambiguousValues: ['front-font', 'under', 'left', 'right'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-overflow': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['ellipsis', 'clip'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-orientation': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['mixed', 'upright', 'sideways-right', 'sideways', 'use-glyph-orientation'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-transform': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['uppercase', 'lowercase', 'capitalize'],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-rendering': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['optimizeSpeed', 'optimizeLegibility', 'geometricPrecision'],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-wrap': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['wrap', 'nowrap', 'balance', 'pretty'],
         layer: Layer.NativeShorthand,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-indent': {
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'vertical-align': {
         key: 'v',
         subkey: 'vertical',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     columns: {
         key: 'cols',
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'white-space': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     top: {
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     bottom: {
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     left: {
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     right: {
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     inset: {
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'max-height': {
         key: 'max-h',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'max-width': {
         key: 'max-w',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     opacity: {
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     visibility: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     clear: {
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     float: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     isolation: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'overflow-x': {
         layer: Layer.Native,
         declare(value) {
@@ -650,7 +650,7 @@ const rules = {
                 ? { 'overflow-x': ['auto', value] }
                 : { 'overflow-x': value }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'overflow-y': {
         layer: Layer.Native,
         declare(value) {
@@ -658,7 +658,7 @@ const rules = {
                 ? { 'overflow-y': ['auto', value] }
                 : { 'overflow-y': value }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     overflow: {
         layer: Layer.NativeShorthand,
         declare(value) {
@@ -666,42 +666,42 @@ const rules = {
                 ? { overflow: ['auto', value] }
                 : { overflow: value }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'overscroll-behavior-x': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'overscroll-behavior-y': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'overscroll-behavior': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'z-index': {
         key: 'z',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     position: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     cursor: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'pointer-events': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     resize: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'touch-action': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'word-break': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'word-spacing': {
         layer: Layer.Native,
         unit: 'em'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'user-drag': {
         layer: Layer.Native,
         declare(value) {
@@ -710,7 +710,7 @@ const rules = {
                 'user-drag': value,
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'user-select': {
         layer: Layer.Native,
         declare(value) {
@@ -719,11 +719,11 @@ const rules = {
                 'user-select': value,
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-shadow': {
         unit: 'rem',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-size': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
@@ -736,7 +736,7 @@ const rules = {
             }
         },
         layer: Layer.Shorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-fill-color': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: [COLOR_VALUE_REGEX],
@@ -747,7 +747,7 @@ const rules = {
                 '-webkit-text-fill-color': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-stroke-width': {
         ambiguousKeys: ['text-stroke'],
         ambiguousValues: ['thin', 'medium', 'thick', NUMBER_VALUE_REGEX],
@@ -758,7 +758,7 @@ const rules = {
                 '-webkit-text-stroke-width': value
             }
         },
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-stroke-color': {
         ambiguousKeys: ['text-stroke'],
         ambiguousValues: [COLOR_VALUE_REGEX],
@@ -769,7 +769,7 @@ const rules = {
                 '-webkit-text-stroke-color': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-stroke': {
         unit: 'rem',
         layer: Layer.Native,
@@ -778,7 +778,7 @@ const rules = {
                 '-webkit-text-stroke': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'text-truncate': {
         subkey: 'lines',
         declare(value) {
@@ -792,31 +792,31 @@ const rules = {
             }
         },
         layer: Layer.Shorthand,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'box-shadow': {
         key: 'shadow',
         subkey: 's',
         unit: 'rem',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'table-layout': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'transform-box': {
         ambiguousKeys: ['transform'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'transform-style': {
         ambiguousKeys: ['transform'],
         ambiguousValues: ['flat', 'preserve-3d'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'transform-origin': {
         ambiguousKeys: ['transform'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center', NUMBER_VALUE_REGEX],
         unit: 'px',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     transform: {
         matcher: /^(?:translate|scale|skew|rotate|perspective|matrix)(?:3d|[XYZ])?\(/,
         layer: Layer.Native,
@@ -824,25 +824,25 @@ const rules = {
             return [className.startsWith('transform') ? className.slice(10) : className]
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'transition-property': {
         key: '~property',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'transition-timing-function': {
         key: '~easing',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'transition-duration': {
         key: '~duration',
         layer: Layer.Native,
         unit: 'ms'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'transition-delay': {
         key: '~delay',
         layer: Layer.Native,
         unit: 'ms'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     transition: {
         sign: '~',
         analyze(className: string) {
@@ -855,42 +855,42 @@ const rules = {
             }
         },
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-delay': {
         key: '@delay',
         layer: Layer.Native,
         unit: 'ms'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-direction': {
         key: '@direction',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-duration': {
         key: '@duration',
         layer: Layer.Native,
         unit: 'ms'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-fill-mode': {
         key: '@fill',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-iteration-count': {
         key: '@iteration',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-name': {
         key: '@name',
         layer: Layer.Native,
         includeAnimations: true
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-play-state': {
         key: '@play',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'animation-timing-function': {
         key: '@easing',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     animation: {
         sign: '@',
         layer: Layer.NativeShorthand,
@@ -904,38 +904,38 @@ const rules = {
                 return [className.slice(indexOfColon + 1)]
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-collapse': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: ['collapse', 'separate'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-spacing': {
         unit: 'rem',
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // border color
     'border-top-color': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-bottom-color': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-left-color': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-right-color': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-x-color': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: [COLOR_VALUE_REGEX],
@@ -946,7 +946,7 @@ const rules = {
                 'border-right-color': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-y-color': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: [COLOR_VALUE_REGEX],
@@ -957,33 +957,33 @@ const rules = {
                 'border-bottom-color': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-color': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.NativeShorthand,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // border radius
     'border-top-left-radius': {
         key: 'rtl',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-top-right-radius': {
         key: 'rtr',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-bottom-left-radius': {
         key: 'rbl',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-bottom-right-radius': {
         key: 'rbr',
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-top-radius': {
         key: 'rt',
         unit: 'rem',
@@ -994,7 +994,7 @@ const rules = {
                 'border-top-right-radius': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-bottom-radius': {
         key: 'rb',
         unit: 'rem',
@@ -1005,7 +1005,7 @@ const rules = {
                 'border-bottom-right-radius': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-left-radius': {
         key: 'rl',
         unit: 'rem',
@@ -1016,7 +1016,7 @@ const rules = {
                 'border-bottom-left-radius': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-right-radius': {
         key: 'rr',
         unit: 'rem',
@@ -1027,33 +1027,33 @@ const rules = {
                 'border-bottom-right-radius': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-radius': {
         key: 'r',
         unit: 'rem',
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // border style
     'border-top-style': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: BORDER_STYLE_VALUES,
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-bottom-style': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: BORDER_STYLE_VALUES,
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-left-style': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: BORDER_STYLE_VALUES,
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-right-style': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: BORDER_STYLE_VALUES,
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-x-style': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: BORDER_STYLE_VALUES,
@@ -1064,7 +1064,7 @@ const rules = {
                 'border-right-style': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-y-style': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: BORDER_STYLE_VALUES,
@@ -1075,37 +1075,37 @@ const rules = {
                 'border-bottom-style': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-style': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: BORDER_STYLE_VALUES,
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // border width
     'border-top-width': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-bottom-width': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-left-width': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-right-width': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-x-width': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
@@ -1117,7 +1117,7 @@ const rules = {
                 'border-right-width': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-y-width': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
@@ -1129,68 +1129,68 @@ const rules = {
                 'border-bottom-width': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-width': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // border image
     'border-image-repeat': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: ['stretch', 'repeat', 'round', 'space'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-image-slice': {
         ambiguousKeys: ['border-image'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-image-source': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-image-width': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: ['auto', NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-image-outset': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-image': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // border
     'border-top': {
         key: 'bt',
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-bottom': {
         key: 'bb',
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-left': {
         key: 'bl',
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-right': {
         key: 'br',
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-x': {
         key: 'bx',
         unit: 'rem',
@@ -1202,7 +1202,7 @@ const rules = {
                 'border-right': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'border-y': {
         key: 'by',
         unit: 'rem',
@@ -1214,27 +1214,27 @@ const rules = {
                 'border-bottom': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     border: {
         key: 'b',
         unit: 'rem',
         layer: Layer.NativeShorthand,
         transformValueComponents: autofillSolidStyle,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-attachment': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['fixed', 'local', 'scroll'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-blend-mode': {
         key: 'bg-blend',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-color': {
         ambiguousKeys: ['bg'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-clip': {
         key: 'bg-clip',
         layer: Layer.Native,
@@ -1244,37 +1244,37 @@ const rules = {
                 'background-clip': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-origin': {
         key: 'bg-origin',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-position': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center'],
         layer: Layer.Native,
         unit: 'px'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-repeat': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['space', 'round', 'repeat', 'no-repeat', 'repeat-x', 'repeat-y'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-size': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['auto', 'cover', 'contain', NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'background-image': {
         ambiguousKeys: ['bg'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     background: {
         key: 'bg',
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     gradient: {
         matcher: /^gradient\(/,
         layer: Layer.Shorthand,
@@ -1283,11 +1283,11 @@ const rules = {
                 'background-image': 'linear-' + value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'mix-blend-mode': {
         key: 'blend',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'backdrop-filter': {
         key: 'bd',
         layer: Layer.Native,
@@ -1297,59 +1297,59 @@ const rules = {
                 'backdrop-filter': value,
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     filter: {
         matcher: /^(?:blur|brightness|contrast|drop-shadow|grayscale|hue-rotate|invert|opacity|saturate|sepia)\(/,
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     fill: {
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'stroke-dasharray': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'stroke-dashoffset': {
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'stroke-width': {
         ambiguousKeys: ['stroke'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     stroke: {
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     x: {
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     y: {
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     cx: {
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     cy: {
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     rx: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     ry: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-column-start': {
         key: 'grid-col-start',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-column-end': {
         key: 'grid-col-end',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-column-span': {
         key: 'grid-col-span',
         layer: Layer.Shorthand,
@@ -1361,11 +1361,11 @@ const rules = {
                 'grid-column': value
             }
         },
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-column': {
         key: 'grid-col',
         layer: Layer.NativeShorthand,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-columns': {
         key: 'grid-cols',
         declare(value) {
@@ -1379,13 +1379,13 @@ const rules = {
             }
         },
         layer: Layer.Shorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-row-start': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-row-end': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-row-span': {
         layer: Layer.Shorthand,
         transformValue(value) {
@@ -1396,10 +1396,10 @@ const rules = {
                 'grid-row': value
             }
         }
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-row': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-rows': {
         declare(value) {
             return {
@@ -1413,149 +1413,149 @@ const rules = {
             }
         },
         layer: Layer.Shorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-auto-columns': {
         key: 'grid-auto-cols',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-auto-flow': {
         key: 'grid-flow',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-auto-rows': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-template-areas': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-template-columns': {
         key: 'grid-template-cols',
         layer: Layer.Native,
         unit: 'rem'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-template-rows': {
         layer: Layer.Native,
         unit: 'rem'
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-template': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'grid-area': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     grid: {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'column-gap': {
         key: 'gap-x',
         unit: 'rem',
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'row-gap': {
         key: 'gap-y',
         unit: 'rem',
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     gap: {
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     order: {
         key: 'o',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'break-inside': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'break-before': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'break-after': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'aspect-ratio': {
         key: 'aspect',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'column-span': {
         key: 'col-span',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'align-content': {
         subkey: 'ac',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'align-items': {
         subkey: 'ai',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'align-self': {
         subkey: 'as',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'justify-content': {
         subkey: 'jc',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'justify-items': {
         subkey: 'ji',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'justify-self': {
         subkey: 'js',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'place-content': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'place-items': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'place-self': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'list-style-position': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: ['inside', 'outside'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'list-style-type': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: ['disc', 'decimal'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'list-style-image': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'list-style': {
         layer: Layer.NativeShorthand
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'outline-color': {
         ambiguousKeys: ['outline'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'outline-offset': {
         unit: 'rem',
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'outline-style': {
         ambiguousKeys: ['outline'],
         ambiguousValues: BORDER_STYLE_VALUES,
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'outline-width': {
         ambiguousKeys: ['outline'],
         ambiguousValues: ['medium', 'thick', 'thin', NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     outline: {
         unit: 'rem',
         layer: Layer.NativeShorthand,
@@ -1566,47 +1566,47 @@ const rules = {
             'outline-color'
         ],
         transformValueComponents: autofillSolidStyle
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'accent-color': {
         key: 'accent',
         layer: Layer.Native,
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     appearance: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'caret-color': {
         key: 'caret',
         layer: Layer.Native,
         variables: ['text']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-behavior': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // scroll margin
     'scroll-margin-left': {
         key: 'scroll-ml',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-margin-right': {
         key: 'scroll-mr',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-margin-top': {
         key: 'scroll-mt',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-margin-bottom': {
         key: 'scroll-mb',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-margin-x': {
         key: 'scroll-mx',
         unit: 'rem',
@@ -1618,7 +1618,7 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-margin-y': {
         key: 'scroll-my',
         unit: 'rem',
@@ -1630,38 +1630,38 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-margin': {
         key: 'scroll-m',
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // scroll padding
     'scroll-padding-left': {
         key: 'scroll-pl',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-padding-right': {
         key: 'scroll-pr',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-padding-top': {
         key: 'scroll-pt',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-padding-bottom': {
         key: 'scroll-pb',
         layer: Layer.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-padding-x': {
         key: 'scroll-px',
         unit: 'rem',
@@ -1673,7 +1673,7 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-padding-y': {
         key: 'scroll-py',
         unit: 'rem',
@@ -1685,61 +1685,61 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-padding': {
         key: 'scroll-p',
         unit: 'rem',
         layer: Layer.NativeShorthand,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     // scroll snap
     'scroll-snap-align': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['start', 'end', 'center'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-snap-stop': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['normal', 'always'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'scroll-snap-type': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['x', 'y', 'block', 'inline', 'both'],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'will-change': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'writing-mode': {
         key: 'writing',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     direction: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'shape-outside': {
         ambiguousKeys: ['shape'],
         ambiguousValues: [/(?:inset|circle|ellipse|polygon|url|linear-gradient)\(.*\)/],
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'shape-margin': {
         ambiguousKeys: ['shape'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
         layer: Layer.Native,
         variables: ['spacing']
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'shape-image-threshold': {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'clip-path': {
         key: 'clip',
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     quotes: {
         layer: Layer.Native
-    } as RuleDefinition,
+    } as SyntaxDefinition,
     'mask-image': {
         layer: Layer.Native,
         declare(value) {
@@ -1748,7 +1748,7 @@ const rules = {
                 'mask-image': value,
             }
         }
-    } as RuleDefinition
+    } as SyntaxDefinition
 }
 
-export default rules
+export default syntaxes

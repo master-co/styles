@@ -10,7 +10,7 @@ test.concurrent('inset', () => {
 })
 
 it.concurrent('checks inset order', () => {
-    expect(new MasterCSS().add('top:0', 'left:0', 'inset:0', 'right:0', 'bottom:0').rules)
+    expect(new MasterCSS().add('top:0', 'left:0', 'inset:0', 'right:0', 'bottom:0').syntaxes)
         .toMatchObject([
             { className: 'inset:0' },
             { className: 'bottom:0' },

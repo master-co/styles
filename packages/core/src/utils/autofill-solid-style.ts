@@ -1,7 +1,7 @@
 import { BORDER_STYLE_VALUES } from '../common'
-import { RuleDefinition } from '../rule'
+import { SyntaxDefinition } from '../rule'
 
-const autofillSolidStyle: RuleDefinition['transformValueComponents'] = function (valueComponents) {
+const autofillSolidStyle: SyntaxDefinition['transformValueComponents'] = function (valueComponents) {
     if (valueComponents.length < 2) return valueComponents
     let styleIncluded = false
     let varIncluded = false

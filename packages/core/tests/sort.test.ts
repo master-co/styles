@@ -4,7 +4,7 @@ import shuffle from 'shuffle-array'
 
 /** [':disabled', ':active', ':focus', ':hover'] */
 it.concurrent('checks the ordering of state selectors', () => {
-    expect(new MasterCSS().add('block:disabled', 'block:hover', 'block:active', 'block:focus').rules)
+    expect(new MasterCSS().add('block:disabled', 'block:hover', 'block:active', 'block:focus').syntaxes)
         .toMatchObject([
             { className: 'block:hover' },
             { className: 'block:focus' },
@@ -81,7 +81,7 @@ it.concurrent('checks the ordering of state selectors, :where(), and @media', ()
     ]
 
     for (let i = 0; i < 10; i++) {
-        expect(new MasterCSS().add(...shuffle([...expected.map((({ className }) => className))])).rules)
+        expect(new MasterCSS().add(...shuffle([...expected.map((({ className }) => className))])).syntaxes)
             .toMatchObject(expected)
     }
 })

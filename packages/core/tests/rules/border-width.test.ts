@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it.concurrent('validates border-width rules', () => {
+it.concurrent('validates border-width syntaxes', () => {
     expect(new MasterCSS().create('b:16')?.text).toContain('border-width:1rem')
     expect(new MasterCSS().create('border:16')?.text).toContain('border-width:1rem')
     expect(new MasterCSS().create('border-width:16')?.text).toContain('border-width:1rem')
@@ -30,7 +30,7 @@ it.concurrent('validates border-width rules', () => {
 })
 
 it.concurrent('checks border-width order', () => {
-    expect(new MasterCSS().add('bt:16', 'b:16', 'bl:16', 'bx:16').rules)
+    expect(new MasterCSS().add('bt:16', 'b:16', 'bl:16', 'bx:16').syntaxes)
         .toMatchObject([
             { className: 'b:16' },
             { className: 'bx:16' },

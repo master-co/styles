@@ -3,17 +3,17 @@ import selectors from './selectors'
 import utilities from './utilities'
 import animations from './animations'
 import variables from './variables'
-import rules from './rules'
+import syntaxes from './syntaxes'
 import modes from './modes'
 import functions from './functions'
 import type { PropertiesHyphen } from 'csstype'
-import type { Rule, RuleDefinition, ValueComponent } from '../rule'
+import type { Rule, SyntaxDefinition, ValueComponent } from '../rule'
 
 const config: Config = {
     at,
     selectors,
     utilities,
-    rules,
+    syntaxes,
     functions,
     animations,
     variables,
@@ -30,7 +30,7 @@ export {
     at,
     selectors,
     utilities,
-    rules,
+    syntaxes,
     functions,
     animations,
     variables,
@@ -44,8 +44,8 @@ export type AnimationDefinitions = { [key: string]: CSSKeyframes }
 export type SelectorDefinitions = { [key: string]: string | string[] }
 export type AtDefinitions = { [key: string]: number | string | AtDefinitions }
 export type StyleDefinitions = { [key: string]: string | StyleDefinitions }
-export type RuleDefinitions = { [key in keyof typeof rules | string]?: RuleDefinition }
-export type VariableDefinitions = { [key in keyof typeof rules]?: VariableDefinition } & { [key: string]: VariableDefinition }
+export type SyntaxDefinitions = { [key in keyof typeof syntaxes | string]?: SyntaxDefinition }
+export type VariableDefinitions = { [key in keyof typeof syntaxes]?: VariableDefinition } & { [key: string]: VariableDefinition }
 export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesHyphen } & { [key: string]: PropertiesHyphen }
 export type ModeDefinitions = { [key: string]: 'class' | 'media' | 'host' | false }
 export interface FunctionDefinition {
@@ -61,7 +61,7 @@ export interface Config {
     selectors?: SelectorDefinitions
     utilities?: UtilityDefinitions
     variables?: VariableDefinitions
-    rules?: RuleDefinitions
+    syntaxes?: SyntaxDefinitions
     rootSize?: number
     baseUnit?: number
     scope?: string

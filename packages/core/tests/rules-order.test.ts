@@ -42,7 +42,7 @@ it.concurrent('checks that different input sources should have the same output',
         { className: 'text:center' },
     ]
     for (let i = 0; i < 10; i++) {
-        expect(new MasterCSS().add(...shuffle([...input])).rules).toMatchObject(output)
+        expect(new MasterCSS().add(...shuffle([...input])).syntaxes).toMatchObject(output)
     }
 })
 
@@ -62,7 +62,7 @@ it.concurrent('checks style declarations', () => {
         { className: 'font:32@md' }
     ]
     for (let i = 0; i < 10; i++) {
-        expect(new MasterCSS().add(...shuffle([...input])).rules).toMatchObject(output)
+        expect(new MasterCSS().add(...shuffle([...input])).syntaxes).toMatchObject(output)
     }
 })
 
@@ -78,6 +78,6 @@ it.concurrent('checks media order', () => {
         { className: '{flex:row}@2xs&<xs' }
     ]
     for (let i = 0; i < 10; i++) {
-        expect(new MasterCSS({ at: { tablet: 391, desktop: 1025 } }).add(...shuffle([...input])).rules).toMatchObject(output)
+        expect(new MasterCSS({ at: { tablet: 391, desktop: 1025 } }).add(...shuffle([...input])).syntaxes).toMatchObject(output)
     }
 })

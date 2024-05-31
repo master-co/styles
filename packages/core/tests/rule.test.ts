@@ -43,7 +43,7 @@ test.concurrent('variables', () => {
                 }
             }
         },
-        rules: {
+        syntaxes: {
             content: {
                 variables: ['a.b']
             }
