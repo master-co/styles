@@ -262,7 +262,7 @@
     },
     "devDependencies": {
         "@master/css-language-server": "workspace:^",
-        "@master/css-shared": "workspace:^",
+        "shared": "workspace:^",
         "@types/vscode": "^1.87.0",
         "@vscode/vsce": "^2.24.0",
         "vscode-languageclient": "^8.1.0"

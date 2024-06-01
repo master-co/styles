@@ -57,7 +57,7 @@
     "devDependencies": {
         "@angular-eslint/template-parser": "^17.3.0",
         "@master/css-explore-config": "workspace:^",
-        "@master/css-shared": "workspace:^",
+        "shared": "workspace:^",
         "@types/node": "^20.12.7",
         "@typescript-eslint/rule-tester": "^7.7.0",
         "eslint": "^8.57.0",

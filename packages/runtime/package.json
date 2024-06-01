@@ -55,7 +55,7 @@
         "@master/css": "workspace:^"
     },
     "devDependencies": {
-        "@master/css-shared": "workspace:^",
+        "shared": "workspace:^",
         "@playwright/test": "1.41.2",
         "@types/node": "^20.11.20"
     }

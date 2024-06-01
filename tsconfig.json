@@ -21,7 +21,7 @@
             "@master/css-validator": [ "./node_modules/@master/css-validator/src" ],
             "@master/css.vue": [ "./node_modules/@master/css.vue/src" ],
             "master-css-vscode": [ "./node_modules/master-css-vscode/src" ],
-            "@master/css-shared/*": [ "./node_modules/@master/css-shared/*" ],
+            "shared/*": [ "./node_modules/shared/*" ],
         },
         "target": "esnext",
         "module": "esnext",

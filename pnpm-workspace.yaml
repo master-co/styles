@@ -3,5 +3,5 @@ packages:
   - 'examples/*'
   - 'benchmarks/*'
   - 'website'
+  - 'internal'
   - 'shared'
-  - '../../'

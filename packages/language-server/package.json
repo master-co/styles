@@ -29,7 +29,7 @@
         "vscode-uri": "^3.0.8"
     },
     "devDependencies": {
-        "@master/css-shared": "workspace:^"
+        "shared": "workspace:^"
     },
     "sideEffects": false,
     "main": "./dist/index.cjs",

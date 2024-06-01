@@ -2,7 +2,7 @@ import { test, it, expect } from 'vitest'
 import { execSync } from 'child_process'
 import { join } from 'node:path'
 import { readFileSync } from 'node:fs'
-import { rm } from '@master/css-shared/utils/fs'
+import { rm } from 'shared/utils/fs'
 
 it('init (type="module")', async () => {
     rm(join(__dirname, 'master.css.mjs'))

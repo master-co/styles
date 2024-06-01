@@ -49,7 +49,7 @@
     },
     "devDependencies": {
         "@master/css": "workspace:^",
-        "@master/css-shared": "workspace:^"
+        "shared": "workspace:^"
     },
     "dependencies": {
         "@techor/log": "^3.0.22",

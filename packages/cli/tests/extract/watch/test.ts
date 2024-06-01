@@ -2,8 +2,8 @@
 
 import fs from 'fs'
 import path from 'upath'
-import cssEscape from '@master/css-shared/utils/css-escape'
-import waitForDataMatch from '@master/css-shared/utils/wait-for-data-match'
+import cssEscape from 'shared/utils/css-escape'
+import waitForDataMatch from 'shared/utils/wait-for-data-match'
 import dedent from 'ts-dedent'
 import { SpawndChildProcess, spawnd } from 'spawnd'
 import { it, beforeAll, afterAll, expect } from 'vitest'

@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "start": "git submodule update --init --recursive && cd internal && git checkout main",
+        "start": "git submodule update --init --recursive",
         "postinstall": "pnpm dlx husky install",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./packages/*\" build",
         "build:examples": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./examples/*\" --parallel build",
@@ -67,7 +67,7 @@
         "@master/css-language-service": "workspace:^",
         "@master/css-runtime": "workspace:^",
         "@master/css-server": "workspace:^",
-        "@master/css-shared": "workspace:^",
+        "shared": "workspace:^",
         "@master/css-validator": "workspace:^",
         "@master/css.nuxt": "workspace:^",
         "@master/css.react": "workspace:^",
