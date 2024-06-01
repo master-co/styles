@@ -1,4 +1,4 @@
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 
 const mainPackages = [
     require('~/../packages/core/package.json'),

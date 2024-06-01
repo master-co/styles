@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { getSponsorTiers } from 'websites/utils/get-sponsor-tiers'
+import { getSponsorTiers } from 'internal/utils/get-sponsor-tiers'
 import TierModal from './TierModal'
-import useRewritedPathname from 'websites/uses/rewrited-pathname'
+import useRewritedPathname from 'internal/uses/rewrited-pathname'
 
 export default function SponsorTiers() {
     const pathname = useRewritedPathname()

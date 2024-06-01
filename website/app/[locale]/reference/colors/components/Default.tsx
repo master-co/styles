@@ -3,7 +3,7 @@
 import { variables } from '@master/css'
 // @ts-expect-error
 import contrast from 'get-contrast'
-import { snackbar } from 'websites/utils/snackbar'
+import { snackbar } from 'internal/utils/snackbar'
 import colorNames from '~/data/color-names'
 
 export default () => <div className="gap-y:8x gap-y:5x@sm grid-cols:1 my:10x">

@@ -1,4 +1,4 @@
-import Tabs, { Tab } from 'websites/components/Tabs'
+import Tabs, { Tab } from 'internal/components/Tabs'
 import { createTranslation } from '~/i18n'
 import DocLayout from '~/layouts/reference'
 import pageCategories from '~/data/guide-categories.json'

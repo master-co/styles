@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import Link from 'websites/components/Link'
-import toSlug from 'websites/utils/toSlug'
+import Link from 'internal/components/Link'
+import toSlug from 'internal/utils/toSlug'
 import clsx from 'clsx'
 
 export default function Backers({ backers }: any) {

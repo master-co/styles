@@ -1,5 +1,5 @@
 import pages from '~/data/pages.json'
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 import clsx from 'clsx'
 import { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'
 import { Page } from '~/script'

@@ -1,8 +1,8 @@
 'use client'
 
-import { RedirectsProvider } from 'websites/contexts/redirects'
-import { LocaleProvider } from 'websites/contexts/locale'
-import { I18nProvider } from 'websites/contexts/i18n'
+import { RedirectsProvider } from 'internal/contexts/redirects'
+import { LocaleProvider } from 'internal/contexts/locale'
+import { I18nProvider } from 'internal/contexts/i18n'
 import redirects from '~/redirects.mjs'
 import { Analytics } from '@vercel/analytics/react'
 import config from '~/master.css'
@@ -10,7 +10,7 @@ import CSSRuntimeProvider from '@master/css.react'
 import ThemeModeProvider from '@master/theme-mode.react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import i18n from '~/i18n.config.mjs'
-import { SearchProvider } from 'websites/contexts/search'
+import { SearchProvider } from 'internal/contexts/search'
 
 export default function Client({ children, locale, translations }: any) {
     return (

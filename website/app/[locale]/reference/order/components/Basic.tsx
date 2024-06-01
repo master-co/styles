@@ -1,7 +1,7 @@
-import Code from 'websites/components/Code'
+import Code from 'internal/components/Code'
 import clsx from 'clsx'
-import Demo from 'websites/components/Demo'
-import DemoPanel from 'websites/components/DemoPanel'
+import Demo from 'internal/components/Demo'
+import DemoPanel from 'internal/components/DemoPanel'
 
 export default ({ className }: any) => {
     return (

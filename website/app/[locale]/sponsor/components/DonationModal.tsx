@@ -1,6 +1,6 @@
 'use client'
 
-import Modal from 'websites/components/Modal'
+import Modal from 'internal/components/Modal'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'

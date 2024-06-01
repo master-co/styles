@@ -1978,6 +1978,9 @@ importers:
       eslint-config-next:
         specifier: ^14.2.3
         version: 14.2.3(eslint@8.57.0)(typescript@5.4.2)
+      internal:
+        specifier: workspace:^
+        version: link:../internal
       monaco-editor:
         specifier: ^0.45.0
         version: 0.45.0
@@ -2011,9 +2014,6 @@ importers:
       uvcanvas:
         specifier: ^0.2.1
         version: 0.2.1(@types/react@18.2.66)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      websites:
-        specifier: workspace:../../..
-        version: link:../../..
     devDependencies:
       '@builder.io/partytown':
         specifier: ^0.8.2

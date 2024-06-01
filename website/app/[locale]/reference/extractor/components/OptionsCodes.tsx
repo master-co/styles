@@ -1,5 +1,5 @@
 import dedent from 'ts-dedent'
-import CodeTabs from 'websites/components/CodeTabs'
+import CodeTabs from 'internal/components/CodeTabs'
 
 export default function ({ children, cli, webpack, vite, addLines, imports, ...othersProps }: any) {
     const dedentCode = dedent(children)

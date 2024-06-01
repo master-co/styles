@@ -1,5 +1,5 @@
 import { functions } from '@master/css'
-import InlineCode from 'websites/components/InlineCode'
+import InlineCode from 'internal/components/InlineCode'
 
 export default () => <table>
     <thead>

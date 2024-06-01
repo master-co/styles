@@ -1,6 +1,6 @@
 import Play, { PlayShare } from '../Play'
 import { notFound } from 'next/navigation'
-import firebaseConfig from 'websites/firebase-config'
+import firebaseConfig from 'internal/firebase-config'
 import { initializeApp } from '@firebase/app'
 import { getFirestore, doc, getDoc } from '@firebase/firestore/lite'
 import metadata from '../metadata'

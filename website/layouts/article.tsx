@@ -1,11 +1,11 @@
 'use client'
 
-import { GridsBg } from 'websites/components/GridsBg'
-import Article from 'websites/components/Article'
+import { GridsBg } from 'internal/components/GridsBg'
+import Article from 'internal/components/Article'
 import DocHeader from '~/components/DocHeader'
-import ListAuthors from 'websites/components/ListAuthors'
-import TimeAgo from 'websites/components/TimeAgo'
-import { useTranslation } from 'websites/contexts/i18n'
+import ListAuthors from 'internal/components/ListAuthors'
+import TimeAgo from 'internal/components/TimeAgo'
+import { useTranslation } from 'internal/contexts/i18n'
 
 export default function Layout(props: any) {
     const $ = useTranslation()

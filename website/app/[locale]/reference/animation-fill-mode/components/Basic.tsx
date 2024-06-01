@@ -1,8 +1,8 @@
 'use client'
 
-import Demo from 'websites/components/Demo'
+import Demo from 'internal/components/Demo'
 import { IconCar } from '@tabler/icons-react'
-import Code from 'websites/components/Code'
+import Code from 'internal/components/Code'
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import Article from 'websites/components/Article'
+import Article from 'internal/components/Article'
 import DocHeader from '~/components/DocHeader.jsx'
 import DocFooter from '~/components/DocFooter.jsx'
 // @ts-expect-error
@@ -8,7 +8,7 @@ import allBlogMetadata from './*/metadata.js'
 import Image from 'next/image'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 import metadata from './metadata.js'
 import { generate } from '~/utils/metadata'
 

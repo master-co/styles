@@ -1,4 +1,4 @@
-import { Metadata } from 'websites/types/Metadata'
+import { Metadata } from 'internal/types/Metadata'
 import version from '~/version'
 
 const metadata: Metadata = {

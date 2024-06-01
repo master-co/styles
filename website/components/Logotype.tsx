@@ -2,8 +2,8 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import LogotypeAtDark from 'websites/svgs/master-css.logotype@dark.svg'
-import LogotypeAtLight from 'websites/svgs/master-css.logotype@light.svg'
+import LogotypeAtDark from 'internal/svgs/master-css.logotype@dark.svg'
+import LogotypeAtLight from 'internal/svgs/master-css.logotype@light.svg'
 
 export function Logotype({ className, ...props }: any) {
     return (

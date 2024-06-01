@@ -1,5 +1,5 @@
 import { variables } from '@master/css'
-import DocTable from 'websites/components/DocTable'
+import DocTable from 'internal/components/DocTable'
 import descriptions from '../../../reference/screens/descriptions'
 
 export default () =>

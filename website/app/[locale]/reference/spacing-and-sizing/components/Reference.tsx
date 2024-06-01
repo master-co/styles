@@ -1,4 +1,4 @@
-import DocTable from 'websites/components/DocTable'
+import DocTable from 'internal/components/DocTable'
 
 export default () => {
     return (

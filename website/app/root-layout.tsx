@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { HTMLAttributes } from 'react'
 import i18n from '~/i18n.config.mjs'
 import Client from './client'
-import FontStyle from 'websites/components/FontStyle'
+import FontStyle from 'internal/components/FontStyle'
 
 export default async function RootLayout({ children, locale, bodyClassName, style, translations }: {
     children: JSX.Element[] | JSX.Element,

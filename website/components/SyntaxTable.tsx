@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useRef, useState } from 'react'
-import DocTable from 'websites/components/DocTable'
+import DocTable from 'internal/components/DocTable'
 import { snackbar } from '../../../../utils/snackbar'
 
 export default function SyntaxTable({ title, value, children, scrollY, addedLabels, ...props }: any) {

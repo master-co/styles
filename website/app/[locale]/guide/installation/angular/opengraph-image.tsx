@@ -1,4 +1,4 @@
-import { Props } from 'websites/types/Props'
+import { Props } from 'internal/types/Props'
 import create from '~/og-image'
 import metadata from './metadata'
 import Icon from '~/public/images/frameworks/angular.svg?inlineSvg'

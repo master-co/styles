@@ -1,7 +1,7 @@
-import Tabs, { Tab, TabBadge } from 'websites/components/Tabs'
+import Tabs, { Tab, TabBadge } from 'internal/components/Tabs'
 import { createTranslation } from '~/i18n'
 import DocLayout from '~/layouts/reference'
-import brands from 'websites/data/brands'
+import brands from 'internal/data/brands'
 
 export const metadata = {
     title: 'Set up Master CSS in Svelte',

@@ -1,9 +1,9 @@
 import redirects from './redirects.mjs'
 import CopyPlugin from 'copy-webpack-plugin'
 import path from 'path'
-import withMDX from 'websites/width-mdx.mjs'
-import withWebpackConfig from 'websites/with-webpack-config.mjs'
-import withBundleAnalyzer from 'websites/with-bundle-analyzer.mjs'
+import withMDX from 'internal/width-mdx.mjs'
+import withWebpackConfig from 'internal/with-webpack-config.mjs'
+import withBundleAnalyzer from 'internal/with-bundle-analyzer.mjs'
 
 /**
  * @type {import('next').NextConfig}

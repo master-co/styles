@@ -1,11 +1,11 @@
-import Article from 'websites/components/Article'
-import ArticleHeader from 'websites/components/ArticleHeader'
+import Article from 'internal/components/Article'
+import ArticleHeader from 'internal/components/ArticleHeader'
 import DocMain from '../components/DocMain'
 import DocFooter from '../components/DocFooter'
-import PageNavs from 'websites/components/PageNavs'
+import PageNavs from 'internal/components/PageNavs'
 import pages from '~/data/pages.json'
-import PageContent from 'websites/components/PageContent'
-import fetchLastCommit from 'websites/utils/fetch-last-commit'
+import PageContent from 'internal/components/PageContent'
+import fetchLastCommit from 'internal/utils/fetch-last-commit'
 import project from '~/project'
 
 export default async function Layout({ children, pageDirname, params, toc, $hideLeftSide, pageCategories, className, ...props }: any) {

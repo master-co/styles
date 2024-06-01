@@ -1,5 +1,5 @@
 import { rules } from '@master/css'
-import DotJoin from 'websites/components/DotJoin'
+import DotJoin from 'internal/components/DotJoin'
 
 const Default = () => <table>
     <thead>

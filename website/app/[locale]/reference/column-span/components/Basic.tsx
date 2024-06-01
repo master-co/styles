@@ -1,6 +1,6 @@
-import Demo from 'websites/components/Demo'
-import DemoPanel from 'websites/components/DemoPanel'
-import Code from 'websites/components/Code'
+import Demo from 'internal/components/Demo'
+import DemoPanel from 'internal/components/DemoPanel'
+import Code from 'internal/components/Code'
 import clsx from 'clsx'
 
 export default ({ className }: any) => {

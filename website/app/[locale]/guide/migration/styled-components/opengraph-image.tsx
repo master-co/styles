@@ -1,4 +1,4 @@
-import { Props } from 'websites/types/Props'
+import { Props } from 'internal/types/Props'
 import create from '~/og-image'
 import metadata from './metadata'
 import type { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'
@@ -11,5 +11,5 @@ export default (props: Props) => create({
     props,
     metadata,
     title: 'Styled Components',
-    icon: <img src={require('!!url-loader!websites/images/styled-components.png').default} width={216} height={216} />
+    icon: <img src={require('!!url-loader!internal/images/styled-components.png').default} width={216} height={216} />
 })

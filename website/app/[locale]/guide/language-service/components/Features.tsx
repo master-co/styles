@@ -1,6 +1,6 @@
-import Features, { Feature } from 'websites/components/Features'
+import Features, { Feature } from 'internal/components/Features'
 import { IconEyeHeart, IconFocusAuto, IconWand, IconZoomCode } from '@tabler/icons-react'
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 
 export default () => (
     <Features className="grid-cols:3@sm my:14x">

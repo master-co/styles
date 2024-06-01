@@ -1,6 +1,6 @@
 import extend from '@techor/extend'
 import type { Metadata, ResolvingMetadata } from 'next'
-import type { Props } from 'websites/types/Props'
+import type { Props } from 'internal/types/Props'
 import { createTranslation } from '~/i18n'
 import i18n from '~/i18n.config.mjs'
 

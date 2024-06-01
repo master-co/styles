@@ -1,5 +1,5 @@
 import { at } from '@master/css'
-import DocTable from 'websites/components/DocTable'
+import DocTable from 'internal/components/DocTable'
 import InlineCode from '../../../../../../../../components/InlineCode'
 
 export default () =>

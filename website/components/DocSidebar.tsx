@@ -1,9 +1,9 @@
 'use client'
 
-import SearchButton from 'websites/components/SearchButton'
+import SearchButton from 'internal/components/SearchButton'
 import { Fragment, useRef, useState } from 'react'
-import Link from 'websites/components/Link'
-import { useTranslation } from 'websites/contexts/i18n'
+import Link from 'internal/components/Link'
+import { useTranslation } from 'internal/contexts/i18n'
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'

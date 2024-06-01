@@ -1,5 +1,5 @@
 import { IconBrandGithub } from '@tabler/icons-react'
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 
 export default () => (
     <Link href="https://github.com/master-co/css" className="flex b:1|frame bg:yellow content:none::after fg:text-primary gap:8x my:8x outline-offset:2 outline:2|yellow:focus p:8x p:12x@xs r:3x">

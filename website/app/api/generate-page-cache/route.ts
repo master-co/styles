@@ -1,6 +1,6 @@
-import githubToken from 'websites/tokens/github'
+import githubToken from 'internal/tokens/github'
 import i18n from '~/i18n.config.mjs'
-import token from 'websites/tokens/api'
+import token from 'internal/tokens/api'
 
 export async function POST(req: Request) {
     const tokenParam = new URL(req.url).searchParams.get('token')

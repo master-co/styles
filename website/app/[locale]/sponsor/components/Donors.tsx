@@ -1,6 +1,6 @@
 /* eslint-disable @master/css/class-order */
 import { Fragment } from 'react'
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 
 export default function Donors({ sponsorTiers, sponsorsOfLevel }: any) {
     return sponsorTiers.map((eachSponsorTier: any) => (

@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import Image from 'next/image'
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 
 export default ({ children, className, url }: any) =>
     <div className={clsx(className, 'gap:10 grid-cols:3 grid-cols:6@sm grid-cols:8@lg mt:4x')}>{

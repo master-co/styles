@@ -1,4 +1,4 @@
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 import clsx from 'clsx'
 
 export default (props: any) => {

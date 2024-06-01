@@ -1,7 +1,7 @@
 import { importTranslations } from '~/i18n'
 import RootLayout from './root-layout'
 import i18n from '~/i18n.config.mjs'
-import SearchButton from 'websites/components/SearchButton'
+import SearchButton from 'internal/components/SearchButton'
 import DocHeader from '~/components/DocHeader'
 import { createTranslation } from '~/i18n'
 import { headers } from 'next/headers'

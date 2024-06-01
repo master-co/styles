@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import Link from 'websites/components/Link'
+import Link from 'internal/components/Link'
 import { Page } from '~/script'
 
 export default ({ children, className, url }: any) =>

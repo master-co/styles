@@ -1,8 +1,8 @@
 import { Dispatch } from 'react'
 import Image from 'next/image'
-import Modal from 'websites/components/Modal'
-import { cls } from 'websites/utils/cls'
-import Link from 'websites/components/Link'
+import Modal from 'internal/components/Modal'
+import { cls } from 'internal/utils/cls'
+import Link from 'internal/components/Link'
 
 export default function TierModal({ tierState }: { tierState: [any, Dispatch<any>] }) {
     const [selectedTier, setSelectedTier] = tierState

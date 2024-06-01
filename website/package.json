@@ -3,8 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "node ../../../scripts/assets && tsx ./script.ts && next dev",
-        "build": "node ../../../scripts/assets && cd ../ && pnpm build && cd website && tsx ./script.ts && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
+        "dev": "node internal/scripts/assets && tsx ./script.ts && next dev",
+        "build": "node internal/scripts/assets && cd ../ && pnpm build && cd website && tsx ./script.ts && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
         "start": "next start",
         "lint": "next lint",
         "type-check": "tsc --noEmit"
@@ -42,7 +42,7 @@
         "react-intersection-observer": "^9.8.1",
         "theme-mode": "^1.1.0",
         "uvcanvas": "^0.2.1",
-        "websites": "workspace:../../.."
+        "internal": "workspace:^"
     },
     "devDependencies": {
         "@builder.io/partytown": "^0.8.2",

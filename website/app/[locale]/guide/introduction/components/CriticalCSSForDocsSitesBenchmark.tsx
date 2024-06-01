@@ -1,9 +1,9 @@
 import results from '~/../benchmarks/critical-css-for-docs-sites/results.json'
-import brands from 'websites/data/brands'
+import brands from 'internal/data/brands'
 import Bar from '~/components/Bar'
 import Bars from '~/components/Bars'
-import Segments from 'websites/components/Segments'
-import Link from 'websites/components/Link'
+import Segments from 'internal/components/Segments'
+import Link from 'internal/components/Link'
 
 import Image from 'next/image'
 import clsx from 'clsx'
