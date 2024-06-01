@@ -1,12 +1,6 @@
 import type { Config } from '@master/css'
 
 export default {
-    styles: {
-        yellow: 'bg:yellow fg:yellow-contrast outline:1|yellow-ring',
-        touch: {
-            yellow: 'bg:touch-yellow:hover'
-        }
-    },
     variables: {
         yellow: {
             ring: {
@@ -26,5 +20,11 @@ export default {
                 '@dark': '$(yellow-95)'
             }
         }
-    }
+    },
+    styles: {
+        yellow: 'bg:yellow fg:yellow-contrast outline:1|yellow-ring',
+        touch: {
+            yellow: 'bg:touch-yellow:hover'
+        }
+    },
 } as Config
