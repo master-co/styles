@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import InlineCode from '../../../../components/InlineCode'
+import InlineCode from 'internal/components/InlineCode'
 import clsx from 'clsx'
 import { MasterCSS } from '@master/css'
 

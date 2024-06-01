@@ -3,8 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "dev": "node internal/scripts/assets && tsx ./script.ts && next dev",
-        "build": "node internal/scripts/assets && cd ../ && pnpm build && cd website && tsx ./script.ts && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
+        "prepare": "node ../internal/scripts/assets && tsx ./script.ts",
+        "dev": "pnpm prepare && next dev",
+        "build": "pnpm prepare && cd ../ && pnpm build && cd website && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
         "start": "next start",
         "lint": "next lint",
         "type-check": "tsc --noEmit"

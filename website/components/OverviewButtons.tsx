@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import Link from 'internal/components/Link'
-import { Page } from '~/script'
+import { Page } from '~/website/script'
 
 export default ({ children, className, url }: any) =>
     <div className={clsx(className, 'gap:4x grid-cols:2 grid-cols:4@sm mt:4x')}>{

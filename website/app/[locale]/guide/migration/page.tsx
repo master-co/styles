@@ -1,9 +1,9 @@
 import metadata from './metadata'
 import Content from './content.mdx'
-import { generate } from '~/utils/metadata'
-import { createTranslation } from '~/i18n'
-import DocLayout from '~/layouts/reference'
-import pageCategories from '~/data/guide-categories.json'
+import { generate } from '~/website/utils/metadata'
+import { createTranslation } from '~/website/i18n'
+import DocLayout from '~/website/layouts/reference'
+import pageCategories from '~/website/data/guide-categories.json'
 
 export const dynamic = 'force-static'
 export const revalidate = false

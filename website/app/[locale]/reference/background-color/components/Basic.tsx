@@ -3,7 +3,7 @@
 import clsx from 'clsx'
 import Demo from 'internal/components/Demo'
 import Code from 'internal/components/Code'
-import Bg from '~/components/Bg'
+import Bg from '~/website/components/Bg'
 
 export default (props: any) =>
     <>

@@ -1,5 +1,5 @@
 import { Metadata } from 'internal/types/Metadata'
-import version from '~/version'
+import version from '~/website/version'
 
 const metadata: Metadata = {
     title: 'Play',

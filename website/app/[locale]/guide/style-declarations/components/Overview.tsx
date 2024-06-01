@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Demo from 'internal/components/Demo'
-import mobileImage from '~/public/images/landscape-mobile-screen.png'
+import mobileImage from '~/website/public/images/landscape-mobile-screen.png'
 
 export default () => (
     <Demo $py={0}>

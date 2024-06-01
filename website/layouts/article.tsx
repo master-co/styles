@@ -2,7 +2,7 @@
 
 import { GridsBg } from 'internal/components/GridsBg'
 import Article from 'internal/components/Article'
-import DocHeader from '~/components/DocHeader'
+import DocHeader from '~/website/components/DocHeader'
 import ListAuthors from 'internal/components/ListAuthors'
 import TimeAgo from 'internal/components/TimeAgo'
 import { useTranslation } from 'internal/contexts/i18n'

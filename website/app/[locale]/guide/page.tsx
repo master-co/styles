@@ -1,8 +1,8 @@
-import Layout from '~/layouts/reference'
-import pageCategories from '~/data/guide-categories.json'
+import Layout from '~/website/layouts/reference'
+import pageCategories from '~/website/data/guide-categories.json'
 import metadata from './metadata'
 import Content from './content.mdx'
-import { generate } from '~/utils/metadata'
+import { generate } from '~/website/utils/metadata'
 
 export const dynamic = 'force-static'
 export const revalidate = false

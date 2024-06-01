@@ -3,10 +3,10 @@ import ArticleHeader from 'internal/components/ArticleHeader'
 import DocMain from '../components/DocMain'
 import DocFooter from '../components/DocFooter'
 import PageNavs from 'internal/components/PageNavs'
-import pages from '~/data/pages.json'
+import pages from '~/website/data/pages.json'
 import PageContent from 'internal/components/PageContent'
 import fetchLastCommit from 'internal/utils/fetch-last-commit'
-import project from '~/project'
+import project from '~/website/project'
 
 export default async function Layout({ children, pageDirname, params, toc, $hideLeftSide, pageCategories, className, ...props }: any) {
     return <>

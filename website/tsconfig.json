@@ -1,7 +1,7 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
-        "baseUrl": ".",
+        "baseUrl": "../",
         "target": "es5",
         "lib": [
             "dom",
@@ -28,12 +28,7 @@
         ],
         "types": [
             "mdx"
-        ],
-        "paths": {
-            "~/*": [
-                "./*"
-            ]
-        }
+        ]
     },
     "exclude": [
         "node_modules"

@@ -1,6 +1,6 @@
-import SyntaxTable from '~/components/SyntaxTable'
+import SyntaxTable from '~/website/components/SyntaxTable'
 import syntaxes from '../syntaxes'
-import SyntaxTr from '~/components/SyntaxTr'
+import SyntaxTr from '~/website/components/SyntaxTr'
 
 export default () =>
     <SyntaxTable>

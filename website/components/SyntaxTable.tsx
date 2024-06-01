@@ -2,7 +2,7 @@
 
 import { useCallback, useRef, useState } from 'react'
 import DocTable from 'internal/components/DocTable'
-import { snackbar } from '../../../../utils/snackbar'
+import { snackbar } from 'internal/utils/snackbar'
 
 export default function SyntaxTable({ title, value, children, scrollY, addedLabels, ...props }: any) {
     const [previewCodeElement, setPreviewCodeElement] = useState<HTMLElement | null>(null)

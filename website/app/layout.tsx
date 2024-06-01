@@ -1,7 +1,7 @@
 import { Viewport } from 'next'
 
 if (process.env.NODE_ENV === 'development') {
-    require('~/master.css')
+    require('~/website/master.css')
 }
 
 export const metadata = {

@@ -1,6 +1,6 @@
-import i18n from '~/i18n.config.mjs'
-import pages from '~/data/pages.json'
-import { Page } from '~/script'
+import i18n from '~/website/i18n.config.mjs'
+import pages from '~/website/data/pages.json'
+import { Page } from '~/website/script'
 
 export function GET(request: Request) {
     const baseUrl = `${request.headers.get('referer') ? new URL(request.headers.get('referer') as string).protocol : 'https:'}//${request.headers.get('host')}`

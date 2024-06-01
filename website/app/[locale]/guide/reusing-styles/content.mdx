@@ -1,4 +1,4 @@
-import { buttonSizes } from '~/styles/btn'
+import { buttonSizes } from '~/website/styles/btn'
 
 ## Motivation [sr-only]
 As the styles grow, the class name combinations and the same design patterns appear over and over again in the code. To improve development efficiency and maintain design consistency, you should reuse or access them in some way.
@@ -27,7 +27,7 @@ As usual, you can split the styles into multiple files for management. When the 
 ```
 Let's implement a rich button.
 <Code lang="ts" name="styles/btn.ts">
-    {require('!!raw-loader!~/styles/btn').default}
+    {require('!!raw-loader!~/website/styles/btn').default}
 </Code>
 [Extend](/reference/configuration#extends) them uniformly in the __master.css.ts__ entry file.
 ```js name=master.css.js
@@ -75,7 +75,7 @@ To design a scalable style, you should ensure the single responsibility of class
 ### Create common variables and styles
 We pre-use [variables and modes](/guide/variables-and-modes) to create tokens supporting light/dark modes. This not only simplifies template markup but also reduces CSS rule output.
 <Code lang="ts" name="styles/master.css.ts">
-    {require('!!raw-loader!~/styles/base').default}
+    {require('!!raw-loader!~/website/styles/base').default}
 </Code>
 - Variables
     - `yellow-ring` is an outline color that complements a yellow background.

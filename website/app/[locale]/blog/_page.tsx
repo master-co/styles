@@ -1,8 +1,8 @@
 'use client'
 
 import Article from 'internal/components/Article'
-import DocHeader from '~/components/DocHeader.jsx'
-import DocFooter from '~/components/DocFooter.jsx'
+import DocHeader from '~/website/components/DocHeader.jsx'
+import DocFooter from '~/website/components/DocFooter.jsx'
 // @ts-expect-error
 import allBlogMetadata from './*/metadata.js'
 import Image from 'next/image'
@@ -10,7 +10,7 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import Link from 'internal/components/Link'
 import metadata from './metadata.js'
-import { generate } from '~/utils/metadata'
+import { generate } from '~/website/utils/metadata'
 
 export const dynamic = 'force-static'
 export const revalidate = false

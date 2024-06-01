@@ -1,37 +1,37 @@
 import Link from 'internal/components/Link'
 
 const mainPackages = [
-    require('~/../packages/core/package.json'),
-    require('~/../packages/runtime/package.json'),
-    require('~/../packages/server/package.json'),
-    require('~/../packages/extractor/package.json'),
-    require('~/../packages/validator/package.json'),
-    require('~/../packages/cli/package.json'),
-    require('~/../packages/create/package.json'),
+    require('~/website/../packages/core/package.json'),
+    require('~/website/../packages/runtime/package.json'),
+    require('~/website/../packages/server/package.json'),
+    require('~/website/../packages/extractor/package.json'),
+    require('~/website/../packages/validator/package.json'),
+    require('~/website/../packages/cli/package.json'),
+    require('~/website/../packages/create/package.json'),
 ]
 
 const integrationPackages = [
-    require('~/../packages/react/package.json'),
-    require('~/../packages/svelte/package.json'),
-    require('~/../packages/vue/package.json'),
-    require('~/../packages/nuxt/package.json'),
-    require('~/../packages/extractor.vite/package.json'),
-    require('~/../packages/extractor.webpack/package.json')
+    require('~/website/../packages/react/package.json'),
+    require('~/website/../packages/svelte/package.json'),
+    require('~/website/../packages/vue/package.json'),
+    require('~/website/../packages/nuxt/package.json'),
+    require('~/website/../packages/extractor.vite/package.json'),
+    require('~/website/../packages/extractor.webpack/package.json')
 ]
 
 const developerToolPackages = [
-    require('~/../packages/eslint-config/package.json'),
-    require('~/../packages/eslint-plugin/package.json'),
-    require('~/../packages/language-server/package.json'),
-    require('~/../packages/language-service/package.json'),
-    require('~/../packages/vscode/package.json'),
+    require('~/website/../packages/eslint-config/package.json'),
+    require('~/website/../packages/eslint-plugin/package.json'),
+    require('~/website/../packages/language-server/package.json'),
+    require('~/website/../packages/language-service/package.json'),
+    require('~/website/../packages/vscode/package.json'),
 ]
 
 const solutionPackages = [
-    require('~/node_modules/@master/colors/package.json'),
-    require('~/node_modules/@master/normal.css/package.json'),
-    require('~/node_modules/theme-mode/package.json'),
-    require('~/node_modules/class-variant/package.json'),
+    require('~/website/node_modules/@master/colors/package.json'),
+    require('~/website/node_modules/@master/normal.css/package.json'),
+    require('~/website/node_modules/theme-mode/package.json'),
+    require('~/website/node_modules/class-variant/package.json'),
 ]
 
 export default () => {

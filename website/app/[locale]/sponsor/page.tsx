@@ -1,12 +1,12 @@
 
-import Layout from '~/layouts/reference'
+import Layout from '~/website/layouts/reference'
 import metadata from './metadata'
 import Content from './content.mdx'
 import { getSponsorTiers } from 'internal/utils/get-sponsor-tiers'
 import Backers from './components/Backers'
 import Donors from './components/Donors'
 import DonationModal from './components/DonationModal'
-import { generate } from '~/utils/metadata'
+import { generate } from '~/website/utils/metadata'
 import { default as openCollectiveToken } from 'internal/tokens/open-collective'
 
 export const dynamic = 'force-static'

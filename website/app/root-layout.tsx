@@ -3,7 +3,7 @@ import './globals.css'
 import PRE_INIT_SCRIPT from '!!raw-loader!theme-mode/pre-init'
 import clsx from 'clsx'
 import { HTMLAttributes } from 'react'
-import i18n from '~/i18n.config.mjs'
+import i18n from '~/website/i18n.config.mjs'
 import Client from './client'
 import FontStyle from 'internal/components/FontStyle'
 

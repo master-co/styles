@@ -1,4 +1,4 @@
-import i18n from './i18n.config.mjs'
+import i18n from 'internal/i18n.config.mjs'
 
 const generateRedirect = (source, dest) => ([
     { source: source, destination: dest, permanent: false },

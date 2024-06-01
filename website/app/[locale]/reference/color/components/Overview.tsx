@@ -1,8 +1,8 @@
-import SyntaxTable from '~/components/SyntaxTable'
+import SyntaxTable from '~/website/components/SyntaxTable'
 import syntaxes from '../syntaxes'
-import SyntaxTr from '~/components/SyntaxTr'
+import SyntaxTr from '~/website/components/SyntaxTr'
 import SyntaxPreview from './SyntaxPreview'
-import Aa from '~/components/Aa'
+import Aa from '~/website/components/Aa'
 
 export default () => {
     const previewSyntax = 'fg:blue'

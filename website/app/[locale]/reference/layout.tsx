@@ -1,9 +1,9 @@
-import { importTranslations } from '~/i18n'
+import { importTranslations } from '~/website/i18n'
 import RootLayout from '../../root-layout'
-import i18n from '~/i18n.config.mjs'
-import DocHeader from '~/components/DocHeader'
-import DocSidebar from '~/components/DocSidebar'
-import referenceCategories from '~/data/reference-categories.json'
+import i18n from '~/website/i18n.config.mjs'
+import DocHeader from '~/website/components/DocHeader'
+import DocSidebar from '~/website/components/DocSidebar'
+import referenceCategories from '~/website/data/reference-categories.json'
 
 export const metadata = {
     title: {

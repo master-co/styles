@@ -2,6 +2,7 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
+            "~/*": [ "./*" ],
             "@master/css-cli": [ "./node_modules/@master/css-cli/src" ],
             "@master/create-css": [ "./node_modules/@master/create-css/src" ],
             "@master/css": [ "./node_modules/@master/css/src" ],
@@ -22,6 +23,7 @@
             "@master/css.vue": [ "./node_modules/@master/css.vue/src" ],
             "master-css-vscode": [ "./node_modules/master-css-vscode/src" ],
             "shared/*": [ "./node_modules/shared/*" ],
+            "internal/*": [ "./node_modules/internal/*" ],
         },
         "target": "esnext",
         "module": "esnext",

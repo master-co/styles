@@ -1,4 +1,4 @@
-import version from '~/version';
+import version from '~/website/version';
 
 ###### On this page
 <ArticleTOC data={toc}/>
@@ -35,7 +35,7 @@ We will submit it to the Nuxt.js's [modules](https://nuxt.com/modules) 🤩
 
 ### Master CSS ESLint
 One of our proud products, Master CSS ESLint, the first CSS framework with syntax-error checking in template `class=""`.
-<Image className="aspect:2/1 r:2x max-w:screen-xs w:full" src={require('~/public/syntax-error-checks.webp').default} alt="Syntax error checks" unoptimized />
+<Image className="aspect:2/1 r:2x max-w:screen-xs w:full" src={require('~/website/public/syntax-error-checks.webp').default} alt="Syntax error checks" unoptimized />
 
 (x) <span className="text:error">Invalid value for \`font\` property.</span>
 ```html
@@ -46,7 +46,7 @@ This is just one of the features, see the [Code Linting](/guide/code-linting) fo
 ### Master Colors
 Refactoring a color palette is a challenging task with no formulas or standards. The all-new [colors](/reference/colors) in 2.0 relies entirely on our experience with UI components and intuitive blending.
 <figure>
-    <Image src={require('~/public/colors.svg').default} className="r:2x" alt="Master Colors" />
+    <Image src={require('~/website/public/colors.svg').default} className="r:2x" alt="Master Colors" />
     <figcaption>A crafted color system for beautiful user interfaces</figcaption>
 </figure>
 There are built-in Master CSS color variables based on theme modes. For example, applying a meticulously designed [text color](/reference/text-colors) that works in light/dark mode.
@@ -68,7 +68,7 @@ There are built-in Master CSS color variables based on theme modes. For example,
 ```
 Master CSS's colors have been spun off into a new repository [master-co/colors](https://github.com/master-co/colors), as motivations always stem from random requests in our community:
 <figure>
-    <Image src={require('~/public/master-colors-motivation.jpg').default} className="r:2x" alt="Master Colors Motivation" />
+    <Image src={require('~/website/public/master-colors-motivation.jpg').default} className="r:2x" alt="Master Colors Motivation" />
 </figure>
 Now, you can install it separately anywhere.
 ```install
@@ -81,7 +81,7 @@ The protagonist of v2 is here - a brand-new [configuration API](/reference/confi
 ### Master Theme Mode
 Used for setting and switching theme modes, the "packages/theme-mode" has been spun off into a new repository [master-co/theme-mode](https://github.com/master-co/theme-mode).
 <figure>
-    <Image src={require('~/public/theme-modes.webp').default} className="r:2x" alt="Master Theme Modes" unoptimized />
+    <Image src={require('~/website/public/theme-modes.webp').default} className="r:2x" alt="Master Theme Modes" unoptimized />
     <figcaption>Theme mode switching and system preference synchronization</figcaption>
 </figure>
 In addition to Vanilla, React, and Vue integrations, we also added Svelte support during the migration process ✨
@@ -189,7 +189,7 @@ What's heartening so far is that the community is still eagerly awaiting Master 
 > Master UI is **free** and **MIT licensed**, you no longer need to pay for a basic button.
 
 <figure>
-    <Image src={require('~/public/master-ui-covers.jpeg').default} className="r:2x" alt="Master UI" />
+    <Image src={require('~/website/public/master-ui-covers.jpeg').default} className="r:2x" alt="Master UI" />
     <figcaption>Master UI Components</figcaption>
 </figure>
 
