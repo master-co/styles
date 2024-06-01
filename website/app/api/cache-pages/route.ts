@@ -1,0 +1,1 @@
+export { POST } from 'internal/apis/cache-pages'

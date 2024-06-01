@@ -1,4 +1,4 @@
-name: Generate Page Cache
+name: Cache Pages
 on:
   workflow_dispatch:
     inputs:
@@ -18,7 +18,7 @@ jobs:
             node-version: 20
             cache: "pnpm"
         - run: pnpm install
-        - run: pnpm exec tsx scripts/generate-page-cache.ts
+        - run: pnpm exec tsx internal/scripts/cache-pages.ts
           env:
             FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}
             FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
