@@ -4,16 +4,16 @@
 ## Bloated CSS keyframes
 (!) Defining animation keyframes the traditional way causes bloated CSS files.
 ```css name=main.css
-@keyframes animation1 { … }
-@keyframes animation2 { … }
-…
 .animation1 {
     animation: animation1 .5s
 }
+
+@keyframes animation1 { … }
+@keyframes animation2 { … }
+/* Hundreds of keyframe rules here... */
 ```
 This works fine, but even if you only used one `animation1` of the keyframes, the other unused ones would still be included in the final output and runtime style sheet.
 
-### Using animations API
 Master CSS [animations](/reference/animations) work by parsing the `animation` and `animation-name` component values and generating the corresponding CSS keyframe into the stylesheet.
 
 (o) Customize your keyframes using the Master CSS [animations API](/reference/animations).
@@ -31,7 +31,7 @@ For example, apply the custom `animation1` using the [animation](/reference/anim
 <div class="**@animation1|.5s**"></div>
 ```
 It only generates CSS according to the syntax `@animation1|.5s` you apply:
-```css
+```css name=generatedCSS
 @keyframes animation1 { … }
 
 .\@animation1\|\.5s {
@@ -44,7 +44,6 @@ Even though there are thousands of predefined keyframes, `animation1`, `animatio
 ---
 
 ## Bloated CSS variables
-### Using variables API
 ...
 
 ---
