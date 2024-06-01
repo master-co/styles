@@ -36,7 +36,7 @@ import Editor, { type Monaco } from '@monaco-editor/react'
 import DocMenuButton from '~/website/components/DocMenuButton'
 import { useLocale } from 'internal/contexts/locale'
 import { useTranslation } from 'internal/contexts/i18n'
-import HeaderContent from '../../../../../../components/HeaderContent'
+import HeaderContent from 'internal/components/HeaderContent'
 
 const ShareButton = dynamic(() => import('./components/ShareButton'))
 
@@ -64,7 +64,7 @@ const editorOptions: editor.IStandaloneEditorConstructionOptions = {
     lineHeight: 22,
     letterSpacing: -0.1,
     fontSize: 14,
-    fontFamily: config.variables['font-family'].mono.join(','),
+    fontFamily: (config.variables as any)['font-family'].mono.join(','),
     fontLigatures: true
 }
 

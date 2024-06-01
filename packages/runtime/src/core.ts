@@ -154,7 +154,7 @@ export class RuntimeCSS extends MasterCSS {
                 }
                 const rule = getRule(this.style.sheet.cssRules[index])
                 if (rule) {
-                    this.rules.push(rule)
+                    this.syntaxes.push(rule)
                     this.ruleBy[rule.className] = rule
 
                     for (let i = 0; i < rule.natives.length; i++) {

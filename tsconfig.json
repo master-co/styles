@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
         "paths": {
             "~/*": [ "./*" ],
             "@master/css-cli": [ "./node_modules/@master/css-cli/src" ],

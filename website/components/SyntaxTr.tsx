@@ -40,10 +40,10 @@ const generateCSS = (name: string | Record<string, any>) => {
     const classes = target.split(' ')
     const css = new MasterCSS()
     classes.forEach((eachClass: string) => css.add(eachClass))
-    if (!css.rules.length) {
+    if (!css.syntaxes.length) {
         throw new Error(`Class "${name}" not found`)
     }
-    const declarations = css.rules[css.rules.length - 1].declarations as any
+    const declarations = css.syntaxes[css.syntaxes.length - 1].declarations as any
     for (const declarationName in declarations) {
         if (typeof declarations[declarationName] === 'string')
             declarations[declarationName] = declarations[declarationName]

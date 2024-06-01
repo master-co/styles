@@ -1,6 +1,6 @@
 import { at } from '@master/css'
 import DocTable from 'internal/components/DocTable'
-import InlineCode from '../../../../../../../../components/InlineCode'
+import InlineCode from 'internal/components/InlineCode'
 
 export default () =>
     <DocTable>

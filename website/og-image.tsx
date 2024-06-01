@@ -3,10 +3,10 @@
 
 import type { Metadata } from 'next'
 import type { Author } from 'next/dist/lib/metadata/types/metadata-types'
-import type { Props } from '../../../types/Props'
+import type { Props } from 'internal/types/Props'
 
 import { ImageResponse } from 'next/og'
-import authors from '../../../data/authors'
+import authors from 'internal/data/authors'
 import { createTranslation } from '~/website/i18n'
 import stringWidth from 'string-width'
 import fs from 'fs'

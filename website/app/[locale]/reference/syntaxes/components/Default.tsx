@@ -1,4 +1,4 @@
-import { rules } from '@master/css'
+import { syntaxes } from '@master/css'
 import DotJoin from 'internal/components/DotJoin'
 
 const Default = () => <table>
@@ -11,10 +11,9 @@ const Default = () => <table>
     </thead>
     <tbody>
         {
-            Object.keys(rules)
+            Object.keys(syntaxes)
                 .map((eachRuleName) => {
-                    // @ts-ignore
-                    const eachRule = rules[eachRuleName]
+                    const eachRule = (syntaxes as any)[eachRuleName]
                     return (
                         <tr key={eachRuleName}>
                             <td><code className='fg:blue'>{eachRuleName}</code></td>
