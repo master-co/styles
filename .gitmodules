@@ -1,0 +1,4 @@
+[submodule "internal"]
+	path = internal
+	url = https://github.com/master-co/internal
+	branch = main
