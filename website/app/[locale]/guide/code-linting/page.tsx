@@ -2,7 +2,7 @@ import metadata from './metadata'
 import Content from './content.mdx'
 import { generate } from 'internal/utils/metadata'
 import Layout from 'internal/layouts/reference'
-import pageCategories from '~/website/data/guide-categories.json'
+import pageCategories from '~/website/categories/guide.json'
 import ESLintSvg from '~/website/public/icons/eslint.svg?inlineSvg'
 
 export const dynamic = 'force-static'

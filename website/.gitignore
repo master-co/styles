@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-/data/*.json
+pages.json
+/categories
 
 # dependencies
 /node_modules

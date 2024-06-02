@@ -1,7 +1,7 @@
 import Tabs, { Tab, TabBadge } from 'internal/components/Tabs'
 import { createTranslation } from 'internal/utils/i18n'
 import DocLayout from 'internal/layouts/reference'
-import pageCategories from '~/website/data/guide-categories.json'
+import pageCategories from '~/website/categories/guide.json'
 import brands from 'internal/data/brands'
 
 export default async function Layout(props: any) {

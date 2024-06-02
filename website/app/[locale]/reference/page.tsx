@@ -1,5 +1,5 @@
 import Layout from 'internal/layouts/reference'
-import pageCategories from '~/website/data/reference-categories.json'
+import pageCategories from '~/website/categories/reference.json'
 import metadata from './metadata'
 import Content from './content.mdx'
 import { generate } from 'internal/utils/metadata'

@@ -3,7 +3,7 @@ import RootLayout from '../../root-layout'
 import i18n from 'internal/common/i18n.config.mjs'
 import DocHeader from 'internal/components/DocHeader'
 import DocSidebar from 'internal/components/DocSidebar'
-import guideCategories from '~/website/data/guide-categories.json'
+import guideCategories from '~/website/categories/guide.json'
 
 export async function generateStaticParams() {
     return i18n.locales.map((locale: any) => ({ locale }))
