@@ -40,5 +40,5 @@
         "**/*.tsx",
         "**/*.mjs",
         "**/*.mdx"
-    ],
+, "../internal/utils/i18n.ts"    ],
 }

@@ -1,4 +1,4 @@
-import { createTranslation } from '~/website/i18n'
+import { createTranslation } from 'internal/utils/i18n'
 import DocLayout from 'internal/layouts/reference'
 import metadata from './metadata'
 import brands from 'internal/data/brands'

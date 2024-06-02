@@ -7,7 +7,7 @@ import type { Props } from 'internal/types/Props'
 
 import { ImageResponse } from 'next/og'
 import authors from 'internal/data/authors'
-import { createTranslation } from '~/website/i18n'
+import { createTranslation } from 'internal/utils/i18n'
 import stringWidth from 'string-width'
 import fs from 'fs'
 import path from 'path'

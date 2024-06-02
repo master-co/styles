@@ -1,7 +1,7 @@
 import extend from '@techor/extend'
 import type { Metadata, ResolvingMetadata } from 'next'
 import type { Props } from 'internal/types/Props'
-import { createTranslation } from '~/website/i18n'
+import { createTranslation } from 'internal/utils/i18n'
 import i18n from 'internal/common/i18n.config.mjs'
 
 export async function generate(

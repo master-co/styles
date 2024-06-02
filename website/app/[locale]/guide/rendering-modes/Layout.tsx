@@ -1,7 +1,7 @@
 import Tabs, { Tab } from 'internal/components/Tabs'
 import DocLayout from 'internal/layouts/reference'
 import metadata from './metadata'
-import { createTranslation } from '~/website/i18n'
+import { createTranslation } from 'internal/utils/i18n'
 
 export default async function Layout(props: any) {
     const $ = await createTranslation(props.params.locale)

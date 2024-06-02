@@ -1,9 +1,9 @@
-import { importTranslations } from '~/website/i18n'
+import { importTranslations } from 'internal/utils/i18n'
 import RootLayout from './root-layout'
 import i18n from 'internal/common/i18n.config.mjs'
 import SearchButton from 'internal/components/SearchButton'
 import DocHeader from 'internal/components/DocHeader'
-import { createTranslation } from '~/website/i18n'
+import { createTranslation } from 'internal/utils/i18n'
 import { headers } from 'next/headers'
 
 export default async function NotFound() {

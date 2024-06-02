@@ -1,4 +1,4 @@
-import { importTranslations } from '~/website/i18n'
+import { importTranslations } from 'internal/utils/i18n'
 import RootLayout from '../../root-layout'
 import i18n from 'internal/common/i18n.config.mjs'
 
