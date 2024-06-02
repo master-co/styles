@@ -2,7 +2,7 @@ import RootLayout from '../../root-layout'
 import metadata from './metadata'
 import { generate } from '~/website/utils/metadata'
 import Script from 'next/script'
-import i18n from '~/website/i18n.config.mjs'
+import i18n from 'internal/common/i18n.config.mjs'
 import { importTranslations } from '~/website/i18n'
 
 export async function generateMetadata(props: any, parent: any) {

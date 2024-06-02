@@ -9,25 +9,29 @@ import config from '~/website/master.css'
 import CSSRuntimeProvider from '@master/css.react'
 import ThemeModeProvider from '@master/theme-mode.react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import i18n from '~/website/i18n.config.mjs'
+import i18n from 'internal/common/i18n.config.mjs'
 import { SearchProvider } from 'internal/contexts/search'
+import { ProjectProvider } from 'internal/contexts/project'
+import project from '../project'
 
 export default function Client({ children, locale, translations }: any) {
     return (
         <>
-            <ThemeModeProvider preference='system'>
-                <CSSRuntimeProvider config={config}>
-                    <RedirectsProvider value={redirects}>
-                        <I18nProvider value={{ ...i18n, translations }}>
-                            <LocaleProvider value={locale}>
-                                <SearchProvider>
-                                    {children}
-                                </SearchProvider>
-                            </LocaleProvider>
-                        </I18nProvider>
-                    </RedirectsProvider>
-                </CSSRuntimeProvider>
-            </ThemeModeProvider>
+            <ProjectProvider value={project}>
+                <ThemeModeProvider preference='system'>
+                    <CSSRuntimeProvider config={config}>
+                        <RedirectsProvider value={redirects}>
+                            <I18nProvider value={{ ...i18n, translations }}>
+                                <LocaleProvider value={locale}>
+                                    <SearchProvider>
+                                        {children}
+                                    </SearchProvider>
+                                </LocaleProvider>
+                            </I18nProvider>
+                        </RedirectsProvider>
+                    </CSSRuntimeProvider>
+                </ThemeModeProvider>
+            </ProjectProvider>
             <Analytics />
             <SpeedInsights />
         </>

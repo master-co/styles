@@ -1,7 +1,7 @@
 import { importTranslations } from '~/website/i18n'
 import RootLayout from '../../root-layout'
-import i18n from '~/website/i18n.config.mjs'
-import DocHeader from '~/website/components/DocHeader'
+import i18n from 'internal/common/i18n.config.mjs'
+import DocHeader from 'internal/components/DocHeader'
 import DocSidebar from 'internal/components/DocSidebar'
 import referenceCategories from '~/website/data/reference-categories.json'
 

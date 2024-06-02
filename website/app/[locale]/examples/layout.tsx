@@ -1,6 +1,6 @@
 import { importTranslations } from '~/website/i18n'
 import RootLayout from '../../root-layout'
-import i18n from '~/website/i18n.config.mjs'
+import i18n from 'internal/common/i18n.config.mjs'
 
 export const metadata = {
     title: {

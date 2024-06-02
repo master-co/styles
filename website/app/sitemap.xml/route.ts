@@ -1,4 +1,4 @@
-import i18n from '~/website/i18n.config.mjs'
+import i18n from 'internal/common/i18n.config.mjs'
 import pages from '~/website/data/pages.json'
 import { Page } from '~/website/script'
 

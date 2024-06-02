@@ -1,8 +1,8 @@
 'use client'
 
 import Article from 'internal/components/Article'
-import DocHeader from '~/website/components/DocHeader.jsx'
-import DocFooter from 'internal/components/DocFooter.jsx'
+import DocHeader from 'internal/components/DocHeader'
+import DocFooter from 'internal/components/DocFooter'
 // @ts-expect-error
 import allBlogMetadata from './*/metadata.js'
 import Image from 'next/image'

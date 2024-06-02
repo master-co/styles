@@ -1,6 +1,6 @@
 import Tabs, { Tab, TabBadge } from 'internal/components/Tabs'
 import { createTranslation } from '~/website/i18n'
-import DocLayout from '~/website/layouts/reference'
+import DocLayout from 'internal/layouts/reference'
 import pageCategories from '~/website/data/guide-categories.json'
 import brands from 'internal/data/brands'
 
