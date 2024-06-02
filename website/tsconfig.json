@@ -39,6 +39,6 @@
         "**/*.ts",
         "**/*.tsx",
         "**/*.mjs",
-        "**/*.mdx",
+        "**/*.mdx", "../internal/layouts/article.tsx", "../internal/layouts/doc.tsx", "../internal/layouts/reference.tsx",
     ],
 }

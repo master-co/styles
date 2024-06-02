@@ -1,7 +1,7 @@
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
-import Layout from '~/website/layouts/reference'
+import Layout from 'internal/layouts/reference'
 import pageCategories from '~/website/data/guide-categories.json'
 import { generate } from '~/website/utils/metadata'
 

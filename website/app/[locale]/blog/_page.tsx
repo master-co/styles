@@ -2,7 +2,7 @@
 
 import Article from 'internal/components/Article'
 import DocHeader from '~/website/components/DocHeader.jsx'
-import DocFooter from '~/website/components/DocFooter.jsx'
+import DocFooter from 'internal/components/DocFooter.jsx'
 // @ts-expect-error
 import allBlogMetadata from './*/metadata.js'
 import Image from 'next/image'

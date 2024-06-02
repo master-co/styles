@@ -1,4 +1,4 @@
-import Layout from '~/website/layouts/reference'
+import Layout from 'internal/layouts/reference'
 import pageCategories from '~/website/data/reference-categories.json'
 import metadata from './metadata'
 import Content from './content.mdx'
