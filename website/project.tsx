@@ -1,3 +1,5 @@
+'use client'
+
 import type { Project } from 'internal/contexts/project'
 import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
 import roadmap from './app/[locale]/roadmap/metadata'

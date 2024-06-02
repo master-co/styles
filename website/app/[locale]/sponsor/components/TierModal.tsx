@@ -1,7 +1,6 @@
 import { Dispatch } from 'react'
 import Image from 'next/image'
 import Modal from 'internal/components/Modal'
-import { cls } from 'internal/utils/cls'
 import Link from 'internal/components/Link'
 
 export default function TierModal({ tierState }: { tierState: [any, Dispatch<any>] }) {

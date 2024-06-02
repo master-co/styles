@@ -22,7 +22,6 @@ import { getLinkHTML } from './getLinkHTML'
 import { useThemeMode } from '@master/theme-mode.react'
 import Header from 'internal/components/Header'
 import HeaderNav from 'internal/components/HeaderNav'
-import links from '~/website/links'
 import i18n from 'internal/common/i18n.config.mjs'
 import { variables } from '@master/css'
 import config from '~/website/master.css'
@@ -531,8 +530,8 @@ export default function Play(props: any) {
                         </select>
                         <IconChevronDown className="mr:-3 size:1em stroke:1.5" />
                     </label>
-                    {links?.map(({ fullName, Icon, ...eachLink }: any, index) =>
-                        <HeaderNav className={clsx('hidden@<md', index === links.length - 1 && 'mr:auto')} key={eachLink.name} {...eachLink} onClick={(event: any) => {
+                    {project.navs?.map(({ fullName, Icon, ...eachLink }: any, index) =>
+                        <HeaderNav className={clsx('hidden@<md', index === project.navs.length - 1 && 'mr:auto')} key={eachLink.name} {...eachLink} onClick={(event: any) => {
                             if (shareable) {
                                 if (!window.confirm('Are you sure to go to another page and discard current changes?')) {
                                     event.preventDefault()
