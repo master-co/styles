@@ -1065,8 +1065,8 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0(typescript@5.4.5)
       '@tabler/icons-react':
-        specifier: ^2.47.0
-        version: 2.47.0(react@18.3.1)
+        specifier: ^3.5.0
+        version: 3.5.0(react@18.3.1)
       '@techor/extend':
         specifier: ^2.6.7
         version: 2.6.7
@@ -1936,9 +1936,6 @@ importers:
       '@next/mdx':
         specifier: ^14.2.3
         version: 14.2.3(@mdx-js/loader@3.0.1(webpack@5.91.0(@swc/core@1.5.24(@swc/helpers@0.5.5))))(@mdx-js/react@3.0.1(@types/react@18.3.3)(react@18.3.1))
-      '@tabler/icons-react':
-        specifier: ^2.47.0
-        version: 2.47.0(react@18.3.1)
       '@vercel/speed-insights':
         specifier: ^1.0.10
         version: 1.0.11(@sveltejs/kit@2.5.10(svelte@4.2.17)(vite@5.2.12(@types/node@20.13.0)(less@4.2.0)(sass@1.77.4)(terser@5.31.0)))(next@14.2.3(@babel/core@7.24.6)(@opentelemetry/api@1.8.0)(@playwright/test@1.41.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.4))(react@18.3.1)(svelte@4.2.17)(vue-router@4.3.2(vue@3.4.27(typescript@5.4.5)))(vue@3.4.27(typescript@5.4.5))
@@ -5821,13 +5818,13 @@ packages:
     resolution: {integrity: sha512-+PmQX0PiAYPMeVYe237LJAYvOMYW1j2rH5YROyS3b4CTVJum34HfRvKvAzozHAQG0TnHNdUfY9nCeUyRAs//cw==}
     engines: {node: '>=14.16'}
 
-  '@tabler/icons-react@2.47.0':
-    resolution: {integrity: sha512-iqly2FvCF/qUbgmvS8E40rVeYY7laltc5GUjRxQj59DuX0x/6CpKHTXt86YlI2whg4czvd/c8Ce8YR08uEku0g==}
+  '@tabler/icons-react@3.5.0':
+    resolution: {integrity: sha512-bn05XKZV3ZfOv5Jr1FCTmVPOQGBVJoA4NefrnR919rqg6WGXAa08NovONHJGSuMxXUMV3b9Cni85diIW/E9yuw==}
     peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+      react: '>= 16'
 
-  '@tabler/icons@2.47.0':
-    resolution: {integrity: sha512-4w5evLh+7FUUiA1GucvGj2ReX2TvOjEr4ejXdwL/bsjoSkof6r1gQmzqI+VHrE2CpJpB3al7bCTulOkFa/RcyA==}
+  '@tabler/icons@3.5.0':
+    resolution: {integrity: sha512-I53dC3ZSHQ2MZFGvDYJelfXm91L2bTTixS4w5jTAulLhHbCZso5Bih4Rk/NYZxlngLQMKHvEYwZQ+6w/WluKiA==}
 
   '@techor/extend@2.6.7':
     resolution: {integrity: sha512-cFJu0y2AavkP0EhlepIoe3Kh7/lHKPzw7yAmELIQsJ1MO1LUkm8GbHdG2WLnI+F7eB+K0vAnZIu9mIiuWZ/xiA==}
@@ -21193,13 +21190,12 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@tabler/icons-react@2.47.0(react@18.3.1)':
+  '@tabler/icons-react@3.5.0(react@18.3.1)':
     dependencies:
-      '@tabler/icons': 2.47.0
-      prop-types: 15.8.1
+      '@tabler/icons': 3.5.0
       react: 18.3.1
 
-  '@tabler/icons@2.47.0': {}
+  '@tabler/icons@3.5.0': {}
 
   '@techor/extend@2.6.7': {}
 
