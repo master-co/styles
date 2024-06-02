@@ -2,7 +2,7 @@ import { importTranslations } from '~/website/i18n'
 import RootLayout from '../../root-layout'
 import i18n from '~/website/i18n.config.mjs'
 import DocHeader from '~/website/components/DocHeader'
-import DocSidebar from '~/website/components/DocSidebar'
+import DocSidebar from 'internal/components/DocSidebar'
 import guideCategories from '~/website/data/guide-categories.json'
 
 export async function generateStaticParams() {
