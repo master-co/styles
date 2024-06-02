@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "prepare": "tsx ../internal/scripts/assets && tsx ./script.ts",
+        "prepare": "tsx ../internal/scripts/prepare-app",
         "dev": "pnpm prepare && next dev",
         "build": "pnpm prepare && cd ../ && pnpm build && cd website && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
         "start": "next start",
@@ -20,6 +20,7 @@
         "@next/mdx": "^14.2.3",
         "@vercel/speed-insights": "^1.0.10",
         "eslint-config-next": "^14.2.3",
+        "internal": "workspace:^",
         "monaco-editor": "^0.45.0",
         "monaco-editor-textmate": "^4.0.0",
         "monaco-textmate": "^3.0.1",
@@ -27,15 +28,15 @@
         "react": "^18.2.0",
         "react-countup": "^6.5.0",
         "react-dom": "^18.2.0",
-        "uvcanvas": "^0.2.1",
-        "internal": "workspace:^"
+        "uvcanvas": "^0.2.1"
     },
     "devDependencies": {
-        "class-variant": "^2.0.2",
         "@types/node": "^20.11.26",
         "@types/react": "^18.2.65",
         "@types/react-dom": "^18.2.21",
+        "class-variant": "^2.0.2",
         "eslint": "^8.57.0",
+        "theme-mode": "^1.1.0",
         "tsx": "^4.10.5",
         "typescript": "^5.4.2"
     }

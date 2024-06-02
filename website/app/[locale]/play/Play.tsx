@@ -11,7 +11,7 @@ import useRewritedPathname from 'internal/uses/rewrited-pathname'
 import { useSearchParams } from 'next/navigation'
 import LanguageButton from 'internal/components/LanguageButton'
 import previewHandlerScriptText from './previewHandler.js?text'
-import ThemeButton from '~/website/components/ThemeButton'
+import ThemeButton from 'internal/components/ThemeButton'
 import { getScriptHTML } from './getScriptHTML'
 import { getStyleHTML } from './getStyleHTML'
 import { beautifyCSS } from 'internal/utils/beautifyCSS'
@@ -20,7 +20,6 @@ import latestMasterCSSVersion from '~/website/version'
 import Resizable from 'internal/components/Resizable'
 import { getLinkHTML } from './getLinkHTML'
 import { useThemeMode } from '@master/theme-mode.react'
-import { Logotype } from '~/website/components/Logotype'
 import Header from 'internal/components/Header'
 import HeaderNav from 'internal/components/HeaderNav'
 import links from '~/website/links'
@@ -33,10 +32,11 @@ import loader from '@monaco-editor/loader'
 import { useRouter } from 'next/navigation'
 import Link from 'internal/components/Link'
 import Editor, { type Monaco } from '@monaco-editor/react'
-import DocMenuButton from '~/website/components/DocMenuButton'
+import DocMenuButton from 'internal/components/DocMenuButton'
 import { useLocale } from 'internal/contexts/locale'
 import { useTranslation } from 'internal/contexts/i18n'
 import HeaderContent from 'internal/components/HeaderContent'
+import { useProject } from '~/internal/contexts/project'
 
 const ShareButton = dynamic(() => import('./components/ShareButton'))
 
@@ -76,6 +76,7 @@ const editorHTMLOptions: any = {
 
 export default function Play(props: any) {
     const $ = useTranslation()
+    const project = useProject()
     const locale = useLocale()
     const router = useRouter()
     const themeMode = useThemeMode()
@@ -509,7 +510,7 @@ export default function Play(props: any) {
             <Header fixed={false}>
                 <HeaderContent>
                     <Link href={'/'}>
-                        {<Logotype height="19" />}
+                        {<project.Logotype height="19" />}
                     </Link>
                     <label className='app-header-nav rel font:medium gap:5 ml:auto ml:30@md'>
                         v{version}

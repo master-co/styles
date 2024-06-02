@@ -2,9 +2,11 @@ import type { Project } from 'internal/contexts/project'
 import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
 import roadmap from './app/[locale]/roadmap/metadata'
 import CSSLogotype from 'internal/components/CSSLogotype'
+import categories from './categories'
+import version from './version'
 
 export default {
-    version: '2.0.0-rc.40',
+    version,
     navs: [
         { name: 'Guide', href: '/guide', Icon: IconCompass },
         { name: 'Reference', fullName: 'API Reference', href: '/reference', Icon: IconFileText },
@@ -14,5 +16,6 @@ export default {
         // { name: 'Components', href: '/components', Icon: IconComponents, disabled: true },
         // { name: 'Templates', href: '/templates', disabled: true }
     ],
+    categories,
     Logotype: CSSLogotype
 } as Project
