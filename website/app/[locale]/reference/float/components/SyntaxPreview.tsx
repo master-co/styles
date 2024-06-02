@@ -1,6 +1,6 @@
 'use client'
 
-import useSelectedPreviewSyntax from '~/website/utils/use-selected-preview-syntax'
+import useSelectedPreviewSyntax from 'internal/uses/use-selected-preview-syntax'
 import Basic from './Basic'
 
 export default (props: any) => {

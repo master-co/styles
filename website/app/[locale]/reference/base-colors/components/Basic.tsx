@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import Demo from 'internal/components/Demo'
 import Code from 'internal/components/Code'
 import { useState } from 'react'
-import usePreviewSyntax from '~/website/utils/use-selected-preview-syntax'
+import usePreviewSyntax from 'internal/uses/use-selected-preview-syntax'
 
 export default (props: any) =>
     <>

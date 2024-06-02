@@ -1,5 +1,5 @@
 import { Props } from 'internal/types/Props'
-import create from '~/website/og-image'
+import create from 'internal/utils/og-image'
 import metadata from './metadata'
 import Icon from '~/website/public/images/frameworks/vuejs.svg?inlineSvg'
 import type { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'

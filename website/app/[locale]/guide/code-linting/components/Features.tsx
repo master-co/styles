@@ -1,4 +1,5 @@
-import Features, { Feature } from 'internal/components/Features'
+import Features from 'internal/components/Features'
+import Feature from 'internal/components/Feature'
 import { IconStatusChange, IconSettingsExclamation, IconArrowMerge, IconShieldCheck, IconPencilExclamation, IconFunction } from '@tabler/icons-react'
 import Link from 'internal/components/Link'
 

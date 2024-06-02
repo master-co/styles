@@ -30,7 +30,7 @@ Let's implement a rich button.
     {require('!!raw-loader!~/website/styles/btn').default}
 </Code>
 [Extend](/reference/configuration#extends) them uniformly in the __master.css.ts__ entry file.
-```js name=master.css.js
+```js name=master.css.ts
 import type { Config } from '@master/css'
 
 export default {
@@ -74,7 +74,7 @@ To design a scalable style, you should ensure the single responsibility of class
 
 ### Create common variables and styles
 We pre-use [variables and modes](/guide/variables-and-modes) to create tokens supporting light/dark modes. This not only simplifies template markup but also reduces CSS rule output.
-<Code lang="ts" name="styles/master.css.ts">
+<Code lang="ts" name="master.css.ts">
     {require('!!raw-loader!~/website/styles/base').default}
 </Code>
 - Variables

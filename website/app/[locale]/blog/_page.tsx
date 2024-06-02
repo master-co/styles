@@ -10,7 +10,7 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import Link from 'internal/components/Link'
 import metadata from './metadata.js'
-import { generate } from '~/website/utils/metadata'
+import { generate } from 'internal/utils/metadata'
 
 export const dynamic = 'force-static'
 export const revalidate = false

@@ -1,1 +1,1 @@
-export { POST } from 'internal/apis/cache-pages'
+export { POST } from 'internal/api/cache-pages'

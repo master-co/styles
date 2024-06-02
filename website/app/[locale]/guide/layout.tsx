@@ -1,5 +1,5 @@
 import { importTranslations } from 'internal/utils/i18n'
-import RootLayout from '../../root-layout'
+import RootLayout from 'internal/layouts/root'
 import i18n from 'internal/common/i18n.config.mjs'
 import DocHeader from 'internal/components/DocHeader'
 import DocSidebar from 'internal/components/DocSidebar'

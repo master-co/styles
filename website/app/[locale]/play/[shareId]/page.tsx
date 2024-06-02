@@ -4,7 +4,7 @@ import firebaseConfig from 'internal/common/firebase.config'
 import { initializeApp } from '@firebase/app'
 import { getFirestore, doc, getDoc } from '@firebase/firestore/lite'
 import metadata from '../metadata'
-import { generate } from '~/website/utils/metadata'
+import { generate } from 'internal/utils/metadata'
 import dayjs from 'dayjs'
 
 export const dynamic = 'force-static'
