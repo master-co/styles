@@ -2,7 +2,7 @@ import { importTranslations } from 'internal/utils/i18n'
 import RootLayout from 'internal/layouts/root'
 import i18n from 'internal/common/i18n.config.mjs'
 import DocHeader from 'internal/components/DocHeader'
-import project from '~/website/project'
+import app from '~/website/app'
 
 export const metadata = {
     title: {
@@ -20,7 +20,7 @@ export default async function Layout({ children, params }: {
     params: { locale: typeof i18n.locales[number] }
 }) {
     return (
-        <RootLayout project={project} bodyClassName='bg:base' locale={params.locale} translations={await importTranslations(params.locale)}>
+        <RootLayout app={app} bodyClassName='bg:base' locale={params.locale} translations={await importTranslations(params.locale)}>
             <DocHeader />
             {children}
         </RootLayout>

@@ -1,8 +1,8 @@
 import NotFoundLayout from 'internal/layouts/not-found'
-import project from '../project'
+import app from '.'
 
 export default async function NotFound() {
     return (
-        <NotFoundLayout project={project} />
+        <NotFoundLayout app={app} />
     )
 }

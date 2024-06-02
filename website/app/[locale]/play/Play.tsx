@@ -16,7 +16,7 @@ import { getScriptHTML } from './getScriptHTML'
 import { getStyleHTML } from './getStyleHTML'
 import { beautifyCSS } from 'internal/utils/beautifyCSS'
 import templates from './templates'
-import latestMasterCSSVersion from '~/website/version'
+import latestMasterCSSVersion from '~/website/app/version'
 import Resizable from 'internal/components/Resizable'
 import { getLinkHTML } from './getLinkHTML'
 import { useThemeMode } from '@master/theme-mode.react'
@@ -35,7 +35,7 @@ import DocMenuButton from 'internal/components/DocMenuButton'
 import { useLocale } from 'internal/contexts/locale'
 import { useTranslation } from 'internal/contexts/i18n'
 import HeaderContent from 'internal/components/HeaderContent'
-import { useProject } from '~/internal/contexts/project'
+import { useApp } from '~/internal/contexts/app'
 
 const ShareButton = dynamic(() => import('./components/ShareButton'))
 
@@ -75,7 +75,7 @@ const editorHTMLOptions: any = {
 
 export default function Play(props: any) {
     const $ = useTranslation()
-    const project = useProject()
+    const app = useApp()
     const locale = useLocale()
     const router = useRouter()
     const themeMode = useThemeMode()
@@ -509,7 +509,7 @@ export default function Play(props: any) {
             <Header fixed={false}>
                 <HeaderContent>
                     <Link href={'/'}>
-                        {<project.Logotype height="19" />}
+                        {<app.Logotype height="19" />}
                     </Link>
                     <label className='app-header-nav rel font:medium gap:5 ml:auto ml:30@md'>
                         v{version}
@@ -530,8 +530,8 @@ export default function Play(props: any) {
                         </select>
                         <IconChevronDown className="mr:-3 size:1em stroke:1.5" />
                     </label>
-                    {project.navs?.map(({ fullName, Icon, ...eachLink }: any, index) =>
-                        <HeaderNav className={clsx('hidden@<md', index === project.navs.length - 1 && 'mr:auto')} key={eachLink.name} {...eachLink} onClick={(event: any) => {
+                    {app.navs?.map(({ fullName, Icon, ...eachLink }: any, index) =>
+                        <HeaderNav className={clsx('hidden@<md', index === app.navs.length - 1 && 'mr:auto')} key={eachLink.name} {...eachLink} onClick={(event: any) => {
                             if (shareable) {
                                 if (!window.confirm('Are you sure to go to another page and discard current changes?')) {
                                     event.preventDefault()

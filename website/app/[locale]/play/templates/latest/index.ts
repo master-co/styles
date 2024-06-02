@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import latestMasterCSSVersion from '~/website/version'
+import latestMasterCSSVersion from '~/website/app/version'
 import dedent from 'ts-dedent'
 
 export default {

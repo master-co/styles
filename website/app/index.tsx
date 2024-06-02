@@ -1,8 +1,8 @@
 'use client'
 
-import type { Project } from 'internal/contexts/project'
+import type { App } from 'internal/contexts/app'
 import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
-import roadmap from './app/[locale]/roadmap/metadata'
+import roadmap from './[locale]/roadmap/metadata'
 import CSSLogotype from 'internal/components/CSSLogotype'
 import categories from './categories'
 import version from './version'
@@ -20,4 +20,4 @@ export default {
     ],
     categories,
     Logotype: CSSLogotype
-} as Project
+} as App
