@@ -1,8 +1,8 @@
-import SyntaxTable from '~/website/components/SyntaxTable'
+import SyntaxTable from 'internal/components/SyntaxTable'
 import syntaxes from '../syntaxes'
 import { IconBallTennis, IconBell, IconBellRinging, IconCircle, IconCurrentLocation, IconFocusCentered, IconHandFinger, IconHeart, IconLoader, IconLoader2, IconLoaderQuarter, IconMapPin, IconMaximize, IconPointer, IconSquare, IconStar, IconUfo } from '@tabler/icons-react'
 import clsx from 'clsx'
-import SyntaxTr from '~/website/components/SyntaxTr'
+import SyntaxTr from 'internal/components/SyntaxTr'
 
 export default () => {
     const previewSyntax = ''

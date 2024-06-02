@@ -1,7 +1,7 @@
 import results from '~/website/../benchmarks/critical-css-for-docs-sites/results.json'
 import brands from 'internal/data/brands'
-import Bar from '~/website/components/Bar'
-import Bars from '~/website/components/Bars'
+import Bar from 'internal/components/Bar'
+import Bars from 'internal/components/Bars'
 import Segments from 'internal/components/Segments'
 import Link from 'internal/components/Link'
 
