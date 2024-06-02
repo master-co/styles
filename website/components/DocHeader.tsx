@@ -41,8 +41,8 @@ export default function DocHeader(props: any) {
                 </HeaderNav>)}
                 <TwitterIconButton className="app-header-icon hidden@<md ml:auto" />
                 <DiscordIconButton className="app-header-icon hidden@<md" />
-                <DiscussionsIconButton className="app-header-icon hidden@<md" projectId="css" />
-                <GitHubIconButton className="app-header-icon hidden@<md" projectId="css" />
+                <DiscussionsIconButton className="app-header-icon hidden@<md" />
+                <GitHubIconButton className="app-header-icon hidden@<md" />
                 <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>
                 <LanguageButton className="app-header-icon hidden@<md" locale={props.locale} />
                 <ThemeButton className="app-header-icon hidden@<md mr:-3x" />

@@ -4,9 +4,7 @@ import PageNavs from 'internal/components/PageNavs'
 import DocMain from '../components/DocMain'
 import DocFooter from '../components/DocFooter'
 import PageContent from 'internal/components/PageContent'
-import clsx from 'clsx'
 import fetchLastCommit from 'internal/utils/fetch-last-commit'
-import project from '~/website/project'
 
 export default async function Layout({ children, pageDirname, params, toc, $prose, $hideLeftSide, pageCategories, className, ...props }: any) {
     return (
@@ -19,7 +17,7 @@ export default async function Layout({ children, pageDirname, params, toc, $pros
                 <PageNavs metadata={props.metadata} pageCategories={pageCategories} />
                 <DocFooter locale={params.locale} />
             </DocMain>
-            {toc && <PageContent locale={params.locale} metadata={props.metadata} pageDirname={pageDirname} lastCommit={await fetchLastCommit(pageDirname, project)}>{toc}</PageContent>}
+            {toc && <PageContent locale={params.locale} metadata={props.metadata} pageDirname={pageDirname} lastCommit={await fetchLastCommit(pageDirname)}>{toc}</PageContent>}
         </>
     )
 }
