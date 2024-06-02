@@ -1,6 +1,6 @@
 import metadata from './metadata'
 import Content from './content.mdx'
-import { generate } from '~/website/utils/metadata'
+import { generate } from 'internal/utils/metadata'
 import { createTranslation } from 'internal/utils/i18n'
 import DocLayout from 'internal/layouts/reference'
 import pageCategories from '~/website/data/guide-categories.json'

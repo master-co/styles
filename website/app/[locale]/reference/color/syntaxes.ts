@@ -1,5 +1,5 @@
-import colors from '~/website/data/colors'
-import textColors from '~/website/data/text-colors'
+import colors from 'internal/data/colors'
+import textColors from 'internal/data/text-colors'
 
 const syntaxes = [
     ['fg:`color`'],

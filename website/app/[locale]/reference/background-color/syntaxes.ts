@@ -1,5 +1,5 @@
-import colors from '~/website/data/colors'
-import baseColors from '~/website/data/base-colors'
+import colors from 'internal/data/colors'
+import baseColors from 'internal/data/base-colors'
 
 const syntaxes = [
     ['bg:`color`'],

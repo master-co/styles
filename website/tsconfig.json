@@ -39,6 +39,8 @@
         "**/*.ts",
         "**/*.tsx",
         "**/*.mjs",
-        "**/*.mdx"
-, "../internal/utils/i18n.ts"    ],
+        "**/*.mdx",
+        "../internal/**/*.ts",
+        "../internal/**/*.tsx",
+    ],
 }
