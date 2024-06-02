@@ -1,25 +1,20 @@
-import RootLayout from 'internal/layouts/root'
+import { Body } from 'internal/layouts/root'
 import metadata from './metadata'
 import { generate } from 'internal/utils/metadata'
 import Script from 'next/script'
-import i18n from 'internal/common/i18n.config.mjs'
-import { importTranslations } from 'internal/utils/i18n'
-import app from '~/website/app'
+import AvoidFOUCScript from '~/internal/components/AvoidFOUCScript'
 
 export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
-export default async function Layout({ children, params }: {
-    children: JSX.Element,
-    params: { locale: typeof i18n['locales'][number] }
+export default async function Layout({ children }: {
+    children: JSX.Element
 }) {
     return (
-        <RootLayout app={app} locale={params.locale} translations={await importTranslations(params.locale)} bodyClassName='bg:base' style={{ display: 'none' }}>
-            <>
-                {children}
-            </>
-        </RootLayout>
+        <Body className="bg:base">
+            <AvoidFOUCScript />
+            {children}
+        </Body>
     )
 }
-
