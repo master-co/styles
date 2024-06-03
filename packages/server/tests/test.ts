@@ -4,7 +4,7 @@ import { render } from '../src'
 import { dirname, join } from 'path'
 import fg from 'fast-glob'
 
-fg.sync('../../../website/app/**/tests/**/template.html', { cwd: __dirname })
+fg.sync('../../../site/app/**/tests/**/template.html', { cwd: __dirname })
     .forEach(templatePath => {
         const templateDirname = dirname(templatePath)
         test(templateDirname.replace('../app/[locale]/', ''), async () => {

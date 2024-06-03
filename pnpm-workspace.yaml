@@ -2,6 +2,6 @@ packages:
   - 'packages/*'
   - 'examples/*'
   - 'benchmarks/*'
-  - 'website'
+  - 'site'
   - 'internal'
   - 'shared'

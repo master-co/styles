@@ -248,8 +248,8 @@ test('@', () => {
 
 test('home path', () => {
     expect(extractLatentClasses(`
-        ~/website/assets/master.svg
-        ~/website/master.svg
+        ~/site/assets/master.svg
+        ~/site/master.svg
         ~padding|300ms|ease-in
         ~delay:0ms
         ~duration:.5ms

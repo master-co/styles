@@ -1,0 +1,21 @@
+import referenceCategories from '~/site/categories/reference.json'
+
+## Design Token
+<OverviewButtons>
+    {referenceCategories.find(category => category.name === 'Design Token').pages}
+</OverviewButtons>
+
+## Configuration
+<OverviewButtons>
+    {referenceCategories.find(category => category.name === 'Configuration').pages}
+</OverviewButtons>
+
+## Syntax
+<OverviewButtons>
+    {referenceCategories.find(category => category.name === 'Syntax').pages}
+</OverviewButtons>
+
+## Package
+<OverviewButtons>
+    {referenceCategories.find(category => category.name === 'Package').pages}
+</OverviewButtons>
