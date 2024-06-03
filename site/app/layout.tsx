@@ -6,8 +6,8 @@ export { viewport } from 'internal/layouts/root'
 
 export const metadata = {
     title: {
-        template: '%s - Master CSS',
-        default: 'Master CSS'
+        template: `%s - ${process.env.NEXT_PUBLIC_PROJECT}`,
+        default: process.env.NEXT_PUBLIC_PROJECT
     },
     metadataBase: new URL(process.env.HOST as string)
 }

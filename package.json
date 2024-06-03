@@ -21,7 +21,6 @@
         "url": "https://github.com/master-co/css.git"
     },
     "dependencies": {
-        "@master/normal.css": "^2.1.1",
         "@swc-node/jest": "^1.8.0",
         "@techor/fs": "^3.0.22",
         "@techor/glob": "^3.0.22",

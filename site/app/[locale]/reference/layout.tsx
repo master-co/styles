@@ -4,13 +4,6 @@ import DocHeader from 'internal/components/DocHeader'
 import DocSidebar from 'internal/components/DocSidebar'
 import referenceCategories from '~/site/categories/reference.json'
 
-export const metadata = {
-    title: {
-        template: '%s - Master CSS',
-        default: 'Master CSS'
-    }
-}
-
 export async function generateStaticParams() {
     return i18n.locales.map((locale: any) => ({ locale }))
 }
