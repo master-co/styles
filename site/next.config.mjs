@@ -4,9 +4,9 @@ import path from 'path'
 import withWebpackConfig from 'internal/common/with-webpack-config.mjs'
 import defineNextConfig from 'internal/common/define-next-config.mjs'
 
-let nextConfig = defineNextConfig(
+const nextConfig = await defineNextConfig(
     {
-        webpack: (config) => {
+        webpack: (config, context) => {
             config.plugins.push(
                 new CopyPlugin({
                     patterns: [
@@ -14,7 +14,7 @@ let nextConfig = defineNextConfig(
                     ],
                 })
             )
-            return withWebpackConfig(config)
+            return withWebpackConfig(config, context)
         }
     },
     {

@@ -1,30 +1,30 @@
 import Link from 'internal/components/Link'
 
 const mainPackages = [
-    require('~/site/../packages/core/package.json'),
-    require('~/site/../packages/runtime/package.json'),
-    require('~/site/../packages/server/package.json'),
-    require('~/site/../packages/extractor/package.json'),
-    require('~/site/../packages/validator/package.json'),
-    require('~/site/../packages/cli/package.json'),
-    require('~/site/../packages/create/package.json'),
+    require('~/packages/core/package.json'),
+    require('~/packages/runtime/package.json'),
+    require('~/packages/server/package.json'),
+    require('~/packages/extractor/package.json'),
+    require('~/packages/validator/package.json'),
+    require('~/packages/cli/package.json'),
+    require('~/packages/create/package.json'),
 ]
 
 const integrationPackages = [
-    require('~/site/../packages/react/package.json'),
-    require('~/site/../packages/svelte/package.json'),
-    require('~/site/../packages/vue/package.json'),
-    require('~/site/../packages/nuxt/package.json'),
-    require('~/site/../packages/extractor.vite/package.json'),
-    require('~/site/../packages/extractor.webpack/package.json')
+    require('~/packages/react/package.json'),
+    require('~/packages/svelte/package.json'),
+    require('~/packages/vue/package.json'),
+    require('~/packages/nuxt/package.json'),
+    require('~/packages/extractor.vite/package.json'),
+    require('~/packages/extractor.webpack/package.json')
 ]
 
 const developerToolPackages = [
-    require('~/site/../packages/eslint-config/package.json'),
-    require('~/site/../packages/eslint-plugin/package.json'),
-    require('~/site/../packages/language-server/package.json'),
-    require('~/site/../packages/language-service/package.json'),
-    require('~/site/../packages/vscode/package.json'),
+    require('~/packages/eslint-config/package.json'),
+    require('~/packages/eslint-plugin/package.json'),
+    require('~/packages/language-server/package.json'),
+    require('~/packages/language-service/package.json'),
+    require('~/packages/vscode/package.json'),
 ]
 
 const solutionPackages = [

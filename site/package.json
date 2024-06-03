@@ -1,6 +1,5 @@
 {
     "name": "site",
-    "version": "0.1.0",
     "private": true,
     "scripts": {
         "prepare": "tsx ../internal/scripts/prepare-app",
@@ -11,33 +10,28 @@
         "type-check": "tsc --noEmit"
     },
     "dependencies": {
-        "@firebase/firestore": "^4.4.3",
         "@master/colors": "^2.0.0",
-        "@master/normal.css": "^2.1.1",
-        "@master/styled.react": "^2.0.2",
-        "@master/theme-mode.react": "^1.1.0",
+        "@master/normal.css": "^3.0.2",
         "@monaco-editor/react": "^4.6.0",
-        "@next/mdx": "^14.2.3",
-        "@vercel/speed-insights": "^1.0.10",
-        "eslint-config-next": "^14.2.3",
-        "internal": "workspace:^",
+        "class-variant": "^2.0.2",
         "monaco-editor": "^0.45.0",
         "monaco-editor-textmate": "^4.0.0",
         "monaco-textmate": "^3.0.1",
-        "next": "^14.2.3",
-        "react": "^18.2.0",
-        "react-countup": "^6.5.0",
-        "react-dom": "^18.2.0",
+        "theme-mode": "^1.1.0",
         "uvcanvas": "^0.2.1"
     },
     "devDependencies": {
-        "@types/node": "^20.11.26",
-        "@types/react": "^18.2.65",
-        "@types/react-dom": "^18.2.21",
-        "class-variant": "^2.0.2",
+        "@next/mdx": "^14.2.3",
+        "@types/node": "^20.14.0",
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
         "eslint": "^8.57.0",
-        "theme-mode": "^1.1.0",
-        "tsx": "^4.10.5",
-        "typescript": "^5.4.2"
+        "eslint-config-next": "^14.2.3",
+        "internal": "workspace:^",
+        "next": "^14.2.3",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "tsx": "^4.11.2",
+        "typescript": "^5.4.5"
     }
 }

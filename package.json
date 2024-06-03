@@ -11,10 +11,7 @@
         "e2e": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./packages/*\" --parallel e2e",
         "lint": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./packages/*\" --parallel lint",
         "type-check": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./packages/*\" --parallel type-check",
-        "commit-check": "commitlint --from=HEAD~1 --verbose",
-        "dev": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./packages/*\" dev",
-        "clean": "cross-env rm -rf node_modules && rm -rf pnpm-lock.json",
-        "update:deps": "pnpm recursive update"
+        "commit-check": "commitlint --from=HEAD~1 --verbose"
     },
     "engines": {
         "node": "^20"
@@ -38,9 +35,6 @@
         "jest-extended": "^4.0.2",
         "jest-text-transformer": "^1.0.4",
         "nanoid": "^4.0.2",
-        "nodemon": "^2.0.22",
-        "normalize-newline": "^4.1.0",
-        "pretty-ms": "^8.0.0",
         "shuffle-array": "^1.0.1",
         "spawnd": "^9.0.2",
         "strip-ansi": "^7.1.0",
@@ -53,6 +47,8 @@
         "vitest": "^1.6.0"
     },
     "devDependencies": {
+        "shared": "workspace:^",
+        "internal": "workspace:^",
         "@master/create-css": "workspace:^",
         "@master/css": "workspace:^",
         "@master/css-cli": "workspace:^",
@@ -64,7 +60,6 @@
         "@master/css-language-service": "workspace:^",
         "@master/css-runtime": "workspace:^",
         "@master/css-server": "workspace:^",
-        "shared": "workspace:^",
         "@master/css-validator": "workspace:^",
         "@master/css.nuxt": "workspace:^",
         "@master/css.react": "workspace:^",
