@@ -73,7 +73,7 @@ To apply the button sizes that are finely tuned for rounded styles.
 To design a scalable style, you should ensure the single responsibility of class composition; otherwise, you may end up using a lot of `!important` to override rules or the `@preset` layer to lower default styles, ultimately leading to chaotic styles.
 
 ### Create common variables and styles
-We pre-use [variables and modes](/guide/variables-and-modes) to create tokens supporting light/dark modes. This not only simplifies template markup but also reduces CSS rule output.
+We define [variables and modes](/guide/variables-and-modes) to create tokens supporting light/dark modes in advance. This not only simplifies template markup but also reduces CSS rule output.
 <Code lang="ts" name="master.css.ts">
     {require('!!raw-loader!~/site/styles/base').default}
 </Code>
