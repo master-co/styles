@@ -2,7 +2,7 @@ import pages from '~/site/pages.json'
 import Link from 'internal/components/Link'
 import clsx from 'clsx'
 import { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'
-import { Page } from 'internal/scripts/prepare-app'
+import { Page } from 'internal/types/Page'
 
 export default function Documents({ category, first }: any) {
     return <>

@@ -1,4 +1,4 @@
-import { Page } from 'internal/scripts/prepare-app'
+import { Page } from 'internal/types/Page'
 import generateSitemapResponse from 'internal/utils/generate-sitemap-response'
 import pages from '~/site/pages.json'
 
