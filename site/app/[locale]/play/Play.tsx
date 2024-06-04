@@ -16,7 +16,6 @@ import { getScriptHTML } from './getScriptHTML'
 import { getStyleHTML } from './getStyleHTML'
 import { beautifyCSS } from 'internal/utils/beautifyCSS'
 import templates from './templates'
-import latestMasterCSSVersion from '~/site/app/version'
 import Resizable from 'internal/components/Resizable'
 import { getLinkHTML } from './getLinkHTML'
 import { useThemeMode } from '@master/theme-mode.react'
@@ -86,10 +85,10 @@ export default function Play(props: any) {
     const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
     const monacoRef = useRef<Monaco | null>(null)
     const previewIframeRef = useRef<HTMLIFrameElement>(null)
-    const prevVersionRef = useRef(props.shareItem?.version ?? latestMasterCSSVersion)
+    const prevVersionRef = useRef(props.shareItem?.version ?? process.env.NEXT_PUBLIC_VERSION)
     const [shareId, setShareId] = useState(props.shareId ?? '')
     const [sharing, setSharing] = useState(false)
-    const [version, setVersion] = useState(props.shareItem?.version ?? latestMasterCSSVersion)
+    const [version, setVersion] = useState(props.shareItem?.version ?? process.env.NEXT_PUBLIC_VERSION)
     const [generatedCSSText, setGeneratedCSSText] = useState('')
     const [generatedCSSSize, setGeneratedCSSSize] = useState('0KB')
     const template = useMemo(() => templates.find((eachTemplate) => eachTemplate.version === version), [version])

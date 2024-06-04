@@ -1,9 +1,8 @@
 import { nanoid } from 'nanoid'
-import latestMasterCSSVersion from '~/site/app/version'
 import dedent from 'ts-dedent'
 
 export default {
-    version: latestMasterCSSVersion,
+    version: process.env.NEXT_PUBLIC_VERSION,
     files: [
         {
             title: 'HTML',

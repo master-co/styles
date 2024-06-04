@@ -9,7 +9,7 @@ export const metadata = {
         template: `%s - ${process.env.NEXT_PUBLIC_PROJECT}`,
         default: process.env.NEXT_PUBLIC_PROJECT
     },
-    metadataBase: new URL(process.env.HOST as string)
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL as string)
 }
 
 export default async function RootLayout({ children }: {

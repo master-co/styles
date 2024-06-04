@@ -5,10 +5,8 @@ import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/ico
 import roadmap from './[locale]/roadmap/metadata'
 import Logotype from 'internal/components/CSSLogotype'
 import categories from './categories'
-import version from './version'
 
 export default {
-    version,
     navs: [
         { name: 'Guide', href: '/guide', Icon: IconCompass },
         { name: 'Reference', fullName: 'API Reference', href: '/reference', Icon: IconFileText },

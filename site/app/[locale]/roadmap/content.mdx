@@ -1,5 +1,3 @@
-import version from '~/site/app/version';
-
 ###### On this page
 <ArticleTOC data={toc}/>
 
@@ -10,7 +8,7 @@ We are at the release candidate and have stabilized.
 
 1. <del>Alpha － 2.0.0-alpha.80</del>
 2. <del>Beta － 2.0.0-beta.215</del>
-3. Release Candidate － <svg className="mr:1x inline-block v:middle fill:green size:2x overflow:visible" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg"><circle className="@ping|1s|infinite transform:center" cx="4" cy="4" r="4" /><circle cx="4" cy="4" r="4" /></svg> [{version}](https://github.com/master-co/css/releases)
+3. Release Candidate － <svg className="mr:1x inline-block v:middle fill:green size:2x overflow:visible" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg"><circle className="@ping|1s|infinite transform:center" cx="4" cy="4" r="4" /><circle cx="4" cy="4" r="4" /></svg> [{process.env.NEXT_PUBLIC_VERSION}](https://github.com/master-co/css/releases)
 4. 🫨 **2.0 is coming soon**
 
 ---
@@ -280,7 +278,7 @@ In conclusion, Master CSS is nearly stable, the biggest reason we haven't releas
     <div className='bg:canvas b:1|frame p:3x|8x r:1x mt:2x'>
         When using a CDN in production, pining the current version to avoid potential conflicts due to version changes is strongly recommended, like so:
         <Code lang="html">
-        {`<script src="https://cdn.master.co/css-runtime@${version}"></script>`}
+        {`<script src="https://cdn.master.co/css-runtime@${process.env.NEXT_PUBLIC_VERSION}"></script>`}
         </Code>
     </div>
 </details>
@@ -293,4 +291,4 @@ In conclusion, Master CSS is nearly stable, the biggest reason we haven't releas
 
 ---
 
-<StarUs />~/site/app/version
+<StarUs />
