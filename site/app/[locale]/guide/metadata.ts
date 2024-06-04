@@ -1,7 +1,7 @@
 import define from 'internal/utils/metadata'
 
 const metadata = define({
-    title: 'Guide',
+    title: 'Get started with Master CSS',
     description: 'This section walks you through learning and starting to use Master CSS.',
     category: 'Overview',
     filename: import.meta.url
