@@ -3,7 +3,7 @@ import metadata from './metadata'
 import Content, { toc } from './content.mdx'
 import Layout from 'internal/layouts/doc'
 import pageCategories from '~/site/categories/guide.json'
-import { generate } from 'internal/utils/metadata'
+import generate from 'internal/utils/generate-metadata'
 
 export const dynamic = 'force-static'
 export const revalidate = false

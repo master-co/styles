@@ -2,7 +2,7 @@ import Layout from 'internal/layouts/reference'
 import pageCategories from '~/site/categories/guide.json'
 import metadata from './metadata'
 import Content from './content.mdx'
-import { generate } from 'internal/utils/metadata'
+import generate from 'internal/utils/generate-metadata'
 import LogoSvg from '~/site/public/images/frameworks/react.svg?inlineSvg'
 
 export const dynamic = 'force-static'

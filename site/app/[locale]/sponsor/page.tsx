@@ -6,7 +6,7 @@ import { getSponsorTiers } from 'internal/utils/get-sponsor-tiers'
 import Backers from './components/Backers'
 import Donors from './components/Donors'
 import DonationModal from './components/DonationModal'
-import { generate } from 'internal/utils/metadata'
+import generate from 'internal/utils/generate-metadata'
 import { default as openCollectiveToken } from 'internal/tokens/open-collective'
 
 export const dynamic = 'force-static'

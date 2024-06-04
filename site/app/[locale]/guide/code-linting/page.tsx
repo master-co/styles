@@ -1,6 +1,6 @@
 import metadata from './metadata'
 import Content from './content.mdx'
-import { generate } from 'internal/utils/metadata'
+import generate from 'internal/utils/generate-metadata'
 import Layout from 'internal/layouts/reference'
 import pageCategories from '~/site/categories/guide.json'
 import ESLintSvg from '~/site/public/icons/eslint.svg?inlineSvg'

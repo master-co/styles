@@ -1,6 +1,6 @@
 import { Body } from 'internal/layouts/root'
 import metadata from './metadata'
-import { generate } from 'internal/utils/metadata'
+import generate from 'internal/utils/generate-metadata'
 import Script from 'next/script'
 import AvoidFOUCScript from '~/internal/components/AvoidFOUCScript'
 

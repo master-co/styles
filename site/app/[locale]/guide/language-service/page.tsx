@@ -3,7 +3,7 @@ import pageCategories from '~/site/categories/guide.json'
 import Content from './content.mdx'
 import metadata from './metadata'
 import { createTranslation } from 'internal/utils/i18n'
-import { generate } from 'internal/utils/metadata'
+import generate from 'internal/utils/generate-metadata'
 
 export const dynamic = 'force-static'
 export const revalidate = false

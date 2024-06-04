@@ -3,7 +3,7 @@ import pageCategories from '~/site/categories/reference.json'
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
-import { generate } from 'internal/utils/metadata'
+import generate from 'internal/utils/generate-metadata'
 
 export const dynamic = 'force-static'
 export const revalidate = false

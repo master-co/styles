@@ -3,9 +3,11 @@
 import type { App } from 'internal/contexts/app'
 import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
 import roadmap from './[locale]/roadmap/metadata'
-import CSSLogotype from 'internal/components/CSSLogotype'
+import Logotype from 'internal/components/CSSLogotype'
 import categories from './categories'
 import version from './version'
+
+import '../pages'
 
 export default {
     version,
@@ -19,5 +21,8 @@ export default {
         // { name: 'Templates', href: '/templates', disabled: true }
     ],
     categories,
-    Logotype: CSSLogotype
+    versions: [
+        { name: 'v1.37.3', href: 'https://css.master.co' }
+    ],
+    Logotype
 } as App
