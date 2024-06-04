@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Writing Mode',
     description: 'Setting different writing mode.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=writing-mode',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode',
+    filename: import.meta.url
+})
 
 export default metadata

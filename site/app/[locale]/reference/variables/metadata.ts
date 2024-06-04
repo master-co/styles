@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Variables',
     description: 'Customizing variables for your design tokens.',
     category: 'Configuration',
-    unfinished: true
-}
+    unfinished: true,
+    filename: import.meta.url
+})
 
 export default metadata

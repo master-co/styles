@@ -1,9 +1,10 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'General Installation',
     description: 'The easiest way to use Master CSS from scratch is to initialize the runtime engine directly in the application\'s entry file.',
-    category: 'Getting Started'
-}
+    category: 'Getting Started',
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Install Master CSS ESLint in Visual Studio Code',
     description: 'Guide to installing Master CSS ESLint in your Visual Studio Code.',
     category: 'Code Linting',
-    vercelOG: true
-}
+    vercelOG: true,
+    filename: import.meta.url
+})
 
 export default metadata

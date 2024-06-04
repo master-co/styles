@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Visibility',
     description: 'Controlling whether an element is visible.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=visibility',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/visibility'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/visibility',
+    filename: import.meta.url
+})
 
 export default metadata

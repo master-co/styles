@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Text Rendering',
     description: 'Setting what to optimize when rendering text.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=text-rendering',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-rendering'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-rendering',
+    filename: import.meta.url
+})
 
 export default metadata

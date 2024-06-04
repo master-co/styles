@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Static Extraction in Nuxt.js',
     description: 'Guide to setting up Master CSS static extraction in your Nuxt.js project.',
     category: 'Installation',
-    vercelOG: true
-}
+    vercelOG: true,
+    filename: import.meta.url
+})
 
 export default metadata

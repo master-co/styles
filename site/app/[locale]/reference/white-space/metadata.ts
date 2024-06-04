@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'White Space',
     description: 'Controlling how whitespace and line breaks within an element are handled.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=white-space',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/white-space'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/white-space',
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Text Wrap',
     description: 'Controlling how text inside an element is wrapped.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=text-wrap',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap',
+    filename: import.meta.url
+})
 
 export default metadata

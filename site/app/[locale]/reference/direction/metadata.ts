@@ -1,11 +1,12 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Direction',
     description: 'Setting the direction of text.',
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=direction',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/direction'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/direction',
+    filename: import.meta.url
+})
 
 export default metadata

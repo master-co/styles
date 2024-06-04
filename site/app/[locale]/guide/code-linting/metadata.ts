@@ -1,6 +1,6 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: {
         absolute: 'Code Linting for Master CSS'
     },
@@ -13,7 +13,8 @@ const metadata: Metadata = {
     openGraph: {
         description: 'An ESLint plugin enforcing a consistent coding style for Master CSS.'
     },
-    vercelOG: true
-}
+    vercelOG: true,
+    filename: import.meta.url
+})
 
 export default metadata

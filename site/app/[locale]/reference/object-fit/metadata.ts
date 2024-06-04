@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Object Fit',
     description: 'Setting how the content should be resized to fit its container.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=object-fit',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit',
+    filename: import.meta.url
+})
 
 export default metadata

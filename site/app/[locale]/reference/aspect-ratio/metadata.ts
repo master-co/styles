@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Aspect Ratio',
     description: 'Setting the ratio for the box.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=aspect-ratio',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio',
+    filename: import.meta.url
+})
 
 export default metadata

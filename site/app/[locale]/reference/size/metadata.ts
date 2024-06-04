@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Size',
     description: 'Style shorthand for setting the width and height of an element.',
     category: 'Syntax',
-    unfinished: true
-}
+    unfinished: true,
+    filename: import.meta.url
+})
 
 export default metadata

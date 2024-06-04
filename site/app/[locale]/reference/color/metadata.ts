@@ -1,11 +1,12 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Color',
     description: 'Setting foreground color of an element.',
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=color',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/color'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/color',
+    filename: import.meta.url
+})
 
 export default metadata

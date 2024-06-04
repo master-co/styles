@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Font Size',
     description: 'Setting the font size of elements.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=font-size',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/font-size'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/font-size',
+    filename: import.meta.url
+})
 
 export default metadata

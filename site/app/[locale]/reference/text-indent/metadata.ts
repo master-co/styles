@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Text Indent',
     description: 'Setting indentation of the first line.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=text-indent',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent',
+    filename: import.meta.url
+})
 
 export default metadata

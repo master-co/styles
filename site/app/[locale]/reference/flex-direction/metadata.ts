@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Flex Direction',
     description: 'Setting the direction of flex items.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=flex-direction',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction',
+    filename: import.meta.url
+})
 
 export default metadata

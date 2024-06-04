@@ -1,11 +1,12 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Animation Iteration Count',
     description: 'Setting the number of times an animation should be played.',
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=animation-iteration-count',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/animation-iteration-count'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/animation-iteration-count',
+    filename: import.meta.url
+})
 
 export default metadata

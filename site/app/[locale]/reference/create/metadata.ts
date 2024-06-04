@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Create',
     description: 'Set up or create a modern web app by running one command.',
     category: 'Package',
-    order: 1
-}
+    order: 1,
+    filename: import.meta.url
+})
 
 export default metadata

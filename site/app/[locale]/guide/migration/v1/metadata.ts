@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Migrating from Master CSS 1.0',
     description: 'A guide to upgrading Master CSS from v1 to v2.',
     category: 'Migration',
-    vercelOG: true
-}
+    vercelOG: true,
+    filename: import.meta.url
+})
 
 export default metadata

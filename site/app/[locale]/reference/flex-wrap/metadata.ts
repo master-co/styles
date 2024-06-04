@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Flex Wrap',
     description: 'Setting how flex items wrap.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=flex-wrap',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap',
+    filename: import.meta.url
+})
 
 export default metadata

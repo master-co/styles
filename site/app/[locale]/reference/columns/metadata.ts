@@ -1,11 +1,12 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Columns',
     description: 'Setting the number of columns within the container.',
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=columns',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/columns'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/columns',
+    filename: import.meta.url
+})
 
 export default metadata

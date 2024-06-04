@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Grid Auto Rows',
     description: 'Setting the size of the grid rows.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=grid-auto-rows',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-rows'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-rows',
+    filename: import.meta.url
+})
 
 export default metadata

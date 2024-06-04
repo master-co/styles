@@ -1,9 +1,10 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Master CSS for Visual Studio Code',
     description: 'An official VSCode extension to integrate features of the Master CSS language service.',
-    category: 'Language Service'
-}
+    category: 'Language Service',
+    filename: import.meta.url
+})
 
 export default metadata

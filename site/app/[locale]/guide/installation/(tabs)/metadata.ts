@@ -1,6 +1,6 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: {
         absolute: 'Get started with Master CSS'
     },
@@ -9,7 +9,8 @@ const metadata: Metadata = {
     other: {
         subject: 'Installation'
     },
-    order: 2
-}
+    order: 2,
+    filename: import.meta.url
+})
 
 export default metadata

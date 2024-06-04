@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Vertical Align',
     description: 'Setting vertical alignment.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=vertical-align',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align',
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Runtime Rendering in React',
     description: 'Guide to setting up Master CSS runtime rendering in your React project.',
     category: 'Installation',
-    vercelOG: true
-}
+    vercelOG: true,
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Style Declarations',
     description: 'Master CSS covers all native CSS features with a structured syntax and simplifies CSS with smart rules.',
     category: 'Syntax Tutorial',
-    order: 1
-}
+    order: 1,
+    filename: import.meta.url
+})
 
 export default metadata

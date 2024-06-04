@@ -1,6 +1,6 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: {
         absolute: 'Rendering Modes of Master CSS'
     },
@@ -12,7 +12,8 @@ const metadata: Metadata = {
     other: {
         subject: 'Rendering Modes'
     },
-    order: 1
-}
+    order: 1,
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,9 +1,10 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Fonts',
     description: 'Customizing fonts for your design system.',
-    category: 'Design Token'
-}
+    category: 'Design Token',
+    filename: import.meta.url
+})
 
 export default metadata

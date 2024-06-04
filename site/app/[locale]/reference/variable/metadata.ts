@@ -1,6 +1,6 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Variable',
     description: 'CSS variables defined specific values to be reused throughout a document.',
     category: 'Syntax',
@@ -8,7 +8,8 @@ const metadata: Metadata = {
     canIUse: 'CSS Custom Properties',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=custom-properties',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties',
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Max Width',
     description: 'Setting the maximum width of an element.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=max-width',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/max-width'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/max-width',
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Accent Color',
     description: 'Setting the accent color of user interface elements or controls.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=accent-color',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/accent-color',
+    filename: import.meta.url
+})
 
 export default metadata

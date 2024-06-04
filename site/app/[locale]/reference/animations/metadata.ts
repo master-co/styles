@@ -1,9 +1,10 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Animations',
     description: 'Customizing animation keyframes for your design system.',
-    category: 'Configuration'
-}
+    category: 'Configuration',
+    filename: import.meta.url
+})
 
 export default metadata

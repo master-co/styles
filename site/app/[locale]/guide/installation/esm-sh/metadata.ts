@@ -1,10 +1,11 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Runtime with esm.sh CDN',
     description: 'Paste the esm.sh CDN to instantly launch the Master CSS runtime engine.',
     category: 'Installation',
-    vercelOG: true
-}
+    vercelOG: true,
+    filename: import.meta.url
+})
 
 export default metadata

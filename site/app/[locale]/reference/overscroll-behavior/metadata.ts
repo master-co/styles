@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Overscroll Behavior',
     description: 'Setting what a browser does when reaching the boundary of a scrolling area.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=overscroll-behavior',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior',
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Flex Basis',
     description: 'Setting the initial main size of a flex item.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=flex-basis',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis',
+    filename: import.meta.url
+})
 
 export default metadata

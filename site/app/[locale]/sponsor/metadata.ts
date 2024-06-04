@@ -1,9 +1,10 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Sponsor',
     description: 'Donate a small portion of your income benefiting from us to help grow.',
-    category: 'MIT License'
-}
+    category: 'MIT License',
+    filename: import.meta.url
+})
 
 export default metadata

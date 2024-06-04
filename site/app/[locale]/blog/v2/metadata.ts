@@ -1,6 +1,6 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Master CSS 2.0',
     description: 'Configuration API, progressive rendering, design system, and more!',
     authors: [
@@ -10,7 +10,8 @@ const metadata: Metadata = {
         { name: 'Lola' },
         { name: 'Joy' }
     ],
-    date: '2023-12-19T15:04:56.712Z'
-}
+    date: '2023-12-19T15:04:56.712Z',
+    filename: import.meta.url
+})
 
 export default metadata

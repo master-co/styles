@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Appearance',
     description: 'Controlling the native appearance of UI controls.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=appearance',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/appearance'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/appearance',
+    filename: import.meta.url
+})
 
 export default metadata

@@ -1,12 +1,13 @@
-import { Metadata } from 'internal/types/Metadata'
+import define from 'internal/utils/metadata'
 
-const metadata: Metadata = {
+const metadata = define({
     title: 'Display',
     description: 'Controlling the element\'s inner and outer display types.',
     category: 'Syntax',
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=display',
-    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/display'
-}
+    mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/display',
+    filename: import.meta.url
+})
 
 export default metadata
