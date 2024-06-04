@@ -1,8 +1,8 @@
-import pages from '~/site/pages.json'
+import definedMetadataList from '~/site/app/defined-metadata-list'
 import Link from 'internal/components/Link'
 import clsx from 'clsx'
 import { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'
-import { Page } from 'internal/types/Page'
+import { DefinedMetadata } from 'internal/types/Metadata'
 
 export default function Documents({ category, first }: any) {
     return <>
@@ -12,9 +12,9 @@ export default function Documents({ category, first }: any) {
             </tr>
         </thead>
         <tbody>
-            {pages
-                .filter(({ metadata }: Page) => metadata.category === category)
-                .map(({ metadata, pathname }: Page) => {
+            {definedMetadataList
+                .filter((metadata: DefinedMetadata) => metadata.category === category)
+                .map(({ pathname, ...metadata }: DefinedMetadata) => {
                     const subject = metadata.other?.subject as string || (metadata.title as AbsoluteTemplateString).absolute || (metadata.title as string)
                     return (
                         <tr key={subject}>

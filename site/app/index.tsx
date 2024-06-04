@@ -7,8 +7,6 @@ import Logotype from 'internal/components/CSSLogotype'
 import categories from './categories'
 import version from './version'
 
-import '../pages'
-
 export default {
     version,
     navs: [
