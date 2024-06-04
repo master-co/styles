@@ -1,5 +1,5 @@
 import DocLayout from 'internal/layouts/reference'
-import pageCategories from '~/site/categories/guide.json'
+import { getUnitCategories } from '~/site/metadata'
 import Content from './content.mdx'
 import metadata from './metadata'
 import { createTranslation } from 'internal/utils/i18n'
@@ -15,7 +15,7 @@ export async function generateMetadata(props: any, parent: any) {
 export default async function Layout(props: any) {
     const $ = await createTranslation(props.params.locale)
     return (
-        <DocLayout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
+        <DocLayout {...props} pageCategories={getUnitCategories('guide')} pageDirname={__dirname} metadata={metadata}>
             <Content />
         </DocLayout >
     )

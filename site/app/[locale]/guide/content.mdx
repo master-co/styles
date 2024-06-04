@@ -1,23 +1,25 @@
-import guideCategories from '~/site/categories/guide.json'
+import { getUnitCategories } from '~/site/metadata'
+
+export const categories = getUnitCategories('guide')
 
 ## Getting Started
 <OverviewButtons>
-    {guideCategories.find(category => category.name === 'Getting Started').pages}
+    {categories.find(category => category.name === 'Getting Started').definedMetadataList}
 </OverviewButtons>
 
 ## Syntax Tutorial
 <OverviewButtons>
-    {guideCategories.find(category => category.name === 'Syntax Tutorial').pages}
+    {categories.find(category => category.name === 'Syntax Tutorial').definedMetadataList}
 </OverviewButtons>
 
 ## Fundamentals
 <OverviewButtons>
-    {guideCategories.find(category => category.name === 'Fundamentals').pages}
+    {categories.find(category => category.name === 'Fundamentals').definedMetadataList}
 </OverviewButtons>
 
 ## Production Optimization
 <OverviewButtons>
-    {guideCategories.find(category => category.name === 'Production Optimization').pages}
+    {categories.find(category => category.name === 'Production Optimization').definedMetadataList}
 </OverviewButtons>
 
 ---

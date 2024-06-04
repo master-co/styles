@@ -1,4 +1,4 @@
-import definedMetadataList from '~/site/app/defined-metadata-list'
+import { definedMetadataList } from '~/site/metadata'
 import Link from 'internal/components/Link'
 import clsx from 'clsx'
 import { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'

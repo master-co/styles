@@ -2,7 +2,7 @@ import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
 import Layout from 'internal/layouts/reference'
-import pageCategories from '~/site/categories/guide.json'
+import { getUnitCategories } from '~/site/metadata'
 import generate from 'internal/utils/generate-metadata'
 
 export const dynamic = 'force-static'
@@ -14,7 +14,7 @@ export async function generateMetadata(props: any, parent: any) {
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata} toc={toc}>
+        <Layout {...props} pageCategories={getUnitCategories('guide')} pageDirname={__dirname} metadata={metadata} toc={toc}>
             <Content />
         </Layout >
     )
