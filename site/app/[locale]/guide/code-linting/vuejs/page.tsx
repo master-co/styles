@@ -1,4 +1,4 @@
-import Layout from 'internal/layouts/reference'
+import Layout from 'internal/layouts/doc'
 import { getUnitCategories } from '~/site/metadata'
 import metadata from './metadata'
 import Content from './content.mdx'

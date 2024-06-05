@@ -1,6 +1,6 @@
 import Tabs, { Tab } from 'internal/components/Tabs'
 import { createTranslation } from 'internal/utils/i18n'
-import DocLayout from 'internal/layouts/reference'
+import DocLayout from 'internal/layouts/doc'
 import brands from 'internal/data/brands'
 
 export default async function Layout(props: any) {

@@ -1,5 +1,5 @@
 import { createTranslation } from 'internal/utils/i18n'
-import DocLayout from 'internal/layouts/reference'
+import DocLayout from 'internal/layouts/doc'
 import metadata from './metadata'
 import brands from 'internal/data/brands'
 

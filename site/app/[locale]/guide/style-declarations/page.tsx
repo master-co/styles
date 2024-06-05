@@ -1,7 +1,7 @@
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
-import Layout from 'internal/layouts/reference'
+import Layout from 'internal/layouts/doc'
 import { getUnitCategories } from '~/site/metadata'
 import generate from 'internal/utils/generate-metadata'
 

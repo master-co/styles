@@ -2,7 +2,7 @@ import metadata from './metadata'
 import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
 import { createTranslation } from 'internal/utils/i18n'
-import DocLayout from 'internal/layouts/reference'
+import DocLayout from 'internal/layouts/doc'
 import { getUnitCategories } from '~/site/metadata'
 
 export const dynamic = 'force-static'

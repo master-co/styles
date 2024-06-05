@@ -1,5 +1,5 @@
 
-import Layout from 'internal/layouts/reference'
+import Layout from 'internal/layouts/doc'
 import metadata from './metadata'
 import Content from './content.mdx'
 import { getSponsorTiers } from 'internal/utils/get-sponsor-tiers'

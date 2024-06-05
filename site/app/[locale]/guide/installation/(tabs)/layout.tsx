@@ -1,6 +1,6 @@
 import Tabs, { Tab } from 'internal/components/Tabs'
 import { createTranslation } from 'internal/utils/i18n'
-import DocLayout from 'internal/layouts/reference'
+import DocLayout from 'internal/layouts/doc'
 import { getUnitCategories } from '~/site/metadata'
 import metadata from './metadata'
 

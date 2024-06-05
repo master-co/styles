@@ -1,7 +1,7 @@
 import metadata from './metadata'
 import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
-import Layout from 'internal/layouts/reference'
+import Layout from 'internal/layouts/doc'
 import { getUnitCategories } from '~/site/metadata'
 import ESLintSvg from '~/site/public/icons/eslint.svg?inlineSvg'
 

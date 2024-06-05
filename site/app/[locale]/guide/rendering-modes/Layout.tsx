@@ -1,5 +1,5 @@
 import Tabs, { Tab } from 'internal/components/Tabs'
-import DocLayout from 'internal/layouts/reference'
+import DocLayout from 'internal/layouts/doc'
 import metadata from './metadata'
 import { createTranslation } from 'internal/utils/i18n'
 
