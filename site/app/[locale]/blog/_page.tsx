@@ -23,7 +23,7 @@ export default function Page(props: any) {
     return <>
         <DocHeader />
         <main className='app-doc-main max-w:screen-xl'>
-            <Article className="mb:80" $prose>
+            <Article className="mb:80" $type='prose'>
                 <div className='gap:12x|25 grid-cols:4'>
                     {allBlogMetadata.concat(allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata, allBlogMetadata)
                         .map((eachBlogMetadata: any, index: number) => {
