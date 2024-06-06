@@ -9,7 +9,8 @@ const utilities = {
         'border-radius': '1e9em'
     },
     round: {
-        'border-radius': '50%'
+        'border-radius': '50%',
+        'aspect-ratio': '1/1'
     },
     hidden: {
         display: 'none'
