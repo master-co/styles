@@ -24,7 +24,7 @@ export default () => <div className="gap-y:8x gap-y:5x@sm grid-cols:1 my:10x">
                             const backgroundHex = level === 100 ? '#000000' : color === 0 ? '#ffffff' : color
                             return (
                                 <div key={color + level}>
-                                    <div className="center-content flex aspect:3/2 cursor:pointer tracking:.5 outline-offset:-1 outline:1|solid outline:frame r:1x w:full"
+                                    <div className="center-content flex aspect:3/2 cursor:pointer tracking:.5 outline-offset:-1 outline:1|solid outline:line-lightest r:1x w:full"
                                         style={{ backgroundColor: backgroundHex }}
                                         onClick={() => {
                                             snackbar(
