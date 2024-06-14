@@ -37,7 +37,7 @@ export {
     modes
 }
 
-export type VariableValue = number | string | Array<number | string>
+export type VariableValue = number | string | false | Array<number | string>
 export type VariableDefinition = { [key in '' | `@${string}` | string]?: VariableValue | VariableDefinition } | VariableValue
 export type CSSKeyframes = { [key in 'from' | 'to' | string]: PropertiesHyphen }
 export type AnimationDefinitions = { [key: string]: CSSKeyframes }
