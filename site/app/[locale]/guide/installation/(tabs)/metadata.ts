@@ -4,7 +4,7 @@ const metadata = define({
     title: {
         absolute: 'Installing Master CSS'
     },
-    description: 'Master CSS allows you to install from package managers, copy and paste from CDNs, and even integrate with frameworks.',
+    description: 'Master CSS allows you to install from package managers, copy-paste CDNs, and even integrate with frameworks.',
     category: 'Getting Started',
     other: {
         subject: 'Installation'

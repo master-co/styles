@@ -9,6 +9,7 @@ const metadata = define({
     other: {
         subject: 'Migration'
     },
+    order: 5,
     filename: import.meta.url
 })
 

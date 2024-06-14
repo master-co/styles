@@ -2,8 +2,8 @@ export default [
     'Overview',
 
     'Getting Started',
-    'First Build',
-    'Syntax Tutorial',
+    'Start Building',
+    'Tutorial',
     'Fundamentals',
     'Production Optimization',
 

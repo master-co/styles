@@ -12,8 +12,8 @@ export default () => <CodeTabs>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link rel="preload" as="script" href="https://cdn.master.co/css-runtime@rc">
-                <link rel="preload" as="style" href="https://cdn.master.co/normal.css@rc">
-                <link rel="stylesheet" href="https://cdn.master.co/normal.css@rc">
+                <link rel="preload" as="style" href="https://cdn.master.co/normal.css">
+                <link rel="stylesheet" href="https://cdn.master.co/normal.css">
                 <script>
                     window.masterCSSConfig = {
                         variables: {
@@ -38,8 +38,8 @@ export default () => <CodeTabs>
             <head>
                 <meta charset="utf-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
-                <link rel="stylesheet" href="https://cdn.master.co/normal.css@rc">
-                <link rel="preload" as="style" href="https://cdn.master.co/normal.css@rc">
+                <link rel="stylesheet" href="https://cdn.master.co/normal.css">
+                <link rel="preload" as="style" href="https://cdn.master.co/normal.css">
                 <link rel="modulepreload" href="https://cdn.master.co/css-runtime@rc/+esm">
             +    <script type="module">
             +        import { initCSSRuntime } from 'https://cdn.master.co/css-runtime@rc/+esm'

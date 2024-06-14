@@ -4,7 +4,7 @@ const metadata = define({
     title: {
         absolute: 'Introduction to Master CSS'
     },
-    description: 'Get a quick overview of Master CSS and its benefits.',
+    description: 'The CSS language and framework for rapidly building modern and high-performance websites.',
     category: 'Getting Started',
     other: {
         subject: 'Introduction'
