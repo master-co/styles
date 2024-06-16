@@ -43,13 +43,7 @@ const config: Config = {
     },
     variables: {
         primary: '$(blue)'
-    },
-    rules: {},
-    utilities: {},
-    at: {},
-    animations: {},
-    selectors: {},
-    functions: {}
+    }
 }
 
 export default config
