@@ -16,7 +16,7 @@ export default function VirtualCSSHMRPlugin(extractor: CSSExtractor): Plugin {
         const virtualCSSModule = server.moduleGraph.getModuleById(resolvedVirtualModuleId)
         if (virtualCSSModule) {
             server.reloadModule(virtualCSSModule)
-            server.hot.channels.forEach((eachChannel) => {
+            server.ws.clients.forEach((eachChannel) => {
                 eachChannel.send({
                     type: 'update',
                     updates: [{
@@ -100,7 +100,7 @@ export default function VirtualCSSHMRPlugin(extractor: CSSExtractor): Plugin {
                 updateVirtualModule()
             }
             server = devServer
-            server.hot.on('connection', () => {
+            server.ws.on('connection', () => {
                 extractor
                     .off('reset', resetHandler)
                     .on('reset', resetHandler)
