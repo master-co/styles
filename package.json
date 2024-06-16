@@ -47,7 +47,6 @@
     },
     "devDependencies": {
         "shared": "workspace:^",
-        "internal": "workspace:^",
         "@master/create-css": "workspace:^",
         "@master/css": "workspace:^",
         "@master/css-cli": "workspace:^",
