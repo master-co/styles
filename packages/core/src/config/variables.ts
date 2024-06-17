@@ -1,7 +1,7 @@
 import colors from '@master/colors'
 import extend from '@techor/extend'
 
-const variables = extend(colors, {
+const _variables = {
     full: '100%',
     fit: 'fit-content',
     max: 'max-content',
@@ -330,6 +330,8 @@ const variables = extend(colors, {
             '@dark': '$(red-30)',
         },
     },
-})
+}
+
+const variables = extend(colors, _variables) as (typeof colors & typeof _variables)
 
 export default variables
