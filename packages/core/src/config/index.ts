@@ -22,7 +22,8 @@ const config: Config = {
     rootSize: 16,
     baseUnit: 4,
     override: false,
-    important: false
+    important: false,
+    defaultMode: 'light'
 }
 
 export {
@@ -64,6 +65,7 @@ export interface Config {
     syntaxes?: SyntaxDefinitions
     rootSize?: number
     baseUnit?: number
+    defaultMode?: 'light' | 'dark' | string | false
     scope?: string
     important?: boolean
     override?: boolean

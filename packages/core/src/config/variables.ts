@@ -226,8 +226,8 @@ const _variables = {
     },
     text: {
         invert: {
-            '@light': '$(black)',
-            '@dark': '$(white)',
+            '@light': '$(white)',
+            '@dark': '$(black)',
         },
         strong: {
             '@light': '$(slate-95)',

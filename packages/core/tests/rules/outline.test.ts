@@ -30,7 +30,7 @@ test.concurrent('autofill solid', () => {
             line: { '@light': 'solid', '@dark': 'dotted' }
         }
     }).add('outline:16|line').text).toBe(
-        '.light{--line:solid}' +
+        ':root,.light{--line:solid}' +
         '.dark{--line:dotted}' +
         '.outline\\:16\\|line{outline:1rem var(--line) solid}'
     )

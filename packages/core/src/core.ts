@@ -1089,7 +1089,10 @@ export default class MasterCSS {
                                         selectorText = `:host(.${mode})`
                                         break
                                     case 'class':
-                                        selectorText = `.${mode}`
+                                        selectorText = '.' + mode
+                                        if (this.config.defaultMode === mode) {
+                                            selectorText = ':root,' + selectorText
+                                        }
                                         break
                                     default:
                                         return
