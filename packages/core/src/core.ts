@@ -1087,11 +1087,14 @@ export default class MasterCSS {
                                         break
                                     case 'host':
                                         selectorText = `:host(.${mode})`
+                                        if (this.config.defaultMode === mode) {
+                                            selectorText += ',:host'
+                                        }
                                         break
                                     case 'class':
                                         selectorText = '.' + mode
                                         if (this.config.defaultMode === mode) {
-                                            selectorText = ':root,' + selectorText
+                                            selectorText += ',:root'
                                         }
                                         break
                                     default:
@@ -1195,7 +1198,7 @@ export default class MasterCSS {
         let prefix = ''
         let suffix = '}'
         if (variableCSSRule.parentRule) {
-            prefix += (variableCSSRule.parentRule as CSSMediaRule).conditionText.replace(/ /g, '') + '{'
+            prefix += '@media' + (variableCSSRule.parentRule as CSSMediaRule).conditionText.replace(/ /g, '') + '{'
             suffix += '}'
         }
         prefix += variableCSSRule.selectorText + '{'
@@ -1219,7 +1222,7 @@ export default class MasterCSS {
 export const masterCSSs: MasterCSS[] = []
 
 export default interface MasterCSS {
-    readonly style: HTMLStyleElement
+    style: HTMLStyleElement
     styles: Record<string, string[]>
     stylesBy: Record<string, string[]>
     selectors: Record<string, [RegExp, string[]][]>

@@ -56,7 +56,7 @@ describe.concurrent('with themes', () => {
         expect(new MasterCSS(config).add('fg:primary')?.text).toBe([
             ':root{--primary:0deg 0% 0%}',
             '.dark{--primary:0deg 0% 100%}',
-            ':root,.light{--primary:0deg 0% 58.82%}',
+            '.light,:root{--primary:0deg 0% 58.82%}',
             '.chrisma{--primary:0deg 0% 0%/.5}',
             '.fg\\:primary{color:hsl(var(--primary))}'
         ].join(''))
@@ -66,7 +66,7 @@ describe.concurrent('with themes', () => {
         expect(new MasterCSS(config).add('fg:primary/.5')?.text).toBe([
             ':root{--primary:0deg 0% 0%}',
             '.dark{--primary:0deg 0% 100%}',
-            ':root,.light{--primary:0deg 0% 58.82%}',
+            '.light,:root{--primary:0deg 0% 58.82%}',
             '.chrisma{--primary:0deg 0% 0%/.5}',
             '.fg\\:primary\\/\\.5{color:hsl(var(--primary)/.5)}'
         ].join(''))

@@ -4,13 +4,13 @@ import config from '../../config'
 
 test.concurrent('colors', () => {
     expect(new MasterCSS(config).add('fg:primary').text)
-        .toBe(':root{--primary:0 0 0}:root,.light{--primary:0 0 0}.dark{--primary:255 255 255}.fg\\:primary{color:rgb(var(--primary))}')
+        .toBe(':root{--primary:0 0 0}.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}.fg\\:primary{color:rgb(var(--primary))}')
 
     expect(new MasterCSS(config).add('fg:primary-code').text)
         .toBe(':root{--primary-code:0 0 0}.dark{--primary-code:255 255 255}.fg\\:primary-code{color:rgb(var(--primary-code))}')
 
     expect(new MasterCSS(config).add('fg:primary-stage-1').text)
-        .toBe(':root{--primary-stage-1:255 255 255}:root,.light{--primary-stage-1:0 0 0}.dark{--primary-stage-1:255 255 255}.fg\\:primary-stage-1{color:rgb(var(--primary-stage-1))}')
+        .toBe(':root{--primary-stage-1:255 255 255}.light,:root{--primary-stage-1:0 0 0}.dark{--primary-stage-1:255 255 255}.fg\\:primary-stage-1{color:rgb(var(--primary-stage-1))}')
 
     expect(new MasterCSS(config).add('b:input').text)
         .toBe('.b\\:input{border-color:rgb(18 52 86)}')
@@ -41,7 +41,7 @@ test.concurrent('colors', () => {
         .toBe('.bg\\:primary-2{background-color:rgb(0 0 0 / .35)}')
 
     expect(new MasterCSS(config).add('bg:linear-gradient(180deg,major,black)').text)
-        .toBe(':root,.light{--major:0 0 0}.dark{--major:255 255 255}.bg\\:linear-gradient\\(180deg\\,major\\,black\\){background-image:linear-gradient(180deg,rgb(var(--major)),rgb(0 0 0))}')
+        .toBe('.light,:root{--major:0 0 0}.dark{--major:255 255 255}.bg\\:linear-gradient\\(180deg\\,major\\,black\\){background-image:linear-gradient(180deg,rgb(var(--major)),rgb(0 0 0))}')
 
     expect(new MasterCSS({
         variables: {
@@ -55,7 +55,7 @@ test.concurrent('colors', () => {
             }
         }
     }).add('bg:linear-gradient(180deg,primary,accent)').text)
-        .toBe(':root,.light{--primary:0 0 0;--accent:17 17 17}.dark{--primary:255 255 255;--accent:238 238 238}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}')
+        .toBe('.light,:root{--primary:0 0 0;--accent:17 17 17}.dark{--primary:255 255 255;--accent:238 238 238}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}')
 
     expect(new MasterCSS({
         variables: {
@@ -68,7 +68,7 @@ test.concurrent('colors', () => {
             }
         }
     }).add('bg:linear-gradient(180deg,primary,accent)').text)
-        .toBe(':root,.light{--primary:0 0 0}.dark{--primary:255 255 255;--accent:238 238 238}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}')
+        .toBe('.light,:root{--primary:0 0 0}.dark{--primary:255 255 255;--accent:238 238 238}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}')
 
     expect(new MasterCSS({
         variables: {
@@ -78,7 +78,7 @@ test.concurrent('colors', () => {
             }
         }
     }).add('bg:linear-gradient(180deg,primary,accent)').text)
-        .toBe(':root,.light{--primary:0 0 0}.dark{--primary:255 255 255}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),accent)}')
+        .toBe('.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),accent)}')
 
     expect(new MasterCSS({
         variables: {
@@ -89,7 +89,7 @@ test.concurrent('colors', () => {
             }
         }
     }).add('bg:linear-gradient(180deg,primary,accent)').text)
-        .toBe(':root,.light{--primary:0 0 0}.dark{--primary:255 255 255}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(255 0 0))}')
+        .toBe('.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(255 0 0))}')
 
     expect(new MasterCSS({
         variables: {
@@ -103,7 +103,7 @@ test.concurrent('colors', () => {
             }
         }
     }).add('bg:linear-gradient(180deg,primary,accent)').text)
-        .toBe(':root,.light{--primary:0 0 0}.dark{--primary:255 255 255;--accent:170 0 0}:root{--accent:255 0 0}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}')
+        .toBe('.light,:root{--primary:0 0 0}.dark{--primary:255 255 255;--accent:170 0 0}:root{--accent:255 0 0}.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}')
 
     expect(new MasterCSS({
         variables: {
@@ -113,7 +113,7 @@ test.concurrent('colors', () => {
             }
         }
     }).add('{block;fg:fade}_:where(p)_code:before').text)
-        .toBe(':root,.light{--fade:204 204 204}.dark{--fade:51 51 51}.\\{block\\;fg\\:fade\\}_\\:where\\(p\\)_code\\:before :where(p) code:before{display:block;color:rgb(var(--fade))}')
+        .toBe('.light,:root{--fade:204 204 204}.dark{--fade:51 51 51}.\\{block\\;fg\\:fade\\}_\\:where\\(p\\)_code\\:before :where(p) code:before{display:block;color:rgb(var(--fade))}')
 
     expect(new MasterCSS({
         variables: {
@@ -129,7 +129,7 @@ test.concurrent('colors', () => {
             btn: 'bg:primary-filled'
         }
     }).add('btn').text)
-        .toBe(':root{--primary-filled:0 0 0}:root,.light{--primary-filled:255 255 255}.dark{--primary-filled:0 0 0}.bg\\:primary-filled,.btn{background-color:rgb(var(--primary-filled))}')
+        .toBe(':root{--primary-filled:0 0 0}.light,:root{--primary-filled:255 255 255}.dark{--primary-filled:0 0 0}.bg\\:primary-filled,.btn{background-color:rgb(var(--primary-filled))}')
 
     expect(new MasterCSS({
         variables: {
@@ -145,7 +145,7 @@ test.concurrent('colors', () => {
             btn: 'bg:primary-filled'
         }
     }).add('bg:primary-filled').text)
-        .toBe(':root{--primary-filled:0 0 0}:root,.light{--primary-filled:255 255 255}.dark{--primary-filled:0 0 0}.bg\\:primary-filled,.btn{background-color:rgb(var(--primary-filled))}')
+        .toBe(':root{--primary-filled:0 0 0}.light,:root{--primary-filled:255 255 255}.dark{--primary-filled:0 0 0}.bg\\:primary-filled,.btn{background-color:rgb(var(--primary-filled))}')
 
     expect(new MasterCSS({
         variables: {
@@ -164,13 +164,13 @@ test.concurrent('colors', () => {
         .toBe('.dark .bg\\:primary-filled\\@dark{background-color:rgb(255 255 255)}')
 
     expect(new MasterCSS(config).add('bg:code').text)
-        .toBe(':root,.light{--code:0 0 0}.dark{--code:255 255 255}.bg\\:code{background-color:rgb(var(--code))}')
+        .toBe('.light,:root{--code:0 0 0}.dark{--code:255 255 255}.bg\\:code{background-color:rgb(var(--code))}')
 
     expect(new MasterCSS(config).add('bg:code/.5').text)
-        .toBe(':root,.light{--code:0 0 0}.dark{--code:255 255 255}.bg\\:code\\/\\.5{background-color:rgb(var(--code)/.5)}')
+        .toBe('.light,:root{--code:0 0 0}.dark{--code:255 255 255}.bg\\:code\\/\\.5{background-color:rgb(var(--code)/.5)}')
 
     expect(new MasterCSS(config).add('bg:fade-light').text)
-        .toBe(':root,.light{--fade-light:0 0 0}.bg\\:fade-light{background-color:rgb(var(--fade-light))}')
+        .toBe('.light,:root{--fade-light:0 0 0}.bg\\:fade-light{background-color:rgb(var(--fade-light))}')
 
 })
 

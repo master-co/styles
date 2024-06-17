@@ -23,7 +23,7 @@ test.concurrent('number with themes', () => {
     }).add('m:x1').text).toBe([
         ':root{--spacing-x1:16}',
         '.dark{--spacing-x1:32}',
-        ':root,.light{--spacing-x1:48}',
+        '.light,:root{--spacing-x1:48}',
         '.m\\:x1{margin:calc(var(--spacing-x1) / 16 * 1rem)}'
     ].join(''))
 
@@ -41,7 +41,7 @@ test.concurrent('number with themes', () => {
     }).add('line-height:x1').text).toBe([
         ':root{--line-height-x1:16}',
         '.dark{--line-height-x1:32}',
-        ':root,.light{--line-height-x1:48}',
+        '.light,:root{--line-height-x1:48}',
         '.line-height\\:x1{line-height:var(--line-height-x1)}'
     ].join(''))
 })
@@ -68,7 +68,7 @@ test.concurrent('number with themes using variable function', () => {
     }).add('m:$(spacing-x1)').text).toBe([
         ':root{--spacing-x1:16}',
         '.dark{--spacing-x1:32}',
-        ':root,.light{--spacing-x1:48}',
+        '.light,:root{--spacing-x1:48}',
         '.m\\:\\$\\(spacing-x1\\){margin:calc(var(--spacing-x1) / 16 * 1rem)}'
     ].join(''))
 
@@ -86,7 +86,7 @@ test.concurrent('number with themes using variable function', () => {
     }).add('line-height:$(spacing-x1)').text).toBe([
         ':root{--spacing-x1:16}',
         '.dark{--spacing-x1:32}',
-        ':root,.light{--spacing-x1:48}',
+        '.light,:root{--spacing-x1:48}',
         '.line-height\\:\\$\\(spacing-x1\\){line-height:var(--spacing-x1)}'
     ].join(''))
 })

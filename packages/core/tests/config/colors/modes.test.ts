@@ -16,7 +16,7 @@ test.concurrent('modes and scale', () => {
         .text
     )
         .toBe([
-            ':root,.light{--primary:0 0 0}',
+            '.light,:root{--primary:0 0 0}',
             '.dark{--primary:255 255 255}',
             '.fg\\:primary-10{color:rgb(238 238 238)}',
             '.fg\\:primary{color:rgb(var(--primary))}',

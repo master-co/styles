@@ -71,7 +71,7 @@ test.concurrent('autofill solid', () => {
             line: { '@light': 'solid', '@dark': 'dotted' }
         }
     }).add('border:16|line').text).toBe(
-        ':root,.light{--line:solid}' +
+        '.light,:root{--line:solid}' +
         '.dark{--line:dotted}' +
         '.border\\:16\\|line{border:1rem var(--line) solid}'
     )
@@ -80,7 +80,7 @@ test.concurrent('autofill solid', () => {
             primary: { '@light': '#000000', '@dark': '#ffffff' }
         }
     }).add('border:16|primary').text).toBe(
-        ':root,.light{--primary:0 0 0}' +
+        '.light,:root{--primary:0 0 0}' +
         '.dark{--primary:255 255 255}' +
         '.border\\:16\\|primary{border:1rem rgb(var(--primary)) solid}'
     )
