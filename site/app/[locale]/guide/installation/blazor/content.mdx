@@ -18,7 +18,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                     {
                         name: 'Terminal',
                         lang: 'bash',
-                        code: `
+                        children: `
                             dotnet new blazorserver -o project --no-https -f net6.0
                             cd project
                         `
@@ -38,7 +38,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                     {
                         name: 'Terminal',
                         lang: 'bash',
-                        code: `
+                        children: `
                             mkdir npm_packages
                             cd npm_packages
                         `
@@ -58,7 +58,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                     {
                         name: 'Terminal',
                         lang: 'bash',
-                        code: `
+                        children: `
                             npm init -y
                             npm install webpack webpack-cli --save-dev
                         `
@@ -115,7 +115,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                     {
                         name: 'package.json',
                         lang: 'js',
-                        code: `
+                        children: `
                             {
                                 ...
                                 scripts: {
@@ -140,7 +140,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                     {
                         name: 'project.csproj',
                         lang: 'html',
-                        code: `
+                        children: `
                             <Project>
                                 ...
                             +    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
@@ -166,7 +166,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                     {
                         name: 'Pages/_Layout.cshtml',
                         lang: 'html',
-                        code: `
+                        children: `
                             <html>
                                 ...
                                 <body>
@@ -192,7 +192,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                     {
                         name: 'Terminal',
                         lang: 'bash',
-                        code: `
+                        children: `
                             cd project
                             dotnet watch
                         `
@@ -209,7 +209,7 @@ import RuntimeRenderingIntro from '../../rendering-modes/components/RuntimeRende
                 {
                     name: 'Pages/_Layout.cshtml',
                     lang: 'html',
-                    code: `
+                    children: `
                         @page "/"
 
                         <PageTitle>Index</PageTitle>

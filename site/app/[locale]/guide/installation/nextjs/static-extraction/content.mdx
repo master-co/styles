@@ -45,7 +45,7 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
                     {
                         name: 'Terminal',
                         lang: 'bash',
-                        code: `
+                        children: `
                             npm create next-app --app --ts
                             cd __project__
                         `
@@ -53,7 +53,7 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
                     {
                         name: 'Terminal (pages/)',
                         lang: 'bash',
-                        code: `
+                        children: `
                             npm create next-app --ts
                             cd __project__
                         `
@@ -126,7 +126,7 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
                     {
                         name: 'app/globals.css',
                         lang: 'css',
-                        code: `
+                        children: `
                             +@import '.virtual/master.css';
                             …
                         `
@@ -134,7 +134,7 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
                     {
                         name: 'styles/globals.css',
                         lang: 'css',
-                        code: `
+                        children: `
                             +@import '.virtual/master.css';
                             …
                         `

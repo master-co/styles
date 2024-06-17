@@ -38,7 +38,7 @@ importers:
     devDependencies:
       '@next/mdx':
         specifier: ^14.2.4
-        version: 14.2.4(@mdx-js/loader@3.0.1(webpack@5.92.0))(@mdx-js/react@3.0.1(@types/react@18.3.3)(react@18.3.1))
+        version: 14.2.4(@mdx-js/loader@3.0.1)(@mdx-js/react@3.0.1(@types/react@18.3.3)(react@18.3.1))
       '@types/node':
         specifier: ^20.14.2
         version: 20.14.2
@@ -61,10 +61,10 @@ importers:
         specifier: ^14.2.4
         version: 14.2.4(@babel/core@7.24.7)(@opentelemetry/api@1.9.0)(@playwright/test@1.41.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.5)
       react:
-        specifier: ^18.3.1
+        specifier: ^18
         version: 18.3.1
       react-dom:
-        specifier: ^18.3.1
+        specifier: ^18
         version: 18.3.1(react@18.3.1)
       tsx:
         specifier: ^4.15.5
@@ -75,6 +75,9 @@ importers:
 
   ../internal:
     dependencies:
+      '@firebase/app':
+        specifier: ^0.10.5
+        version: 0.10.5
       '@firebase/firestore':
         specifier: ^4.6.3
         version: 4.6.3(@firebase/app@0.10.5)
@@ -82,7 +85,7 @@ importers:
         specifier: ^7.11.2
         version: 7.11.2(encoding@0.1.13)
       '@master/css.react':
-        specifier: 2.0.0-rc.40
+        specifier: ^2.0.0-rc.40
         version: 2.0.0-rc.40(@types/react@18.3.3)(react@18.3.1)
       '@master/normal.css':
         specifier: ^3.1.0
@@ -104,7 +107,7 @@ importers:
         version: 14.2.4
       '@next/mdx':
         specifier: ^14.2.3
-        version: 14.2.4(@mdx-js/loader@3.0.1(webpack@5.92.0))(@mdx-js/react@3.0.1(@types/react@18.3.3)(react@18.3.1))
+        version: 14.2.4(@mdx-js/loader@3.0.1)(@mdx-js/react@3.0.1(@types/react@18.3.3)(react@18.3.1))
       '@popperjs/core':
         specifier: ^2.11.8
         version: 2.11.8
@@ -283,7 +286,7 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2(webpack@5.92.0)
       react:
-        specifier: ^18.3.1
+        specifier: ^18
         version: 18.3.1
       react-countup:
         specifier: ^6.5.3
@@ -14488,7 +14491,7 @@ snapshots:
     dependencies:
       glob: 10.3.10
 
-  '@next/mdx@14.2.4(@mdx-js/loader@3.0.1(webpack@5.92.0))(@mdx-js/react@3.0.1(@types/react@18.3.3)(react@18.3.1))':
+  '@next/mdx@14.2.4(@mdx-js/loader@3.0.1)(@mdx-js/react@3.0.1(@types/react@18.3.3)(react@18.3.1))':
     dependencies:
       source-map: 0.7.4
     optionalDependencies:

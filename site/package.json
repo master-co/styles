@@ -4,7 +4,7 @@
     "scripts": {
         "prepare": "tsx ../internal/scripts/prepare-app",
         "dev": "pnpm prepare && next dev",
-        "build": "pnpm prepare && cd ../ && pnpm build && cd site && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
+        "build": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm prepare && cd ../ && pnpm build && cd site && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
         "start": "next start",
         "lint": "next lint",
         "type-check": "tsc --noEmit"
@@ -29,8 +29,8 @@
         "eslint-config-next": "^14.2.4",
         "internal": "workspace:^",
         "next": "^14.2.4",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
+        "react": "^18",
+        "react-dom": "^18",
         "tsx": "^4.15.5",
         "typescript": "^5.4.5"
     }
