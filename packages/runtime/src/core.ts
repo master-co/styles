@@ -15,7 +15,8 @@ export class RuntimeCSS extends MasterCSS {
     ) {
         super(customConfig)
         if (!root) this.root = document
-        if (this.root?.constructor.name === 'HTMLDocument') {
+        const rootConstructorName = this.root?.constructor.name
+        if (rootConstructorName === 'HTMLDocument' || rootConstructorName === 'Document') {
             // @ts-ignore
             (this.root as Document).defaultView.globalThis.runtimeCSS = this
             this.container = (this.root as Document).head
@@ -58,8 +59,8 @@ export class RuntimeCSS extends MasterCSS {
                 switch (eachCSSRule.constructor.name) {
                     case 'CSSKeyframesRule':
                         continue
-                    case 'CSSMeidaRule':
-                        const result = /\(prefers-color-scheme: (.*?)\)/.exec((eachCSSRule as CSSMediaRule).conditionText)
+                    case 'CSSMediaRule':
+                        const result = /\(prefers-color-scheme: ?(.*?)\)/.exec((eachCSSRule as CSSMediaRule).conditionText)
                         if (result) {
                             const firstCSSRule = (eachCSSRule as CSSMediaRule).cssRules[0]
                             if (
@@ -92,7 +93,8 @@ export class RuntimeCSS extends MasterCSS {
                                         this.pushVariableNativeRule(result[1], eachCSSRule as CSSStyleRule)
                                         continue
                                     } else if (!selectorText.startsWith('.\\$')) {
-                                        this.pushVariableNativeRule(selectorText.slice(1), eachCSSRule as CSSStyleRule)
+                                        const [mode] = selectorText.split(',')
+                                        this.pushVariableNativeRule(mode.slice(1), eachCSSRule as CSSStyleRule)
                                         continue
                                     }
                                 }

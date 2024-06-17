@@ -4,6 +4,7 @@
     "scripts": {
         "build": "techor build",
         "dev": "pnpm build --watch",
+        "test": "vitest",
         "e2e": "playwright test",
         "type-check": "tsc --noEmit",
         "lint": "eslint src"
