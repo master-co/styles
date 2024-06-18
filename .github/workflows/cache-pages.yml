@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v4
+          with:
+            submodules: true
         - uses: pnpm/action-setup@v3
           with:
             version: 9
@@ -17,7 +19,7 @@ jobs:
           with:
             node-version: 20
             cache: "pnpm"
-        - run: pnpm install --frozen-lockfile
+        - run:  pnpm install
         - run: pnpm exec tsx internal/scripts/cache-pages
           env:
             FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}

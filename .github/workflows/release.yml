@@ -18,6 +18,8 @@ jobs:
             id-token: write
         steps:
             - uses: actions/checkout@v4
+              with:
+                  submodules: true
             - uses: pnpm/action-setup@v3
               with:
                   version: 9
@@ -25,7 +27,7 @@ jobs:
               with:
                   node-version: 20
                   cache: "pnpm"
-            - run: pnpm install --frozen-lockfile
+            - run:  pnpm install
             - run: pnpm install semantic-release-config-techor --workspace-root
             - run: pnpm run build
             - uses: lewagon/wait-on-check-action@v1.3.3

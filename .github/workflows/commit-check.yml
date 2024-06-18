@@ -20,6 +20,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with:
+                  submodules: true
                   fetch-depth: 0
             - uses: pnpm/action-setup@v3
               with:
@@ -28,6 +29,6 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'pnpm'
-            - run: pnpm install --frozen-lockfile
+            - run:  pnpm install
             - run: pnpm run build
             - run: pnpm run commit-check
