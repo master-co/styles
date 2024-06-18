@@ -2,6 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "preinstall": "./preinstall.sh",
         "postinstall": "pnpm dlx husky install",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./packages/*\" build",
         "build:examples": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./examples/*\" --parallel build",
