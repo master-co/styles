@@ -17,7 +17,7 @@ jobs:
           with:
             node-version: 20
             cache: "pnpm"
-        - run: pnpm --filter !internal --filter !site install --frozen-lockfile
+        - run: pnpm install --frozen-lockfile
         - run: pnpm exec tsx internal/scripts/cache-pages
           env:
             FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}

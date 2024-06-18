@@ -14,6 +14,6 @@ fi
 # Initialize and update submodules
 git submodule update --init --recursive
 
-cd ../internal
+cd internal
 git checkout main
 echo ""

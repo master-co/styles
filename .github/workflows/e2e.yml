@@ -22,7 +22,7 @@ jobs:
               with:
                     node-version: 20
                     cache: 'pnpm'
-            - run: pnpm --filter !internal --filter !site install --frozen-lockfile
+            - run: pnpm install --frozen-lockfile
             - run: pnpm exec playwright install --with-deps
             - run: pnpm run build
             - run: pnpm e2e
