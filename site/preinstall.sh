@@ -12,7 +12,6 @@ else
 fi
 
 # Initialize and update submodules
-git submodule deinit -f --all
 git submodule update --init --recursive
 
 cd ../internal
