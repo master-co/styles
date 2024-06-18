@@ -3,3 +3,5 @@ packages:
   - 'examples/*'
   - 'benchmarks/*'
   - 'shared'
+  - 'internal'
+  - 'site'

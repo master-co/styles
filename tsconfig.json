@@ -21,7 +21,6 @@
             "@master/css.vue": [ "./node_modules/@master/css.vue/src" ],
             "master-css-vscode": [ "./node_modules/master-css-vscode/src" ],
             "shared/*": [ "./node_modules/shared/*" ],
-            "internal/*": [ "./node_modules/internal/*" ],
             "~/*": [ "./*" ],
         },
         "target": "esnext",

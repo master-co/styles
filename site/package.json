@@ -2,7 +2,7 @@
     "name": "site",
     "private": true,
     "scripts": {
-        "preinstall": "./preinstall.sh && cd .. && pnpm i",
+        "preinstall": "./preinstall.sh",
         "prepare": "tsx ../internal/scripts/prepare-app",
         "dev": "pnpm prepare && next dev",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm prepare && cd ../ && pnpm build && cd site && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
