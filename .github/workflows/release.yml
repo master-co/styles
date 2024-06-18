@@ -25,7 +25,7 @@ jobs:
               with:
                   node-version: 20
                   cache: "pnpm"
-            - run: pnpm install
+            - run: pnpm --filter !internal --filter !site install --frozen-lockfile
             - run: pnpm install semantic-release-config-techor --workspace-root
             - run: pnpm run build
             - uses: lewagon/wait-on-check-action@v1.3.3
