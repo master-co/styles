@@ -473,10 +473,10 @@ importers:
         version: link:../eslint-plugin
     devDependencies:
       '@angular-eslint/template-parser':
-        specifier: ^17.4.1
+        specifier: ^17.5.2
         version: 17.5.2(eslint@9.5.0)(typescript@5.4.5)
       eslint:
-        specifier: ^9.3.0
+        specifier: ^9.5.0
         version: 9.5.0
       shared:
         specifier: workspace:^
