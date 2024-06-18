@@ -2,7 +2,10 @@
 
 set -e
 
-if [ -n "$GITHUB_TOKEN" ]; then
+if [ -n "$GH_TOKEN" ]; then
+    echo "Running in CI environment, using GH_TOKEN for authentication"
+    git config --global url."https://${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+elif [ -n "$GITHUB_TOKEN" ]; then
     echo "Running in CI environment, using GITHUB_TOKEN for authentication"
     git config --global url."https://${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
 else
