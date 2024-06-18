@@ -14,7 +14,8 @@ describe.concurrent('scope', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    .light {
+                    .light,
+                    :root {
                       --text-blue: 37 99 253
                     }
                     .dark {
@@ -71,7 +72,8 @@ describe.concurrent('scope and global', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    .light {
+                    .light,
+                    :root {
                       --text-blue: 37 99 253
                     }
                     .dark {
@@ -100,7 +102,8 @@ describe.concurrent('scope and global', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    .light {
+                    .light,
+                    :root {
                       --blue: 37 99 253
                     }
                     .dark {
