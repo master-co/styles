@@ -20,7 +20,9 @@ jobs:
             node-version: 20
             cache: "pnpm"
         - run: pnpm submodules
-            - run: pnpm install
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - run: pnpm install
         - run: pnpm exec tsx internal/scripts/cache-pages
           env:
             FIREBASE_PRIVATE_KEY_ID: ${{ secrets.FIREBASE_PRIVATE_KEY_ID }}

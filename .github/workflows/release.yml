@@ -26,6 +26,8 @@ jobs:
                   node-version: 20
                   cache: "pnpm"
             - run: pnpm submodules
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - run: pnpm install
             - run: pnpm install semantic-release-config-techor --workspace-root
             - run: pnpm run build
