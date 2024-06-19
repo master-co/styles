@@ -13,7 +13,7 @@ export default () => {
             </thead>
             <tbody>
                 {
-                    Array.from({ length: 24 }, (_, index) => ({
+                    Array.from({ length: 12 }, (_, index) => ({
                         token: `${index + 1}x`,
                         px: `${(index + 1) * 4}px`,
                         value: `${(index + 1) * 0.25}rem`,

@@ -5,11 +5,11 @@
 ```html
 <div class="grid-cols:2 grid-cols:3**@xs** grid-cols:4**@sm** grid-cols:5**@md** …">…</div>
 ```
-The syntax in Master CSS allows for the conditional application of styles at different viewports, with up to [11 predefined screen sizes](/reference/screens) available.
+The syntax in Master CSS allows for the conditional application of styles at different viewports, with up to [11 predefined screen sizes](/reference/custom-theme#screens-and-breakpoints) available.
 
 This comprehensive coverage caters to the modern web layout scenario.
 <Default />
-To customize responsive breakpoints, see the [screens](/reference/screens#add-a-responsive-breakpoint) documentation.
+To customize responsive breakpoints, see the [custom theme](/reference/custom-theme#screens-and-breakpoints) documentation.
 
 ## Strategies
 When it comes to designing and developing responsive web pages, [mobile-first](#mobile-first) and [desktop-first](#desktop-first) are two common development strategies. The decision between these two strategies depends on your project requirements, target audience, and operational decisions.
@@ -156,3 +156,11 @@ Generated CSS:
     {['hidden@sm&<md']}
 </Class2CSS>
 Occasionally, addressing glitches or layouts within a certain range of viewports can be helpful.
+
+---
+
+## Create a responsive container
+Fixed element width to a screen size as a responsive container.
+```html
+<div class="**max-w:screen-sm@sm** **max-w:screen-md@md** **max-w:screen-lg@lg** …">…</div>
+```

@@ -7,7 +7,6 @@ export default [
     'Fundamentals',
     'Production Optimization',
 
-    'Design Token',
     'Configuration',
     'Syntax',
     'Package'

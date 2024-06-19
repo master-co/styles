@@ -1,10 +1,9 @@
 import define from 'internal/utils/metadata'
 
 const metadata = define({
-    title: 'Global Styles',
-    description: 'Normalize browser and preset global styles for more concise-style programming.',
+    title: 'Custom Theme',
+    description: 'A guide to implementing the theme of your design system.',
     category: 'Start Building',
-    order: 1,
     filename: import.meta.url
 })
 
