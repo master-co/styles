@@ -1,78 +1,11 @@
 ## Overview [sr-only]
-A style can be composed of multiple syntaxes, you can provide an abstract name for this set of classes and reuse it anywhere.
-```html
-<button class="btn btn-primary">Submit</button>
-```
 As the styles grow, the class name combinations and the same design patterns appear over and over again in the code. To improve development efficiency and maintain design consistency, you should reuse or access them in some way.
 
 This guide also provides specialized solutions tailored for frameworks.
 
 ---
 
-## Creating abstract styles
-Traditionally, we define styles like `.btn` or `.card` by writing CSS rules. In Master CSS, we abstract them using [styles](/guide/custom-styles), which is similar to [Figma's Styles](https://help.figma.com/hc/en-us/articles/360039238753-Styles-in-Figma).
-
-The UI is composed of 1 to 4:
-
-1. [Variables](/guide/variables) / [Animations](/guide/custom-animations) / [Functions](/reference/custom-syntax#functions) / [Selectors](/reference/custom-syntax#selectors) / [At](/reference/custom-syntax#at-rules) / [Utilities](/reference/utilities)
-1. [Syntaxes](/guide/custom-syntax#syntaxes)
-1. [Styles](/guide/custom-styles)
-1. [Components](#componentization)
-
-### Add a style
-Create an abstract style using Master CSS syntax.
-<Overview />
-Master CSS shares the same CSS declarations for `css .inline-flex, .btn { ... }` through a selector list. This structural arrangement enhances browser rendering and enables selectors or media queries to be applied within the `config.styles`.
-
-### Add a style with states
-Create an abstract style with [state selectors](/guide/state-selectors) and [applying conditionally](/guide/applying-conditionally).
-<Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-a-style-with-states/master.css.js').default}</Code>
-(click) Try clicking the button to see the outline effect
-<Demo>
-    <button className="center-content inline-flex bg:invert fg:invert font:14 font:medium h:10x px:4x r:2x outline:2|invert:focus outline-offset:2:focus">Submit</button>
-</Demo>
-<Code lang="html">{require('!!raw-loader!./tests/add-a-style-with-states/template.html').default}</Code>
-<details>
-    <summary>Generated CSS</summary>
-    <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-style-with-states/generated.css').default}</Code>
-    </div>
-</details>
-
-### Add styles in a nested structure
-Create and manage a set of abstract styles in a nested structure. Rather than repeating the same style names over and over again, you can write one style inside another. Master CSS will automatically combine the outer style’s name with the inner style’s.
-<Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-styles-in-a-nested-structure/master.css.js').default}</Code>
-Apply the styles:
-<Code lang="html">{require('!!raw-loader!./tests/add-styles-in-a-nested-structure/template.html').default}</Code>
-<details>
-    <summary>Generated CSS</summary>
-    <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-styles-in-a-nested-structure/generated.css').default}</Code>
-    </div>
-</details>
-The empty string `''` represents an outer style, much like Sass's `&`.
-
-### Extend an existing style
-Create a new abstract style by extending an existing style and adding additional syntax.
-<Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/extend-an-existing-style/master.css.js').default}</Code>
-You can see that `b` inherits the text lime color of `a`:
-<Demo $py={0}>
-    <DemoPanel>
-        <span className="font:20 fg:lime">a</span>
-        <span className="font:20 fg:lime text:underline">b</span>
-    </DemoPanel>
-</Demo>
-<Code lang="html">{require('!!raw-loader!./tests/extend-an-existing-style/template.html').default}</Code>
-<details>
-    <summary>Generated CSS</summary>
-    <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/extend-an-existing-style/generated.css').default}</Code>
-    </div>
-</details>
-
----
-
-## Managing styles
+## Abstracting styles
 As usual, you can split the styles into multiple files for management. When the project is small in scale, you don't necessarily have to insist on splitting style files.
 ```treeview
 🗂️ styles

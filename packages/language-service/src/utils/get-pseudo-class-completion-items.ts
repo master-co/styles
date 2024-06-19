@@ -27,7 +27,7 @@ export default function getPseudoClassCompletionItems(css: MasterCSS = new Maste
                 sortText,
                 documentation: getCSSDataDocumentation(data, {
                     generatedCSS: generateCSS([syntax + name.slice(1)], css),
-                    docs: '/reference/custom-syntax#selectors'
+                    docs: '/reference/syntaxes#selectors'
                 }),
                 kind,
                 data
@@ -51,7 +51,7 @@ export default function getPseudoClassCompletionItems(css: MasterCSS = new Maste
             label: name,
             documentation: getCSSDataDocumentation(data, {
                 generatedCSS: generateCSS([syntax + name.slice(1)], css),
-                docs: '/reference/custom-syntax#selectors'
+                docs: '/reference/syntaxes#selectors'
             }),
             sortText,
             kind,

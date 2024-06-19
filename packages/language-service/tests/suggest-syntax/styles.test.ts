@@ -22,7 +22,7 @@ it.concurrent('info', () => expect(hint('b', settings)?.find(({ label }) => labe
             }
             \`\`\`
 
-            [Master CSS](https://rc.css.master.co/guide/custom-styles)
+            [Master CSS](https://rc.css.master.co/guide/styles)
         `
     }
 }))
