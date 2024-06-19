@@ -8,7 +8,7 @@ import Bg from 'internal/components/Bg'
 export default (props: any) =>
     <>
         <Demo>
-            <Bg {...props} className={clsx(props.className, 'aspect:3/1 flex:0 size:full|48')} />
+            <Bg {...props} className={clsx(props.className, 'aspect:3/1 size:auto|12x')} />
         </Demo>
         <Code lang="html">{`<div class="**${props.className}**">…</div>`}</Code>
     </>

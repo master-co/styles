@@ -1,10 +1,10 @@
 import define from 'internal/utils/metadata'
 
 const metadata = define({
-    title: 'Colors',
-    description: 'Customizing your colors with a carefully designed palette.',
+    title: 'Using Variables',
+    description: 'A guide to implementing the theme variables of your design system.',
     category: 'Customization',
-    order: 1,
+    order: 2,
     filename: import.meta.url
 })
 

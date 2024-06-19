@@ -2,7 +2,7 @@ export default [
     'Overview',
 
     'Getting Started',
-    'Start Building',
+    'Customization',
     'Syntax Tutorial',
     'Fundamentals',
     'Production Optimization',

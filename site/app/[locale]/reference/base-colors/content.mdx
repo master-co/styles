@@ -1,31 +1,4 @@
 ## Default [sr-only]
-| Token                                             | Keywords                                                                  |
-|---------------------------------------------------|---------------------------------------------------------------------------|
-| <small>Semantic</small>                                                                                                       |
-| <Bg className="bg:base" />`base`                  | background for page, modal                                                |
-| <Bg className="bg:invert" />`invert`              | inverted color of the background                                          |
-| <small>Primitive</small>                                                                                                      |
-| <Bg className="bg:gray" />`gray`                  | neutral, subtle, muted                                                    |
-| <Bg className="bg:slate" />`slate`                | cool, calm, sophisticated                                                 |
-| <Bg className="bg:brown" />`brown`                | earthy, warm, rustic                                                      |
-| <Bg className="bg:orange" />`orange`              | vibrant, energetic, lively                                                 |
-| <Bg className="bg:amber" />`amber`                | warm, glowing, radiant                                                     |
-| <Bg className="bg:yellow" />`yellow`              | cheerful, sunny, bright                                                    |
-| <Bg className="bg:lime" />`lime`                  | fresh, lively, zesty                                                       |
-| <Bg className="bg:green" />`green`                | nature, growth, harmony                                                    |
-| <Bg className="bg:beryl" />`beryl`                | calm, soothing, tranquil                                                   |
-| <Bg className="bg:teal" />`teal`                  | sophisticated, elegant, refined                                            |
-| <Bg className="bg:cyan" />`cyan`                  | modern, futuristic, technological                                          |
-| <Bg className="bg:sky" />`sky`                    | peaceful, serene, tranquil                                                 |
-| <Bg className="bg:blue" />`blue`                  | calm, trustworthy, reliable                                                |
-| <Bg className="bg:indigo" />`indigo`              | mysterious, deep, spiritual                                                |
-| <Bg className="bg:violet" />`violet`              | creative, imaginative, magical                                             |
-| <Bg className="bg:purple" />`purple`              | royal, luxurious, majestic                                                 |
-| <Bg className="bg:fuchsia" />`fuchsia`            | vibrant, bold, playful                                                     |
-| <Bg className="bg:pink" />`pink`                  | feminine, romantic, delicate                                               |
-| <Bg className="bg:crimson" />`crimson`            | passionate, intense, powerful                                              |
-| <Bg className="bg:red" />`red`                    | bold, energetic, attention-grabbing                                        |
-
 By default, theme modes [drive](/reference/configuration#modedriver) base color variables meticulously adjusted in light and dark modes.
 <Demo $py={0} $px={0}>
     <DemoLight>
@@ -44,50 +17,3 @@ By default, theme modes [drive](/reference/configuration#modedriver) base color 
 </div>
 ```
 [View the default variables on GitHub](https://github.com/master-co/css/blob/rc/packages/core/src/config/variables.ts)
-
----
-
-## Basic usage
-### Apply a base color
-By default, all base colors are set at the top level of variables and accessed as a global variable.
-```html
--<body class="bg:$(base)">equals</body>
-+<body class="bg:base"></body>
-```
-
----
-
-## Customization
-### Add a base color
-Add a color to the base variables group.
-```js name=master.css.js
-export default {
-    variables: {
-+        primary: '#000'
-    }
-}
-```
-Apply the custom color:
-```html
-<p class="bg:**primary**"></p>
-```
-See the [Color Customization](/reference/colors#customization) documentation to learn more about color variable behavior.
-
----
-
-## Use cases
-### Create a delete button
-Use `mcss bg:red` to create a nice-looking delete button.
-<Demo $py={0}>
-    <DemoPanel>
-        <div className='text:20 font:semibold fg:strong'>Delete Project</div>
-        <div className='text:14 mt:1x'>The project will be permanently deleted, including its products and teams. <span className="fg:red font:medium">This action is irreversible and can not be undone.</span></div>
-        <div className="flex justify-content:space-between mt:5x pt:5x bt:1|dashed|line-lightest">
-            <div className="text:12 m:0">Learn more about the [disclaimer](#)</div>
-            <button className='bg:red font:14 font:semibold fg:white h:32 r:1x px:3x float:right'>Delete</button>
-        </div>
-    </DemoPanel>
-</Demo>
-```html
-<button class="**bg:red** fg:white …">Delete</button>
-```
