@@ -1,15 +1,30 @@
 ## Use official package [sr-only]
-The official [Normal CSS](https://github.com/master-co/normal.css) is a **~600B** lightweight CSS package, is similar to [modern-normalize](https://github.com/sindresorhus/modern-normalize) and [normalize.css](https://github.com/necolas/normalize.css) you are familiar with but better:
+The official [@master/normal.css](https://github.com/master-co/normal.css) is a **~600B** lightweight CSS package, is similar to [modern-normalize](https://github.com/sindresorhus/modern-normalize) and [normalize.css](https://github.com/necolas/normalize.css) you are familiar with but better:
 
 - Keep element styles consistent across browsers.
 - Remove browser default styles for a better start.
 - Support responsive media and better text rendering.
 - [and more...](/reference/normal-css#consistency)
 
+```install
+@master/normal.css
+```
 Just import it into a global CSS file.
 ```css
 @import '@master/normal.css';
 ```
+<details>
+    <summary>Copy-paste the CDN or import on-demand through</summary>
+    <div>
+        ```html
+        <link href="https://cdn.master.co/normal.css" rel="stylesheet">
+        ```
+        Or import on-demand:
+        <Code lang="css">
+            {require('!!raw-loader!@master/normal.css/src/index.css').default.replace(/(..\/)\b/g, '@master/normal.css/')}
+        </Code>
+    </div>
+</details>
 
 ---
 

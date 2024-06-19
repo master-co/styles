@@ -1,14 +1,24 @@
 ## Overview [sr-only]
 A style can be composed of multiple syntaxes, you can provide an abstract name for this set of classes and reuse it anywhere.
 ```html
-<button class="**btn** bg:green!">Submit</button>
+<button class="btn btn-primary">Submit</button>
 ```
+As the styles grow, the class name combinations and the same design patterns appear over and over again in the code. To improve development efficiency and maintain design consistency, you should reuse or access them in some way.
 
-This is just one of the abstract means. For React, Vue, and Svelte users, it's recommended to use the official [styled](https://github.com/master-co/styled) package.
+This guide also provides specialized solutions tailored for frameworks.
 
 ---
 
-## Customization
+## Creating abstract styles
+Traditionally, we define styles like `.btn` or `.card` by writing CSS rules. In Master CSS, we abstract them using [styles](/guide/custom-styles), which is similar to [Figma's Styles](https://help.figma.com/hc/en-us/articles/360039238753-Styles-in-Figma).
+
+The UI is composed of 1 to 4:
+
+1. [Variables](/guide/custom-variables) / [Animations](/guide/custom-animations) / [Functions](/reference/custom-syntax#functions) / [Selectors](/reference/custom-syntax#selectors) / [At](/reference/custom-syntax#at-rules) / [Utilities](/reference/utilities)
+1. [Syntaxes](/guide/custom-syntax#syntaxes)
+1. [Styles](/guide/custom-styles)
+1. [Components](#componentization)
+
 ### Add a style
 Create an abstract style using Master CSS syntax.
 <Overview />
@@ -59,3 +69,164 @@ You can see that `b` inherits the text lime color of `a`:
         <Code lang="css" beautify>{require('!!raw-loader!./tests/extend-an-existing-style/generated.css').default}</Code>
     </div>
 </details>
+
+---
+
+## Managing styles
+As usual, you can split the styles into multiple files for management. When the project is small in scale, you don't necessarily have to insist on splitting style files.
+```treeview
+🗂️ styles
+|-- 📄 button.ts
+`-- 📄 card.ts
+📄 master.css.ts
+```
+
+### Create button styles
+Let's implement a rich button.
+<Code lang="ts" name="styles/button.ts">
+    {require('!!raw-loader!~/site/styles/btn').default}
+</Code>
+[Extend](/reference/configuration#extends) them uniformly in the __master.css.ts__ entry file.
+```js name=master.css.ts
+import type { Config } from '@master/css'
+import button from './styles/button'
+
+export default {
+    extends: [
+        button
+    ]
+} as Config
+```
+
+To apply the button sizes.
+<Demo className="gap:8x">
+    <button className="btn btn-xs yellow touch-yellow">Submit</button>
+    <button className="btn btn-sm yellow touch-yellow">Submit</button>
+    <button className="btn btn-md yellow touch-yellow">Submit</button>
+    <button className="btn btn-lg yellow touch-yellow">Submit</button>
+    <button className="btn btn-xl yellow touch-yellow">Submit</button>
+</Demo>
+```html
+<button class="btn **btn-xs** …">Submit</button>
+<button class="btn **btn-sm** …">Submit</button>
+<button class="btn **btn-md** …">Submit</button>
+<button class="btn **btn-lg** …">Submit</button>
+<button class="btn **btn-xl** …">Submit</button>
+```
+To apply the button sizes that are finely tuned for rounded styles.
+<Demo className="gap:8x">
+    <button className="btn btn-xs rounded! yellow touch-yellow">Submit</button>
+    <button className="btn btn-sm rounded! yellow touch-yellow">Submit</button>
+    <button className="btn btn-md rounded! yellow touch-yellow">Submit</button>
+    <button className="btn btn-lg rounded! yellow touch-yellow">Submit</button>
+    <button className="btn btn-xl rounded! yellow touch-yellow">Submit</button>
+</Demo>
+```html
+<button class="btn btn-xs **rounded** …">Submit</button>
+<button class="btn btn-sm **rounded** …">Submit</button>
+<button class="btn btn-md **rounded** …">Submit</button>
+<button class="btn btn-lg **rounded** …">Submit</button>
+<button class="btn btn-xl **rounded** …">Submit</button>
+```
+To design a scalable style, you should ensure the single responsibility of class composition; otherwise, you may end up using a lot of `!important` to override rules or the `@preset` layer to lower default styles, ultimately leading to chaotic styles.
+
+### Create common variables and styles
+We define [variables and modes](/guide/variables-and-modes) to create tokens supporting light/dark modes in advance. This not only simplifies template markup but also reduces CSS rule output.
+<Code lang="ts" name="master.css.ts">
+    {require('!!raw-loader!~/site/styles/base').default}
+</Code>
+- Variables
+    - `yellow-ring` is an outline color that complements a yellow background.
+    - `touch-yellow` is a background color on hover.
+    - `text-yellow-contrast` is a contrasting color fine-tuned against a yellow background.
+- Styles
+    - `.yellow` sets a background, foreground and outline style for a yellow theme.
+    - `.yellow-touch` sets a background, foreground and outline style for a yellow theme interaction.
+
+<Demo className="gap:8x">
+    <button className="btn btn-md yellow touch-yellow">Submit</button>
+</Demo>
+```html
+<button class="btn btn-md **yellow** **touch-yellow**">Submit</button>
+```
+
+---
+
+## Componentization
+In addition to [styles](#abstract-styles), we provide a CSS-in-JS style utility, [Master Styled](https://github.com/master-co/styled), to help you create a component with classes in one line. It supports Vanilla js, React, and Vue.
+
+```treeview
+🗂️ components
+|-- 📄 Button.tsx
+`-- 📄 Card.tsx
+📄 master.css.ts
+```
+
+### Create a button component
+You can define type-safe styles and corresponding classes for style properties.
+```tsx name=components/Button.tsx
+import styled from '@master/styled.react'
+
+const sizes = {
+    xs: 'font:12 h:6x …',
+    sm: 'font:12 h:8x …',
+    md: 'font:14 h:10x …',
+    lg: 'font:16 h:12x …',
+    xl: 'font:16 h:14x  …'
+}
+
+declare type Props = {
+    $size: keyof typeof sizes
+    disabled?: boolean
+}
+
+const Button = styled.button<Props>('inline-flex font:semibold', {
+    $size: sizes,
+    disabled: 'opacity:.5'
+})
+
+Button.defaultProps = {
+    $size: 'md'
+}
+
+export default Button
+```
+To use the button component.
+```tsx
+<Button $size="sm" disabled>Submit</Button>
+```
+Rendered as:
+```html
+<button class="inline-flex font:semibold font:12 h:8x … opacity:.5">Submit</button>
+```
+However, if the component involves richer implementations such as `loading`, you should wrap it with a functional component.
+
+### Create a block-scoped component
+`styled` operates on an element basis, unlike global [styles](#abstract-styles) mentioned above, and you can declare it within a functional component or at the top level.
+
+(i) Create a reusable section component specific to a marketing page.
+```tsx name=page.tsx
+import styled from '@master/styled.react'
+
+export default function Page() {
+    const Section = styled.section`bg:slate-90 text:white p:15x|20x`
+    return (
+        <>
+-           <section className="bg:slate-90 text:white p:15x|20x">...</section>
+-           <section className="bg:slate-90 text:white p:15x|20x">...</section>
++           <Section>...</Section>
++           <Section>...</Section>
+            ...
+        </>
+    )
+}
+```
+This is useful for block-specific style reuse, rather than creating `styles['home-section']` which may pollute global styles or cause name collisions.
+
+---
+
+## Summary
+
+- Moderately abstracting styles make design easier to manage and maintain consistency, but it doesn't mean that all styles should be abstracted.
+- Only abstract styles that have the potential for reuse, rather than naming them simply for brevity or naming's sake.
+- A good CSS structure combines abstract classes and utility classes — don’t get hung up on specific approaches.

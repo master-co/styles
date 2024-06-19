@@ -5,6 +5,7 @@ const metadata = define({
     description: 'A guide to customizing declarations, selectors, and at-rules in syntax.',
     category: 'Start Building',
     order: 3,
+    unfinished: true,
     filename: import.meta.url
 })
 
