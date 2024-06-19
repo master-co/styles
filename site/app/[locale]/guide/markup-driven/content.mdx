@@ -60,7 +60,7 @@ Semantic secondary:
 
 Design token is a core methodology for practicing design systems, so appropriately abstracting styles and markup can help you create visually consistent user interfaces more effectively, and Master CSS [configuration](/reference/configuration) is born for this.
 
-Assuming the card can be reused, you can abstract it using [styles](/reference/styles) with a concise syntax:
+Assuming the card can be reused, you can abstract it using [styles](/guide/custom-styles) with a concise syntax:
 ```js name=master.css.js
 export default {
     styles: {
@@ -208,7 +208,7 @@ It can be elegant:
 <!-- Use a utility class that translates to "display: block" -->
 <div class="block">
 ```
-It can be [stateful and selectable](/reference/selectors):
+It can be [stateful and selectable](/reference/custom-syntax#selectors):
 ```html
 <!-- Set a pink background on hover -->
 <div class="bg:pink:hover">
@@ -225,7 +225,7 @@ It can be [stateful and selectable](/reference/selectors):
 <!-- Use simplified :first instead of :nth-child to set pink background -->
 <div class="bg:pink:first">
 ```
-It can be [responsive](/guide/responsive-design) and [conditional](/reference/at):
+It can be [responsive](/guide/responsive-design) and [conditional](/guide/apply-conditionally):
 ```html
 <!-- Set width to 50rem, when screen width >=1024 -->
 <div class="width:800@>=1024">

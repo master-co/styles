@@ -3,10 +3,11 @@ export default [
 
     'Getting Started',
     'Start Building',
-    'Tutorial',
+    'Syntax Tutorial',
     'Fundamentals',
     'Production Optimization',
 
+    'Customization',
     'Configuration',
     'Syntax',
     'Package'

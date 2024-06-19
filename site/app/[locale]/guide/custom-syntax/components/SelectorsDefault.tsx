@@ -4,7 +4,7 @@ import InlineCode from 'internal/components/InlineCode'
 export default () => <table>
     <thead>
         <tr>
-            <th className="w:0">Selectors</th>
+            <th className="w:0">Name</th>
             <th>Replace with</th>
         </tr>
     </thead>
@@ -17,7 +17,7 @@ export default () => <table>
                     return (
                         <tr key={eachSelectorName}>
                             <td>
-                                <InlineCode lang="mcss">{eachSelectorName}</InlineCode>
+                                <code className="white-space:nowrap">{eachSelectorName}</code>
                             </td>
                             <td>
                                 <InlineCode lang="js" beautify>{`

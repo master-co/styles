@@ -94,7 +94,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
                 kind: CompletionItemKind.Value,
                 documentation: getCSSDataDocumentation({} as any, {
                     generatedCSS: generateCSS([styleName], css),
-                    docs: '/reference/styles'
+                    docs: '/guide/custom-styles'
                 }),
                 detail: styleClasses.join(' ') + ' (style)',
             })

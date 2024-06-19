@@ -18,7 +18,7 @@ export default function inspectSyntax(this: CSSLanguageService, document: TextDo
     if (styleClasses) {
         const documentation = getCSSDataDocumentation({} as any, {
             generatedCSS: generateCSS([token], this.css),
-            docs: '/reference/styles'
+            docs: '/guide/custom-styles'
         })
         if (documentation) {
             return {

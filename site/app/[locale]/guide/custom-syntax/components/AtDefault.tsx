@@ -6,7 +6,7 @@ export default () =>
     <DocTable>
         <thead>
             <tr>
-                <th>Token</th>
+                <th>Name</th>
                 <th>Value</th>
             </tr>
         </thead>

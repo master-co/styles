@@ -110,7 +110,7 @@ Add media queries after the main body.
 - <div class="landscape:hidden"></div>
 <div class="hidden@landscape"></div>
 ```
-Not just media queries but feature queries and [more](/reference/at).
+Not just media queries but feature queries and [more](/reference/custom-syntax).
 
 ---
 
@@ -163,7 +163,7 @@ export default {
 ```
 
 ### Add media queries
-Using [at](/reference/at) to define media queries, feature queries, and even container queries.
+Using [at-rules](/reference/custom-syntax#at-rules) to define media queries, feature queries, and even container queries.
 ```js name=master.css.js
 -/** @type {import('tailwindcss').Config} */
 -module.exports = {
@@ -187,7 +187,7 @@ export default {
 
 ## Strategies
 ### Alternative to `@apply`
-Use [styles](/reference/styles) to abstract styles instead of `@apply`.
+Use [styles](/guide/custom-styles) to abstract styles instead of `@apply`.
 ```css name=main.css
 - @tailwind base;
 - @tailwind components;

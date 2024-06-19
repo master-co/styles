@@ -1,8 +1,8 @@
 ```js name=master.css.js
 export default {
-    rules: {
+    syntaxes: {
         foo: {
-            match: /^foo:./,
+            matcher: /^foo:./,
             unit: 'rem',
             declare(value, unit) {
                 return {

@@ -2,8 +2,8 @@ import define from 'internal/utils/metadata'
 
 const metadata = define({
     title: 'Colors',
-    description: 'Customizing color variables or starting with the crafted palette.',
-    category: 'Design Token',
+    description: 'Customizing your colors with a carefully designed palette.',
+    category: 'Customization',
     order: 1,
     filename: import.meta.url
 })

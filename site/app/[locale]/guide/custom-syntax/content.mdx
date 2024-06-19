@@ -1,22 +1,53 @@
-## Introduction [sr-only]
-In native CSS, it's not possible to reuse queries through variables, and this is where configuring `queries` comes into play, tokenizing media queries, feature queries, container queries, and even responsive breakpoints, and apply them with flexible syntax within the markup.
-```html
-<div class="hidden@<sm text:center@sm aspect:2/1@landscape">…</div>
-```
-Tokenizing queries also serves for simplification.
-
-(!) You wouldn't want to write full media queries within the markup.
-```html
-<div class="aspect:2/1**@media(orientation:landscape)**">…</div>
-```
-(o) Employ concise yet semantically meaningful markup.
-```html
-<div class="aspect:2/1**@landscape**">…</div>
-```
 
 ---
 
-## Customization
+## Syntaxes
+Customize your own Master CSS syntax rules.
+<SyntaxesOverview />
+<details>
+    <summary>View the default syntaxes</summary>
+    <div>
+        <SyntaxesDefault />
+    </div>
+</details>
+
+---
+
+## Selectors
+By tokenizing selectors, you can simplify your markup.
+<SelectorsOverview />
+<details>
+    <summary>View the default selectors</summary>
+    <div>
+        <SelectorsDefault />
+    </div>
+</details>
+
+
+---
+
+## Functions
+Customize the behavior and rules of functions.
+<FunctionsOverview />
+<details>
+    <summary>View the default functions</summary>
+    <div>
+        <FunctionsDefault />
+    </div>
+</details>
+
+---
+
+## At-rules
+In native CSS, it's not possible to reuse queries through CSS variables. By tokenizing media queries, feature queries, container queries, and even responsive breakpoints, and applying them with flexible syntax within the markup.
+<AtOverview />
+<details>
+    <summary>View the default at-rules</summary>
+    <div>
+        <AtDefault />
+    </div>
+</details>
+
 ### Add a media query
 Create a media query token, such as `@landscape`, to represent landscape orientation.
 <Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-a-media-query/master.css.js').default}</Code>
@@ -41,12 +72,6 @@ Applies translucent background only when `backdrop-filter` is supported.
         <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-feature-query/generated.css').default}</Code>
     </div>
 </details>
-
----
-
-## Default
-<Default />
-View the full [source code](https://github.com/master-co/css/blob/rc/packages/core/src/config/at.ts)
 
 ---
 

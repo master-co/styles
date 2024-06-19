@@ -4,7 +4,7 @@ import InlineCode from 'internal/components/InlineCode'
 export default () => <table>
     <thead>
         <tr>
-            <th className="w:0">Syntax</th>
+            <th className="w:0">Name</th>
             <th className="w:0">Unit</th>
             <th>Native Name</th>
         </tr>
@@ -18,7 +18,7 @@ export default () => <table>
                     return (
                         <tr key={eachFunctionName}>
                             <td>
-                                <code className="token language-mcss">
+                                <code className="token language-mcss white-space:nowrap">
                                     <span className="token mcss">
                                         <span className="token Mvalueroot">
                                             <span className="token Mvalue">{eachFunctionName}<span className="token Mbracket">(</span>…<span className="token Mbracket">)</span></span>

@@ -1,7 +1,7 @@
-## Using design tokens [sr-only]
-Design tokens are a fundamental part of design systems and are crucial for maintaining design consistency and efficiency in projects, especially in larger organizations or projects with complex design requirements. They help bridge the gap between design and development, promoting collaboration and ensuring a cohesive user experience.
-
+## Overview [sr-only]
 In Master CSS, variables are used to manage tokens in the design system, such as colors, font families, breakpoints, etc., even based on different theme modes.
+<Overview />
+Design tokens are a fundamental part of design systems and are crucial for maintaining design consistency and efficiency in projects, especially in larger organizations or projects with complex design requirements. They help bridge the gap between design and development, promoting collaboration and ensuring a cohesive user experience.
 
 ---
 
@@ -72,9 +72,22 @@ Apply the defined `font-family` variables using the inherited syntaxes <FontsHei
 ---
 
 ## Colors
-Each color in the [default palette](/reference/colors) has a hue range from 5 to 95, which is applied via the relevant syntax:
+Each color in the [default palette](/reference/colors) has a hue range from 5 to 95, which you can choose from as your brand's primary color.
+<ColorPalette filterColors={['indigo']} />
+For example, inherit from indigo:
+```js name=master.css.js
+import { variables } from '@master/css'
+
+/** @type {import('@master/css').Config} */
+export default {
+    variables: {
+         primary: variables.indigo
+    }
+}
+```
+Apply them using the relevant syntax:
 ```html
-<div class="**bg:blue-60** **fg:red-70**">…</div>
+<div class="**bg:primary-5** **fg:primary-60**">…</div>
 ```
 
 ### Add a color

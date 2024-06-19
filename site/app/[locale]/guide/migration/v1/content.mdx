@@ -69,10 +69,10 @@ Apply the variables:
 ```html
 <div class="fg:primary mt:md"></div>
 ```
-To learn more, check out the [custom theme](/guide/custom-theme).
+To learn more, check out the [custom variables](/guide/custom-variables).
 
 ### Using new custom animations
-In v2, you can apply the [default animations](/reference/animations) out of the box:
+In v2, you can apply the [default animations](/guide/custom-animations) out of the box:
 ```html
 <div class="**@ping|1s|infinite**"></div>
 ```
@@ -80,7 +80,7 @@ We built in commonly used animations, and the `@master/keyframes.css` package is
 ```css name=main.css
 -@import '@master/keyframes.css';
 ```
-To customize keyframes, check out the [Animations](/reference/animations) documentation.
+To customize keyframes, check out the [Animations](/guide/custom-animations) documentation.
 
 ### Using abstract styles
 Deprecate extended `classes` ​​in favor of `config.styles`.
@@ -101,7 +101,7 @@ Apply the style:
 ```html
 <button class="btn"></button>
 ```
-To learn more, check out the [Styles](/reference/styles) documentation.
+To learn more, check out the [Styles](/guide/custom-styles) documentation.
 
 ### Merging media queries
 Deprecate extended `breakpoints` and `queries` ​​in favor of `config.at`.
@@ -123,7 +123,7 @@ Deprecate extended `breakpoints` and `queries` ​​in favor of `config.at`.
 +    }
 +}
 ```
-To learn more, check out the [At](/reference/at) documentation.
+To learn more, check out the [at-rules](/reference/custom-syntax#at-rules) documentation.
 
 ### Unknown tokens as themes
 Deprecated `colorSchemes` and considered unknown media query tokens as themes.
