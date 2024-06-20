@@ -1,4 +1,28 @@
 ## Default [sr-only]
+| Token                                             | Keywords                                                                   |
+|---------------------------------------------------|----------------------------------------------------------------------------|
+| <small>Primitive</small>                                                                                                       |
+| <Bg className="bg:gray" />`gray`                  | neutral, subtle, muted                                                     |
+| <Bg className="bg:slate" />`slate`                | cool, calm, sophisticated                                                  |
+| <Bg className="bg:brown" />`brown`                | earthy, warm, rustic                                                       |
+| <Bg className="bg:orange" />`orange`              | vibrant, energetic, lively                                                 |
+| <Bg className="bg:amber" />`amber`                | warm, glowing, radiant                                                     |
+| <Bg className="bg:yellow" />`yellow`              | cheerful, sunny, bright                                                    |
+| <Bg className="bg:lime" />`lime`                  | fresh, lively, zesty                                                       |
+| <Bg className="bg:green" />`green`                | nature, growth, harmony                                                    |
+| <Bg className="bg:beryl" />`beryl`                | calm, soothing, tranquil                                                   |
+| <Bg className="bg:teal" />`teal`                  | sophisticated, elegant, refined                                            |
+| <Bg className="bg:cyan" />`cyan`                  | modern, futuristic, technological                                          |
+| <Bg className="bg:sky" />`sky`                    | peaceful, serene, tranquil                                                 |
+| <Bg className="bg:blue" />`blue`                  | calm, trustworthy, reliable                                                |
+| <Bg className="bg:indigo" />`indigo`              | mysterious, deep, spiritual                                                |
+| <Bg className="bg:violet" />`violet`              | creative, imaginative, magical                                             |
+| <Bg className="bg:purple" />`purple`              | royal, luxurious, majestic                                                 |
+| <Bg className="bg:fuchsia" />`fuchsia`            | vibrant, bold, playful                                                     |
+| <Bg className="bg:pink" />`pink`                  | feminine, romantic, delicate                                               |
+| <Bg className="bg:crimson" />`crimson`            | passionate, intense, powerful                                              |
+| <Bg className="bg:red" />`red`                    | bold, energetic, attention-grabbing                                        |
+
 By default, theme modes [drive](/reference/configuration#modedriver) base color variables meticulously adjusted in light and dark modes.
 <Demo $py={0} $px={0}>
     <DemoLight>
@@ -16,4 +40,27 @@ By default, theme modes [drive](/reference/configuration#modedriver) base color 
     <div class="bg:**yellow**"></div>
 </div>
 ```
-[View the default variables on GitHub](https://github.com/master-co/css/blob/rc/packages/core/src/config/variables.ts)
+
+---
+
+## Basic usage
+### Add a base color
+Add a color to the base variables group.
+```js name=master.css.js
+export default {
+    variables: {
++        primary: '#000'
+    }
+}
+```
+Apply the custom color:
+```html
+<p class="bg:**primary**"></p>
+```
+
+### Apply a base color
+By default, all base colors are set at the top level of variables and accessed as a global variable.
+```html
+-<body class="bg:$(base)">equals</body>
++<body class="bg:base"></body>
+```
