@@ -7,22 +7,6 @@ Design tokens are a fundamental part of design systems and are crucial for maint
 
 ## Fonts
 By default, Master provides three [font family](/reference/font-family) variables, `sans`, `serif`, and `mono`, to facilitate your use as fallbacks when adding custom fonts.
-<Demo $py={0}>
-    <DemoPanel className="flex flex:col gap:8x">
-        <div className="w:full">
-            <DemoLabel>sans</DemoLabel>
-            <DemoP className="font:sans">Heavy boxes perform quick waltzes and jigs.</DemoP>
-        </div>
-        <div className="w:full">
-            <DemoLabel>serif</DemoLabel>
-            <DemoP className="font:serif">Heavy boxes perform quick waltzes and jigs.</DemoP>
-        </div>
-        <div className="w:full">
-            <DemoLabel>mono</DemoLabel>
-            <DemoP className="font:mono">Heavy boxes perform quick waltzes and jigs.</DemoP>
-        </div>
-    </DemoPanel>
-</Demo>
 
 ### Add fonts
 Customize your font tokens by defining [variables](/reference/variables). For example, add `Inter` as the general font and `Fira Code` as the code font.
@@ -38,36 +22,11 @@ export default {
     }
 }
 ```
-Apply the defined `font-family` variables using the inherited syntaxes <FontsHeirs />. For example, presetting the global fonts in `html <body>`:
+Apply the defined `font-family` variables. For example, presetting the global fonts in `html <body>`:
 ```html
 <body class="**font:sans** **font:mono_:where(code,pre)** font-feature:'salt'">…</body>
 ```
-<details>
-    <summary>How to add font faces?</summary>
-    <div>
-        The fastest way to declare custom font faces is through [Google Fonts](https://fonts.google.com/).
-        ```html name=index.html
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        +    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-        </head>
-        </html>
-        ```
-        You can also self-host the fonts via native CSS, as usual.
-        ```css name=styles/fonts.css
-        @font-face {
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url("/fonts/Inter-Regular.woff2") format("woff2");
-        }
-        ```
-    </div>
-</details>
+Don't forget to add the [font faces](/reference/fonts#font-faces).
 
 ---
 
@@ -207,8 +166,7 @@ Apply custom colors for the current application.
 ---
 
 ## Screens and Breakpoints
-The `screen` in the variable is a reserved section. In addition to being used as a property value token `screen-*`, it also serves as a responsive breakpoint `@*`.
-<ScreensDefault />
+The [screen](/reference/screens) in the variable is a reserved section. In addition to being used as a property value token `screen-*`, it also serves as a responsive breakpoint `@*`.
 
 Apply default screen variables using any syntax, such as [`width`](/reference/width) and [`max-width`](/reference/max-width).
 ```html
@@ -243,7 +201,7 @@ And it can be used as a responsive breakpoint:
 ---
 
 ## Spacing and Sizing
-The spacing and sizing system is constructed using a [base unit](/guide/configuration#baseunit) of **4 pixels**. For visual consistency, you can use the multiplier unit `x` to apply spacing with the same scale.
+The [spacing and sizing](/reference/spacing-and-sizing) system is constructed using a [base unit](/guide/configuration#baseunit) of **4 pixels**. For visual consistency, you can use the multiplier unit `x` to apply spacing with the same scale.
 ```html
 <div class="m:**1x**">4px, margin: 0.25rem</div>
 <div class="p:**2x**">8px, padding: 0.5rem</div>
@@ -251,7 +209,6 @@ The spacing and sizing system is constructed using a [base unit](/guide/configur
 <div class="gap:**3x**">12px, gap: 0.75rem</div>
 <div class="size:**6x**">24px, width: 1.5rem; height: 1.5rem</div>
 ```
-<SpacingAndSizingReference />
 (x) It's no longer necessary to define the spacing scale one by one as in the traditional way.
 ```js name=master.css.js
 export default {
@@ -287,12 +244,6 @@ Apply the defined `spacing` variables using the inherited syntaxes like `margin-
 ```html
 <div class="**mt:md** **p:md**">…</div>
 ```
-<details>
-    <summary>See all inherited syntaxes</summary>
-    <div>
-        <p><SpacingAndSizingHeirs /></p>
-    </div>
-</details>
 
 (x) Do not use numerical values as tokens.
 ```js
