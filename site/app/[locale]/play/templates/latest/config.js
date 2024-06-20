@@ -24,10 +24,6 @@ export default {
             '@light': '$(white)',
             '@dark': '$(gray-80)'
         },
-        divider: {
-            '@light': '$(slate-90)/.1',
-            '@dark': '$(white)/.1'
-        },
         ring: {
             '@light': '$(slate-40)/.1',
             '@dark': '$(white)/.1'

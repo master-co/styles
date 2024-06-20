@@ -74,7 +74,7 @@ Now, you can install it separately anywhere.
 ```
 
 ### Master CSS Configuration
-The protagonist of v2 is here - a brand-new [configuration API](/reference/configuration) designed specifically for design systems. For keeping a fresh feeling of what's released, please refer to the documentation first.
+The protagonist of v2 is here - a brand-new [configuration API](/guide/configuration) designed specifically for design systems. For keeping a fresh feeling of what's released, please refer to the documentation first.
 
 ### Master Theme Mode
 Used for setting and switching theme modes, the "packages/theme-mode" has been spun off into a new repository [master-co/theme-mode](https://github.com/master-co/theme-mode).
@@ -164,7 +164,7 @@ There's more, let's save it for a big bang with the v2 release!
 ---
 
 ## Product planning
-Initially planned to sprint full throttle towards Master UI after v1's release, but after absorbing some community feedback and delving into more real-world applications, we realized that Master CSS's support for design systems was insufficient. Hence, we focused on strengthening the [configuration API](/reference/configuration) and shaping the syntax instead.
+Initially planned to sprint full throttle towards Master UI after v1's release, but after absorbing some community feedback and delving into more real-world applications, we realized that Master CSS's support for design systems was insufficient. Hence, we focused on strengthening the [configuration API](/guide/configuration) and shaping the syntax instead.
 
 We don't want to hastily release peripherals or even paid products before the product matures, leaving a heavy burden for future improvements.
 
@@ -268,14 +268,14 @@ In conclusion, Master CSS is nearly stable, the biggest reason we haven't releas
 ## FAQs
 <details open>
     <summary>How to keep track of the latest updates?</summary>
-    <div className='bg:canvas b:1|line-lightest p:3x|8x r:1x mt:2x'>
+    <div className='bg:canvas b:1|lightest p:3x|8x r:1x mt:2x'>
         - [GitHub Releases](https://github.com/master-co/css/releases) － We've beautified the release changelog, which notes any version and package detailed changes.
         - [Updates - Discord Channel](https://discord.com/channels/917780624314613760/1144544204979175626) － We'll post the latest updates in the discord #updates channel.
     </div>
 </details>
 <details>
     <summary>How to prevent version change conflicts?</summary>
-    <div className='bg:canvas b:1|line-lightest p:3x|8x r:1x mt:2x'>
+    <div className='bg:canvas b:1|lightest p:3x|8x r:1x mt:2x'>
         When using a CDN in production, pining the current version to avoid potential conflicts due to version changes is strongly recommended, like so:
         <Code lang="html">
             {`<script src="https://cdn.master.co/css-runtime@${process.env.NEXT_PUBLIC_VERSION}"></script>`}
@@ -284,7 +284,7 @@ In conclusion, Master CSS is nearly stable, the biggest reason we haven't releas
 </details>
 <details>
     <summary>Where is the source code of the documentation?</summary>
-    <div className='bg:canvas b:1|line-lightest p:3x|8x r:1x mt:2x'>
+    <div className='bg:canvas b:1|lightest p:3x|8x r:1x mt:2x'>
         The official [documentation is now open source](https://github.com/master-co/css/tree/rc/site/app/%5Blocale%5D/); welcome to contribute your expertise.
     </div>
 </details>

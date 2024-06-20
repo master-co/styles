@@ -1,0 +1,22 @@
+## Default [sr-only]
+| Token                                                   | Descriptions                                                              |
+|---------------------------------------------------------|---------------------------------------------------------------------------|
+| <Bg className="outline:neutral" />`frame-neutral`       |                                                                           |
+| <Bg className="outline:light" />`frame-light`           | alpha, divider                                                                   |
+| <Bg className="outline:lighter" />`frame-lighter`       | alpha, dotted, td                                                                |
+| <Bg className="outline:lightest" />`frame-lightest`     | alpha, layout, navbar, sidebar                                                   |
+
+By default, theme modes [drive](/guide/configuration#default-mode) frame variables are meticulously adjusted in light and dark modes.
+<Overview />
+[View the default variables on GitHub](https://github.com/master-co/css/blob/rc/packages/core/src/config/variables.ts)
+
+---
+
+## Basic usage
+### Apply a frame color
+Apply the defined `frame-*` variables using the inherited syntaxes <Heirs />.
+```html
+-<div class="outline:$(frame-neutral)">equals</div>
+-<div class="outline:frame-neutral">equals</div>
++<div class="outline:neutral"></div>
+```

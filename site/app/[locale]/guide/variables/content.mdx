@@ -180,7 +180,7 @@ Using modes for variables, you can access a single source of truth and simplify 
         <Code lang="css" beautify>{require('!!raw-loader!./tests/add-colors-by-theme/generated.css').default}</Code>
     </div>
 </details>
-By default, theme variables [drive](/reference/configuration#modedriver) inheritance by adding `.light` or `.dark` to the parent element.
+By default, theme variables [drive](/guide/configuration#default-mode) inheritance by adding `.light` or `.dark` to the parent element.
 
 ### Override default colors
 (!) Access the same key as the preset to override default colors, like `blue-5` ~ `blue-95`.
@@ -243,7 +243,7 @@ And it can be used as a responsive breakpoint:
 ---
 
 ## Spacing and Sizing
-The spacing and sizing system is constructed using a [base unit](/reference/configuration#baseunit) of **4 pixels**. For visual consistency, you can use the multiplier unit `x` to apply spacing with the same scale.
+The spacing and sizing system is constructed using a [base unit](/guide/configuration#baseunit) of **4 pixels**. For visual consistency, you can use the multiplier unit `x` to apply spacing with the same scale.
 ```html
 <div class="m:**1x**">4px, margin: 0.25rem</div>
 <div class="p:**2x**">8px, padding: 0.5rem</div>

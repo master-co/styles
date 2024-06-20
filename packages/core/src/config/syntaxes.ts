@@ -763,7 +763,6 @@ const syntaxes = {
         ambiguousKeys: ['text-stroke'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
-        variables: ['text'],
         declare(value) {
             return {
                 '-webkit-text-stroke-color': value
@@ -920,26 +919,31 @@ const syntaxes = {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-bottom-color': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-left-color': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-right-color': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-x-color': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Shorthand,
+        variables: ['frame'],
         declare(value) {
             return {
                 'border-left-color': value,
@@ -951,6 +955,7 @@ const syntaxes = {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Shorthand,
+        variables: ['frame'],
         declare(value) {
             return {
                 'border-top-color': value,
@@ -962,6 +967,7 @@ const syntaxes = {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.NativeShorthand,
+        variables: ['frame'],
     } as SyntaxDefinition,
     // border radius
     'border-top-left-radius': {
@@ -1172,30 +1178,35 @@ const syntaxes = {
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-bottom': {
         key: 'bb',
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-left': {
         key: 'bl',
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-right': {
         key: 'br',
         layer: Layer.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'border-x': {
         key: 'bx',
         unit: 'rem',
         layer: Layer.Shorthand,
         transformValueComponents: autofillSolidStyle,
+        variables: ['frame'],
         declare(value) {
             return {
                 'border-left': value,
@@ -1208,6 +1219,7 @@ const syntaxes = {
         unit: 'rem',
         layer: Layer.Shorthand,
         transformValueComponents: autofillSolidStyle,
+        variables: ['frame'],
         declare(value) {
             return {
                 'border-top': value,
@@ -1220,6 +1232,7 @@ const syntaxes = {
         unit: 'rem',
         layer: Layer.NativeShorthand,
         transformValueComponents: autofillSolidStyle,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'background-attachment': {
         ambiguousKeys: ['bg'],
@@ -1539,6 +1552,7 @@ const syntaxes = {
         ambiguousKeys: ['outline'],
         ambiguousValues: [COLOR_VALUE_REGEX],
         layer: Layer.Native,
+        variables: ['frame'],
     } as SyntaxDefinition,
     'outline-offset': {
         unit: 'rem',
@@ -1563,7 +1577,8 @@ const syntaxes = {
             'outline-width',
             'outline-style',
             'outline-offset',
-            'outline-color'
+            'outline-color',
+            'frame'
         ],
         transformValueComponents: autofillSolidStyle
     } as SyntaxDefinition,

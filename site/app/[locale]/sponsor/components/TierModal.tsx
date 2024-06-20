@@ -20,7 +20,7 @@ export default function TierModal({ tierState }: { tierState: [any, Dispatch<any
                 )}
             </div>
         </div>
-        <div className="text:12 bt:1|solid|line-lightest mb:5 pt:15 px:25">
+        <div className="text:12 bt:1|solid|lightest mb:5 pt:15 px:25">
             Choose a platform
         </div>
         <Link href={selectedTier.openCollectiveUrl} className="flex align-items:center font:medium gap:12 min-h:48 px:25 text-decoration:none!">

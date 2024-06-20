@@ -557,7 +557,7 @@ export default function Play(props: any) {
                     {shareable && <ShareButton className={clsx('hidden@<md', sharing ? 'app-header-nav' : 'app-header-icon')} disabled={sharing} onClick={share}>
                         {sharing && <span className="ml:10">{$('Sharing ...')}</span>}
                     </ShareButton>}
-                    {(shareId || shareable) && <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>}
+                    {(shareId || shareable) && <div className='hidden@<md bg:frame-light h:1em mx:4x w:1'></div>}
                     <Link className="app-header-icon hidden@<md" href={getSearchPath('layout', layout ? '' : '2')}>
                         <svg className={clsx({ 'stroke:accent': !layout || layout === '2' })} xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                             <path className={clsx(
@@ -591,7 +591,7 @@ export default function Play(props: any) {
                         </svg>
                     </Link>
                     <span className='hidden'>{layout}</span>
-                    <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>
+                    <div className='hidden@<md bg:frame-light h:1em mx:4x w:1'></div>
                     {/* preview: desktop */}
                     <Link className="app-header-icon hidden@<md" href={getSearchPath('preview', '')}>
                         <IconDeviceDesktop width="22" height="22" className={clsx(
@@ -614,7 +614,7 @@ export default function Play(props: any) {
                         )} />
                     </Link>
                     <span className='hidden'>{preview}</span>
-                    <div className='hidden@<md bg:divider h:1em mx:4x w:1'></div>
+                    <div className='hidden@<md bg:frame-light h:1em mx:4x w:1'></div>
                     <LanguageButton className="app-header-icon hidden@<md" locale={locale} />
                     <ThemeButton className="app-header-icon hidden@<md mr:-12"
                         onChange={(theme: string) => {
@@ -647,10 +647,10 @@ export default function Play(props: any) {
                         layout === '5' && 'hidden!@md',
                         {
                             'full!@<md': tab !== 'Preview',
-                            'br:1|line-lightest': !layout,
-                            'bl:1|line-lightest': layout === '2',
-                            'bb:1|line-lightest': layout === '3',
-                            'bt:1|line-lightest': layout === '4'
+                            'br:1|lightest': !layout,
+                            'bl:1|lightest': layout === '2',
+                            'bb:1|lightest': layout === '3',
+                            'bt:1|lightest': layout === '4'
                         }
                     )}
                     width={tab === 'Preview' ? '' : width}
@@ -711,7 +711,7 @@ export default function Play(props: any) {
                         className={clsx(
                             'full',
                             {
-                                'max-w:100% max-h:100% outline:1|line-lightest': responsive
+                                'max-w:100% max-h:100% outline:1|lightest': responsive
                             }
                         )}
                         showHeight={true}
@@ -723,7 +723,7 @@ export default function Play(props: any) {
                             srcDoc={previewHTML}
                         />
                         <div className={clsx('flex flex:col h:full', { 'hidden!': preview !== 'css' })}>
-                            <div className='flex align-items:center bb:1|line-lightest flex:0|0|auto font:12 h:48 justify-content:space-between px:30'>
+                            <div className='flex align-items:center bb:1|lightest flex:0|0|auto font:12 h:48 justify-content:space-between px:30'>
                                 <div>Generated CSS</div>
                                 <div className="fg:light">{generatedCSSSize}</div>
                             </div>

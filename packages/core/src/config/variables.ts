@@ -120,6 +120,24 @@ const _variables = {
         view: 'view-box'
     },
     current: 'currentColor',
+    frame: {
+        neutral: {
+            '@light': '$(slate-60)',
+            '@dark': '$(gray-30)'
+        },
+        light: {
+            '@light': '$(slate-60)/.2',
+            '@dark': '$(gray-30)/.2'
+        },
+        lighter: {
+            '@light': '$(slate-60)/.16',
+            '@dark': '$(gray-30)/.16'
+        },
+        lightest: {
+            '@light': '$(slate-60)/.12',
+            '@dark': '$(gray-30)/.12'
+        }
+    },
     // from figma
     white: '#ffffff',
     black: '#000000',
@@ -138,12 +156,6 @@ const _variables = {
     invert: {
         '@light': '$(black)',
         '@dark': '$(white)',
-    },
-    frame: {
-        neutral: {
-            '@light': '$(slate-60)',
-            '@dark': '$(gray-30)',
-        },
     },
     gray: {
         '@light': '$(gray-30)',
