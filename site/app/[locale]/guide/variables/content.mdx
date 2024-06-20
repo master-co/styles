@@ -9,7 +9,7 @@ Design tokens are a fundamental part of design systems and are crucial for maint
 By default, Master provides three [font family](/reference/font-family) variables, `sans`, `serif`, and `mono`, to facilitate your use as fallbacks when adding custom fonts.
 
 ### Add fonts
-Customize your font tokens by defining [variables](/reference/variables). For example, add `Inter` as the general font and `Fira Code` as the code font.
+Customize your font tokens by defining [variables](/guide/variables). For example, add `Inter` as the general font and `Fira Code` as the code font.
 ```js name=master.css.js
 import { variables } from '@master/css'
 
@@ -179,7 +179,7 @@ Conditionally apply styles using default screen variables as responsive breakpoi
 The responsive breakpoints can be flexibly used with operators, see the [responsive design](/guide/responsive-design) documentation.
 
 ### Add a screen size
-Add your screen size by defining [variables](/reference/variables).
+Add your screen size by defining [variables](/guide/variables).
 <Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-a-screen-size/master.css.js').default}</Code>
 Apply the defined screen variables anywhere:
 <Code lang="html">{require('!!raw-loader!./tests/add-a-screen-size/template.html').default}</Code>
@@ -230,7 +230,7 @@ For other intermediate values, `0`, `1`, `2`, ..., we tend to use unitless token
 ```
 
 ### Add a spacing
-Customize your spacing [variables](/reference/variables), in `xs~xl`.
+Customize your spacing [variables](/guide/variables), in `xs~xl`.
 ```js name=master.css.js
 export default {
     variables: {
