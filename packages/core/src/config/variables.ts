@@ -120,6 +120,7 @@ const _variables = {
         view: 'view-box'
     },
     current: 'currentColor',
+    // from figma
     white: '#ffffff',
     black: '#000000',
     base: {
@@ -138,7 +139,7 @@ const _variables = {
         '@light': '$(black)',
         '@dark': '$(white)',
     },
-    line: {
+    frame: {
         neutral: {
             '@light': '$(slate-60)',
             '@dark': '$(gray-30)',
@@ -147,82 +148,215 @@ const _variables = {
     gray: {
         '@light': '$(gray-30)',
         '@dark': '$(gray-40)',
+        active: {
+            '@light': '$(gray-40)',
+            '@dark': '$(gray-30)',
+        },
+        text: {
+            '@light': '$(gray-90)',
+            '@dark': '$(gray-95)',
+        },
     },
     slate: {
         '@light': '$(slate-30)',
         '@dark': '$(slate-40)',
+        active: {
+            '@light': '$(slate-40)',
+            '@dark': '$(slate-30)',
+        },
+        text: {
+            '@light': '$(slate-90)',
+            '@dark': '$(slate-95)',
+        },
     },
     brown: {
         '@light': '$(brown-40)',
         '@dark': '$(brown-50)',
+        active: {
+            '@light': '$(brown-50)',
+            '@dark': '$(brown-40)',
+        },
+        text: {
+            '@light': '$(brown-90)',
+            '@dark': '$(brown-95)',
+        },
     },
     orange: {
         '@light': '$(orange-40)',
         '@dark': '$(orange-50)',
+        active: {
+            '@light': '$(orange-50)',
+            '@dark': '$(orange-40)',
+        },
+        text: {
+            '@light': '$(orange-90)',
+            '@dark': '$(orange-95)',
+        },
     },
     amber: {
         '@light': '$(amber-40)',
         '@dark': '$(amber-50)',
+        active: {
+            '@light': '$(amber-50)',
+            '@dark': '$(amber-30)',
+        },
+        text: {
+            '@light': '$(amber-90)',
+            '@dark': '$(amber-95)',
+        },
     },
     yellow: {
         '@light': '$(yellow-40)',
         '@dark': '$(yellow-50)',
+        active: {
+            '@light': '$(yellow-50)',
+            '@dark': '$(yellow-30)',
+        },
+        text: {
+            '@light': '$(yellow-90)',
+            '@dark': '$(yellow-95)',
+        },
     },
     lime: {
         '@light': '$(lime-40)',
         '@dark': '$(lime-50)',
+        active: {
+            '@light': '$(lime-50)',
+            '@dark': '$(lime-30)',
+        },
+        text: {
+            '@light': '$(lime-90)',
+            '@dark': '$(lime-95)',
+        },
     },
     green: {
         '@light': '$(green-40)',
         '@dark': '$(green-50)',
+        active: {
+            '@light': '$(green-50)',
+            '@dark': '$(green-30)',
+        },
+        text: {
+            '@light': '$(green-90)',
+            '@dark': '$(green-95)',
+        },
     },
     beryl: {
         '@light': '$(beryl-40)',
         '@dark': '$(beryl-50)',
+        active: {
+            '@light': '$(beryl-50)',
+            '@dark': '$(beryl-30)',
+        },
+        text: {
+            '@light': '$(beryl-90)',
+            '@dark': '$(beryl-95)',
+        },
     },
     teal: {
         '@light': '$(teal-40)',
         '@dark': '$(teal-50)',
+        active: {
+            '@light': '$(teal-50)',
+            '@dark': '$(teal-30)',
+        },
+        text: {
+            '@light': '$(teal-90)',
+            '@dark': '$(teal-95)',
+        },
     },
     cyan: {
         '@light': '$(cyan-40)',
         '@dark': '$(cyan-50)',
+        active: {
+            '@light': '$(cyan-50)',
+            '@dark': '$(cyan-30)',
+        },
+        text: {
+            '@light': '$(cyan-90)',
+            '@dark': '$(cyan-95)',
+        },
     },
     sky: {
         '@light': '$(sky-60)',
         '@dark': '$(sky-50)',
+        active: {
+            '@light': '$(sky-70)',
+            '@dark': '$(sky-40)',
+        },
+        text: '$(white)',
     },
     blue: {
         '@light': '$(blue-60)',
         '@dark': '$(blue-50)',
+        active: {
+            '@light': '$(blue-70)',
+            '@dark': '$(blue-40)',
+        },
+        text: '$(white)',
     },
     indigo: {
         '@light': '$(indigo-60)',
         '@dark': '$(indigo-50)',
+        active: {
+            '@light': '$(indigo-70)',
+            '@dark': '$(indigo-40)',
+        },
+        text: '$(white)',
     },
     violet: {
         '@light': '$(violet-60)',
         '@dark': '$(violet-50)',
+        active: {
+            '@light': '$(violet-70)',
+            '@dark': '$(violet-40)',
+        },
+        text: '$(white)',
     },
     purple: {
         '@light': '$(purple-60)',
         '@dark': '$(purple-50)',
+        active: {
+            '@light': '$(purple-70)',
+            '@dark': '$(purple-40)',
+        },
+        text: '$(white)',
     },
     fuchsia: {
         '@light': '$(fuchsia-60)',
         '@dark': '$(fuchsia-50)',
+        active: {
+            '@light': '$(fuchsia-70)',
+            '@dark': '$(fuchsia-40)',
+        },
+        text: '$(white)',
     },
     pink: {
         '@light': '$(pink-60)',
         '@dark': '$(pink-50)',
+        active: {
+            '@light': '$(pink-70)',
+            '@dark': '$(pink-40)',
+        },
+        text: '$(white)',
     },
     crimson: {
         '@light': '$(crimson-60)',
         '@dark': '$(crimson-50)',
+        active: {
+            '@light': '$(crimson-70)',
+            '@dark': '$(crimson-40)',
+        },
+        text: '$(white)',
     },
     red: {
         '@light': '$(red-60)',
         '@dark': '$(red-50)',
+        active: {
+            '@light': '$(red-70)',
+            '@dark': '$(red-40)',
+        },
+        text: '$(white)',
     },
     text: {
         invert: {
@@ -329,7 +463,7 @@ const _variables = {
             '@light': '$(red-60)',
             '@dark': '$(red-30)',
         },
-    },
+    }
 }
 
 const variables = extend(colors, _variables) as (typeof colors & typeof _variables)
