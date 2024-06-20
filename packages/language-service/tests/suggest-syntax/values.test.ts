@@ -111,6 +111,8 @@ describe.concurrent('sorting', () => {
             'yellow-80',
             'yellow-90',
             'yellow-95',
+            'yellow-active',
+            'yellow-text'
         ])
     })
 })
