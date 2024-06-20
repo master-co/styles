@@ -66,21 +66,9 @@ Initially, Master CSS was intended to create a CSS engine for production browser
 Master CSS doesn't use heavy-duty build tools like PostCSS, Autoprefixer, or any minifiers, as these rules are generated with optimization.
 
 ### Custom Design Systems
-Master CSS provides a set of systematic [configuration](/guide/configuration) APIs to help you build a consistent, easy-to-manage, and scalable design system:
-
-We've built a series of neutral tokens in the default configuration and created a universal Master Design System, which make your design system on top of or use it as a quick starting point.
+Master CSS provides rich [configuration](/guide/configuration) to help you build a consistent, easy-to-manage, and scalable design system. We've built a series of neutral design tokens and created a universal Master Design System, which makes your design system on top of or use it as a quick starting point.
 <DesignVariables />
 This is just one part; more design variables and tokens are scattered throughout the syntax documentation.
-
-For example, the utility class `capitalize` is used to simplify `css text-transform: capitalize`:
-<Demo $py={0}>
-    <DemoPanel>
-        <DemoP><b className="bg:stripe-pink">H</b>eavy <b className="bg:stripe-pink">B</b>oxes <b className="bg:stripe-pink">P</b>erform <b className="bg:stripe-pink">Q</b>uick <b className="bg:stripe-pink">W</b>altzes <b className="bg:stripe-pink">A</b>nd <b className="bg:stripe-pink">J</b>igs.</DemoP>
-    </DemoPanel>
-</Demo>
-```html
-<p class="**capitalize**">Heavy boxes perform quick waltzes and jigs.</p>
-```
 
 ### Innovative Syntax Highlighting
 Master CSS is the first language to highlight class names fully, making identifying their properties, appearance, and state faster.
