@@ -2,15 +2,15 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
 it.concurrent('checks scroll-margin order', () => {
-    expect(new MasterCSS().add('scroll-mx:0', 'scroll-ml:0', 'scroll-mr:0', 'scroll-m:0', 'scroll-mt:0', 'scroll-mb:0', 'scroll-my:0').syntaxes)
+    expect(new MasterCSS().add('scroll-mx:0', 'scroll-ml:0', 'scroll-mr:0', 'scroll-m:0', 'scroll-mt:0', 'scroll-mb:0', 'scroll-my:0').utilityLayer.rules)
         .toMatchObject([
-            { className: 'scroll-m:0' },
-            { className: 'scroll-mx:0' },
-            { className: 'scroll-my:0' },
-            { className: 'scroll-mb:0' },
-            { className: 'scroll-ml:0' },
-            { className: 'scroll-mr:0' },
-            { className: 'scroll-mt:0' }
+            { name: 'scroll-m:0' },
+            { name: 'scroll-mx:0' },
+            { name: 'scroll-my:0' },
+            { name: 'scroll-mb:0' },
+            { name: 'scroll-ml:0' },
+            { name: 'scroll-mr:0' },
+            { name: 'scroll-mt:0' }
         ])
 })
 

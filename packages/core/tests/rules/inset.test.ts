@@ -1,5 +1,6 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
+import { expectLayers } from '../test'
 
 test.concurrent('inset', () => {
     expect(new MasterCSS().create('top:20')?.text).toBe('.top\\:20{top:1.25rem}')
@@ -10,13 +11,13 @@ test.concurrent('inset', () => {
 })
 
 it.concurrent('checks inset order', () => {
-    expect(new MasterCSS().add('top:0', 'left:0', 'inset:0', 'right:0', 'bottom:0').syntaxes)
+    expect(new MasterCSS().add('top:0', 'left:0', 'inset:0', 'right:0', 'bottom:0').utilityLayer.rules)
         .toMatchObject([
-            { className: 'inset:0' },
-            { className: 'bottom:0' },
-            { className: 'left:0' },
-            { className: 'right:0' },
-            { className: 'top:0' }
+            { name: 'inset:0' },
+            { name: 'bottom:0' },
+            { name: 'left:0' },
+            { name: 'right:0' },
+            { name: 'top:0' }
         ])
 })
 

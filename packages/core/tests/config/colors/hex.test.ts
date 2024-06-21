@@ -1,6 +1,7 @@
 import { it, test, expect, describe } from 'vitest'
 import { MasterCSS } from '../../../src'
 import { Config } from '../../../src'
+import { expectLayers } from '../../test'
 
 /**
  * 1. 000000
@@ -51,22 +52,24 @@ describe.concurrent('with themes', () => {
     })
 
     it.concurrent('color', () => {
-        expect(new MasterCSS(config).add('fg:primary')?.text).toBe([
-            ':root{--primary:0 0 0}',
-            '.dark{--primary:255 255 255}',
-            '.light,:root{--primary:150 150 150}',
-            '.chrisma{--primary:0 0 0 / .5}',
-            '.fg\\:primary{color:rgb(var(--primary))}'
-        ].join(''))
+        expectLayers(
+            {
+                theme: ':root{--primary:0 0 0}.dark{--primary:255 255 255}.light{--primary:150 150 150}.chrisma{--primary:0 0 0 / .5}',
+                utility: '.fg\\:primary{color:rgb(var(--primary))}'
+            },
+            'fg:primary',
+            config
+        )
     })
 
     it.concurrent('color/.5', () => {
-        expect(new MasterCSS(config).add('fg:primary/.5')?.text).toBe([
-            ':root{--primary:0 0 0}',
-            '.dark{--primary:255 255 255}',
-            '.light,:root{--primary:150 150 150}',
-            '.chrisma{--primary:0 0 0 / .5}',
-            '.fg\\:primary\\/\\.5{color:rgb(var(--primary)/.5)}'
-        ].join(''))
+        expectLayers(
+            {
+                theme: ':root{--primary:0 0 0}.dark{--primary:255 255 255}.light{--primary:150 150 150}.chrisma{--primary:0 0 0 / .5}',
+                utility: '.fg\\:primary\\/\\.5{color:rgb(var(--primary)/.5)}'
+            },
+            'fg:primary/.5',
+            config
+        )
     })
 })

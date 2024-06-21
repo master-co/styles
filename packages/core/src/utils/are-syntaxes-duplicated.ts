@@ -1,15 +1,15 @@
-import type { Rule } from '../rule'
+import { SyntaxRule } from '../syntax-rule'
 
-export default function areRulesDuplicated(aRule: Rule, bRule: Rule) {
-    const aKeys = Object.keys(aRule.declarations || {})
-    const bKeys = Object.keys(bRule.declarations || {})
+export default function areRulesDuplicated(aSyntaxRule: SyntaxRule, bSyntaxRule: SyntaxRule) {
+    const aKeys = Object.keys(aSyntaxRule.declarations || {})
+    const bKeys = Object.keys(bSyntaxRule.declarations || {})
 
     if (aKeys.length !== bKeys.length) {
         return false
     }
 
     for (const key of aKeys) {
-        if (!Object.prototype.hasOwnProperty.call(bRule.declarations, key)) {
+        if (!Object.prototype.hasOwnProperty.call(bSyntaxRule.declarations, key)) {
             return false
         }
     }

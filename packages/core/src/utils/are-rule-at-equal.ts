@@ -1,19 +1,19 @@
-import type { Rule } from '../rule'
+import type { SyntaxRule } from '../syntax-rule'
 
-export default function areRuleAtEqual(aRule: Rule, bRule: Rule) {
-    const aQueryTypes = Object.keys(aRule.at)
-    const bQueryTypes = Object.keys(bRule.at)
+export default function areRuleAtEqual(aSyntaxRule: SyntaxRule, bSyntaxRule: SyntaxRule) {
+    const aQueryTypes = Object.keys(aSyntaxRule.at)
+    const bQueryTypes = Object.keys(bSyntaxRule.at)
 
     if (aQueryTypes.length !== bQueryTypes.length) {
         return false
     }
 
     for (const aQueryType of aQueryTypes) {
-        const aAtComponents = aRule.at[aQueryType]
-        const bAtComponents = bRule.at[aQueryType]
+        const aAtComponents = aSyntaxRule.at[aQueryType]
+        const bAtComponents = bSyntaxRule.at[aQueryType]
         for (const aAtComponent of aAtComponents) {
-            const aAtComponentToken = aRule.resolveAtComponent(aAtComponent)
-            if (!bAtComponents.find(bAtComponent => bRule.resolveAtComponent(bAtComponent) === aAtComponentToken)) {
+            const aAtComponentToken = aSyntaxRule.resolveAtComponent(aAtComponent)
+            if (!bAtComponents.find(bAtComponent => bSyntaxRule.resolveAtComponent(bAtComponent) === aAtComponentToken)) {
                 return false
             }
         }

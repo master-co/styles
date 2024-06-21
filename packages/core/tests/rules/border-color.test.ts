@@ -1,4 +1,4 @@
-import { it, test, expect } from 'vitest'
+import { it, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
 it.concurrent('validates border-color syntaxes', () => {
@@ -36,11 +36,11 @@ it.concurrent('validates border-color syntaxes', () => {
 })
 
 it.concurrent('checks border-color order', () => {
-    expect(new MasterCSS().add('bt:white', 'b:white', 'bl:white', 'bx:white').syntaxes)
+    expect(new MasterCSS().add('bt:white', 'b:white', 'bl:white', 'bx:white').utilityLayer.rules)
         .toMatchObject([
-            { className: 'b:white' },
-            { className: 'bx:white' },
-            { className: 'bl:white' },
-            { className: 'bt:white' }
+            { name: 'b:white' },
+            { name: 'bx:white' },
+            { name: 'bl:white' },
+            { name: 'bt:white' },
         ])
 })

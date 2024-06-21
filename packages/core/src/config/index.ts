@@ -7,7 +7,7 @@ import syntaxes from './syntaxes'
 import modes from './modes'
 import functions from './functions'
 import type { PropertiesHyphen } from 'csstype'
-import type { Rule, SyntaxDefinition, ValueComponent } from '../rule'
+import type { SyntaxDefinition, SyntaxRule, ValueComponent } from '../syntax-rule'
 
 const config: Config = {
     at,
@@ -51,7 +51,7 @@ export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesH
 export type ModeDefinitions = { [key: string]: 'class' | 'media' | 'host' | false }
 export interface FunctionDefinition {
     unit?: string
-    transform?(this: Rule, value: string, bypassVariableNames: string[]): string | ValueComponent[]
+    transform?(this: SyntaxRule, value: string, bypassVariableNames: string[]): string | ValueComponent[]
 }
 export type FunctionDefinitions = { [key: string]: FunctionDefinition }
 

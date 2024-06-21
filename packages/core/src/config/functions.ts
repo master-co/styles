@@ -1,5 +1,5 @@
 import type { FunctionDefinition, FunctionDefinitions } from './'
-import type { Rule, StringValueComponent } from '../rule'
+import type { SyntaxRule, StringValueComponent } from '../syntax-rule'
 import { BASE_UNIT_REGEX } from '../common'
 
 const functions: FunctionDefinitions = {
@@ -19,11 +19,11 @@ const functions: FunctionDefinitions = {
     } as FunctionDefinition,
     calc: {
         transform(value, bypassVariableNames) {
-            const valueComponents: Rule['valueComponents'] = []
+            const valueComponents: SyntaxRule['valueComponents'] = []
             let i = 0
 
             const anaylzeDeeply = (
-                currentValueComponents: Rule['valueComponents'],
+                currentValueComponents: SyntaxRule['valueComponents'],
                 bypassHandlingSeparator: boolean,
                 parentBypassParsing: boolean,
                 parentUnitChecking: boolean,
@@ -137,7 +137,7 @@ const functions: FunctionDefinitions = {
                             currentValueComponents.push({ type: 'string', value: symbolResult[1], token: symbolResult[1] })
                         }
                         const functionName = symbolResult ? current.slice(1) : current
-                        const newValueComponent: Rule['valueComponents'][0] = {
+                        const newValueComponent: SyntaxRule['valueComponents'][0] = {
                             type: 'function', name: functionName, symbol: char, children: [], bypassTransform: functionName === 'calc', token: current
                         }
                         currentValueComponents.push(newValueComponent)

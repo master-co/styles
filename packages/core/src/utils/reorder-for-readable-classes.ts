@@ -1,4 +1,4 @@
-import Layer from '../layer'
+import SyntaxType from '../syntax-type'
 import MasterCSS from '../core'
 
 /**
@@ -9,18 +9,18 @@ import MasterCSS from '../core'
  */
 export default function reorderForReadableClasses(classes: string[], css = new MasterCSS()) {
     css.add(...classes)
-    const orderedClasses = css.syntaxes
+    const orderedClasses = css.utilityLayer.rules
         // 只保留樣式語法相關的 syntaxes, 排除 keyframes 與 variables 在外
-        .filter(eachRule => eachRule.layer)
+        .filter(eachRule => eachRule.syntaxType)
         .sort((a, b) => {
-            if (a.layer === Layer.Utility && b.layer !== Layer.Utility) {
+            if (a.syntaxType === SyntaxType.Utility && b.syntaxType !== SyntaxType.Utility) {
                 // 如果 a 是 Layer.Utility 而 b 不是，则 a 应该排在 b 前面
                 return -1
-            } else if (a.layer !== Layer.Utility && b.layer === Layer.Utility) {
+            } else if (a.syntaxType !== SyntaxType.Utility && b.syntaxType === SyntaxType.Utility) {
                 // 如果 b 是 Layer.Utility 而 a 不是，则 b 应该排在 a 前面
                 return 1
             } else if (a.id !== b.id) {
-                return a.className.localeCompare(b.className)
+                return a.name.localeCompare(b.name)
             } else {
                 // 檢查 vendorSuffixSelectors 是否存在
                 const aHasVendorSuffix = a.vendorSuffixSelectors?.['']?.[0]
@@ -61,14 +61,14 @@ export default function reorderForReadableClasses(classes: string[], css = new M
                     a.id === b.id &&
                     a.stateToken === b.stateToken
                 ) {
-                    return a.className.localeCompare(b.className)
+                    return a.name.localeCompare(b.name)
                 }
 
                 // 再按照 rule.order 本身來升序排列
                 return a.order - b.order
             }
         })
-        .map(eachRule => eachRule.className)
-    css.delete(...classes)
+        .map(eachRule => eachRule.name)
+    css.remove(...classes)
     return orderedClasses
 }

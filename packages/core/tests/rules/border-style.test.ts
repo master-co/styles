@@ -30,11 +30,11 @@ it.concurrent('validates border-style syntaxes', () => {
 })
 
 it.concurrent('checks border-style order', () => {
-    expect(new MasterCSS().add('bt:solid', 'b:solid', 'bl:dotted', 'bx:solid').syntaxes)
+    expect(new MasterCSS().add('bt:solid', 'b:solid', 'bl:dotted', 'bx:solid').utilityLayer.rules)
         .toMatchObject([
-            { className: 'b:solid' },
-            { className: 'bx:solid' },
-            { className: 'bl:dotted' },
-            { className: 'bt:solid' }
+            { name: 'b:solid' },
+            { name: 'bx:solid' },
+            { name: 'bl:dotted' },
+            { name: 'bt:solid' }
         ])
 })

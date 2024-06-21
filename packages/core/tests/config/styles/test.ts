@@ -1,28 +1,49 @@
-import { it, test, expect } from 'vitest'
-import { MasterCSS } from '../../../src'
+import { test } from 'vitest'
 import config from '../../config'
 import extend from '@techor/extend'
+import { expectLayers } from '../../test'
 
 test.concurrent('styles', () => {
-    expect(new MasterCSS(config).add('btn').text)
-        .toBe('.font\\:14,.btn,.blue-btn{font-size:0.875rem}.h\\:40,.btn,.blue-btn{height:2.5rem}.text\\:center,.btn,.blue-btn{text-align:center}.light .bg\\:primary\\@light,.light .btn,.light .blue-btn{background-color:rgb(0 0 0)}.light .fg\\:white\\@light,.light .btn,.light .blue-btn{color:rgb(255 255 255)}.light .font\\:semibold\\@light,.light .btn,.light .blue-btn{font-weight:600}.dark .bg\\:white\\@dark,.dark .btn,.dark .blue-btn{background-color:rgb(255 255 255)}.dark .fg\\:primary\\@dark,.dark .btn,.dark .blue-btn{color:rgb(255 255 255)}.dark .font\\:medium\\@dark,.dark .btn,.dark .blue-btn{font-weight:500}')
-
-    expect(new MasterCSS(config).add('blue-btn').text)
-        .toBe('.font\\:14,.btn,.blue-btn{font-size:0.875rem}.h\\:40,.btn,.blue-btn{height:2.5rem}.text\\:center,.btn,.blue-btn{text-align:center}.light .bg\\:primary\\@light,.light .btn,.light .blue-btn{background-color:rgb(0 0 0)}.light .fg\\:white\\@light,.light .btn,.light .blue-btn{color:rgb(255 255 255)}.light .font\\:semibold\\@light,.light .btn,.light .blue-btn{font-weight:600}.dark .bg\\:white\\@dark,.dark .btn,.dark .blue-btn{background-color:rgb(255 255 255)}.dark .fg\\:primary\\@dark,.dark .btn,.dark .blue-btn{color:rgb(255 255 255)}.dark .font\\:medium\\@dark,.dark .btn,.dark .blue-btn{font-weight:500}.light .f\\:20\\@light,.light .blue-btn{font-size:1.25rem}')
-
-    expect(new MasterCSS(extend(config, { important: true })).add('blue-btn').text)
-        .toBe('.font\\:14,.btn,.blue-btn{font-size:0.875rem!important}.h\\:40,.btn,.blue-btn{height:2.5rem!important}.text\\:center,.btn,.blue-btn{text-align:center!important}.light .bg\\:primary\\@light,.light .btn,.light .blue-btn{background-color:rgb(0 0 0)!important}.light .fg\\:white\\@light,.light .btn,.light .blue-btn{color:rgb(255 255 255)!important}.light .font\\:semibold\\@light,.light .btn,.light .blue-btn{font-weight:600!important}.dark .bg\\:white\\@dark,.dark .btn,.dark .blue-btn{background-color:rgb(255 255 255)!important}.dark .fg\\:primary\\@dark,.dark .btn,.dark .blue-btn{color:rgb(255 255 255)!important}.dark .font\\:medium\\@dark,.dark .btn,.dark .blue-btn{font-weight:500!important}.light .f\\:20\\@light,.light .blue-btn{font-size:1.25rem!important}')
-
-    expect(new MasterCSS({
-        variables: {
-            custom: {
-                '@light': '$(black)',
-                '@dark': '$(white)'
-            }
+    expectLayers(
+        {
+            style: '.btn{font-size:0.875rem;height:2.5rem;text-align:center}.light .btn{background-color:rgb(0 0 0);color:rgb(255 255 255);font-weight:600}.dark .btn{background-color:rgb(255 255 255);color:rgb(255 255 255);font-weight:500}'
         },
-        styles: {
-            'highlight-numbers': '{content:counter(lineNumber);inline-block;counter-increment:lineNumber;pr:16;text:right;ml:-5;fg:custom;w:30;font:80%}_.highlight-line:before'
+        'btn',
+        config
+    )
+
+    expectLayers(
+        {
+            style: '.blue-btn{font-size:0.875rem;height:2.5rem;text-align:center}.light .blue-btn{background-color:rgb(0 0 0);color:rgb(255 255 255);font-weight:600;font-size:1.25rem}.dark .blue-btn{background-color:rgb(255 255 255);color:rgb(255 255 255);font-weight:500}'
+        },
+        'blue-btn',
+        config
+    )
+
+    expectLayers(
+        {
+            style: '.blue-btn{font-size:0.875rem!important;height:2.5rem!important;text-align:center!important}.light .blue-btn{background-color:rgb(0 0 0)!important;color:rgb(255 255 255)!important;font-weight:600!important;font-size:1.25rem!important}.dark .blue-btn{background-color:rgb(255 255 255)!important;color:rgb(255 255 255)!important;font-weight:500!important}'
+        },
+        'blue-btn',
+        extend(config, { important: true })
+    )
+
+    expectLayers(
+        {
+            theme: '.light,:root{--custom:0 0 0}.dark{--custom:255 255 255}',
+            style: '.highlight-numbers .highlight-line:before{content:counter(lineNumber);display:inline-block;counter-increment:lineNumber;padding-right:1rem;text-align:right;margin-left:-0.3125rem;color:rgb(var(--custom));width:1.875rem;font-size:80%}'
+        },
+        'highlight-numbers',
+        {
+            variables: {
+                custom: {
+                    '@light': '$(black)',
+                    '@dark': '$(white)'
+                }
+            },
+            styles: {
+                'highlight-numbers': '{content:counter(lineNumber);inline-block;counter-increment:lineNumber;pr:16;text:right;ml:-5;fg:custom;w:30;font:80%}_.highlight-line:before'
+            }
         }
-    }).add('highlight-numbers').text)
-        .toBe('.light,:root{--custom:0 0 0}.dark{--custom:255 255 255}.\\{content\\:counter\\(lineNumber\\)\\;inline-block\\;counter-increment\\:lineNumber\\;pr\\:16\\;text\\:right\\;ml\\:-5\\;fg\\:custom\\;w\\:30\\;font\\:80\\%\\}_\\.highlight-line\\:before .highlight-line:before,.highlight-numbers .highlight-line:before{content:counter(lineNumber);display:inline-block;counter-increment:lineNumber;padding-right:1rem;text-align:right;margin-left:-0.3125rem;color:rgb(var(--custom));width:1.875rem;font-size:80%}')
+    )
 })

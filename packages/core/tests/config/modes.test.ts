@@ -1,17 +1,25 @@
 import { test, expect } from 'vitest'
 import { Config, MasterCSS } from '../../src'
+import { expectLayers } from '../test'
 
 test.concurrent('modes', () => {
-    expect(new MasterCSS({
-        variables: {
-            fade: {
-                '@light': '#cccccc',
-                '@dark': '#333333',
-                '@darker': '#222222'
-            }
+    expectLayers(
+        {
+            theme: '.dark{--fade:51 51 51}',
+            utility: '.\\{block\\;fg\\:fade\\}_\\:where\\(p\\)_code\\:before :where(p) code:before{display:block;color:rgb(var(--fade))}'
         },
-        modes: { light: false }
-    }).add('{block;fg:fade}_:where(p)_code:before').text).toBe('.dark{--fade:51 51 51}.\\{block\\;fg\\:fade\\}_\\:where\\(p\\)_code\\:before :where(p) code:before{display:block;color:rgb(var(--fade))}')
+        '{block;fg:fade}_:where(p)_code:before',
+        {
+            variables: {
+                fade: {
+                    '@light': '#cccccc',
+                    '@dark': '#333333',
+                    '@darker': '#222222'
+                }
+            },
+            modes: { light: false }
+        }
+    )
 })
 
 test.concurrent('media modes', () => {

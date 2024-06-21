@@ -30,11 +30,11 @@ it.concurrent('validates border-width syntaxes', () => {
 })
 
 it.concurrent('checks border-width order', () => {
-    expect(new MasterCSS().add('bt:16', 'b:16', 'bl:16', 'bx:16').syntaxes)
+    expect(new MasterCSS().add('bt:16', 'b:16', 'bl:16', 'bx:16').utilityLayer.rules)
         .toMatchObject([
-            { className: 'b:16' },
-            { className: 'bx:16' },
-            { className: 'bl:16' },
-            { className: 'bt:16' }
+            { name: 'b:16' },
+            { name: 'bx:16' },
+            { name: 'bl:16' },
+            { name: 'bt:16' }
         ])
 })

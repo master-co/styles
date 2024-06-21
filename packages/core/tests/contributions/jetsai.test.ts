@@ -1,7 +1,7 @@
-import { it, test, expect, describe } from 'vitest'
-import { MasterCSS } from '../../src'
+import { test, describe } from 'vitest'
 import { Config } from '../../src/config'
 import { extendConfig } from '../../src'
+import { expectLayers } from '../test'
 
 const buttonTokens = Object.freeze({
     primary: '$(button-primary)',
@@ -67,51 +67,113 @@ const config = extendConfig(colorConfig, textConfig, buttonConfig)
 
 describe.concurrent('jetsai', () => {
     test.concurrent('button config', () => {
-        expect(new MasterCSS(config).add('bg:button-primary').text)
-        .toBe('.bg\\:button-primary,.btn-primary{background-color:rgb(34 66 163)}')
+        expectLayers(
+            {
+                utility: '.bg\\:button-primary{background-color:rgb(34 66 163)}'
+            },
+            'bg:button-primary',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:button-primary-hover').text)
-        .toBe('.bg\\:button-primary-hover{background-color:rgb(21 37 89)}')
+        expectLayers(
+            {
+                utility: '.bg\\:button-primary-hover{background-color:rgb(21 37 89)}'
+            },
+            'bg:button-primary-hover',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:button-primary-disabled').text)
-        .toBe('.bg\\:button-primary-disabled{background-color:rgb(205 224 247)}')
+        expectLayers(
+            {
+                utility: '.bg\\:button-primary-disabled{background-color:rgb(205 224 247)}'
+            },
+            'bg:button-primary-disabled',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:button-disabled').text)
-        .toBe('.bg\\:button-disabled{background-color:rgb(233 238 248)}')
+        expectLayers(
+            {
+                utility: '.bg\\:button-disabled{background-color:rgb(233 238 248)}'
+            },
+            'bg:button-disabled',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:button-background-hover').text)
-        .toBe('.bg\\:button-background-hover{background:button-background-hover}')
+        expectLayers(
+            {
+                utility: '.bg\\:button-background-hover{background:button-background-hover}'
+            },
+            'bg:button-background-hover',
+            config
+        )
 
-        expect(new MasterCSS(config).add('btn-primary').text)
-        .toBe('.bg\\:button-primary,.btn-primary{background-color:rgb(34 66 163)}.t\\:text-on-color,.btn-primary{-webkit-text-fill-color:rgb(255 255 255)}.bg\\:button-primary-hover\\:hover:hover,.btn-primary:hover{background-color:rgb(21 37 89)}.bg\\:button-primary-disabled\\:disabled:disabled,.btn-primary:disabled{background-color:rgb(205 224 247)}.t\\:text-disabled\\:disabled:disabled,.btn-primary:disabled{-webkit-text-fill-color:rgb(146 151 161)}')
-
+        expectLayers(
+            {
+                style: '.btn-primary{-webkit-text-fill-color:rgb(255 255 255);background-color:rgb(34 66 163)}.btn-primary:hover{background-color:rgb(21 37 89)}.btn-primary:disabled{-webkit-text-fill-color:rgb(146 151 161);background-color:rgb(205 224 247)}'
+            },
+            'btn-primary',
+            config
+        )
     })
 
     test.concurrent('color config', () => {
-        expect(new MasterCSS(config).add('bg:blue200').text)
-        .toBe('.bg\\:blue200{background-color:rgb(205 224 247)}')
+        expectLayers(
+            {
+                utility: '.bg\\:blue200{background-color:rgb(205 224 247)}'
+            },
+            'bg:blue200',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:blue700').text)
-        .toBe('.bg\\:blue700{background-color:rgb(34 66 163)}')
+        expectLayers(
+            {
+                utility: '.bg\\:blue700{background-color:rgb(34 66 163)}'
+            },
+            'bg:blue700',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:blue900').text)
-        .toBe('.bg\\:blue900{background-color:rgb(21 37 89)}')
+        expectLayers(
+            {
+                utility: '.bg\\:blue900{background-color:rgb(21 37 89)}'
+            },
+            'bg:blue900',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:gray200').text)
-        .toBe('.bg\\:gray200{background-color:rgb(233 238 248)}')
+        expectLayers(
+            {
+                utility: '.bg\\:gray200{background-color:rgb(233 238 248)}'
+            },
+            'bg:gray200',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:gray500').text)
-        .toBe('.bg\\:gray500{background-color:rgb(146 151 161)}')
-
+        expectLayers(
+            {
+                utility: '.bg\\:gray500{background-color:rgb(146 151 161)}'
+            },
+            'bg:gray500',
+            config
+        )
     })
 
     test.concurrent('text config', () => {
-        expect(new MasterCSS(config).add('bg:text-disabled').text)
-        .toBe('.bg\\:text-disabled{background-color:rgb(146 151 161)}')
+        expectLayers(
+            {
+                utility: '.bg\\:text-disabled{background-color:rgb(146 151 161)}'
+            },
+            'bg:text-disabled',
+            config
+        )
 
-        expect(new MasterCSS(config).add('bg:text-on-color').text)
-        .toBe('.bg\\:text-on-color{background-color:rgb(255 255 255)}')
-
+        expectLayers(
+            {
+                utility: '.bg\\:text-on-color{background-color:rgb(255 255 255)}'
+            },
+            'bg:text-on-color',
+            config
+        )
     })
 
 })

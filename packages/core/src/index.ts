@@ -1,9 +1,9 @@
 export * from './config'
-export * from './rule'
 export * from './common'
 export * from './core'
 export { Rule } from './rule'
-export { default as Layer } from './layer'
+export * from './syntax-rule'
+export { default as SyntaxType } from './syntax-type'
 export { default as MasterCSS, default } from './core'
 
 // functions
@@ -17,4 +17,5 @@ export { default as areRulesDuplicated } from './utils/are-syntaxes-duplicated'
 export { default as generateCSS } from './utils/generate-css'
 export { default as isCoreRule } from './utils/is-core-rule'
 
-export type { NativeRule, MediaFeatureComponent, MediaQuery } from './rule'
+export type { NativeRule } from './rule'
+export type { MediaFeatureComponent, MediaQuery } from './syntax-rule'
