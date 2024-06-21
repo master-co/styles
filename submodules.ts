@@ -9,5 +9,6 @@ if (GITHUB_TOKEN) {
     console.log("Running in local environment, using normal authentication")
 }
 
+execSync('git submodule deinit -f')
 execSync('git submodule update --init --recursive')
 execSync('cd internal && git checkout main')
