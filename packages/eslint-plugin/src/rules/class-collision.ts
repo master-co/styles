@@ -31,7 +31,9 @@ export default createRule({
                     const sourceCode = context.sourceCode
                     const sourceCodeLines = sourceCode.lines
                     const nodeStartLine = node.loc.start.line
+                    const nodeStartColumn = node.loc.start.column
                     const nodeEndLine = node.loc.end.line
+                    const nodeEndColumn = node.loc.end.column
                     // todo css
                     const collisionClassesRecord = filterCollisionClasses(classNames, css)
                     for (const className in collisionClassesRecord) {
@@ -42,8 +44,9 @@ export default createRule({
                             const regexSafe = collisionClassName.replace(/(\\|\.|\(|\)|\[|\]|\{|\}|\+|\*|\?|\^|\$|\||\/)/g, '\\$1')
                             fixClassNames = fixClassNames.replace(new RegExp(`\\s+${regexSafe}|${regexSafe}\\s+`), '')
                         }
+
                         context.report({
-                            loc: findLoc(className, sourceCodeLines, nodeStartLine, nodeEndLine),
+                            loc: findLoc(className, sourceCodeLines, nodeStartLine, nodeStartColumn, nodeEndLine, nodeEndColumn),
                             messageId: 'collisionClass',
                             data: {
                                 message: `"${className}" applies the same CSS declarations as ${collisionClassNamesMsg}.`,

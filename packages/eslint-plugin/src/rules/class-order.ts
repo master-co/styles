@@ -163,10 +163,12 @@ export default createRule({
 
                 const sourceCodeLines = sourceCode.lines
                 const nodeStartLine = node.loc.start.line
+                const nodeStartColumn = node.loc.start.column
                 const nodeEndLine = node.loc.end.line
+                const nodeEndColumn = node.loc.end.column
 
                 context.report({
-                    loc: findLoc(originalClassNamesValue, sourceCodeLines, nodeStartLine, nodeEndLine),
+                    loc: findLoc(originalClassNamesValue, sourceCodeLines, nodeStartLine, nodeStartColumn, nodeEndLine, nodeEndColumn),
                     messageId: 'invalidClassOrder',
                     fix: function (fixer) {
                         return fixer.replaceTextRange([start, end], validatedClassNamesValue)
