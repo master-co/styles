@@ -277,19 +277,13 @@ export class RuntimeCSS extends MasterCSS {
             this.style.id = 'master'
             this.container.append(this.style)
 
-            this.style.sheet?.insertRule(this.keyframeLayer.text)
-            this.keyframeLayer.native = this.style.sheet?.cssRules.item(0) as CSSLayerBlockRule
-            
-            this.style.sheet?.insertRule(this.utilityLayer.text)
-            this.utilityLayer.native = this.style.sheet?.cssRules.item(0) as CSSLayerBlockRule
-
-            this.style.sheet?.insertRule(this.styleLayer.text)
-            this.styleLayer.native = this.style.sheet?.cssRules.item(0) as CSSLayerBlockRule
-
-            this.style.sheet?.insertRule(this.themeLayer.text)
-            this.themeLayer.native = this.style.sheet?.cssRules.item(0) as CSSLayerBlockRule
-
-            this.style.sheet?.insertRule(this.layerStatementRule.text)
+            for (let i = 0; i < this.sheet.rules.length; i++) {
+                const rule = this.sheet.rules[i]
+                this.style.sheet?.insertRule(rule.text, i)
+                if ('native' in rule) {
+                    rule.native = this.style.sheet?.cssRules.item(i) as CSSLayerBlockRule
+                }
+            }
         }
 
         const handleClassList = (classList: DOMTokenList) => {

@@ -22,35 +22,46 @@ export default class ThemeLayer extends Layer {
                 } else {
                     const newRule = new Rule(eachVariableName, this.css)
                     const addNative = (mode: string, _variable: TypeVariable) => {
-                        let cssRuleText: string
+                        let isDefaultMode = false
+                        let preifxCssRuleText: string
                         let endCurlyBracketCount = 1
                         if (mode) {
                             switch (this.css.config.modes?.[mode]) {
                                 case 'media':
-                                    cssRuleText =  `@media(prefers-color-scheme:${mode}){:root`
+                                    preifxCssRuleText =  `@media(prefers-color-scheme:${mode}){:root`
                                     endCurlyBracketCount++
                                     break
                                 case 'host':
-                                    cssRuleText = `:host(.${mode})`
+                                    preifxCssRuleText = `:host(.${mode})`
                                     if (!variable.value && this.css.config.defaultMode === mode) {
-                                        cssRuleText += ',:host'
+                                        preifxCssRuleText += ',:host'
+                                        isDefaultMode = true
                                     }
                                     break
                                 case 'class':
-                                    cssRuleText = `.${mode}`
+                                    preifxCssRuleText = `.${mode}`
                                     if (!variable.value && this.css.config.defaultMode === mode) {
-                                        cssRuleText += ',:root'
+                                        preifxCssRuleText += ',:root'
+                                        isDefaultMode = true
                                     }
                                     break
                                 default:
                                     return
                             }
                         } else {
-                            cssRuleText = ':root'
+                            preifxCssRuleText = ':root'
                         }
-                        newRule.natives.push({
-                            text: `${cssRuleText}{--${eachVariableName}:${String(_variable.value)}${'}'.repeat(endCurlyBracketCount)}`
-                        })
+
+                        const cssRuleText = `${preifxCssRuleText}{--${eachVariableName}:${String(_variable.value)}${'}'.repeat(endCurlyBracketCount)}`
+                        if (isDefaultMode) {
+                            newRule.natives.unshift({
+                                text: cssRuleText
+                            })
+                        } else {
+                            newRule.natives.push({
+                                text: cssRuleText
+                            })
+                        }
                     }
                     if (variable.value) {
                         addNative('', variable as any)
