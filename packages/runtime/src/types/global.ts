@@ -7,4 +7,5 @@ declare global {
     var runtimeCSSs: _CSSRuntime[]
     var runtimeCSS: _CSSRuntime
     var masterCSSConfig: Config
+    var masterCSSConfigs: Config[]
 }
