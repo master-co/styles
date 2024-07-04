@@ -3,8 +3,8 @@ export default [
 
     'Getting Started',
     'Syntax Tutorial',
-    'Customization',
     'Fundamentals',
+    'Customization',
     'Production Optimization',
 
     'Design Token',
