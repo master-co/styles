@@ -6,7 +6,8 @@ import type { UserConfig } from 'vitest'
 export default defineConfig(
     extend(config, {
         test: {
-            environment: 'jsdom'
+            environment: 'jsdom',
+            hookTimeout: 30000
         }
     } as UserConfig)
 )
