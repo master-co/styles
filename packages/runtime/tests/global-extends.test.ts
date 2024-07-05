@@ -1,12 +1,12 @@
 import { beforeAll, expect, it } from 'vitest'
 
 beforeAll(async () => {
-    window.masterCSSConfigs = [{
+    globalThis.masterCSSConfigs = [{
         variables: {
             primary: '#000000'
         }
     }]
-    window.masterCSSConfig = {
+    globalThis.masterCSSConfig = {
         extends: [{
             variables: {
                 secondary: '#ffffff'
@@ -17,8 +17,8 @@ beforeAll(async () => {
 })
 
 it('should include masterCSSConfigs', () => {
-    expect(window.masterCSSConfigs).toBeDefined()
-    expect(window.runtimeCSS.variables.primary).toBeDefined()
-    expect(window.runtimeCSS.variables.secondary).toBeDefined()
-    expect(window.runtimeCSS.customConfig.extends?.length).toBe(2)
+    expect(globalThis.masterCSSConfigs).toBeDefined()
+    expect(globalThis.runtimeCSS.variables.primary).toBeDefined()
+    expect(globalThis.runtimeCSS.variables.secondary).toBeDefined()
+    expect(globalThis.runtimeCSS.customConfig.extends?.length).toBe(2)
 })
