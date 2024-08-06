@@ -822,6 +822,7 @@ const syntaxes = {
         analyze(className: string) {
             return [className.startsWith('transform') ? className.slice(10) : className]
         },
+        unit: 'px',
         variables: ['spacing']
     } as SyntaxDefinition,
     'transition-property': {

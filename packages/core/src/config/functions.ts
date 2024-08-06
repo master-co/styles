@@ -256,7 +256,14 @@ const functions: FunctionDefinitions = {
     'conic-gradient': {},
     'repeating-linear-gradient': {},
     'repeating-radial-gradient': {},
-    'repeating-conic-gradient': {}
+    'repeating-conic-gradient': {},
+    'matrix': { unit: '' },
+    'matrix3d': { unit: '' },
+    'scale': { unit: '' },
+    'scale3d': { unit: '' },
+    'scaleX': { unit: '' },
+    'scaleY': { unit: '' },
+    'scaleZ': { unit: '' },
 }
 
 export default functions
