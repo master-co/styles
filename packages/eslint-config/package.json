@@ -50,8 +50,8 @@
         "@master/eslint-plugin-css": "workspace:^"
     },
     "devDependencies": {
-        "@angular-eslint/template-parser": "^17.5.2",
-        "eslint": "^9.5.0",
+        "@angular-eslint/template-parser": "^18.4.1",
+        "eslint": "^9.15.0",
         "shared": "workspace:^"
     }
 }
