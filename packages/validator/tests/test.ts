@@ -1,5 +1,5 @@
 import { test, it, expect } from 'vitest'
-import { generateValidRules } from '../src'
+import { generateValidRules, validate } from '../src'
 import expectClassWithErrors from './utils/expect-class-with-errors'
 import expectClassWithoutErrors from './utils/expect-class-without-errors'
 import expectClassInvalid from './utils/expect-class-invalid'
@@ -14,6 +14,7 @@ it('validate valid classes', () => {
     expectClassWithoutErrors('text:center')
     expectClassWithoutErrors('font:12@sm')
     expectClassWithoutErrors('mt:$(top)')
+    expect(validate('bg:light-dark(#333b3c,#efefec)').errors).toEqual([])
     expectClassValid('text:center')
     expectClassValid('font:12@sm')
     expectClassValid('mt:$(top)')
