@@ -2,13 +2,14 @@ import rule from '../src/rules/class-order'
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
 new RuleTester({
-    parser: require.resolve('@typescript-eslint/parser'),
-    parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        ecmaFeatures: {
-            jsx: true,
-        }
+    languageOptions: {
+        parserOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
+            ecmaFeatures: {
+                jsx: true,
+            }
+        },
     },
     settings: {
         '@master/css': {
@@ -102,7 +103,6 @@ new RuleTester({
                     </Demo>
                 )
             `,
-            parser: require.resolve('@typescript-eslint/parser')
         },
         {
             code: `<div class="a c d hello:world font:error mt:0 mt:0@sm">Error class</div>`,

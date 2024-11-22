@@ -2,12 +2,13 @@ import { RuleTester } from '@typescript-eslint/rule-tester'
 import rule from '../../src/rules/class-order'
 
 new RuleTester({
-    parser: require.resolve('@typescript-eslint/parser'),
-    parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        ecmaFeatures: {
-            jsx: true,
+    languageOptions: {
+        parserOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
+            ecmaFeatures: {
+                jsx: true,
+            }
         }
     }
 }).run('class order', rule, {
@@ -35,7 +36,9 @@ new RuleTester({
                         :)
                     </div>`,
             errors: [{ messageId: 'invalidClassOrder' }],
-            parser: require.resolve('@angular-eslint/template-parser'),
+            languageOptions: {
+                parser: await import('@angular-eslint/template-parser')
+            }
         }
     ],
 })

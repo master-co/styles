@@ -2,14 +2,15 @@ import rule from '../../src/rules/class-validation'
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
 new RuleTester({
-    parser: require.resolve('@typescript-eslint/parser'),
-    parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        ecmaFeatures: {
-            jsx: true,
+    languageOptions: {
+        parserOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
+            ecmaFeatures: {
+                jsx: true,
+            }
         }
-    }
+    },
 }).run('class matching react', rule, {
     valid: [
         { code: '<h1 className={"bg:black"}>Welcome {name}</h1>' }

@@ -2,12 +2,13 @@ import rule from '../../src/rules/class-order'
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
 const ruleTester = new RuleTester({
-    parser: require.resolve('@typescript-eslint/parser'),
-    parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        ecmaFeatures: {
-            jsx: true,
+    languageOptions: {
+        parserOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
+            ecmaFeatures: {
+                jsx: true,
+            }
         }
     }
 })
@@ -22,35 +23,45 @@ ruleTester.run('vue class order', rule, {
             output: `<template><div class="bg:black f:24 fg:white m:8 p:8">Enhancing readability</div></template>`,
             errors: [{ messageId: 'invalidClassOrder' }],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         },
         {
             code: `<template><div class="m:8 bg:black p:8 f:24 fg:white">Classnames will be ordered</div></template>`,
             output: `<template><div class="bg:black f:24 fg:white m:8 p:8">Classnames will be ordered</div></template>`,
             errors: [{ messageId: 'invalidClassOrder' }],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         },
         {
             code: `<template><div :class="['m:8 bg:black p:8 f:24 fg:white']">Enhancing readability 2</div></template>`,
             output: `<template><div :class="['bg:black f:24 fg:white m:8 p:8']">Enhancing readability 2</div></template>`,
             errors: [{ messageId: 'invalidClassOrder' }],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         },
         {
             code: `<template><div v-bind:class="{'m:8 bg:black p:8 f:24 fg:white': true}">:)...</div></template>`,
             output: `<template><div v-bind:class="{'bg:black f:24 fg:white m:8 p:8': true}">:)...</div></template>`,
             errors: [{ messageId: 'invalidClassOrder' }],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         },
         {
             code: `<template><div :class="ctl(\`m:8 bg:black p:8 f:24 fg:white \${some}\`)" /></template>`,
             output: `<template><div :class="ctl(\`\${some} bg:black f:24 fg:white m:8 p:8\`)" /></template>`,
             errors: [{ messageId: 'invalidClassOrder' }],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         },
         {
             code: `
@@ -80,7 +91,9 @@ ruleTester.run('vue class order', rule, {
                 { messageId: 'invalidClassOrder' }
             ],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         },
         {
             code: `
@@ -103,7 +116,9 @@ ruleTester.run('vue class order', rule, {
                 { messageId: 'invalidClassOrder' }
             ],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         },
         {
             code: `<template>
@@ -122,7 +137,9 @@ ruleTester.run('vue class order', rule, {
                 { messageId: 'invalidClassOrder' }
             ],
             filename: 'test.vue',
-            parser: require.resolve('vue-eslint-parser'),
+            languageOptions: {
+                parser: await import('vue-eslint-parser')
+            }
         }
     ],
 })
