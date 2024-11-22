@@ -11,3 +11,7 @@ test.concurrent('color', () => {
     expect(new MasterCSS().create('fg:transparent')?.text).toContain('color:transparent')
     expect(new MasterCSS().create('fg:inherit')?.text).toContain('color:inherit')
 })
+
+test.concurrent('light-dark function', () => {
+    expect(new MasterCSS().create('color:light-dark(#000,#fff)')?.text).toContain('color:light-dark(#000,#fff)')
+})

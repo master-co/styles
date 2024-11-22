@@ -249,6 +249,7 @@ const functions: FunctionDefinitions = {
     lch: { unit: '' },
     oklab: { unit: '' },
     oklch: { unit: '' },
+    'light-dark': { unit: '' },
     clamp: { unit: '' },
     repeat: { unit: '' },
     'linear-gradient': {},
