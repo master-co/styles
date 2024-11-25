@@ -17,4 +17,6 @@ test('ESLint Configuration is valid', async () => {
             'Invalid value for `width` property.',
         ]
     )
+}, {
+    timeout: 15000 // for Mac OS CI test timed out in 5000ms.
 })
