@@ -11,8 +11,7 @@ export default createRule({
     meta: {
         type: 'layout',
         docs: {
-            description: 'Avoid applying classes with the same CSS declaration',
-            recommended: 'recommended'
+            description: 'Avoid applying classes with the same CSS declaration'
         },
         messages: {
             collisionClass: '{{message}}',

@@ -18,8 +18,7 @@ export default createRule({
         type: 'layout',
         fixable: 'code',
         docs: {
-            description: 'Enforce a consistent and logical order of classes',
-            recommended: 'recommended'
+            description: 'Enforce a consistent and logical order of classes'
         },
         messages: {
             invalidClassOrder: 'No consistent class order followed.',

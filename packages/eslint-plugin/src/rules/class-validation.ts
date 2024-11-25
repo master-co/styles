@@ -11,8 +11,7 @@ export default createRule({
     meta: {
         type: 'problem',
         docs: {
-            description: 'Detect syntax errors early when writing classes',
-            recommended: 'recommended'
+            description: 'Detect syntax errors early when writing classes'
         },
         messages: {
             invalidClass: '{{message}}',
