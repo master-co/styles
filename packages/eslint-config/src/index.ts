@@ -1,3 +1,3 @@
-export default {
-    extends: ['plugin:@master/css/recommended']
-}
+import recommended from '@master/eslint-plugin-css/configs/recommended'
+
+export default recommended

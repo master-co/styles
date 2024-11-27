@@ -5,7 +5,8 @@
         "build": "techor build \"src/**/*.ts\"",
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
-        "test": "vitest"
+        "test": "vitest",
+        "lint": "eslint"
     },
     "keywords": [
         "mastercss",
@@ -35,11 +36,6 @@
             "types": "./dist/index.d.ts",
             "import": "./dist/index.mjs",
             "require": "./dist/index.cjs"
-        },
-        "./flat": {
-            "types": "./dist/flat.d.ts",
-            "import": "./dist/flat.mjs",
-            "require": "./dist/flat.cjs"
         }
     },
     "publishConfig": {
@@ -48,6 +44,9 @@
     },
     "dependencies": {
         "@master/eslint-plugin-css": "workspace:^"
+    },
+    "peerDependencies": {
+        "eslint": ">=9.0.0"
     },
     "devDependencies": {
         "@angular-eslint/template-parser": "^18.4.1",

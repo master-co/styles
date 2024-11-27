@@ -1,36 +1,15 @@
-import plugin from './plugin'
 import settings from './settings'
+import legacy from './configs/legacy'
+import base from './configs/base'
+import recommended from './configs/recommended'
+import plugin from './plugin'
 
-const parserOptions = {
-    ecmaFeatures: {
-        jsx: true
-    }
-}
-
-const rules = {
-    '@master/css/class-order': 'warn',
-    '@master/css/class-validation': 'error',
-    '@master/css/class-collision': 'warn'
-}
-
-/** @type {import('typescript-eslint').Config} */
 export default {
     ...plugin,
     configs: {
-        recommended: {
-            plugins: ['@master/css'],
-            rules,
-            parserOptions
-        },
-        flat: {
-            plugins: {
-                '@master/css': plugin
-            },
-            rules,
-            languageOptions: {
-                parserOptions
-            }
-        }
+        legacy,
+        base,
+        recommended
     },
     settings
 }
