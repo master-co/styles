@@ -12,7 +12,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [20]
+                node-version: [22]
         steps:
             - uses: techor-dev/techor@main
               with:
