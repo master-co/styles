@@ -1,15 +1,8 @@
-const { resolve } = require('node:path')
-
 /** @type {import('eslint').Linter.LegacyConfig} */
 module.exports = {
     extends: [
-        '@master/css',
+        'plugin:@master/css/legacy',
     ],
-    settings: {
-        '@master/css': {
-            config: resolve(__dirname, 'master.css')
-        }
-    },
     overrides: [
         {
             files: [ '*.html'],
