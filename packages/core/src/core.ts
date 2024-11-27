@@ -577,7 +577,7 @@ export default class MasterCSS {
                 for (let index = 0; index < sheet.cssRules.length; index++) {
                     const eachCSSRule = sheet.cssRules[index]
                     if (eachCSSRule === firstNative.cssRule) {
-                        for (const native of rule.natives) {
+                        for (const {} of rule.natives) {
                             sheet.deleteRule(index)
                         }
                         break
