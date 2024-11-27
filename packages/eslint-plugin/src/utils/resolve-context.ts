@@ -21,7 +21,7 @@ export default function resolveContext(context: RuleContext<any, any[]>) {
         if (typeof resolvedSettings.config === 'object') {
             config = resolvedSettings.config
         } else {
-            config = exploreConfig({ name: resolvedSettings.config, found: undefined })
+            config = exploreConfig({ name: resolvedSettings.config, found: undefined, cwd: context.cwd })
         }
         css = new MasterCSS(config)
         cssCaches.push({ cwd: context.cwd, settings: resolvedSettings, css })
