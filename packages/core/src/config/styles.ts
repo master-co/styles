@@ -1,1 +1,1 @@
-export type ConfigStyles = { [key: string]: string | ConfigStyles }
+export interface ConfigStyles { [key: string]: string | ConfigStyles }

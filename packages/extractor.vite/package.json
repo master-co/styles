@@ -5,7 +5,7 @@
         "build": "techor build \"src/**/*.ts\"",
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
-        "lint": "eslint src",
+        "lint": "eslint",
         "test": "jest --workerThreads"
     },
     "license": "MIT",

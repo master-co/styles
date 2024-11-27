@@ -60,7 +60,7 @@ const settings: Settings = {
 
 export default settings
 
-export declare type Settings = {
+export declare interface Settings {
     includedLanguages?: string[]
     classAttributes?: string[]
     classFunctions?: string[]

@@ -38,22 +38,22 @@ export {
     modes
 }
 
-export type VariableValue = number | string | false | Array<number | string>
+export type VariableValue = number | string | false | (number | string)[]
 export type VariableDefinition = { [key in '' | `@${string}` | string]?: VariableValue | VariableDefinition } | VariableValue
-export type CSSKeyframes = { [key in 'from' | 'to' | string]: PropertiesHyphen }
-export type AnimationDefinitions = { [key: string]: CSSKeyframes }
-export type SelectorDefinitions = { [key: string]: string | string[] }
-export type AtDefinitions = { [key: string]: number | string | AtDefinitions }
-export type StyleDefinitions = { [key: string]: string | StyleDefinitions }
-export type SyntaxDefinitions = { [key in keyof typeof syntaxes | string]?: SyntaxDefinition }
-export type VariableDefinitions = { [key in keyof typeof syntaxes]?: VariableDefinition } & { [key: string]: VariableDefinition }
-export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesHyphen } & { [key: string]: PropertiesHyphen }
-export type ModeDefinitions = { [key: string]: 'class' | 'media' | 'host' | false }
+export type CSSKeyframes = Record<'from' | 'to' | string, PropertiesHyphen>
+export type AnimationDefinitions = Record<string, CSSKeyframes>;
+export type SelectorDefinitions = Record<string, string | string[]>;
+export interface AtDefinitions { [key: string]: number | string | AtDefinitions }
+export interface StyleDefinitions { [key: string]: string | StyleDefinitions }
+export type SyntaxDefinitions = Partial<Record<keyof typeof syntaxes | string, SyntaxDefinition>>
+export type VariableDefinitions = { [key in keyof typeof syntaxes]?: VariableDefinition } & Record<string, VariableDefinition>
+export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesHyphen } & Record<string, PropertiesHyphen>
+export type ModeDefinitions = Record<string, 'class' | 'media' | 'host' | false>;
 export interface FunctionDefinition {
     unit?: string
     transform?(this: Rule, value: string, bypassVariableNames: string[]): string | ValueComponent[]
 }
-export type FunctionDefinitions = { [key: string]: FunctionDefinition }
+export type FunctionDefinitions = Record<string, FunctionDefinition>;
 
 export interface Config {
     extends?: (Config | any)[]

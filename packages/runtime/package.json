@@ -7,7 +7,7 @@
         "test": "vitest",
         "e2e": "playwright test",
         "type-check": "tsc --noEmit",
-        "lint": "eslint src"
+        "lint": "eslint"
     },
     "license": "MIT",
     "description": "Run Master CSS right in the browser",

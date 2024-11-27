@@ -1,7 +1,0 @@
-extends:
-    - techor
-rules:
-    no-unsafe-declaration-merging: off
-    no-irregular-whitespace:
-        - error
-        - skipComments: true

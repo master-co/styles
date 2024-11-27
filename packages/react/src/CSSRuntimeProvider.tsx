@@ -82,7 +82,6 @@ export default function CSSRuntimeProvider({ children, config, root }: {
                 })()
             }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return <RuntimeCSSContext.Provider value={runtimeCSS}>{children}</RuntimeCSSContext.Provider>

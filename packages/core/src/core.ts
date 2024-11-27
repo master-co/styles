@@ -9,16 +9,16 @@ import extendConfig from './utils/extend-config'
 import { type PropertiesHyphen } from 'csstype'
 import './types/global' // fix: ../css/src/core.ts:1205:16 - error TS7017: Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature.
 
-type VariableCommon = {
+interface VariableCommon {
     usage?: number,
     group?: string,
     name: string,
     key: string,
-    modes?: { [mode: string]: TypeVariable }
+    modes?: Record<string, TypeVariable>
 }
-export type StringVariable = { type: 'string', value: string }
-export type NumberVariable = { type: 'number', value: number }
-export type ColorVariable = { type: 'color', value: string, space: 'rgb' | 'hsl' }
+export interface StringVariable { type: 'string', value: string }
+export interface NumberVariable { type: 'number', value: number }
+export interface ColorVariable { type: 'color', value: string, space: 'rgb' | 'hsl' }
 export type TypeVariable = StringVariable | NumberVariable | ColorVariable
 export type Variable = TypeVariable & VariableCommon
 
@@ -88,9 +88,9 @@ export default class MasterCSS {
         }
 
         if (variables) {
-            const unexecutedAliasVariable: Record<string, { [mode: string]: () => void }> = {}
+            const unexecutedAliasVariable: Record<string, Record<string, () => void>> = {}
             const resolveVariable = (variableDefinition: VariableDefinition, name: string[], mode?: string) => {
-                if (!variableDefinition === undefined || variableDefinition === null) return
+                if (variableDefinition === undefined || variableDefinition === null) return
                 const addVariable = (
                     name: string[],
                     variable: any,
@@ -577,7 +577,7 @@ export default class MasterCSS {
                 for (let index = 0; index < sheet.cssRules.length; index++) {
                     const eachCSSRule = sheet.cssRules[index]
                     if (eachCSSRule === firstNative.cssRule) {
-                        for (let i = 0; i < rule.natives.length; i++) {
+                        for (const native of rule.natives) {
                             sheet.deleteRule(index)
                         }
                         break
@@ -1036,12 +1036,8 @@ export default class MasterCSS {
                     if (sheet) {
                         let cssRule: CSSRule | undefined
                         if (initializing) {
-                            for (let i = 0; i < sheet.cssRules.length; i++) {
-                                const eachCSSRule = sheet.cssRules[i]
-                                if (
-                                    eachCSSRule.constructor.name === 'CSSKeyframesRule'
-                                    && (eachCSSRule as CSSKeyframesRule).name === eachKeyframeName
-                                ) {
+                            for (const eachCSSRule of sheet.cssRules) {
+                                if (eachCSSRule.constructor.name === 'CSSKeyframesRule' && (eachCSSRule as CSSKeyframesRule).name === eachKeyframeName) {
                                     cssRule = eachCSSRule
                                     break
                                 }
@@ -1207,8 +1203,7 @@ export default class MasterCSS {
             cssRule: variableCSSRule,
             get text() {
                 const properties: string[] = []
-                for (let i = 0; i < variableCSSRule.style.length; i++) {
-                    const property = variableCSSRule.style[i]
+                for (const property of variableCSSRule.style) {
                     properties.push(property + ':' + (variableCSSRule as CSSStyleRule).style.getPropertyValue(property))
                 }
                 return prefix + properties.join(';') + suffix

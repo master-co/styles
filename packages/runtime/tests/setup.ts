@@ -2,7 +2,7 @@ import { Config } from '@master/css'
 import RuntimeCSS from '../src'
 import { beforeAll } from 'vitest'
 
-declare type PrerenderingCSSContext = {
+declare interface PrerenderingCSSContext {
     runtimeCSS: RuntimeCSS
     sheet: CSSStyleSheet
     preRenderedTexts: string[]

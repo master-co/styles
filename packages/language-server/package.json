@@ -5,7 +5,7 @@
         "build": "techor build \"src/**/*.ts\"",
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
-        "lint": "eslint src",
+        "lint": "eslint",
         "test": "vitest"
     },
     "description": "Master CSS Language Server",
@@ -20,7 +20,7 @@
         "@master/css": "workspace:^",
         "@master/css-explore-config": "workspace:^",
         "@master/css-language-service": "workspace:^",
-        "@techor/extend": "^3.0.22",
+        "@techor/extend": "^3.1.4",
         "fast-glob": "^3.3.2",
         "js-beautify": "^1.15.1",
         "nanoid": "^5.0.6",

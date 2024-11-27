@@ -4,7 +4,7 @@
     "scripts": {
         "build": "techor build \"src/**/*.ts\"",
         "dev": "pnpm build --watch",
-        "lint": "eslint ./src",
+        "lint": "eslint",
         "type-check": "tsc --noEmit",
         "test": "vitest"
     },
@@ -52,7 +52,7 @@
         "shared": "workspace:^"
     },
     "dependencies": {
-        "@techor/log": "^3.0.22",
-        "explore-config": "^3.0.22"
+        "@techor/log": "^3.1.4",
+        "explore-config": "^3.1.4"
     }
 }

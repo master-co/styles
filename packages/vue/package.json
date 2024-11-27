@@ -7,7 +7,7 @@
         "build": "pnpm run \"/^build:/\"",
         "dev": "pnpm run build:main --watch",
         "type-check": "vue-tsc --noEmit",
-        "lint": "eslint src",
+        "lint": "eslint",
         "e2e": "playwright test -c e2e/playwright-ct.config.ts"
     },
     "license": "MIT",
@@ -60,7 +60,7 @@
     },
     "dependencies": {
         "@master/css-runtime": "workspace:^",
-        "@techor/extend": "^3.0.17"
+        "@techor/extend": "^3.1.4"
     },
     "devDependencies": {
         "shared": "workspace:^",

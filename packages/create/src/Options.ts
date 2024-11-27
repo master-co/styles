@@ -1,4 +1,4 @@
-export type Options = {
+export interface Options {
     override: boolean
     ext: 'mjs' | 'ts' | 'js'
     pm: 'npm' | 'yarn' | 'pnpm' | 'bun'

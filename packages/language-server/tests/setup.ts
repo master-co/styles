@@ -7,7 +7,7 @@ import createDocument from '../src/utils/create-document'
 import { connect } from './connection'
 import { TextDocument } from 'vscode-languageserver-textdocument'
 
-declare type FixtureContext = {
+declare interface FixtureContext {
     server: CSSLanguageServer,
     fixtureDir: string,
     rootUri: string,

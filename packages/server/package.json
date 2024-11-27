@@ -4,7 +4,7 @@
     "scripts": {
         "build": "techor build \"src/**/*.ts\"",
         "dev": "pnpm build --watch",
-        "lint": "eslint ./src",
+        "lint": "eslint",
         "type-check": "tsc --noEmit",
         "test": "vitest"
     },

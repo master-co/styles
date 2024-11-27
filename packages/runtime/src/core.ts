@@ -73,12 +73,11 @@ export class RuntimeCSS extends MasterCSS {
                         }
                         break
                     case 'CSSStyleRule':
-                        // eslint-disable-next-line no-case-declarations
                         const selectorText = (eachCSSRule as CSSStyleRule).selectorText
                         if ((eachCSSRule as CSSStyleRule).style.length) {
                             let isVariablesRule = true
-                            for (let i = 0; i < (eachCSSRule as CSSStyleRule).style.length; i++) {
-                                if (!(eachCSSRule as CSSStyleRule).style[i]?.startsWith('--')) {
+                            for (const style of (eachCSSRule as CSSStyleRule).style) {
+                                if (!style.startsWith('--')) {
                                     isVariablesRule = false
                                     break
                                 }
@@ -111,8 +110,7 @@ export class RuntimeCSS extends MasterCSS {
                         const selectorTexts = cssRule.selectorText.split(', ')
                         const escapedClassNames = selectorTexts[0].split(' ')
 
-                        for (let i = 0; i < escapedClassNames.length; i++) {
-                            const eachSelectorText = escapedClassNames[i]
+                        for (const eachSelectorText of escapedClassNames) {
                             if (eachSelectorText[0] === '.') {
                                 const escapedClassName = eachSelectorText.slice(1)
 
@@ -147,8 +145,8 @@ export class RuntimeCSS extends MasterCSS {
                             }
                         }
                     } else if (cssRule.cssRules) {
-                        for (let index = 0; index < cssRule.cssRules.length; index++) {
-                            const currentRule = getRule(cssRule.cssRules[index])
+                        for (const rule of cssRule.cssRules) {
+                            const currentRule = getRule(rule)
                             if (currentRule)
                                 return currentRule
                         }
@@ -220,13 +218,10 @@ export class RuntimeCSS extends MasterCSS {
                 } else {
                     element.classList.forEach(addClassName)
                 }
-
                 const children = element.children
-                for (let i = 0; i < children.length; i++) {
-                    const eachChildren = children[i]
+                for (const eachChildren of children) {
                     if (eachChildren.classList && !updatedElements.includes(eachChildren)) {
                         updatedElements.push(eachChildren)
-
                         handleClassNameDeeply(eachChildren, remove)
                     }
                 }
@@ -249,8 +244,7 @@ export class RuntimeCSS extends MasterCSS {
             }
 
             const handleNodes = (nodes: HTMLCollection, remove: boolean) => {
-                for (let i = 0; i < nodes.length; i++) {
-                    const eachNode = nodes[i]
+                for (const eachNode of nodes) {
                     if (eachNode.classList && !updatedElements.includes(eachNode) && !unchangedElements.includes(eachNode)) {
                         if (eachNode.isConnected !== remove) {
                             updatedElements.push(eachNode)
@@ -262,8 +256,7 @@ export class RuntimeCSS extends MasterCSS {
                 }
             }
 
-            for (let i = 0; i < mutationRecords.length; i++) {
-                const mutationRecord = mutationRecords[i]
+            for (const mutationRecord of mutationRecords) {
                 const { addedNodes, removedNodes, type, target } = mutationRecord
                 if (type === 'attributes') {
                     /**
@@ -273,10 +266,7 @@ export class RuntimeCSS extends MasterCSS {
                      * Any call to setAttribute triggers a mutation,
                      * regardless of whether the value is being changed or set to the current value
                      */
-                    if (
-                        attributeMutationRecords
-                            .find((eachAttributeMutationRecord) => eachAttributeMutationRecord.target === target)
-                    ) {
+                    if (attributeMutationRecords.find((eachAttributeMutationRecord) => eachAttributeMutationRecord.target === target)) {
                         continue
                     } else {
                         /**

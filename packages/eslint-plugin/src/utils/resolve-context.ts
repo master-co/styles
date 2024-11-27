@@ -3,7 +3,7 @@ import settings, { Settings } from '../settings'
 import exploreConfig from '@master/css-explore-config'
 import { Config, MasterCSS } from '@master/css'
 
-declare type CSSCache = {
+declare interface CSSCache {
     cwd: string
     settings: Settings,
     css: MasterCSS,

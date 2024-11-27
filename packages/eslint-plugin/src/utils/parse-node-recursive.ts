@@ -120,7 +120,6 @@ export function parseNodeRecursive(rootNode, childNode, cb, skipConditional = fa
                 originalClassNamesValue = childNode.value.raw
                 start = childNode.range[0]
                 end = childNode.range[1]
-                // eslint-disable-next-line no-case-declarations
                 const txt = context?.sourceCode.getText(childNode) ?? ''
                 prefix = getTemplateElementPrefix(txt, originalClassNamesValue)
                 suffix = getTemplateElementSuffix(txt, originalClassNamesValue)

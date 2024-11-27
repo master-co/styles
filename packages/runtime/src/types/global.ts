@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 import type { Config } from '@master/css'
 import type { RuntimeCSS as _CSSRuntime } from '../core'
 

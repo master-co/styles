@@ -11,7 +11,7 @@ import { SERVER_CAPABILITIES } from '@master/css-language-service'
 import glob from 'fast-glob'
 import { URI } from 'vscode-uri'
 
-export declare type Workspace = {
+export declare interface Workspace {
     uri: string
     openedTextDocuments: TextDocument[]
     languageService?: CSSLanguageService
@@ -38,7 +38,7 @@ export default class CSSLanguageServer {
         this.settings = extend(settings, this.customSettings) as Settings
         this.console = new Proxy(this.connection.console, {
             get: (target, prop: keyof RemoteConsole) => {
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
+                 
                 if (!this.settings?.verbose) return () => { }
                 return this.connection.console[prop]
             }
@@ -64,7 +64,7 @@ export default class CSSLanguageServer {
 
     init() {
         if (this.initializing) return this.initializing
-        // eslint-disable-next-line no-async-promise-executor
+         
         return this.initializing = new Promise(async (resolve) => {
             await Promise.all(this.workspaceFolders.map((folder) => this.initWorkspaceFolder(folder.uri)))
             resolve()

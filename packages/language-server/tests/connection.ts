@@ -8,7 +8,7 @@ export function connect(settings?: Settings) {
             this.emit('data', chunk)
             callback()
         },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
+         
         read() {}
     } as DuplexOptions
     const input = new Duplex(duplexOptions)

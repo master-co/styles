@@ -46,8 +46,7 @@ export default function extendConfig(...configs: (Config | undefined)[]) {
         at: {},
         variables: {},
     }
-    for (let i = 0; i < formattedConfigs.length; i++) {
-        const currentFormattedConfig = formattedConfigs[i]
+    for (const currentFormattedConfig of formattedConfigs) {
         for (const key in currentFormattedConfig) {
             switch (key) {
                 case 'animations':

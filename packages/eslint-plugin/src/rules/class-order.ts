@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import defineVisitors from '../utils/define-visitors'
 import resolveContext from '../utils/resolve-context'
 import getTemplateElementBody from '../utils/get-template-element-body'

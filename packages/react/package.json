@@ -5,7 +5,7 @@
         "build": "techor build \"src/**/*.tsx\"",
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
-        "lint": "eslint src",
+        "lint": "eslint",
         "e2e": "playwright test -c e2e/playwright-ct.config.ts"
     },
     "license": "MIT",
@@ -62,8 +62,8 @@
         "@master/css-runtime": "workspace:^"
     },
     "devDependencies": {
-        "shared": "workspace:^",
         "@playwright/experimental-ct-react": "1.41.2",
-        "@playwright/test": "1.41.2"
+        "@playwright/test": "1.41.2",
+        "shared": "workspace:^"
     }
 }

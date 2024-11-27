@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "test": "vitest",
         "type-check": "tsc --noEmit",
-        "lint": "eslint src"
+        "lint": "eslint"
     },
     "keywords": [
         "mastercss",

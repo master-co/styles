@@ -4,7 +4,7 @@
     "scripts": {
         "build": "techor build",
         "dev": "pnpm build --watch",
-        "lint": "eslint ./src",
+        "lint": "eslint",
         "type-check": "tsc --noEmit",
         "test": "vitest"
     },
@@ -38,8 +38,8 @@
     },
     "dependencies": {
         "@master/css": "2.0.0-rc.38",
-        "@techor/fs": "^3.0.22",
-        "@techor/log": "^3.0.22",
+        "@techor/fs": "^3.1.4",
+        "@techor/log": "^3.1.4",
         "commander": "^12.0.0",
         "detect-package-manager": "^3.0.2",
         "giget": "^1.2.3",

@@ -292,7 +292,7 @@ export class Rule {
                                     switch (featureName) {
                                         case 'max-width':
                                         case 'min-width':
-                                            // eslint-disable-next-line no-case-declarations
+                                             
                                             if (typeof viewport === 'number') {
                                                 atComponents.push({
                                                     type: 'feature',
@@ -486,7 +486,7 @@ export class Rule {
         for (const eachValueComponent of valueComponents) {
             switch (eachValueComponent.type) {
                 case 'function':
-                    // eslint-disable-next-line no-case-declarations
+                     
                     const functionDefinition = functions && functions[eachValueComponent.name]
                     if (functionDefinition?.transform && !eachValueComponent.bypassTransform) {
                         const result = functionDefinition.transform.call(
@@ -511,7 +511,7 @@ export class Rule {
                     break
                 // todo: 應挪到 parseValues 階段處理才能支援 variables: { x: 'calc(20vw-30px)' } 這種情況，並且解析上可能會比較合理、精簡
                 case 'variable':
-                    // eslint-disable-next-line no-case-declarations
+                     
                     const variable = this.css.variables[eachValueComponent.name]
                     if (variable) {
                         const handleVariable = (
@@ -573,7 +573,7 @@ export class Rule {
                                 )
                                 break
                             case 'color':
-                                // eslint-disable-next-line no-case-declarations
+                                 
                                 const alpha = eachValueComponent.alpha ? '/' + eachValueComponent.alpha : ''
                                 handleVariable(
                                     (variable) => {
@@ -832,7 +832,7 @@ export interface Rule extends RegisteredRule {
     stateToken: string
     atToken: string
     hasWhere: boolean
-    valueComponents: Array<ValueComponent>
+    valueComponents: ValueComponent[]
 }
 
 export interface RegisteredRule {
@@ -877,7 +877,7 @@ export interface NativeRule {
     cssRule?: CSSRule
 }
 
-export type MediaFeatureComponent = {
+export interface MediaFeatureComponent {
     type: string
     tokenType?: string
     operator?: string
@@ -887,8 +887,6 @@ export type MediaFeatureComponent = {
 
 export interface MediaQuery {
     token: string;
-    features: {
-        [key: string]: MediaFeatureComponent
-    }
+    features: Record<string, MediaFeatureComponent>
     type?: string;
 }

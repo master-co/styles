@@ -12,7 +12,7 @@ import { TextDocument } from 'vscode-languageserver-textdocument'
 import findMatchingPairs from './utils/find-matching-brackets'
 import escapeRegexp from 'lodash.escaperegexp'
 
-export type ClassPosition = { range: { start: number, end: number }, raw: string, token: string }
+export interface ClassPosition { range: { start: number, end: number }, raw: string, token: string }
 
 export default class CSSLanguageService extends EventEmitter {
     css: MasterCSS
@@ -84,7 +84,7 @@ export default class CSSLanguageService extends EventEmitter {
             handle: (eachAttrStart: number, eachClassPositionEnd: number, eachClassMatcher: [string, string, string?]) => ClassPosition | undefined
         ) => {
             for (const eachClassMatcher of classMatchers) {
-                // eslint-disable-next-line prefer-const
+                 
                 let [eachPattern, start, end] = eachClassMatcher
                 end = end ?? start
                 for (const eachClassPostioinMatch of text.matchAll(new RegExp(`(?:\\s|\\.)${eachPattern}${(escapeRegexp(start))}`, 'g'))) {
