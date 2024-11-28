@@ -1538,8 +1538,8 @@ importers:
         version: 5.4.11(@types/node@20.17.9)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)
     devDependencies:
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.49.0
+        version: 1.49.0
       '@types/lodash.debounce':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1743,15 +1743,15 @@ importers:
         specifier: '>=15'
         version: 18.3.12
       react:
-        specifier: '>= 16.8.0'
+        specifier: '>=16.8.0'
         version: 18.3.1
     devDependencies:
       '@playwright/experimental-ct-react':
-        specifier: 1.41.2
-        version: 1.41.2(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(vite@6.0.1(@types/node@22.10.1)(jiti@2.4.0)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(tsx@4.19.2)(yaml@2.6.1))
+        specifier: 1.49.0
+        version: 1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(vite@6.0.1(@types/node@22.10.1)(jiti@2.4.0)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(tsx@4.19.2)(yaml@2.6.1))
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.49.0
+        version: 1.49.0
       shared:
         specifier: workspace:^
         version: link:../../shared
@@ -1763,8 +1763,8 @@ importers:
         version: link:../core
     devDependencies:
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.49.0
+        version: 1.49.0
       '@types/node':
         specifier: ^20.11.20
         version: 20.17.9
@@ -1804,11 +1804,11 @@ importers:
         specifier: workspace:^
         version: link:../server
       '@playwright/experimental-ct-svelte':
-        specifier: 1.41.2
-        version: 1.41.2(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.11(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)))(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(svelte@4.2.19)(terser@5.36.0)
+        specifier: 1.49.0
+        version: 1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(svelte@4.2.19)(terser@5.36.0)(vite@5.4.11(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0))
       '@playwright/test':
-        specifier: 1.41.2
-        version: 1.41.2
+        specifier: 1.49.0
+        version: 1.49.0
       '@sveltejs/adapter-auto':
         specifier: ^3.1.1
         version: 3.3.1(@sveltejs/kit@2.8.5(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.11(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)))(svelte@4.2.19)(vite@5.4.11(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)))
@@ -1958,9 +1958,18 @@ importers:
         specifier: ^0.2.1
         version: 0.2.2(@types/react-dom@18.3.1)(@types/react@18.3.12)(acorn@8.14.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
+      '@mdx-js/loader':
+        specifier: ^3.0.1
+        version: 3.1.0(acorn@8.14.0)(webpack@5.96.1(@swc/core@1.9.3(@swc/helpers@0.5.13)))
+      '@mdx-js/react':
+        specifier: ^3.0.1
+        version: 3.1.0(@types/react@18.3.12)(react@18.3.1)
       '@next/mdx':
         specifier: ^15.0.3
         version: 15.0.3(@mdx-js/loader@3.1.0(acorn@8.14.0)(webpack@5.96.1(@swc/core@1.9.3(@swc/helpers@0.5.13))))(@mdx-js/react@3.1.0(@types/react@18.3.12)(react@18.3.1))
+      '@types/mdx':
+        specifier: ^2.0.13
+        version: 2.0.13
       '@types/node':
         specifier: ^22.10.1
         version: 22.10.1
@@ -5637,39 +5646,23 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/experimental-ct-core@1.41.2':
-    resolution: {integrity: sha512-JtW7gjmBCeHWKmZcOPuoJ15i2ergVX9PnyYUrAvBbWL8l4X9B7Sblro8nE49hO9baANfEGl4BbRUaj+pA67F6w==}
-    engines: {node: '>=16'}
-    hasBin: true
-
   '@playwright/experimental-ct-core@1.49.0':
     resolution: {integrity: sha512-Tl/JekIQOyHIctFvzmHaSB8SuBTbOYcIdrb5HMwMc70i86XbPnQfDp65zgzAuvUiDN1u1k+aIpygJ8ZqnRYgVw==}
     engines: {node: '>=18'}
 
-  '@playwright/experimental-ct-react@1.41.2':
-    resolution: {integrity: sha512-BMcxh2DM3t8nMgUJKWMWAXGIzcYY/4w1ibckGP48edHU/cmZCbI5W7mUXfxMhYCt4mQJ1NuYcFIg5Jt+QVIuRQ==}
-    engines: {node: '>=16'}
+  '@playwright/experimental-ct-react@1.49.0':
+    resolution: {integrity: sha512-zkCKItOwMHJsyqXagYmpv/iVCjnjpT+NWvLS8HFec1HuU28kI3AhzcIhKJvZbQLiJV+fL99wFhcJnOjHZm5VAA==}
+    engines: {node: '>=18'}
     hasBin: true
 
-  '@playwright/experimental-ct-svelte@1.41.2':
-    resolution: {integrity: sha512-wZQeGckZMish7D7TNZjMvqxlZ65oflu34zxvg97LkE2BTXKT8PiTVoCyCjVgltVaErQJe2WThjvCqatnaxSHeQ==}
-    engines: {node: '>=16'}
+  '@playwright/experimental-ct-svelte@1.49.0':
+    resolution: {integrity: sha512-D/jrFOtYlpyuhqnLz7E06F/ezLa2CVTFaESPI/0dJev0q+PhH6znCocMeSnCDFciHrUuGQZdmLp4icRjA82rKw==}
+    engines: {node: '>=18'}
     hasBin: true
-    peerDependencies:
-      '@sveltejs/vite-plugin-svelte': ^3.0.0
-      svelte: ^4.0.0
-    peerDependenciesMeta:
-      '@sveltejs/vite-plugin-svelte':
-        optional: true
 
   '@playwright/experimental-ct-vue@1.49.0':
     resolution: {integrity: sha512-tbyk7YU1IQYTb/p0ZEdF6u/ffOVCYC4Y04vX1pVvHvfbB8OkbUmxhd4bFW+Iu7pcMO4Zkz4G4qiiTKU1+qU6AA==}
     engines: {node: '>=18'}
-    hasBin: true
-
-  '@playwright/test@1.41.2':
-    resolution: {integrity: sha512-qQB9h7KbibJzrDpkXkYvsmiDJK14FULCCZgEcoe2AvFAS64oCirWTwzTlAYEbKaRxWs5TFesE1Na6izMv3HfGg==}
-    engines: {node: '>=16'}
     hasBin: true
 
   '@playwright/test@1.49.0':
@@ -13377,19 +13370,9 @@ packages:
   pkg-types@1.2.1:
     resolution: {integrity: sha512-sQoqa8alT3nHjGuTjuKgOnvjo4cljkufdtLMnO2LBP/wRwuDlo1tkaEdMxCRhyGRPacv/ztlZgDPm2b7FAmEvw==}
 
-  playwright-core@1.41.2:
-    resolution: {integrity: sha512-VaTvwCA4Y8kxEe+kfm2+uUUw5Lubf38RxF7FpBxLPmGe5sdNkSg5e3ChEigaGrX7qdqT3pt2m/98LiyvU2x6CA==}
-    engines: {node: '>=16'}
-    hasBin: true
-
   playwright-core@1.49.0:
     resolution: {integrity: sha512-R+3KKTQF3npy5GTiKH/T+kdhoJfJojjHESR1YEWhYuEKRVfVaxH3+4+GvXE5xyCngCxhxnykk0Vlah9v8fs3jA==}
     engines: {node: '>=18'}
-    hasBin: true
-
-  playwright@1.41.2:
-    resolution: {integrity: sha512-v0bOa6H2GJChDL8pAeLa/LZC4feoAMbSQm1/jF/ySsWWoaNItvrMP7GEkvEEFyCTUYKMxjQKaTSg5up7nR6/8A==}
-    engines: {node: '>=16'}
     hasBin: true
 
   playwright@1.49.0:
@@ -22115,20 +22098,6 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@playwright/experimental-ct-core@1.41.2(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)':
-    dependencies:
-      playwright: 1.41.2
-      playwright-core: 1.41.2
-      vite: 4.5.5(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)
-    transitivePeerDependencies:
-      - '@types/node'
-      - less
-      - lightningcss
-      - sass
-      - stylus
-      - sugarss
-      - terser
-
   '@playwright/experimental-ct-core@1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)':
     dependencies:
       playwright: 1.49.0
@@ -22144,35 +22113,38 @@ snapshots:
       - sugarss
       - terser
 
-  '@playwright/experimental-ct-react@1.41.2(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(vite@6.0.1(@types/node@22.10.1)(jiti@2.4.0)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(tsx@4.19.2)(yaml@2.6.1))':
+  '@playwright/experimental-ct-react@1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(vite@6.0.1(@types/node@22.10.1)(jiti@2.4.0)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(tsx@4.19.2)(yaml@2.6.1))':
     dependencies:
-      '@playwright/experimental-ct-core': 1.41.2(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)
+      '@playwright/experimental-ct-core': 1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)
       '@vitejs/plugin-react': 4.3.4(vite@6.0.1(@types/node@22.10.1)(jiti@2.4.0)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(tsx@4.19.2)(yaml@2.6.1))
     transitivePeerDependencies:
       - '@types/node'
       - less
       - lightningcss
       - sass
+      - sass-embedded
       - stylus
       - sugarss
       - supports-color
       - terser
       - vite
 
-  '@playwright/experimental-ct-svelte@1.41.2(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.19)(vite@5.4.11(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)))(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(svelte@4.2.19)(terser@5.36.0)':
+  '@playwright/experimental-ct-svelte@1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(svelte@4.2.19)(terser@5.36.0)(vite@5.4.11(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0))':
     dependencies:
-      '@playwright/experimental-ct-core': 1.41.2(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)
-      svelte: 4.2.19
-    optionalDependencies:
+      '@playwright/experimental-ct-core': 1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)
       '@sveltejs/vite-plugin-svelte': 3.1.2(svelte@4.2.19)(vite@5.4.11(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0))
     transitivePeerDependencies:
       - '@types/node'
       - less
       - lightningcss
       - sass
+      - sass-embedded
       - stylus
       - sugarss
+      - supports-color
+      - svelte
       - terser
+      - vite
 
   '@playwright/experimental-ct-vue@1.49.0(@types/node@22.10.1)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(vite@6.0.1(@types/node@22.10.1)(jiti@2.4.0)(less@4.2.0)(sass@1.81.0)(terser@5.36.0)(tsx@4.19.2)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))':
     dependencies:
@@ -22189,10 +22161,6 @@ snapshots:
       - terser
       - vite
       - vue
-
-  '@playwright/test@1.41.2':
-    dependencies:
-      playwright: 1.41.2
 
   '@playwright/test@1.49.0':
     dependencies:
@@ -33804,15 +33772,7 @@ snapshots:
       mlly: 1.7.3
       pathe: 1.1.2
 
-  playwright-core@1.41.2: {}
-
   playwright-core@1.49.0: {}
-
-  playwright@1.41.2:
-    dependencies:
-      playwright-core: 1.41.2
-    optionalDependencies:
-      fsevents: 2.3.2
 
   playwright@1.49.0:
     dependencies:

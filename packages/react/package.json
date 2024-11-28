@@ -56,14 +56,14 @@
     },
     "peerDependencies": {
         "@types/react": ">=15",
-        "react": ">= 16.8.0"
+        "react": ">=16.8.0"
     },
     "dependencies": {
         "@master/css-runtime": "workspace:^"
     },
     "devDependencies": {
-        "@playwright/experimental-ct-react": "1.41.2",
-        "@playwright/test": "1.41.2",
+        "@playwright/experimental-ct-react": "1.49.0",
+        "@playwright/test": "1.49.0",
         "shared": "workspace:^"
     }
 }
