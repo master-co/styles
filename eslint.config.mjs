@@ -1,7 +1,6 @@
 import techor from 'eslint-config-techor'
-import tseslint from 'typescript-eslint'
 
-export default tseslint.config(
+export default [
     techor.configs.base,
     techor.configs.stylistic
-)
+]

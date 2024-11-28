@@ -11,10 +11,10 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
-export default async function Page(props: any) {
+export default async function Page() {
     return (
         <>
-            <Layout {...props} pageDirname={__dirname} metadata={metadata} toc={toc} >
+            <Layout pageDirname={__dirname} metadata={metadata} toc={toc} >
                 <Content />
             </Layout >
         </>
