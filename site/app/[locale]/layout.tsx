@@ -4,15 +4,16 @@ import app from '~/site/app'
 import redirects from '~/site/redirects.mjs'
 import cssConfig from '~/site/master.css'
 
-export default function Layout({ children, params }: {
+export default async function Layout({ children, params }: {
     children: JSX.Element,
-    params: { locale: typeof i18n.locales[number] }
+    params: Promise<{ locale: typeof i18n.locales[number] }>
 }) {
+    const { locale } = await params
     return (
         <RootLayout
             app={app}
             cssConfig={cssConfig}
-            locale={params.locale}
+            locale={locale}
             redirects={redirects}
         >
             {children}
