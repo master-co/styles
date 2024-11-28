@@ -4,5 +4,9 @@ import recommended from './recommended'
 export default {
     plugins: ['@master/css'],
     rules: recommended.rules,
-    parserOptions: recommended.languageOptions.parserOptions
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true
+        }
+    }
 } as Linter.LegacyConfig

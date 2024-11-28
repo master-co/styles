@@ -5,7 +5,7 @@ module.exports = {
     ],
     overrides: [
         {
-            files: [ '*.html'],
+            files: ['*.html'],
             parser: '@angular-eslint/template-parser'
         }
     ],

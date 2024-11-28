@@ -1,10 +1,23 @@
 import css from '@master/eslint-config-css'
-import htmlParser from '@angular-eslint/template-parser'
+import htmlParser from "@angular-eslint/template-parser"
+import tsParser from '@typescript-eslint/parser'
 import mdx from 'eslint-plugin-mdx'
-import tseslint from 'typescript-eslint'
 
 /** @type {import('eslint').Linter.Config[]} */
-export default tseslint.config(
+export default [
+    {
+        files: ['**/*.html'],
+        languageOptions: {
+            parser: htmlParser
+        }
+    },
+    {
+        files: ['**/*.ts', '**/*.tsx'],
+        languageOptions: {
+            parser: tsParser
+        }
+    },
+    mdx.flat,
     css,
     {
         rules: {
@@ -13,15 +26,7 @@ export default tseslint.config(
             }],
         },
         settings: {
-            'mdx/code-blocks': true,
+            'mdx/code-blocks': true
         },
     },
-    {
-        files: ['**/*.html'],
-        languageOptions: {
-            parser: htmlParser
-        }
-    },
-    mdx.configs.flat,
-    tseslint.configs.recommended,
-)
+]
