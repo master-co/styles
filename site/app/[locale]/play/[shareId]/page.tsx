@@ -13,7 +13,7 @@ export const revalidate = false
 export async function generateMetadata(props: any, parent: any) {
     const app = initializeApp(firebaseConfig)
     const db = getFirestore(app)
-    const { shareId } = props.params
+    const { shareId } = await props.params
     const shareItemRef = doc(db, `sandbox/${shareId}`)
     const data = await getDoc(shareItemRef)
     let shareItem
@@ -24,7 +24,7 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate({
         ...metadata,
         openGraph: {
-            title: `Play #${props.params.shareId}`,
+            title: `Play #${shareId}`,
             description: shareItem?.createdAt ? `${dateTime.format('MMMM D YYYY')}, at ${dateTime.format('hh:mm:ss A')}` : metadata.description
         },
         category: `v${shareItem?.version}`,
