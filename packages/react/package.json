@@ -55,15 +55,15 @@
         "provenance": true
     },
     "peerDependencies": {
-        "@types/react": ">=15",
-        "react": ">=16.8.0"
+        "@types/react": ">=16",
+        "react": ">=16"
     },
     "dependencies": {
         "@master/css-runtime": "workspace:^"
     },
     "devDependencies": {
-        "@playwright/experimental-ct-react": "1.49.0",
-        "@playwright/test": "1.49.0",
+        "@playwright/experimental-ct-react": "^1.49.0",
+        "@playwright/test": "^1.49.0",
         "shared": "workspace:^"
     }
 }
