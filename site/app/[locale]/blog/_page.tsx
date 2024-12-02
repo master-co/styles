@@ -19,7 +19,8 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
-export default function Page(props: any) {
+export default async function Page(props: any) {
+    const { locale } = await props.params
     return <>
         <DocHeader />
         <main className='app-doc-main max-w:screen-xl'>
@@ -43,7 +44,7 @@ export default function Page(props: any) {
                         })}
                 </div>
             </Article>
-            <DocFooter locale={props.params.locale} />
+            <DocFooter locale={locale} />
         </main>
     </>
 

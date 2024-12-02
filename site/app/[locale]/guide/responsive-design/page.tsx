@@ -13,9 +13,10 @@ export async function generateMetadata(props: any, parent: any) {
 }
 
 export default async function Page(props: any) {
+    const { locale } = await props.params
     return (
         <Layout {...props} $type="prose" pageCategories={getUnitCategories('guide')} pageDirname={__dirname} metadata={metadata} toc={toc}>
-            <link rel="preload" href={'/' + props.params.locale + '/examples/responsive-gallery'} as="document" />
+            <link rel="preload" href={'/' + locale + '/examples/responsive-gallery'} as="document" />
             <Content />
         </Layout >
     )

@@ -4,7 +4,8 @@ import DocLayout from 'internal/layouts/doc'
 import brands from 'internal/data/brands'
 
 export default async function Layout(props: any) {
-    const $ = await createTranslation(props.params.locale)
+    const { locale } = await props.params
+    const $ = createTranslation(locale)
     return (
         <DocLayout {...props}
             metadata={{
