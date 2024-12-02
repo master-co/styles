@@ -3,7 +3,7 @@ import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
 import Layout from 'internal/layouts/doc'
 import { getUnitCategories } from '~/site/metadata'
-import ESLintSvg from '~/site/public/icons/eslint.svg?inlineSvg'
+import ESLintSvg from '~/site/public/icons/eslint.svg'
 
 export const dynamic = 'force-static'
 export const revalidate = false

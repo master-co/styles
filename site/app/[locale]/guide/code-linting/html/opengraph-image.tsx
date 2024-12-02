@@ -1,7 +1,7 @@
 import { Props } from 'internal/types/Props'
 import create from 'internal/utils/og-image'
 import metadata from './metadata'
-import Icon from '~/site/public/icons/html.svg?inlineSvg'
+import Icon from '~/site/public/icons/html.svg'
 import type { AbsoluteTemplateString } from 'next/dist/lib/metadata/types/metadata-types'
 
 export const alt = (metadata.title as AbsoluteTemplateString)?.absolute || metadata.title as string

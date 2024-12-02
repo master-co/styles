@@ -3,7 +3,7 @@ import { getUnitCategories } from '~/site/metadata'
 import metadata from './metadata'
 import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
-import LogoSvg from '~/site/public/images/frameworks/angular.svg?inlineSvg'
+import LogoSvg from '~/site/public/images/frameworks/angular.svg'
 
 export const dynamic = 'force-static'
 export const revalidate = false
