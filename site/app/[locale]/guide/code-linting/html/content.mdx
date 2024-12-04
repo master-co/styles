@@ -12,29 +12,30 @@
     </Step>
     <Step $row>
         <StepL>
-            ### <StepNum />Set up your config
-            Create [`.eslintrc.json`](https://eslint.org/docs/latest/use/getting-started) if you don't have one.
-            - Add `@master/css` to the `extends` section.
-            - Add `@angular-eslint/template-parser` to the `overrides` section.
+            ### <StepNum />Set up ESLint config
+            Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.mjs`](https://eslint.org/docs/latest/use/getting-started).
+
+            - Use `@angular-eslint/template-parser` to parse `.html` files.
         </StepL>
         <StepR>
-            ```json name=.eslintrc.json
-            {
-                "extends": ["@master/css"],
-                "overrides": [
-                    {
-                        "files": ["*.html"],
-                        "parser": "@angular-eslint/template-parser"
-                    }
-                ]
-            }
+            ```js name=eslint.config.mjs
+            import htmlParser from "@angular-eslint/template-parser"
+            import css from '@master/eslint-config-css'
+
+            export default [
+                {
+                    files: ['**/*.html'],
+                    languageOptions: { parser: htmlParser }
+                },
+                css
+            ]
             ```
         </StepR>
     </Step>
     <Step>
         ### <StepNum />Start linting your code
         ```bash
-        npx eslint *.html
+        npx eslint
         ```
     </Step>
 </StepSection>
