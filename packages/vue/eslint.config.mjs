@@ -1,20 +1,22 @@
 import common from '../../eslint.config.mjs'
-import techor from 'eslint-config-techor'
 import vue from 'eslint-plugin-vue'
+import vueTS from '@vue/eslint-config-typescript'
+import playwright from 'eslint-plugin-playwright'
 
 export default [
     ...common,
-    techor.configs.typescript,
     ...vue.configs['flat/essential'],
+    ...vueTS(),
     {
-        files: ['**/*.vue'],
+        ...playwright.configs['flat/recommended'],
+        files: ['e2e/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    },
+    { files: ['**/*.{ts,mts,tsx,vue}'] },
+    { ignores: ['**/.cache/**'] },
+    {
         rules: {
+            '@typescript-eslint/no-explicit-any': 'off',
             'vue/multi-word-component-names': 'off'
-        },
-        languageOptions: {
-            parserOptions: {
-                parser: '@typescript-eslint/parser'
-            }
         }
-    }
+    },
 ]
