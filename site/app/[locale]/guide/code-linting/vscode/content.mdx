@@ -16,7 +16,7 @@ import VSCodeSvg from '~/site/public/icons/visualstudiocode.svg'
     <Step $row>
         <StepL>
             ### <StepNum />Install Master CSS ESLint
-            Install the Master CSS ESLint Config into your project via package managers.
+            Install the Master CSS ESLint Configuration into your project via package managers.
         </StepL>
         <StepR>
             ```install
@@ -27,44 +27,30 @@ import VSCodeSvg from '~/site/public/icons/visualstudiocode.svg'
     <Step $row>
         <StepL>
             ### <StepNum />Set up ESLint config
-            Create [`.eslintrc.json`](https://eslint.org/docs/latest/use/getting-started) if you don't have one.
-            - Add `@master/css` to the `extends` section.
+            Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.mjs`](https://eslint.org/docs/latest/use/getting-started).
+
+            To find the [setup guide](/guide/code-linting#setup-guides) for your language parser.
         </StepL>
         <StepR>
-            ```json name=.eslintrc.json
-            {
-                "extends": ["@master/css"]
-            }
+            ```js name=eslint.config.mjs
+            import css from '@master/eslint-config-css'
+
+            export default [
+                css
+            ]
             ```
         </StepR>
     </Step>
     <Step $row>
         <StepL>
             ### <StepNum />Add VS Code settings
-            Create a `.vscode/settings.json` or set it in [user settings](https://code.visualstudio.com/docs/getstarted/settings).
-
-            - Add `@master/css/class-order` to the `eslint.codeActionsOnSave.rules` section.
-            - Add the language you want to lint to `eslint.validate`. The VSCode ESLint targets only `javascript` or `javascriptreact` files by default.
+            Add `@master/css/class-order` to the `eslint.codeActionsOnSave.rules` section in [user settings](https://code.visualstudio.com/docs/getstarted/settings).
         </StepL>
         <StepR>
             ```json name=.vscode/settings.json
             {
                 "eslint.codeActionsOnSave.rules": [
                     "@master/css/class-order"
-                ],
-                "eslint.validate": [
-                    "html",
-                    "php",
-                    "javascript",
-                    "typescript",
-                    "javascriptreact",
-                    "typescriptreact",
-                    "vue",
-                    "svelte",
-                    "rust",
-                    "astro",
-                    "markdown",
-                    "mdx"
                 ]
             }
             ```
