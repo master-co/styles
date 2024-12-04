@@ -6,40 +6,37 @@
         </StepL>
         <StepR>
             ```install
-            -D @master/eslint-config-css@rc vue-eslint-parser eslint
+            -D @master/eslint-config-css@rc eslint-plugin-vue @vue/eslint-config-typescript eslint
             ```
         </StepR>
     </Step>
     <Step $row>
         <StepL>
-            ### <StepNum />Set up your config
-            Create [`.eslintrc.json`](https://eslint.org/docs/latest/use/getting-started) if you don't have one.
-            - Add `@master/css` to the `extends` section.
-            - Add `vue-eslint-parser` to the `overrides` section.
+            ### <StepNum />Set up ESLint config
+            Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.mjs`](https://eslint.org/docs/latest/use/getting-started).
+
+            It is recommended to refer to the [official guide](https://eslint.vuejs.org).
         </StepL>
         <StepR>
-            ```json name=.eslintrc.json
-            {
-                "extends": ["@master/css"],
-                "parserOptions": {
-                    "ecmaFeatures": {
-                        "jsx": true
-                    }
-                },
-                "overrides": [
-                    {
-                        "files": ["*.vue"],
-                        "parser": "vue-eslint-parser"
-                    }
-                ]
-            }
+            ```js name=eslint.config.mjs
+            import vue from 'eslint-plugin-vue'
+            import vueTS from '@vue/eslint-config-typescript'
+            import css from '@master/eslint-config-css'
+
+            export default [
+                { files: ['**/*.{ts,mts,tsx,vue}'] },
+                { ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'] },
+                ...vue.configs['flat/essential'],
+                ...vueTS(),
+                css
+            ]
             ```
         </StepR>
     </Step>
     <Step>
         ### <StepNum />Start linting your code
         ```bash
-        npx eslint *.vue
+        npx eslint
         ```
     </Step>
 </StepSection>
