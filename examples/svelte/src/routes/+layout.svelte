@@ -1,17 +1,18 @@
 <script lang="ts">
-    import { onMount, type ComponentType } from "svelte";
-    import { type CSSRuntimeProvider as CSSProviderType, Fragment } from "@master/css.svelte";
+    import { onMount } from "svelte";
+    import { type CSSRuntimeProvider as CSSRuntimeProviderType, Fragment } from "@master/css.svelte";
     import Header from "./Header.svelte";
     import "./styles.css";
 
-    let CSSRuntimeProvider: ComponentType<CSSProviderType> = Fragment as any;
+    let CSSRuntimeProvider = Fragment as typeof CSSRuntimeProviderType;
 
     onMount(async () => {
-        CSSRuntimeProvider = (await import("@master/css.svelte")).default;
+        CSSRuntimeProvider = (await import("@master/css.svelte"))
+            .default
     });
 </script>
 
-<svelte:component this={CSSRuntimeProvider} config={import("../../master.css")}>
+<CSSRuntimeProvider config={import("../../master.css")}>
     <div class="app">
         <Header />
 
@@ -26,7 +27,7 @@
             </p>
         </footer>
     </div>
-</svelte:component>
+</CSSRuntimeProvider>
 
 <style>
     .app {
