@@ -1,12 +1,14 @@
 import type { Config } from '@master/css'
 
-export default {
+const config: Config = {
     styles: {},
-    rules: {},
+    syntaxes: {},
     variables: {},
     utilities: {},
     at: {},
     animations: {},
     selectors: {},
     functions: {}
-} as Config
+}
+
+export default config

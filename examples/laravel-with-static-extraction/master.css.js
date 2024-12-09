@@ -1,7 +1,7 @@
 /** @type {import('@master/css').Config} */
 export default {
     styles: {},
-    rules: {},
+    syntaxes: {},
     variables: {},
     utilities: {},
     breakpoints: {},
