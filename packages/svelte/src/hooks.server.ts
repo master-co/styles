@@ -1,8 +1,10 @@
 import { render } from '@master/css-server'
+import type { Handle } from '@sveltejs/kit'
 
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
+const handle: Handle = async ({ event, resolve }) => {
     return await resolve(event, {
         transformPageChunk: ({ html }) => render(html).html
     })
 }
+
+export default handle

@@ -1,10 +1,9 @@
 <script lang="ts">
     import type { Config } from "@master/css";
     import RuntimeCSS from "@master/css-runtime";
-    import { onMount, setContext, afterUpdate, onDestroy } from "svelte";
+    import { onMount, setContext, onDestroy } from "svelte";
     import { writable } from "svelte/store";
-    export let config: Config | Promise<Config> | Promise<any> | undefined =
-        undefined;
+    export let config: Config | Promise<Config | unknown> | undefined
     export let root: Document | ShadowRoot | undefined = undefined;
     const runtimeCSS = writable<RuntimeCSS>();
 
@@ -14,7 +13,8 @@
 
     const getResolvedConfig = async () => {
         if (config instanceof Promise) {
-            const configModule: any = await config;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const configModule = await config as any
             return (
                 configModule?.config || configModule?.default || configModule
             );
@@ -26,7 +26,7 @@
         initializing = true;
 
         const currentRoot = root ?? document;
-        const existingCSSRuntime = (globalThis as any).runtimeCSSs.find(
+        const existingCSSRuntime = globalThis.runtimeCSSs.find(
             (eachCSS: RuntimeCSS) => eachCSS.root === currentRoot,
         );
         if (existingCSSRuntime) {
@@ -56,18 +56,17 @@
                 }, 10);
             });
         }
-        return currentIdentifier === identifier
+        return currentIdentifier === identifier;
     };
 
     onMount(async () => await init());
 
-    const getRuntimeCSS = () => $runtimeCSS
+    const getRuntimeCSS = () => $runtimeCSS;
     $: {
-        const currentRuntimeCSS = getRuntimeCSS()
+        const currentRuntimeCSS = getRuntimeCSS();
         if (currentRuntimeCSS) {
             (async () => {
-                if (!await waitInitialized())
-                    return
+                if (!(await waitInitialized())) return;
 
                 if (
                     currentRuntimeCSS.root !== root &&
@@ -76,19 +75,20 @@
                     currentRuntimeCSS.destroy();
                     await init(await getResolvedConfig());
                 }
-            })()
+            })();
         }
     }
 
     $: {
-        const currentRuntimeCSS = getRuntimeCSS()
+        const currentRuntimeCSS = getRuntimeCSS();
         if (currentRuntimeCSS) {
             (async () => {
-                if (!await waitInitialized())
-                    return
+                if (!(await waitInitialized())) return;
 
-                currentRuntimeCSS.refresh(config && await getResolvedConfig());
-            })()
+                currentRuntimeCSS.refresh(
+                    config && (await getResolvedConfig()),
+                );
+            })();
         }
     }
 
