@@ -3,22 +3,25 @@ import settings from '~/site/../packages/eslint-plugin/src/settings'
 ---
 
 ## Configuring
-### Flat
-Use the ESLint v9's new flat configuration.
+Use the latest flat configuration.
 ```js name=eslint.config.js
-import css from '@master/eslint-config-css/flat'
+import css from '@master/eslint-config-css'
 
 export default [
     css
 ]
 ```
-### Legacy
-Or compatible with ESLint legacy configurations.
-```json name=.eslintrc.json
-{
-    "extends": ["@master/css"]
-}
-```
+<details>
+    <summary>Legacy</summary>
+    <div>
+        ```js name=eslint.config.js
+        {
+            "extends": ["@master/css"]
+        }
+        ```
+    </div>
+</details>
+
 To learn more about features, check out the [Code Linting](/guide/code-linting).
 
 ---
@@ -26,42 +29,50 @@ To learn more about features, check out the [Code Linting](/guide/code-linting).
 ## Rules
 ### Class Order
 Enforce a consistent and logical order of classes.
-```json name=.eslintrc.json
-{
-    "rules": {
-        "@master/css/class-order": "warn"
+```js name=eslint.config.js
+export default [
+    {
+        rules: {
+            "@master/css/class-order": "warn"
+        }
     }
-}
+]
 ```
 
 ### Class Validation
 Detect syntax errors early when writing classes.
-```json name=.eslintrc.json
-{
-    "rules": {
-        "@master/css/class-validation": "error"
+```js name=eslint.config.js
+export default [
+    {
+        rules: {
+            "@master/css/class-validation": "error"
+        }
     }
-}
+]
 ```
 Set `disallowUnknownClass: true` to disallow unknow classes and enforce strict checks:
-```json name=.eslintrc.json
-{
-    "rules": {
-        "@master/css/class-validation": ["error", {
-            "disallowUnknownClass": true
-        }]
+```js name=eslint.config.js
+export default [
+    {
+        rules: {
+            "@master/css/class-validation": ["error", {
+                "disallowUnknownClass": true
+            }]
+        }
     }
-}
+]
 ```
 
 ### Class Collision
 Avoid applying classes with the same CSS declaration.
-```json name=.eslintrc.json
-{
-    "rules": {
-        "@master/css/class-collision": "warn"
+```js name=eslint.config.js
+export default [
+    {
+        rules: {
+            "@master/css/class-collision": "warn"
+        }
     }
-}
+]
 ```
 
 ---
@@ -69,70 +80,97 @@ Avoid applying classes with the same CSS declaration.
 ## Settings
 ### `classAttributes`
 Specify the element attribute containing classes.
-<Code lang="json" name=".eslintrc.json" beautify>
+<Code lang="js" name="eslint.config.js" beautify>
 {`
-    {
-        "settings": {
-            "@master/css": {
-                "classAttributes": ${JSON.stringify(settings.classAttributes, null, 4)}
+    export default [
+        {
+            settings: {
+                "@master/css": {
+                    "classAttributes": ${JSON.stringify(settings.classAttributes, null, 4)}
+                }
             }
         }
-    }
+    ]
 `}
 </Code>
 
 ### `classFunctions`
 Specify the names of the function to check its arguments.
-<Code lang="json" name=".eslintrc.json" beautify>
+<Code lang="js" name="eslint.config.js" beautify>
 {`
-    {
-        "settings": {
-            "@master/css": {
-                "classFunctions": ${JSON.stringify(settings.classFunctions, null, 4)}
+    export default [
+        {
+            settings: {
+                "@master/css": {
+                    "classFunctions": ${JSON.stringify(settings.classFunctions, null, 4)}
+                }
             }
         }
-    }
+    ]
 `}
 </Code>
 
 ### `classDeclarations`
 Specify the names of the variable/member to check its declarations.
-<Code lang="json" name=".eslintrc.json" beautify>
+<Code lang="js" name="eslint.config.js" beautify>
 {`
-    {
-        "settings": {
-            "@master/css": {
-                "classDeclarations": ${JSON.stringify(settings.classDeclarations, null, 4)}
+    export default [
+        {
+            settings: {
+                "@master/css": {
+                    "classDeclarations": ${JSON.stringify(settings.classDeclarations, null, 4)}
+                }
             }
         }
-    }
+    ]
 `}
 </Code>
 
 ### `ignoredKeys`
 Specifies object keys to ignore checking.
-<Code lang="json" name=".eslintrc.json" beautify>
+<Code lang="js" name="eslint.config.js" beautify>
 {`
-    {
-        "settings": {
-            "@master/css": {
-                "ignoredKeys": ${JSON.stringify(settings.ignoredKeys, null, 4)}
+    export default [
+        {
+            settings: {
+                "@master/css": {
+                    "ignoredKeys": ${JSON.stringify(settings.ignoredKeys, null, 4)}
+                }
             }
         }
-    }
+    ]
 `}
 </Code>
 
 ### `config`
-Specify a custom Master CSS configuration or path.
-<Code lang="json" name=".eslintrc.json">
+Specify a custom Master CSS configuration or path. By default, it reads a module named `master.css.*` based on the current working directory.
+<Code lang="js" name="eslint.config.js">
 {`
+    export default [
+        {
+            settings: {
+                "@master/css": {
+                    config: "${settings.config}"
+                }
+            }
+        }
+    ]
+`}
+</Code>
+If the `master.css` module cannot be found, you can specify the path:
+```js name=eslint.config.js
+import { fileURLToPath } from 'node:url'
+
+export default [
     {
-        "settings": {
+        settings: {
             "@master/css": {
-                "config": "${settings.config}"
+                config: fileURLToPath(new URL('master.css.ts', import.meta.url))
             }
         }
     }
-`}
-</Code>
+]
+```
+
+
+
