@@ -7,7 +7,7 @@ test('class changed', async ({ page, mount }) => {
     const app = await mount(App)
     await app.waitFor({ state: 'visible' })
 
-    const $button = await page.$('#config-btn')
+    const $button = page.locator('#config-btn')
     await $button?.evaluateHandle(($button) => $button.classList.add('f:10'))
     expect(await page.evaluate(() => globalThis.runtimeCSS.classesUsage)).toEqual({
         'bg:blue-50': 1,
@@ -24,7 +24,7 @@ test('config changed', async ({ page, mount }) => {
     await mount(App)
     expect(await page.evaluate(() => globalThis.runtimeCSS.text)).toContain('.btn{border:0.125rem rgb(var(--red)) solid}')
 
-    const $button = await page.$('#config-btn')
+    const $button = page.locator('#config-btn')
     await $button?.click()
     expect(await page.evaluate(() => globalThis.runtimeCSS.text)).not.toContain('.btn{border:0.125rem rgb(var(--red)) solid}')
 })
@@ -32,7 +32,7 @@ test('config changed', async ({ page, mount }) => {
 test('root changed', async ({ page, mount }) => {
     await mount(App)
 
-    const $button = await page.$('#root-btn')
+    const $button = page.locator('#root-btn')
     await $button?.click()
     expect(await page.evaluate(() => globalThis.runtimeCSSs[0].classesUsage)).toEqual({
         'f:1000': 1

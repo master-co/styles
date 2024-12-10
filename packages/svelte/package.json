@@ -10,7 +10,7 @@
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
         "e2e": "playwright test -c playwright-ct.config.ts",
-        "lint": "eslint ."
+        "lint": "eslint"
     },
     "license": "MIT",
     "description": "Integrate Master CSS in Svelte way",

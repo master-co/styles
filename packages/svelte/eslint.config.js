@@ -4,6 +4,8 @@ import svelte from 'eslint-plugin-svelte'
 import globals from 'globals'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript-eslint'
+import playwright from 'eslint-plugin-playwright'
+
 const gitignorePath = fileURLToPath(new URL("./.gitignore", import.meta.url))
 
 export default ts.config(
@@ -27,5 +29,9 @@ export default ts.config(
                 parser: ts.parser
             }
         }
-    }
+    },
+    {
+        ...playwright.configs['flat/recommended'],
+        files: ['e2e/**/*.{test,spec}.{js,ts,jsx,tsx}'],
+    },
 )
