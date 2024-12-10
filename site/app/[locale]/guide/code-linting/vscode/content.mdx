@@ -27,12 +27,12 @@ import VSCodeSvg from '~/site/public/icons/visualstudiocode.svg'
     <Step $row>
         <StepL>
             ### <StepNum />Set up ESLint config
-            Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.mjs`](https://eslint.org/docs/latest/use/getting-started).
+            Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.js`](https://eslint.org/docs/latest/use/getting-started).
 
             To find the [setup guide](/guide/code-linting#setup-guides) for your language parser.
         </StepL>
         <StepR>
-            ```js name=eslint.config.mjs
+            ```js name=eslint.config.js
             import css from '@master/eslint-config-css'
 
             export default [

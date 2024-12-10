@@ -6,16 +6,16 @@
         </StepL>
         <StepR>
             ```install
-            -D @master/eslint-config-css@rc eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-react-refresh @eslint/js @eslint/compat globals typescript-eslint eslint
+            -D @master/eslint-config-css@rc eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-react-refresh @eslint/compat globals typescript-eslint eslint
             ```
         </StepR>
     </Step>
     <Step $row>
         <StepL>
             ### <StepNum />Set up ESLint config
-            Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.mjs`](https://eslint.org/docs/latest/use/getting-started).
+            Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.js`](https://eslint.org/docs/latest/use/getting-started).
 
-            ```js name=eslint.config.mjs
+            ```js name=eslint.config.js
             import js from '@eslint/js'
             import { includeIgnoreFile } from '@eslint/compat'
             import { fileURLToPath } from 'node:url';
