@@ -178,7 +178,6 @@ export default function Play(props: any) {
                     bodyInnerHTML += content
                     return
                 case 'javascript':
-                    // eslint-disable-next-line no-case-declarations
                     let eachScriptHTML = getScriptHTML({ ...eachFile, text: content })
                     if (eachFile.name === 'master.css.js') {
                         eachScriptHTML = eachScriptHTML
@@ -245,7 +244,6 @@ export default function Play(props: any) {
         }
     }, [tab, generatedCSSText, shareItem.files])
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const hotUpdatePreviewByFile = useCallback(debounce(250, () => {
         if (editorRef.current) {
             tabFile.content = editorRef.current?.getValue()
@@ -272,7 +270,6 @@ export default function Play(props: any) {
     // dispose monaco providers
     useEffect(() => {
         return () => {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
             monacoProvidersRef.current.forEach((provider: any) => {
                 provider.dispose()
             })
@@ -289,7 +286,6 @@ export default function Play(props: any) {
             }
             switch (type) {
                 case 'cssUpdate':
-                    // eslint-disable-next-line no-case-declarations
                     const cssText = content ? beautifyCSS(content) : ''
                     setGeneratedCSSSize(Math.round(new TextEncoder().encode(content).length / 1024 * 100) / 100 + 'KB')
                     setGeneratedCSSText(cssText)

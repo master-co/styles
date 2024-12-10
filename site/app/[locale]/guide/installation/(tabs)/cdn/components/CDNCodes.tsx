@@ -1,6 +1,6 @@
 import CodeTabs from 'internal/components/CodeTabs'
 
-export default () => <CodeTabs children={[
+export default () => <CodeTabs>{[
     {
         name: 'iife.html',
         lang: 'html',
@@ -55,4 +55,4 @@ export default () => <CodeTabs children={[
         </html>
     `
     }
-]} />
+]}</CodeTabs>

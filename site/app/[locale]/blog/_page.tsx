@@ -1,5 +1,3 @@
-'use client'
-
 import Article from 'internal/components/Article'
 import DocHeader from 'internal/components/DocHeader'
 import DocFooter from 'internal/components/DocFooter'
