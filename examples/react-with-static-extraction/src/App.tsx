@@ -6,7 +6,7 @@ function App() {
     const [count, setCount] = useState(0)
     return (
         <>
-            <div className='grid-cols:2 w:fit mx:auto'>
+            <div className='grid-cols:2 mx:auto w:fit'>
                 <a href="https://rc.css.master.co" target="_blank">
                     <img src={masterLogo} className="logo master scale(2)" alt="Master logo" />
                 </a>
@@ -14,7 +14,7 @@ function App() {
                     <img src={reactLogo} className="logo react" alt="React logo" />
                 </a>
             </div>
-            <h1 className="font:sans tracking:-.25 font:heavy">
+            <h1 className="font:heavy font:sans tracking:-.25">
                 <span>Master CSS</span> <span className="fg:#00D8FF">React</span>
             </h1>
             <div className="card">
