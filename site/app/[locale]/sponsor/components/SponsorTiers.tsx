@@ -15,11 +15,11 @@ export default function SponsorTiers() {
             <button key={eachSponsorTier.name} className="app-object app-object-interactive flex:col@<lg gap:20 p:25|30 r:5" onClick={() => setSelectedTier(eachSponsorTier)}>
                 <div className="font:48">{eachSponsorTier.icon}</div>
                 <div className='flex:1 text:left'>
-                    <div className="text:16 uppercase::first-letter fg:strong font:semibold">{eachSponsorTier.name}</div>
+                    <div className="uppercase::first-letter fg:strong font:semibold text:16">{eachSponsorTier.name}</div>
                     {eachSponsorTier.amount && (
-                        <div className="text:14 font:bold">
+                        <div className="font:bold text:14">
                             {eachSponsorTier.amount}
-                            <span className="text:12 fg:neutral font:regular ml:5">
+                            <span className="fg:neutral font:regular ml:5 text:12">
                                 / {eachSponsorTier.one ? 'one-time' : 'month'}
                             </span>
                         </div>

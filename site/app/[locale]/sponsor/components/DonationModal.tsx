@@ -35,7 +35,7 @@ export default function DonationModal() {
                 try {
                     switch (platform) {
                         case 'Open Collective':
-                            // eslint-disable-next-line no-case-declarations
+                             
                             const openCollectiveRes = await (await fetch(
                                 'https://api.opencollective.com/graphql/v2/7542a8819268783e1eb4f796fbda7f0bbf6793d2',
                                 {

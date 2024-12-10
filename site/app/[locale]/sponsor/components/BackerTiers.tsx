@@ -51,11 +51,11 @@ export default function BackerTiers() {
             <button key={eachBackerTier.name} className="app-object app-object-interactive flex:col@<lg gap:20 p:25|30 r:5" onClick={() => setSelectedTier(eachBackerTier)}>
                 <div className="font:48">{eachBackerTier.icon}</div>
                 <div className='flex:1 text:left'>
-                    <div className="text:16 uppercase::first-letter fg:strong font:semibold">{eachBackerTier.name}</div>
+                    <div className="uppercase::first-letter fg:strong font:semibold text:16">{eachBackerTier.name}</div>
                     {eachBackerTier.amount && (
-                        <div className="text:14 font:bold">
+                        <div className="font:bold text:14">
                             {eachBackerTier.amount}
-                            <span className="text:12 fg:neutral font:regular ml:5">
+                            <span className="fg:neutral font:regular ml:5 text:12">
                                 / {eachBackerTier.one ? 'one-time' : 'month'}
                             </span>
                         </div>

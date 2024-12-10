@@ -9,18 +9,18 @@ export default function TierModal({ tierState }: { tierState: [any, Dispatch<any
         <div className="flex flex:col@<lg gap:20 p:25 r:5">
             <div className="font:48">{selectedTier.icon}</div>
             <div className='flex:1'>
-                <div className="text:16 uppercase::first-letter fg:strong font:semibold">{selectedTier.name}</div>
+                <div className="uppercase::first-letter fg:strong font:semibold text:16">{selectedTier.name}</div>
                 {selectedTier.amount && (
-                    <div className="text:14 fg:strong font:bold">
+                    <div className="fg:strong font:bold text:14">
                         {selectedTier.amount}
-                        <span className="text:12 fg:neutral font:regular ml:5">
+                        <span className="fg:neutral font:regular ml:5 text:12">
                             / {selectedTier.one ? 'one-time' : 'month'}
                         </span>
                     </div>
                 )}
             </div>
         </div>
-        <div className="text:12 bt:1|solid|lightest mb:5 pt:15 px:25">
+        <div className="bt:1|solid|lightest mb:5 pt:15 px:25 text:12">
             Choose a platform
         </div>
         <Link href={selectedTier.openCollectiveUrl} className="flex align-items:center font:medium gap:12 min-h:48 px:25 text-decoration:none!">

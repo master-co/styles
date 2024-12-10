@@ -34,9 +34,9 @@ export default async function Page(props: any) {
                                         width={480}
                                         height={270}
                                         alt={eachBlogMetadata.title} />
-                                    <div className='text:12 fg:accent font:medium mt:10'>{formattedDate}</div>
-                                    <div className='text:18 fg:strong font:semibold'>{eachBlogMetadata.title}</div>
-                                    <div className='text:14 fg:strong font:regular'>{eachBlogMetadata.description}</div>
+                                    <div className='fg:accent font:medium mt:10 text:12'>{formattedDate}</div>
+                                    <div className='fg:strong font:semibold text:18'>{eachBlogMetadata.title}</div>
+                                    <div className='fg:strong font:regular text:14'>{eachBlogMetadata.description}</div>
                                 </Link>
                             )
                         })}
