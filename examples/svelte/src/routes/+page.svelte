@@ -17,7 +17,7 @@
                 <img src={welcome_fallback} alt="Welcome" />
             </picture>
         </span>
-        <img src="/master-css.logotype@light.svg" alt="Master Logo" class="mt:-2vw block mx:auto max-w:50%" width="300" height="35" />
+        <img src="/master-css.logotype@light.svg" alt="Master Logo" class="block max-w:50% mt:-2vw mx:auto" width="300" height="35" />
         <span class="sr-only">Svelte Kit and Master CSS</span>
     </h1>
 
