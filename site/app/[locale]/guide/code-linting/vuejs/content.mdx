@@ -6,7 +6,7 @@
         </StepL>
         <StepR>
             ```install
-            -D @master/eslint-config-css@rc eslint-plugin-vue @vue/eslint-config-typescript eslint
+            -D @master/eslint-config-css@rc eslint-plugin-vue @vue/eslint-config-typescript @eslint/compat eslint
             ```
         </StepR>
     </Step>
@@ -15,23 +15,23 @@
             ### <StepNum />Set up ESLint config
             Import and add the Master CSS ESLint Configuration `html css` to [`eslint.config.mjs`](https://eslint.org/docs/latest/use/getting-started).
 
-            It is recommended to refer to the [official guide](https://eslint.vuejs.org).
-        </StepL>
-        <StepR>
             ```js name=eslint.config.mjs
+            import { includeIgnoreFile } from '@eslint/compat'
+            import { fileURLToPath } from 'node:url'
             import vue from 'eslint-plugin-vue'
             import vueTS from '@vue/eslint-config-typescript'
-            import css from '@master/eslint-config-css'
+            +import css from '@master/eslint-config-css'
+
+            const gitignorePath = fileURLToPath(new URL("./.gitignore", import.meta.url))
 
             export default [
-                { files: ['**/*.{ts,mts,tsx,vue}'] },
-                { ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'] },
+                includeIgnoreFile(gitignorePath),
                 ...vue.configs['flat/essential'],
                 ...vueTS(),
-                css
+            +    css
             ]
             ```
-        </StepR>
+        </StepL>
     </Step>
     <Step>
         ### <StepNum />Start linting your code

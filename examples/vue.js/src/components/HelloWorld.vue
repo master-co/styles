@@ -6,15 +6,15 @@ const count = ref<number>(0)
 
 <template>
     <div>
-        <div class='grid-cols:2 w:fit mx:auto'>
+        <div class='grid-cols:2 mx:auto w:fit'>
             <a href="https://rc.css.master.co" target="_blank">
-                <img src="../assets/master.svg" class="logo size:24x scale(2)" alt="Master logo" />
+                <img src="../assets/master.svg" class="logo scale(2) size:24x" alt="Master logo" />
             </a>
             <a href="https://vitejs.dev" target="_blank">
                 <img src="../assets/vue.svg" class="logo size:24x" alt="Vite logo" />
             </a>
         </div>
-        <h1 class="font:56 fg:white@dark font:heavy my:8x">
+        <h1 class="fg:white@dark font:56 font:heavy my:8x">
             <span>Master CSS</span> <span class="fg:#42b883">Vue</span>
         </h1>
     </div>
