@@ -50,12 +50,10 @@
     },
     "dependencies": {
         "@master/css": "workspace:^",
-        "@master/css-extractor": "workspace:^",
-        "lodash.debounce": "^4.0.8"
+        "@master/css-extractor": "workspace:^"
     },
     "devDependencies": {
         "@playwright/test": "^1.49.1",
-        "@types/lodash.debounce": "^4.0.9",
         "puppeteer-core": "^23.10.3",
         "shared": "workspace:^"
     }
