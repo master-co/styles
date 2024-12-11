@@ -2,10 +2,11 @@
     "name": "nuxt.js-with-progressive-rendering",
     "private": true,
     "scripts": {
-        "build": "nuxt prepare && nuxt build",
-        "dev": "nuxt prepare && nuxt dev",
-        "generate": "nuxt prepare && nuxt generate",
-        "preview": "nuxt prepare && nuxt preview"
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare"
     },
     "dependencies": {
         "@master/css-server": "workspace:^",
@@ -13,9 +14,9 @@
         "@master/css.vue": "workspace:^"
     },
     "devDependencies": {
-        "@types/node": "^22.10.1",
-        "nuxt": "^3.10.3",
-        "vue": "^3.4.19",
-        "vue-router": "^4.3.0"
+        "@types/node": "^22.10.2",
+        "nuxt": "^3.14.1592",
+        "vue": "^3.5.13",
+        "vue-router": "^4.5.0"
     }
 }
