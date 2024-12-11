@@ -1,58 +1,80 @@
 import { CSSExtractor } from '@master/css-extractor'
 import type { Plugin, ViteDevServer } from 'vite'
 import { existsSync, readFileSync } from 'fs'
-import debounce from 'lodash.debounce'
 
 const HMR_EVENT_UPDATE = 'master-css-hmr:update'
 
 /** HMR when the config and source files changed */
-export default function VirtualCSSHMRPlugin(extractor: CSSExtractor): Plugin {
-    let HMRReady = false
-    let server: ViteDevServer
+export default async function VirtualCSSHMRPlugin(extractor: CSSExtractor): Promise<Plugin> {
     let transformedIndexHTMLModule: { id: string, code: string }
-    const straightUpdateVirtualModule = () => {
+    const servers: ViteDevServer[] = []
+    const updateVirtualModule = async ({ server, timestamp = Date.now() }: { server: ViteDevServer, timestamp?: number }) => {
         if (!server) return
         const resolvedVirtualModuleId = extractor.resolvedVirtualModuleId
         const virtualCSSModule = server.moduleGraph.getModuleById(resolvedVirtualModuleId)
         if (virtualCSSModule) {
             server.reloadModule(virtualCSSModule)
-            server.ws.clients.forEach((eachChannel) => {
-                eachChannel.send({
-                    type: 'update',
-                    updates: [{
-                        type: 'js-update',
-                        path: resolvedVirtualModuleId,
-                        acceptedPath: resolvedVirtualModuleId,
-                        timestamp: +Date.now()
-                    }]
-                })
-                eachChannel.send({
-                    type: 'custom',
-                    event: HMR_EVENT_UPDATE,
-                    data: {
-                        id: resolvedVirtualModuleId,
-                        css: extractor.css.text
-                    }
-                })
+            server.ws.send({
+                type: 'update',
+                updates: [{
+                    type: 'js-update',
+                    path: resolvedVirtualModuleId,
+                    acceptedPath: resolvedVirtualModuleId,
+                    timestamp
+                }]
+            })
+            server.ws.send({
+                type: 'custom',
+                event: HMR_EVENT_UPDATE,
+                data: {
+                    id: resolvedVirtualModuleId,
+                    css: extractor.css.text,
+                    timestamp
+                }
             })
         }
+        return virtualCSSModule
     }
-    const debounceUpdateVirtualModule = debounce(straightUpdateVirtualModule, 100)
-    const updateVirtualModule = () => {
-        if (HMRReady) {
-            straightUpdateVirtualModule()
-        } else {
-            debounceUpdateVirtualModule()
+    const handleReset = async ({ server }: { server: ViteDevServer }) => {
+        const tasks: any[] = []
+        /* 1. fixed sources */
+        tasks.push(await extractor.prepare())
+        /* 2. transform index.html */
+        if (transformedIndexHTMLModule) {
+            tasks.push(extractor.insert(transformedIndexHTMLModule.id, transformedIndexHTMLModule.code))
         }
+        /* 3. transformed modules */
+        tasks.concat(
+            Array.from(server.moduleGraph.idToModuleMap.keys())
+                .filter((eachModuleId) => eachModuleId !== extractor.resolvedVirtualModuleId)
+                .map(async (eachModuleId: string) => {
+                    const eachModule = server.moduleGraph.idToModuleMap.get(eachModuleId)
+                    if (eachModule) {
+                        let eachModuleCode = eachModule?.transformResult?.code || eachModule?.ssrTransformResult?.code
+                        if (eachModule.file && !eachModuleCode && !eachModule.file.startsWith('virtual:') && existsSync(eachModule.file)) {
+                            eachModuleCode = readFileSync(eachModule.file, 'utf-8')
+                        }
+                        if (eachModuleCode)
+                            await extractor.insert(eachModuleId, eachModuleCode)
+                    }
+                })
+        )
+        await Promise.all(tasks)
+        updateVirtualModule({ server })
     }
     extractor
-        .on('change', updateVirtualModule)
+        .on('reset', () => {
+            servers.forEach((eachServer) => handleReset({ server: eachServer }))
+        })
+        .on('change', (args) => {
+            servers.forEach((eachServer) => updateVirtualModule({ server: eachServer }))
+        })
     return {
         name: 'master-css-extractor:virtual-css-module:hmr',
         apply: 'serve',
         enforce: 'pre',
         async resolveId(id) {
-            if (id === extractor.options.module || id === extractor.resolvedVirtualModuleId) {
+            if (extractor.options.module && id.includes(extractor.options.module) || id.includes(extractor.resolvedVirtualModuleId)) {
                 return extractor.resolvedVirtualModuleId
             }
         },
@@ -71,41 +93,8 @@ export default function VirtualCSSHMRPlugin(extractor: CSSExtractor): Plugin {
                 await extractor.insert(filename, html)
             }
         },
-        configureServer(devServer) {
-            const resetHandler = async () => {
-                const tasks: any[] = []
-                /* 1. fixed sources */
-                tasks.push(await extractor.prepare())
-                /* 2. transform index.html */
-                if (transformedIndexHTMLModule) {
-                    tasks.push(extractor.insert(transformedIndexHTMLModule.id, transformedIndexHTMLModule.code))
-                }
-                /* 3. transformed modules */
-                tasks.concat(
-                    Array.from(server.moduleGraph.idToModuleMap.keys())
-                        .filter((eachModuleId) => eachModuleId !== extractor.resolvedVirtualModuleId)
-                        .map(async (eachModuleId: string) => {
-                            const eachModule = server.moduleGraph.idToModuleMap.get(eachModuleId)
-                            if (eachModule) {
-                                let eachModuleCode = eachModule?.transformResult?.code || eachModule?.ssrTransformResult?.code
-                                if (eachModule.file && !eachModuleCode && !eachModule.file.startsWith('virtual:') && existsSync(eachModule.file)) {
-                                    eachModuleCode = readFileSync(eachModule.file, 'utf-8')
-                                }
-                                if (eachModuleCode)
-                                    await extractor.insert(eachModuleId, eachModuleCode)
-                            }
-                        })
-                )
-                await Promise.all(tasks)
-                updateVirtualModule()
-            }
-            server = devServer
-            server.ws.on('connection', () => {
-                extractor
-                    .off('reset', resetHandler)
-                    .on('reset', resetHandler)
-                HMRReady = true
-            })
+        configureServer(server) {
+            servers.push(server)
             extractor.startWatch()
         }
     }
