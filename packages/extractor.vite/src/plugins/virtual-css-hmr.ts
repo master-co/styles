@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'fs'
 const HMR_EVENT_UPDATE = 'master-css-hmr:update'
 
 /** HMR when the config and source files changed */
-export default async function VirtualCSSHMRPlugin(extractor: CSSExtractor): Promise<Plugin> {
+export default function VirtualCSSHMRPlugin(extractor: CSSExtractor): Plugin {
     let transformedIndexHTMLModule: { id: string, code: string }
     const servers: ViteDevServer[] = []
     const updateVirtualModule = async ({ server, timestamp = Date.now() }: { server: ViteDevServer, timestamp?: number }) => {
@@ -66,12 +66,19 @@ export default async function VirtualCSSHMRPlugin(extractor: CSSExtractor): Prom
         .on('reset', () => {
             servers.forEach((eachServer) => handleReset({ server: eachServer }))
         })
-        .on('change', (args) => {
+        .on('change', () => {
             servers.forEach((eachServer) => updateVirtualModule({ server: eachServer }))
         })
     return {
         name: 'master-css-extractor:virtual-css-module:hmr',
-        apply: 'serve',
+        apply(config, env) {
+            if (env.command === 'serve') {
+                extractor.startWatch()
+                return true
+            } else {
+                return false
+            }
+        },
         enforce: 'pre',
         async resolveId(id) {
             if (extractor.options.module && id.includes(extractor.options.module) || id.includes(extractor.resolvedVirtualModuleId)) {
@@ -95,7 +102,6 @@ export default async function VirtualCSSHMRPlugin(extractor: CSSExtractor): Prom
         },
         configureServer(server) {
             servers.push(server)
-            extractor.startWatch()
         }
     }
 }
