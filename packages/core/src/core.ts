@@ -1203,7 +1203,9 @@ export default class MasterCSS {
             cssRule: variableCSSRule,
             get text() {
                 const properties: string[] = []
-                for (const property of variableCSSRule.style) {
+                // eslint-disable-next-line @typescript-eslint/prefer-for-of
+                for (let i = 0; i < variableCSSRule.style.length; i++) {
+                    const property = variableCSSRule.style[i]
                     properties.push(property + ':' + (variableCSSRule as CSSStyleRule).style.getPropertyValue(property))
                 }
                 return prefix + properties.join(';') + suffix

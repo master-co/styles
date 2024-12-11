@@ -5,7 +5,7 @@ import redirects from '~/site/redirects.mjs'
 import cssConfig from '~/site/master.css'
 
 export default async function Layout({ children, params }: {
-    children: JSX.Element,
+    children: React.ReactElement,
     params: Promise<{ locale: typeof i18n.locales[number] }>
 }) {
     const { locale } = await params

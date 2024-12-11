@@ -354,7 +354,7 @@ export default function Play(props: any) {
     // change version
     const onVersionSelectChange = (event: any) => {
         if (shareable) {
-            if (!window.confirm('Are you sure you want to discard the current changes?') ?? '') {
+            if (!window.confirm('Are you sure you want to discard the current changes?')) {
                 event.preventDefault()
                 return
             }

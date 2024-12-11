@@ -16,7 +16,7 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
-export default async function Page(props: any) {
+export default async function Page(props: any): Promise<React.ReactNode> {
     const getSponsor = async () => {
         const openCollectiveRes = await (await fetch(`https://api.opencollective.com/graphql/v2/${openCollectiveToken}`, {
             method: 'POST',

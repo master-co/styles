@@ -6,7 +6,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Layout({ children }: {
-    children: JSX.Element
+    children: React.ReactElement
 }) {
     return (
         <Body className="bg:base">
