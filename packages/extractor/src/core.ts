@@ -308,7 +308,7 @@ export default class CSSExtractor extends EventEmitter {
         const { include, exclude } = this.options
         return include?.length
             ? explorePathsSync(include, { cwd: this.cwd, ignore: exclude })
-                .filter((eachSourcePath) => !!eachSourcePath)
+                .filter((eachSourcePath) => Boolean(eachSourcePath))
             : []
     }
 
