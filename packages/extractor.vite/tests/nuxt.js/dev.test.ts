@@ -45,7 +45,7 @@ if (!process.env.GITHUB_ACTIONS) {
 
     it('run dev without errors', async () => {
         await page.waitForNetworkIdle()
-        expect(() => { if (error) throw error }).not.toThrowError()
+        expect(() => { if (error) throw error }).not.toThrow()
     }, 60000)
 
     it('check if the page contains [data-vite-dev-id=".virtual/master.css"]', async () => {

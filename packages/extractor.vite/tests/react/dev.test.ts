@@ -44,7 +44,7 @@ if (!process.env.GITHUB_ACTIONS) {
     }, 60000)
 
     it('run dev without errors', () => {
-        expect(() => { if (error) throw error }).not.toThrowError()
+        expect(() => { if (error) throw error }).not.toThrow()
     }, 60000)
 
     it('check if the page contains [data-vite-dev-id=".virtual/master.css"]', async () => {
