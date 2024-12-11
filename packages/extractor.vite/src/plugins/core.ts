@@ -30,7 +30,7 @@ export default function CSSExtractorPlugin(
             },
             async transform(code, id) {
                 const resolvedVirtualModuleId = extractor.resolvedVirtualModuleId
-                if (id !== resolvedVirtualModuleId) {
+                if (id !== resolvedVirtualModuleId && !id.endsWith('.css')) {
                     await extractor.insert(id, code)
                 }
             }
