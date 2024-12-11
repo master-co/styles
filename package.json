@@ -27,6 +27,7 @@
         "@techor/glob": "^3.1.5",
         "@techor/jest-dom": "^3.1.5",
         "@techor/repo": "^3.1.5",
+        "@types/node": "^22.10.2",
         "@types/node-fetch": "^2.6.12",
         "@types/shuffle-array": "^1.0.5",
         "cross-env": "^7.0.3",

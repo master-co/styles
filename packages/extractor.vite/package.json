@@ -38,13 +38,6 @@
     "jsnext:main": "./dist/index.mjs",
     "esnext": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
-    "exports": {
-        ".": {
-            "import": "./dist/index.mjs",
-            "require": "./dist/index.cjs",
-            "types": "./dist/index.d.ts"
-        }
-    },
     "files": [
         "dist"
     ],
@@ -53,7 +46,7 @@
         "provenance": true
     },
     "peerDependencies": {
-        "vite": ">=5.0.0"
+        "vite": ">=6.0.0"
     },
     "dependencies": {
         "@master/css": "workspace:^",
@@ -61,10 +54,9 @@
         "lodash.debounce": "^4.0.8"
     },
     "devDependencies": {
-        "@playwright/test": "^1.49.0",
+        "@playwright/test": "^1.49.1",
         "@types/lodash.debounce": "^4.0.9",
-        "@types/node": "^20.11.20",
-        "shared": "workspace:^",
-        "puppeteer-core": "^22.2.0"
+        "puppeteer-core": "^23.10.3",
+        "shared": "workspace:^"
     }
 }

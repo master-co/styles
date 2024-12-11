@@ -21,6 +21,8 @@ export default function CSSExtractorPlugin(
                 if (!env.isSsrBuild) {
                     extractor.init()
                     return true
+                } else {
+                    return false
                 }
             },
             async buildStart() {
@@ -32,7 +34,7 @@ export default function CSSExtractorPlugin(
                     await extractor.insert(id, code)
                 }
             }
-        } as Plugin,
+        },
         VirtualCSSHMRPlugin(extractor),
         ...VirtualCSSModulePlugins(extractor),
     ]

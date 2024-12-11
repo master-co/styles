@@ -25,7 +25,6 @@
         "uvcanvas": "^0.2.2"
     },
     "devDependencies": {
-        "@types/node": "^22.10.1",
         "eslint": "^9.16.0",
         "internal": "workspace:^",
         "tsx": "^4.19.2",
