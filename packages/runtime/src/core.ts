@@ -76,8 +76,9 @@ export class RuntimeCSS extends MasterCSS {
                         const selectorText = (eachCSSRule as CSSStyleRule).selectorText
                         if ((eachCSSRule as CSSStyleRule).style.length) {
                             let isVariablesRule = true
-                            for (const style of (eachCSSRule as CSSStyleRule).style) {
-                                if (!style.startsWith('--')) {
+                            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+                            for (let i = 0; i < (eachCSSRule as CSSStyleRule).style.length; i++) {
+                                if (!(eachCSSRule as CSSStyleRule).style[i]?.startsWith('--')) {
                                     isVariablesRule = false
                                     break
                                 }
