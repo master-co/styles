@@ -1,3 +1,4 @@
+import { test, expect, it } from 'vitest'
 import { extractLatentClasses } from '../src'
 
 it('extract latent classes from js raw', () => {

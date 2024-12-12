@@ -1,4 +1,5 @@
 import CSSExtractor from '../../src'
+import { test, expect } from 'vitest'
 
 test('Oskar', () => {
     const extractor = new CSSExtractor({}, __dirname).init()

@@ -1,3 +1,4 @@
+import { test, expect } from 'vitest'
 import { CSSExtractor, options } from '../../src'
 import fs from 'fs'
 import path from 'path'

@@ -1,3 +1,4 @@
+import { test, expect, it } from 'vitest'
 import CSSExtractor from '../../src'
 
 test('AristideBH', async () => {

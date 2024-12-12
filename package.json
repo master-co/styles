@@ -42,12 +42,12 @@
         "spawnd": "^9.0.2",
         "strip-ansi": "^7.1.0",
         "techor": "^3.1.5",
-        "tinybench": "^2.9.0",
+        "tinybench": "^3.0.7",
         "ts-dedent": "^2.2.0",
         "ts-jest": "^29.2.5",
         "tsx": "^4.19.2",
-        "vite-tsconfig-paths": "^4.3.2",
-        "vitest": "^1.6.0"
+        "vite-tsconfig-paths": "^5.1.4",
+        "vitest": "^2.1.8"
     },
     "devDependencies": {
         "@master/create-css": "workspace:^",

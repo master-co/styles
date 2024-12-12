@@ -1,6 +1,7 @@
 import CSSExtractor from '../src'
 import fs from 'fs'
 import path from 'path'
+import { test, expect } from 'vitest'
 
 test('read master.css.js config in cwd', async () => {
     const extractor = new CSSExtractor({}, __dirname).init()

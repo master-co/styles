@@ -6,7 +6,7 @@
         "dev": "techor build --watch",
         "lint": "eslint",
         "type-check": "tsc --noEmit",
-        "test": "jest"
+        "test": "vitest"
     },
     "license": "MIT",
     "description": "Master CSS static extractor for various raw text",
