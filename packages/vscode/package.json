@@ -250,7 +250,10 @@
                     "default": true
                 },
                 "masterCSS.workspaces": {
-                    "type": [ "string", "array" ],
+                    "type": [
+                        "string",
+                        "array"
+                    ],
                     "default": "auto"
                 }
             }
@@ -262,9 +265,9 @@
     },
     "devDependencies": {
         "@master/css-language-server": "workspace:^",
+        "@types/vscode": "^1.96.0",
+        "@vscode/vsce": "^3.2.1",
         "shared": "workspace:^",
-        "@types/vscode": "^1.87.0",
-        "@vscode/vsce": "^2.24.0",
-        "vscode-languageclient": "^8.1.0"
+        "vscode-languageclient": "^9.0.1"
     }
 }
