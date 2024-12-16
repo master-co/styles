@@ -55,6 +55,7 @@
         "provenance": true
     },
     "peerDependencies": {
+        "react": ">=16",
         "@types/react": ">=16"
     },
     "dependencies": {
