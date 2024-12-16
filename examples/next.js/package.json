@@ -9,16 +9,18 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@master/css-cli": "workspace:^",
         "@master/css.react": "workspace:^",
-        "@types/node": "^22.10.1",
-        "@types/react": "^18.3.1",
-        "@types/react-dom": "^18.3.1",
+        "next": "^15.0.3",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
+    },
+    "devDependencies": {
+        "@master/css-cli": "workspace:^",
+        "typescript": "^5.3.3",
         "eslint": "^8.57.0",
         "eslint-config-next": "^15.0.3",
-        "next": "^15.0.3",
-        "react": "^18.3.1",
-        "react-dom": "^18.3.1",
-        "typescript": "^5.3.3"
+        "@types/node": "^22.10.1",
+        "@types/react": "^19",
+        "@types/react-dom": "^19"
     }
 }
