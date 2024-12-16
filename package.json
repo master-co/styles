@@ -46,6 +46,7 @@
         "ts-dedent": "^2.2.0",
         "ts-jest": "^29.2.5",
         "tsx": "^4.19.2",
+        "typescript": "^5.7.2",
         "vite-tsconfig-paths": "^5.1.4",
         "vitest": "^2.1.8"
     },

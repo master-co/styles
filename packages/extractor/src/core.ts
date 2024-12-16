@@ -9,11 +9,12 @@ import extend from '@techor/extend'
 import exploreConfig from 'explore-config'
 import exploreCSSConfig from '@master/css-explore-config'
 import { generateValidRules } from '@master/css-validator'
-import chokidar from 'chokidar'
+import chokidar, { ChokidarOptions, FSWatcher } from 'chokidar'
 import { EventEmitter } from 'node:events'
 import cssEscape from 'shared/utils/css-escape'
 import { explorePathsSync } from '@techor/glob'
 import path, { resolve } from 'path'
+import { Stats } from 'node:fs'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export default class CSSExtractor extends EventEmitter {
@@ -21,7 +22,7 @@ export default class CSSExtractor extends EventEmitter {
     validClasses = new Set<string>()
     invalidClasses = new Set<string>()
     watching = false
-    watchers: chokidar.FSWatcher[] = []
+    watchers: FSWatcher[] = []
     initialized = false
 
     constructor(
@@ -211,18 +212,17 @@ export default class CSSExtractor extends EventEmitter {
         this.emit('export', filename, filepath)
     }
 
-    async watchSource(paths: string | readonly string[], watchOptions?: chokidar.WatchOptions): Promise<void> {
+    async watchSource(paths: string | string[], watchOptions?: ChokidarOptions): Promise<void> {
         await this.watch('add change', paths, (source) => this.insertFile(source), watchOptions)
     }
 
-    async watch(events: string, paths: string | readonly string[], handle: (path: string, stats?: fs.Stats) => void, watchOptions?: chokidar.WatchOptions): Promise<void> {
+    async watch(events: string, paths: string | string[], handle: (path: string, stats?: Stats | undefined) => void, watchOptions?: ChokidarOptions): Promise<void> {
         watchOptions = extend({ ignoreInitial: true, cwd: this.cwd }, watchOptions)
         const watcher = chokidar.watch(paths, watchOptions)
         this.watchers.push(watcher)
         events
             .split(' ')
-            .forEach((eachEvent) => watcher.on(eachEvent, handle))
-
+            .forEach((eachEvent) => watcher.on(eachEvent, handle as never))
         await new Promise<void>(resolve => {
             watcher.once('ready', resolve)
         })
