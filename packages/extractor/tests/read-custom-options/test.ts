@@ -6,7 +6,7 @@ import dedent from 'ts-dedent'
 
 test('read custom options', async () => {
     fs.writeFileSync(path.join(__dirname, 'master.css-extractor.js'), dedent`
-        module.exports = {
+        export default {
             module: '.virtual:home.css'
         }
     `)
