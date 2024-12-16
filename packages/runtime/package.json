@@ -57,6 +57,6 @@
     },
     "devDependencies": {
         "shared": "workspace:^",
-        "@playwright/test": "^1.49.0"
+        "@playwright/test": "1.41.2"
     }
 }
