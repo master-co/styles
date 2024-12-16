@@ -60,6 +60,7 @@
         "@master/css-extractor": "workspace:^"
     },
     "devDependencies": {
+        "puppeteer-core": "^23.10.3",
         "shared": "workspace:^"
     }
 }
