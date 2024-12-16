@@ -60,8 +60,6 @@
         "@master/css-extractor": "workspace:^"
     },
     "devDependencies": {
-        "@playwright/test": "^1.49.1",
-        "puppeteer-core": "^23.10.3",
         "shared": "workspace:^"
     }
 }
