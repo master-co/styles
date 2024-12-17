@@ -1,17 +1,27 @@
 import tsconfigPaths from 'vite-tsconfig-paths'
-import type { UserConfig } from 'vitest/config'
+import type { ViteUserConfig } from 'vitest/config'
 
-export default {
+const config: ViteUserConfig = {
     test: {
         include: [
             'tests/**/*.{test,spec}.?(c|m)[jt]s?(x)',
             'tests/**/test.?(c|m)[jt]s?(x)'
+        ],
+        exclude: [
+            '**/tmp/**'
+        ],
+        testTimeout: 15000,
+        forceRerunTriggers: [
+            'vitest.config.*',
+            'vite.config.*',
+            'package.json'
         ]
     },
-    testTimeout: 15000,
     plugins: [
         tsconfigPaths({
             ignoreConfigErrors: true
         })
     ]
-} as UserConfig
+}
+
+export default config

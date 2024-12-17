@@ -1,3 +1,4 @@
+import { it, test, expect, beforeAll, afterAll } from 'vitest'
 import fs from 'fs'
 import path from 'path'
 import cssEscape from 'shared/utils/css-escape'
@@ -17,8 +18,7 @@ let templatePath: string
 let templateContent: string
 let masterCSSConfigPath: string
 
-test.todo('nuxt.js dev tests timeout in CI')
-if (!process.env.GITHUB_ACTIONS) {
+test.todo('nuxt.js dev tests timeout in CI', () => {
     beforeAll(async () => {
         copy(examplePath, tmpDir)
         templatePath = path.join(tmpDir, 'app.vue')
@@ -78,4 +78,4 @@ if (!process.env.GITHUB_ACTIONS) {
         await browser.close()
         await devProcess.destroy()
     }, 60000)
-}
+})

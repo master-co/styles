@@ -1,3 +1,4 @@
+import { it, test, expect, beforeAll, afterAll } from 'vitest'
 import fs from 'fs'
 import { explorePathSync } from '@techor/glob'
 import path from 'path'
@@ -7,9 +8,17 @@ import { copy, rm } from 'shared/utils/fs'
 const examplePath = path.join(__dirname, '../../../../examples/vite-with-static-extraction')
 const tmpDir = path.join(__dirname, 'tmp/build')
 
-it('build', () => {
+beforeAll(() => {
     copy(examplePath, tmpDir)
     execSync('pnpm run build', { cwd: tmpDir })
-    expect(fs.readFileSync(explorePathSync(path.resolve(tmpDir, 'dist/assets/index-*.css'))).toString()).toContain('center-content')
+})
+
+it('build', () => {
+    const file = explorePathSync(path.resolve(tmpDir, 'dist/assets/index-*.css'))
+    expect(file).toBeDefined()
+    expect(fs.readFileSync(file).toString()).toContain('center-content')
+})
+
+afterAll(() => {
     rm(tmpDir)
 })

@@ -18,6 +18,9 @@ export function copy(sourceDir: string, destinationDir: string) {
             'dist',
             'out',
             '.bin',
+            '.nuxt',
+            '.next',
+            '.output',
             'node_modules'
         ].includes(item)) {
             continue

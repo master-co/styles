@@ -1,3 +1,4 @@
+import { it, test, expect, beforeAll, afterAll } from 'vitest'
 import fs from 'fs'
 import path from 'path'
 import cssEscape from 'shared/utils/css-escape'
