@@ -6,7 +6,7 @@
         "dev": "pnpm build --watch",
         "type-check": "tsc --noEmit",
         "lint": "eslint",
-        "test": "jest --workerThreads"
+        "test": "vitest"
     },
     "license": "MIT",
     "description": "Integrate Master CSS Static Extraction in Vite way",
@@ -40,9 +40,9 @@
     "types": "./dist/index.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/index.d.ts",
             "import": "./dist/index.mjs",
-            "require": "./dist/index.cjs",
-            "types": "./dist/index.d.ts"
+            "require": "./dist/index.cjs"
         }
     },
     "files": [
