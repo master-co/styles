@@ -3,26 +3,37 @@ import settings from '~/site/../packages/eslint-plugin/src/settings'
 ---
 
 ## Configuring
-Use the latest flat configuration.
+Use the latest flat configuration. As an example of checking Master CSS syntax in TypeScript and HTML files:
 ```js name=eslint.config.js
-import css from '@master/eslint-config-css'
++import css from '@master/eslint-config-css'
+import htmlParser from "@angular-eslint/template-parser"
+import tsParser from '@typescript-eslint/parser'
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-    css
+    {
+        files: ['**/*.html'],
+        languageOptions: {
+            parser: htmlParser
+        }
+    },
+    {
+        files: ['**/*.{ts,tsx}'],
+        languageOptions: {
+            parser: tsParser
+        }
+    },
++    css,
+    {
+        rules: {
+            '@master/css/class-validation': ['error', {
+                disallowUnknownClass: true
+            }],
+        }
+    },
 ]
 ```
-<details>
-    <summary>Legacy</summary>
-    <div>
-        ```js name=eslint.config.js
-        {
-            "extends": ["@master/css"]
-        }
-        ```
-    </div>
-</details>
-
-To learn more about features, check out the [Code Linting](/guide/code-linting).
+For the legacy configuration, see the [legacy example](https://github.com/master-co/css/tree/rc/examples/eslint-legacy).
 
 ---
 
