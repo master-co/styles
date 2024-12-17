@@ -23,7 +23,7 @@ export default (program: Command) => program
         const extractor = new CSSExtractor(customOptions, cwd)
         extractor.on('init', (options: Options) => {
             if (specifiedSourcePaths?.length) {
-                options.include = []
+                options.include = specifiedSourcePaths
                 options.exclude = []
             } else {
                 if (!options.exclude?.includes('**/node_modules/**')) {
@@ -37,35 +37,16 @@ export default (program: Command) => program
             options.verbose = verbose ? +verbose : options.verbose
         })
         extractor.init()
-        const insert = async () => {
-            /**
-             * true: Ignore `.include` and `.exclude` when specifying sources explicitly.
-             * else: Insert according to the source of `.include` - `.exclude`.
-             */
-            if (specifiedSourcePaths?.length) {
-                await extractor.insertFiles(specifiedSourcePaths)
-            } else {
-                await extractor.insertFiles(extractor.allowedSourcePaths)
-            }
-        }
-
+        console.log(extractor.allowedSourcePaths)
         if (watch) {
-            const reset = async () => {
-                await insert()
-                /* If the specified source does not exist, watch the .include - .exclude */
-                if (!specifiedSourcePaths?.length && extractor.options.include) {
-                    await extractor.watchSource(extractor.options.include, { ignored: extractor.options.exclude })
-                }
-            }
             extractor
                 .on('watchStart', async () => {
                     await extractor.prepare()
-                    await reset()
                     log``
                     log.t`Start watching source changes`
                 })
                 .on('reset', async () => {
-                    await reset()
+                    await extractor.reset()
                     log``
                     log.t`Restart watching source changes`
                 })
@@ -83,7 +64,6 @@ export default (program: Command) => program
             await extractor.startWatch()
         } else {
             await extractor.prepare()
-            await insert()
             if (options?.export) {
                 extractor.export()
             } else {
