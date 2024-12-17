@@ -100,10 +100,10 @@ it('change html file class attr and update', async () => {
         waitForDataMatch(child, (data) => data.includes('watching source changes'), () => {
             fs.writeFileSync(HTMLFilepath, originHTMLText.replace('hmr-test', 'text:underline'))
         }),
+        waitForDataMatch(child, (data) => data.includes(`classes inserted`)),
         waitForDataMatch(child, (data) => data.includes('exported'))
     ])
     const fileCSSText = fs.readFileSync(virtualCSSFilepath, { encoding: 'utf8' })
-    /** There is no recycling mechanism during the development */
     expect(fileCSSText).toContain(cssEscape('text:underline'))
 }, 120000)
 
