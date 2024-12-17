@@ -9,7 +9,7 @@ import extend from '@techor/extend'
 import exploreConfig from 'explore-config'
 import exploreCSSConfig from '@master/css-explore-config'
 import { generateValidRules } from '@master/css-validator'
-import chokidar, { ChokidarOptions, FSWatcher } from 'chokidar'
+import chokidar, { type ChokidarOptions, type FSWatcher } from 'chokidar'
 import { EventEmitter } from 'node:events'
 import cssEscape from 'shared/utils/css-escape'
 import { explorePathsSync } from '@techor/glob'
@@ -61,14 +61,15 @@ export default class CSSExtractor extends EventEmitter {
     }
 
     async reset(customOptions = this.customOptions) {
-        if (this.watching) await this.disableWatch()
+        const watching = this.watching
+        if (watching) await this.closeWatch({ emit: false })
         this.latentClasses.clear()
         this.validClasses.clear()
         this.invalidClasses.clear()
         this.initialized = false
         this.init(customOptions)
         await this.prepare()
-        if (this.watching) await this.initWatch()
+        if (watching) await this.startWatch({ emit: false })
         this.emit('reset')
         return this
     }
@@ -93,7 +94,10 @@ export default class CSSExtractor extends EventEmitter {
                 log.ok`${this.options.classes.fixed.length} fixed classes inserted ${this.options.classes.fixed}`
             }
         }
-        await this.insertFiles(this.fixedSourcePaths)
+        await Promise.all([
+            this.insertFiles(this.fixedSourcePaths),
+            this.insertFiles(this.allowedSourcePaths)
+        ])
     }
 
     /**
@@ -228,7 +232,8 @@ export default class CSSExtractor extends EventEmitter {
         })
     }
 
-    private async initWatch() {
+    async startWatch(options: { emit?: boolean } = { emit: true }) {
+        if (this.watching) return
         const resolvedConfigPath = this.resolvedConfigPath
         const resolvedOptionsPath = this.resolvedOptionsPath
 
@@ -257,30 +262,18 @@ export default class CSSExtractor extends EventEmitter {
                 this.emit('optionsChange')
             })
         }
-    }
-
-    private async disableWatch() {
-        if (this.watchers.length) {
-            await Promise.all(this.watchers.map(eachWatcher => eachWatcher.removeAllListeners()))
-            this.watchers.length = 0
-        }
-    }
-
-    async startWatch() {
-        if (this.watching) return
-        await this.initWatch()
         this.watching = true
-        this.emit('watchStart')
+        if (options?.emit) this.emit('watchStart')
     }
 
-    async closeWatch() {
+    async closeWatch(options: { emit?: boolean } = { emit: true }) {
         if (!this.watching) return
         if (this.watchers.length) {
             await Promise.all(this.watchers.map(eachWatcher => eachWatcher.close()))
-            this.watchers.length = 0
+            this.watchers = []
         }
         this.watching = false
-        this.emit('watchClose')
+        if (options?.emit) this.emit('watchClose')
     }
 
     /**
