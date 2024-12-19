@@ -15,17 +15,17 @@ importers:
         specifier: ^1.8.12
         version: 1.8.12(@swc/core@1.10.1(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.2)
       '@techor/fs':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/glob':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/jest-dom':
-        specifier: ^3.1.6
-        version: 3.1.6(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))
+        specifier: ^3.1.7
+        version: 3.1.7(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))
       '@techor/repo':
-        specifier: ^3.1.6
-        version: 3.1.6(@swc/helpers@0.5.15)(@types/node@22.10.2)(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))(typescript@5.7.2)
+        specifier: ^3.1.7
+        version: 3.1.7(@swc/helpers@0.5.15)(@types/node@22.10.2)(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))(typescript@5.7.2)
       '@types/node':
         specifier: ^22.10.2
         version: 22.10.2
@@ -69,8 +69,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       techor:
-        specifier: ^3.1.6
-        version: 3.1.6(@swc/helpers@0.5.15)
+        specifier: ^3.1.7
+        version: 3.1.7(@swc/helpers@0.5.15)
       tinybench:
         specifier: ^3.0.7
         version: 3.0.7
@@ -1426,17 +1426,17 @@ importers:
         specifier: workspace:^
         version: link:../server
       '@techor/extend':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/fs':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/glob':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/log':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       bytes:
         specifier: ^3.1.2
         version: 3.1.2
@@ -1469,8 +1469,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       '@techor/extend':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       csstype:
         specifier: ^3.1.3
         version: 3.1.3
@@ -1485,11 +1485,11 @@ importers:
         specifier: 2.0.0-rc.38
         version: 2.0.0-rc.38
       '@techor/fs':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/log':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       commander:
         specifier: ^12.0.0
         version: 12.1.0
@@ -1575,11 +1575,11 @@ importers:
   packages/explore-config:
     dependencies:
       '@techor/log':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       explore-config:
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
     devDependencies:
       '@master/css':
         specifier: workspace:^
@@ -1600,20 +1600,20 @@ importers:
         specifier: workspace:^
         version: link:../validator
       '@techor/extend':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/glob':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       '@techor/log':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       chokidar:
         specifier: ^4.0.2
         version: 4.0.3
       explore-config:
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       minimatch:
         specifier: ^10.0.1
         version: 10.0.1
@@ -1650,8 +1650,8 @@ importers:
         specifier: workspace:^
         version: link:../extractor
       '@techor/log':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       webpack-virtual-modules:
         specifier: ^0.5.0
         version: 0.5.0
@@ -1672,8 +1672,8 @@ importers:
         specifier: workspace:^
         version: link:../language-service
       '@techor/extend':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       fast-glob:
         specifier: ^3.3.2
         version: 3.3.2
@@ -1706,8 +1706,8 @@ importers:
         specifier: workspace:^
         version: link:../core
       '@techor/extend':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       color-convert:
         specifier: ^2.0.1
         version: 2.0.1
@@ -1779,8 +1779,8 @@ importers:
         specifier: ^3.10.3
         version: 3.14.1592(magicast@0.3.5)(rollup@3.29.5)
       '@techor/log':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
     devDependencies:
       '@nuxt/devtools':
         specifier: latest
@@ -1974,8 +1974,8 @@ importers:
         specifier: workspace:^
         version: link:../runtime
       '@techor/extend':
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.7
+        version: 3.1.7
       vue:
         specifier: '>= 3.0.0'
         version: 3.5.13(typescript@5.6.2)
@@ -6379,21 +6379,24 @@ packages:
   '@techor/extend@3.1.6':
     resolution: {integrity: sha512-TXSxPpElo+LNe6L5HnvesrXnxaMDpwBrVWEcD059/YPOfOCFIq5TT1f2949xpmhMY0MF+N0eD5KJX3rGSZRbng==}
 
-  '@techor/fs@3.1.6':
-    resolution: {integrity: sha512-dOJuDQ5b6qn0+vJ9wskENr3HaAIh/utF0YXfYrr2Y6OQtMF13dUO7XiUH3Ij0mauDRCpNjtWI70cCjDdtrjnkw==}
+  '@techor/extend@3.1.7':
+    resolution: {integrity: sha512-dEkyhrD3dt2emUJ7DaLYwigQURBwzAlfTYLyosKb3ARRZSWjq9qUT0j5Q6GUx4dElarw157ZLavqOqnSZqaGxA==}
 
-  '@techor/glob@3.1.6':
-    resolution: {integrity: sha512-16cng2KseKLtvEZVPNVLMINV3ebamoU7grntuuKAeRv2SYNjcSP6SAsuRQXH6Tb4EdTqT3m1M+hVijPKH9cNyA==}
+  '@techor/fs@3.1.7':
+    resolution: {integrity: sha512-ixK/Eeu9avpVcqEj1/zOtd6lP6gHqaC6OGSrfLlu9piWf9TMeTzvhD3L/ao2kLjLfo4jfYYDtEdHPtp93rPq7A==}
 
-  '@techor/jest-dom@3.1.6':
-    resolution: {integrity: sha512-k4psZMaUDhRkGk7Eg/PeSnkG9bmRhy85N9KCbV1zsWCbi8aMhrN166eCESsCQFK/CUssxgzyVidBIwTJHqsl8Q==}
+  '@techor/glob@3.1.7':
+    resolution: {integrity: sha512-1VEL9NchbVniQ827us3Eh+Ha2ihCmichJUV9Ioph24vbmUIvDBP4T97APmvXyIR6NBBg5kRf01sP/PG19cgXWA==}
+
+  '@techor/jest-dom@3.1.7':
+    resolution: {integrity: sha512-XoOY5FOh9c4Jo6h1Y/lqTnkrX89PigdC5LTYlB8oNQ6CujTHUqt2xk/DnsQWNxCnSJeAyzGOeWkIG4Va2Vdn5w==}
     peerDependencies:
       jest: '*'
       ts-jest: '*'
       ts-node: '*'
 
-  '@techor/jest@3.1.6':
-    resolution: {integrity: sha512-r7mjDBqiiAvD8kDU0p1R2zDzIGd+008aIPbBzuTOl/zhqmi0BMt/KmfcadOGXhxATNQu0kt/WFLxL3zbPmMINw==}
+  '@techor/jest@3.1.7':
+    resolution: {integrity: sha512-FcPfmgdkwKEPzWJohANSesplh0/f0rp7DiNFcqLaqvw0K2wF5sDLo6klEPbRQb6Ldw67iAQAVduiZ8+3YVon/g==}
     peerDependencies:
       jest: '*'
       ts-jest: '*'
@@ -6402,11 +6405,14 @@ packages:
   '@techor/log@3.1.6':
     resolution: {integrity: sha512-JkMSvgXY506ZSBqGituLdEKTuZr+55BhDw7JGB7YJBakd6Qa9qUT6Vim1Tni1I8dfZe1HiQfA8iyXnklN3mCZg==}
 
-  '@techor/npm@3.1.6':
-    resolution: {integrity: sha512-mrSQa6y5RnLrzMoSzELId63n0971xxnJ53b4xuElXN4kJmD4MVVb1qRRcuP0A/zLF01dyXXAiwe73KKYeHjoqg==}
+  '@techor/log@3.1.7':
+    resolution: {integrity: sha512-bL/V2ngYZ6SmtZK9j40Lgxogv1b26OlXWNGkEV1WKDPgutpFNV1CcsnKM7ba0PRg9snTGSDPeUbR/OlYTXEVYA==}
 
-  '@techor/repo@3.1.6':
-    resolution: {integrity: sha512-5SWO+U8kyCXHfEF67KN+ewhR43fxsDA54dmEeA+l0GI8t0emkLPWRU885Q1WJOcpjQToHsk+9QwPWdEIqDNwMg==}
+  '@techor/npm@3.1.7':
+    resolution: {integrity: sha512-9Aq4IWh/ajxICWApKwaG7ZZ1C/pjfZoNQ3LmB6/llEaDe+AqnyFoOGJ2lGyQ4UaJFTAb1XyTUyvAzG7Y8cJeuQ==}
+
+  '@techor/repo@3.1.7':
+    resolution: {integrity: sha512-+71IMI8HRfEcvMdgGdQWlNfAY+UPa94lHy+t0tyQQ1KAv6ja3t/ZfpSuipCsmDlwhv9u/BaKGF4gVGb9JbBIWQ==}
     peerDependencies:
       '@types/node': '*'
       typescript: '*'
@@ -8305,8 +8311,8 @@ packages:
     resolution: {integrity: sha512-buhp5kePrmda3vhc5B9t7pUQXAb2Tnd0qgpkIhPhkHXxJpiPJ11H0ZEU0oBpJ2QztSbzG/ZxMj/CHsYJqRHmyg==}
     engines: {node: '>= 12.0.0'}
 
-  commitlint-config-techor@3.1.6:
-    resolution: {integrity: sha512-5nwP9BXwowNis+b4FzwdfXbgOYN49x+W220XDPKME0zd7B/TaSaU5lGVL2L9hRV4D5x7JKvsaC+/KQVJpTZKsQ==}
+  commitlint-config-techor@3.1.7:
+    resolution: {integrity: sha512-iumEFwtJMIXkHZtrE7NeBTYYarB2Y6odjhIyGLlMc1Mkz16Xn2db3P6cFtG2rdcjG0Q4xl3XalQTgfq+rDPr6w==}
 
   common-ancestor-path@1.0.1:
     resolution: {integrity: sha512-L3sHRo1pXXEqX8VU28kfgUY+YGsk09hPqZiZmLacNib6XNTCM8ubYeT7ryXQw8asB1sKgcU5lkB7ONug08aB8w==}
@@ -8379,8 +8385,8 @@ packages:
     resolution: {integrity: sha512-ROjNchA9LgfNMTTFSIWPzebCwOGFdgkEq45EnvvrmSLvCtAw0HSmrCs7/ty+wAeYUZyNay0YMUNYFTRL72PkBQ==}
     engines: {node: '>=16'}
 
-  conventional-changelog-techor@3.1.6:
-    resolution: {integrity: sha512-wAxAbk2qZetnV5yLtRjVHqLr3/hhAtktxu3HtFbENOse8mQfKdVzaV1m5pBVZoqZ7x4bkS/jir9iPKjtBoAY7A==}
+  conventional-changelog-techor@3.1.7:
+    resolution: {integrity: sha512-Wjon1oxtMs/4K8ZMPAs57QQ74JilmfN88woojRBvQDkCKdGr7GBrTic58wzaDGkheU6p2OvhbPuoCOK06iO49g==}
 
   conventional-commits-parser@5.0.0:
     resolution: {integrity: sha512-ZPMl0ZJbw74iS9LuX9YIAiW8pfM5p3yh2o/NbXHbkFuZzY5jvdi5jFycEOkmBW5H5I7nA+D6f3UcsCLP2vvSEA==}
@@ -8538,8 +8544,8 @@ packages:
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
     hasBin: true
 
-  cross-import@3.1.6:
-    resolution: {integrity: sha512-9WzBnhOlgEd7NO9rCfEwtbfhWgVGp6t+R8e+d5XS2FV1J0WP1q/jsS/rDPWJej7MBZvlXBxhokChc0leUqVwhg==}
+  cross-import@3.1.7:
+    resolution: {integrity: sha512-cbUcz/BNEG2f7FQmv2JWAXuDecF5FdHFrrUJuhRfoFIKp2kEAkMQgx6s1WMu9xXwEXmkQIk4/zrlzaC1VulQRA==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -9322,8 +9328,8 @@ packages:
       typescript:
         optional: true
 
-  eslint-config-techor@3.1.6:
-    resolution: {integrity: sha512-4f6Mq591A9q25K5XeF2qYTFaOWCu6ECmAHio8A7CWraf7ijc8WBNRAmqQK+dG/X/ghJFmchLK9/0WLkX7IJQEw==}
+  eslint-config-techor@3.1.7:
+    resolution: {integrity: sha512-wMPOC5whffTYx10x10XjEy3hImLtlCTDC6kjMaYHPCMfrnpory1pgHsGK/nabmto9m89tKtigc+TnUgB4xtQ1Q==}
     peerDependencies:
       eslint: '*'
       eslint-plugin-react: '*'
@@ -9746,8 +9752,8 @@ packages:
     resolution: {integrity: sha512-2Zks0hf1VLFYI1kbh0I5jP3KHHyCHpkfyHBzsSXRFgl/Bg9mWYfMW8oD+PdMPlEwy5HNsR9JutYy6pMeOh61nw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  explore-config@3.1.6:
-    resolution: {integrity: sha512-kHPH2R0pR1cpwBS6+DxID5mvlCm9zfbDPKKYgqhnGT40bxwju68FTjQjWrD6IyxjHxjYovTGQsZIKukcGZF1Tw==}
+  explore-config@3.1.7:
+    resolution: {integrity: sha512-APlDth1JQSMDXCx1u15NXXU31hlDKNwjErcptRyETcNYpXvyGwXdK75yedalEBdcoW2LjbAtGv1R8cK6w8BRZg==}
 
   exponential-backoff@3.1.1:
     resolution: {integrity: sha512-dX7e/LHVJ6W3DE1MHWi9S1EYzDESENfLrYohG2G++ovZrYOkm4Knwa0mc1cn84xJOR4KEU0WSchhLbd0UklbHw==}
@@ -15252,11 +15258,11 @@ packages:
     resolution: {integrity: sha512-5S7Va8hKfV7W5U6g3aYxXmlPoZVAwUMy9AOKyF2fVuZa2UD3qZjg578OrLRt8PcNN1PleVaL/5/yYATNL0ICUw==}
     engines: {node: '>=18'}
 
-  techor-conventional-commits@3.1.6:
-    resolution: {integrity: sha512-2KBD5zpVPIoLHEkGXl9K8+o9x+cLYJAipn2B8MuLHrXw3eOwpKuFAu2GsNVmR4fF1SSgH2D2CSXbC25kqlWfMQ==}
+  techor-conventional-commits@3.1.7:
+    resolution: {integrity: sha512-hKaLnn8vCUpQ56uV2x3p/+O+v0ElaeSW9tS3/cogASlltB9Lawy0+R6nTMLBTneJ/MIK/kh38+J2XJ1Yuu4XuQ==}
 
-  techor@3.1.6:
-    resolution: {integrity: sha512-Cw8EGoEYZLQ6ee3/dDrljh78yCxuu/M8L3DvSdV7QVJxkDJ+1K2XVezZS+r7M+Ld1dMUIkzeHEOd7km2vvtzBQ==}
+  techor@3.1.7:
+    resolution: {integrity: sha512-cK/dXhOs3kjrt5WPlToCOOXA8dNKVPWfLi8L/VOmxpMDpU1F27FvvsXRtANJcjSgMAIBJa1og2+YSnTQDBzRyg==}
     hasBin: true
 
   teeny-request@8.0.3:
@@ -20926,14 +20932,14 @@ snapshots:
     dependencies:
       '@master/colors': 2.1.0
       '@master/normal.css': 3.1.0
-      '@techor/extend': 3.1.6
+      '@techor/extend': 3.1.7
       csstype: 3.1.3
 
   '@master/css@2.0.0-rc.46':
     dependencies:
       '@master/colors': 2.1.0
       '@master/normal.css': 3.1.0
-      '@techor/extend': 3.1.6
+      '@techor/extend': 3.1.7
       csstype: 3.1.3
 
   '@master/normal.css@2.1.1': {}
@@ -22210,7 +22216,7 @@ snapshots:
       '@typescript-eslint/parser': 5.62.0(eslint@8.57.1)(typescript@4.9.5)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.7
-      eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0)(eslint@8.57.1)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
       eslint-plugin-jest: 26.9.0(@typescript-eslint/eslint-plugin@5.62.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@4.9.5)
       eslint-plugin-jest-dom: 4.0.3(eslint@8.57.1)
@@ -22899,16 +22905,18 @@ snapshots:
 
   '@techor/extend@3.1.6': {}
 
-  '@techor/fs@3.1.6': {}
+  '@techor/extend@3.1.7': {}
 
-  '@techor/glob@3.1.6':
+  '@techor/fs@3.1.7': {}
+
+  '@techor/glob@3.1.7':
     dependencies:
       fast-glob: 3.3.2
       upath: 2.0.1
 
-  '@techor/jest-dom@3.1.6(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))':
+  '@techor/jest-dom@3.1.7(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))':
     dependencies:
-      '@techor/jest': 3.1.6(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))
+      '@techor/jest': 3.1.7(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))
       jest: 29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))
       jest-environment-jsdom: 29.7.0
       ts-jest: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2)
@@ -22920,7 +22928,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@techor/jest@3.1.6(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))':
+  '@techor/jest@3.1.7(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))':
     dependencies:
       '@swc/core': 1.10.1(@swc/helpers@0.5.15)
       '@swc/jest': 0.2.37(@swc/core@1.10.1(@swc/helpers@0.5.15))
@@ -22933,21 +22941,23 @@ snapshots:
 
   '@techor/log@3.1.6': {}
 
-  '@techor/npm@3.1.6':
+  '@techor/log@3.1.7': {}
+
+  '@techor/npm@3.1.7':
     dependencies:
-      '@techor/extend': 3.1.6
-      '@techor/fs': 3.1.6
-      '@techor/glob': 3.1.6
-      '@techor/log': 3.1.6
+      '@techor/extend': 3.1.7
+      '@techor/fs': 3.1.7
+      '@techor/glob': 3.1.7
+      '@techor/log': 3.1.7
       js-yaml: 4.1.0
 
-  '@techor/repo@3.1.6(@swc/helpers@0.5.15)(@types/node@22.10.2)(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))(typescript@5.7.2)':
+  '@techor/repo@3.1.7(@swc/helpers@0.5.15)(@types/node@22.10.2)(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))(typescript@5.7.2)':
     dependencies:
-      '@techor/jest': 3.1.6(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))
+      '@techor/jest': 3.1.7(@swc/helpers@0.5.15)(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.2)(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2)))(typescript@5.7.2))(ts-node@10.9.2(@swc/core@1.10.1(@swc/helpers@0.5.15))(@types/node@22.10.2)(typescript@5.7.2))
       '@types/node': 22.10.2
-      commitlint-config-techor: 3.1.6(@types/node@22.10.2)(typescript@5.7.2)
-      eslint-config-techor: 3.1.6(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
-      techor: 3.1.6(@swc/helpers@0.5.15)
+      commitlint-config-techor: 3.1.7(@types/node@22.10.2)(typescript@5.7.2)
+      eslint-config-techor: 3.1.7(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
+      techor: 3.1.7(@swc/helpers@0.5.15)
       typescript: 5.7.2
     transitivePeerDependencies:
       - '@swc/helpers'
@@ -23848,7 +23858,7 @@ snapshots:
       '@babel/plugin-syntax-typescript': 7.25.9(@babel/core@7.26.0)
       '@vanilla-extract/babel-plugin-debug-ids': 1.1.0
       '@vanilla-extract/css': 1.16.1
-      esbuild: 0.17.6
+      esbuild: 0.19.12
       eval: 0.1.8
       find-up: 5.0.0
       javascript-stringify: 2.1.0
@@ -25728,12 +25738,12 @@ snapshots:
 
   comment-parser@1.4.1: {}
 
-  commitlint-config-techor@3.1.6(@types/node@22.10.2)(typescript@5.7.2):
+  commitlint-config-techor@3.1.7(@types/node@22.10.2)(typescript@5.7.2):
     dependencies:
       '@commitlint/cli': 19.6.1(@types/node@22.10.2)(typescript@5.7.2)
-      conventional-changelog-techor: 3.1.6
+      conventional-changelog-techor: 3.1.7
       husky: 9.1.7
-      techor-conventional-commits: 3.1.6
+      techor-conventional-commits: 3.1.7
     transitivePeerDependencies:
       - '@types/node'
       - typescript
@@ -25823,11 +25833,11 @@ snapshots:
     dependencies:
       compare-func: 2.0.0
 
-  conventional-changelog-techor@3.1.6:
+  conventional-changelog-techor@3.1.7:
     dependencies:
       compare-func: 2.0.0
       dedent: 0.7.0
-      techor-conventional-commits: 3.1.6
+      techor-conventional-commits: 3.1.7
 
   conventional-commits-parser@5.0.0:
     dependencies:
@@ -26019,7 +26029,7 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.6
 
-  cross-import@3.1.6:
+  cross-import@3.1.7:
     dependencies:
       jiti: 2.4.2
       sucrase: 3.35.0
@@ -27054,7 +27064,7 @@ snapshots:
       - eslint-plugin-import-x
       - supports-color
 
-  eslint-config-techor@3.1.6(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2):
+  eslint-config-techor@3.1.7(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint-plugin-react-hooks@5.1.0(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.16(eslint@9.17.0(jiti@2.4.2)))(eslint-plugin-react@7.37.2(eslint@9.17.0(jiti@2.4.2)))(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2):
     dependencies:
       '@eslint/js': 9.17.0
       '@typescript-eslint/eslint-plugin': 8.18.1(@typescript-eslint/parser@8.18.1(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)
@@ -27088,7 +27098,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-import-resolver-typescript@3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0)(eslint@8.57.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.0(supports-color@9.4.0)
@@ -27164,14 +27174,14 @@ snapshots:
     dependencies:
       eslint: 9.17.0(jiti@2.4.2)
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 5.62.0(eslint@8.57.1)(typescript@4.9.5)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0)(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -27276,7 +27286,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@4.9.5))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@5.62.0(eslint@8.57.1)(typescript@4.9.5))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.16.0
       is-glob: 4.0.3
@@ -27940,9 +27950,9 @@ snapshots:
       jest-message-util: 29.7.0
       jest-util: 29.7.0
 
-  explore-config@3.1.6:
+  explore-config@3.1.7:
     dependencies:
-      cross-import: 3.1.6
+      cross-import: 3.1.7
 
   exponential-backoff@3.1.1: {}
 
@@ -35748,23 +35758,23 @@ snapshots:
       mkdirp: 3.0.1
       yallist: 5.0.0
 
-  techor-conventional-commits@3.1.6: {}
+  techor-conventional-commits@3.1.7: {}
 
-  techor@3.1.6(@swc/helpers@0.5.15):
+  techor@3.1.7(@swc/helpers@0.5.15):
     dependencies:
       '@rollup/plugin-commonjs': 28.0.2(rollup@4.28.1)
       '@rollup/plugin-node-resolve': 16.0.0(rollup@4.28.1)
       '@swc/core': 1.10.1(@swc/helpers@0.5.15)
-      '@techor/extend': 3.1.6
-      '@techor/fs': 3.1.6
-      '@techor/glob': 3.1.6
-      '@techor/log': 3.1.6
-      '@techor/npm': 3.1.6
+      '@techor/extend': 3.1.7
+      '@techor/fs': 3.1.7
+      '@techor/glob': 3.1.7
+      '@techor/log': 3.1.7
+      '@techor/npm': 3.1.7
       acorn: 8.14.0
       clsx: 2.1.1
       escodegen: 2.1.0
       execa: 9.5.2
-      explore-config: 3.1.6
+      explore-config: 3.1.7
       get-tsconfig: 4.8.1
       hrtime: 0.5.0
       lodash.isequal: 4.5.0
