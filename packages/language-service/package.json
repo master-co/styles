@@ -17,7 +17,7 @@
         "directory": "packages/language-service"
     },
     "dependencies": {
-        "@babel/parser": "^7.24.1",
+        "@babel/parser": "^7.26.3",
         "@master/css": "workspace:^",
         "@techor/extend": "^3.1.6",
         "color-convert": "^2.0.1",
@@ -26,21 +26,21 @@
         "culori": "^4.0.1",
         "js-beautify": "^1.15.1",
         "lodash.escaperegexp": "^4.1.2",
-        "minimatch": "^9.0.3",
-        "pex-color": "^2.1.0",
-        "vscode-css-languageservice": "^6.2.13",
+        "minimatch": "^10.0.1",
+        "pex-color": "^2.2.0",
+        "vscode-css-languageservice": "^6.3.2",
         "vscode-languageserver-protocol": "^3.17.5",
-        "vscode-languageserver-textdocument": "^1.0.11"
+        "vscode-languageserver-textdocument": "^1.0.12"
     },
     "devDependencies": {
-        "@types/chroma-js": "^2.4.4",
-        "@types/color-convert": "^2.0.3",
-        "@types/color-rgba": "^2.1.2",
-        "@types/culori": "^2.1.0",
+        "@types/chroma-js": "^2.4.5",
+        "@types/color-convert": "^2.0.4",
+        "@types/color-rgba": "^2.1.3",
+        "@types/culori": "^2.1.1",
         "@types/lodash.escaperegexp": "^4.1.9",
-        "@types/vscode": "^1.87.0",
+        "@types/vscode": "^1.96.0",
         "shared": "workspace:^",
-        "vscode-languageserver": "^7.0.0"
+        "vscode-languageserver": "^9.0.1"
     },
     "sideEffects": false,
     "main": "./dist/index.cjs",
