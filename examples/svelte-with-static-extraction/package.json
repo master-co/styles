@@ -16,7 +16,7 @@
         "@master/css-extractor.vite": "workspace:^",
         "@master/css-runtime": "workspace:^",
         "@neoconfetti/svelte": "^2.2.1",
-        "@sveltejs/adapter-auto": "^3.3.1",
+        "@sveltejs/adapter-vercel": "^5.5.2",
         "@sveltejs/kit": "^2.10.1",
         "@sveltejs/vite-plugin-svelte": "^5.0.1",
         "eslint": "^9.16.0",
