@@ -1,5 +1,5 @@
 import Layout from './Layout'
-import { dirname } from 'node:path'
+import { dirname } from 'path'
 import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 /* @ts-expect-error toc */

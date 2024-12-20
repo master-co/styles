@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import define from '~/internal/utils/metadata'
 
 const metadata= define({
@@ -7,7 +8,7 @@ const metadata= define({
     openGraph: {
         title: 'Playground'
     },
-    filename: import.meta.url
+    filename: fileURLToPath(import.meta.url)
 })
 
 export default metadata

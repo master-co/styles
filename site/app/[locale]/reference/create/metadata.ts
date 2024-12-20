@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -5,7 +6,7 @@ const metadata = define({
     description: 'Set up or create a modern web app by running one command.',
     category: 'Package',
     order: 1,
-    filename: import.meta.url
+    filename: fileURLToPath(import.meta.url)
 })
 
 export default metadata

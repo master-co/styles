@@ -27,7 +27,8 @@
             }
         ],
         "types": [
-            "mdx"
+            "mdx",
+            "node"
         ]
     },
     "exclude": [

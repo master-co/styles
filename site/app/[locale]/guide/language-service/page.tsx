@@ -1,6 +1,6 @@
 import DocLayout from 'internal/layouts/doc'
 import Content from './content.mdx'
-import { dirname } from 'node:path'
+import { dirname } from 'path'
 import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 import { createTranslation } from 'internal/utils/i18n'

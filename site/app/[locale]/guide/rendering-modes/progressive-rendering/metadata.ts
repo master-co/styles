@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -5,7 +6,7 @@ const metadata = define({
     description: 'Render the CSS rules required for the page on the server side or at build time, and lazily load the runtime engine.',
     category: 'Rendering Modes',
     unfinished: true,
-    filename: import.meta.url
+    filename: fileURLToPath(import.meta.url)
 })
 
 export default metadata

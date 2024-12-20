@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -6,7 +7,7 @@ const metadata = define({
     category: 'Syntax Tutorial',
     order: 3,
     disabled: true,
-    filename: import.meta.url
+    filename: fileURLToPath(import.meta.url)
 })
 
 export default metadata

@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -7,7 +8,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=justify-items',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items',
-    filename: import.meta.url
+    filename: fileURLToPath(import.meta.url)
 })
 
 export default metadata

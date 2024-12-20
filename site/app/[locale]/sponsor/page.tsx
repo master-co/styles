@@ -1,6 +1,6 @@
 
 import Layout from 'internal/layouts/doc'
-import { dirname } from 'node:path'
+import { dirname } from 'path'
 import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 import Content from './content.mdx'

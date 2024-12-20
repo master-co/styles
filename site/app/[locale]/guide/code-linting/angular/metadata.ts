@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -5,7 +6,7 @@ const metadata = define({
     description: 'Guide to installing Master CSS ESLint in your Angular project.',
     category: 'Code Linting',
     vercelOG: true,
-    filename: import.meta.url
+    filename: fileURLToPath(import.meta.url)
 })
 
 export default metadata
