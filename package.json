@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "vercel-install": "node ./submodules",
+        "submodules": "pnpm dlx tsx submodules",
         "postinstall": "pnpm dlx husky install",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./packages/*\" build",
         "build:examples": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm --filter \"./examples/*\" --parallel build",
