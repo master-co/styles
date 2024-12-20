@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -15,7 +14,7 @@ const metadata = define({
         description: 'An ESLint plugin enforcing a consistent coding style for Master CSS.'
     },
     vercelOG: true,
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

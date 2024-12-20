@@ -8,7 +8,7 @@ const metadata= define({
     openGraph: {
         title: 'Playground'
     },
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

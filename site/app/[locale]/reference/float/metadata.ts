@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -7,7 +6,7 @@ const metadata = define({
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=float',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/float',
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

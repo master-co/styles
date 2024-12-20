@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -6,7 +5,7 @@ const metadata = define({
     description: 'Adapt your user interface to different devices with flexible responsive syntax.',
     category: 'Syntax Tutorial',
     order: 4,
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

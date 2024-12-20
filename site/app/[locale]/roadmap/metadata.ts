@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from '~/internal/utils/metadata'
 
 const metadata = define({
@@ -7,7 +6,7 @@ const metadata = define({
     date: '2024-03-12T16:19:12.321Z',
     category: 'v' + process.env.NEXT_PUBLIC_VERSION,
     authors: [{ name: 'Aron' }],
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

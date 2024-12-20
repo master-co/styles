@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -6,7 +5,7 @@ const metadata = define({
     description: 'Paste the esm.sh CDN to instantly launch the Master CSS runtime engine.',
     category: 'Installation',
     vercelOG: true,
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

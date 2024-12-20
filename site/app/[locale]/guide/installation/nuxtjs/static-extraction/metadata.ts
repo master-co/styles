@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -6,7 +5,7 @@ const metadata = define({
     description: 'Guide to setting up Master CSS static extraction in your Nuxt.js project.',
     category: 'Installation',
     vercelOG: true,
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

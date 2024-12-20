@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -9,7 +8,7 @@ const metadata = define({
         subject: 'Markup-driven'
     },
     order: 2,
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

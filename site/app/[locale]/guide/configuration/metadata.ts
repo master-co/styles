@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -6,7 +5,7 @@ const metadata = define({
     description: 'Implement your design system using the configuration API.',
     category: 'Customization',
     order: 1,
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata

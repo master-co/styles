@@ -1,4 +1,3 @@
-import { fileURLToPath } from 'url'
 import define from 'internal/utils/metadata'
 
 const metadata = define({
@@ -8,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=shape-image-threshold',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/shape-image-threshold',
-    filename: fileURLToPath(import.meta.url)
+    filename: __filename
 })
 
 export default metadata
