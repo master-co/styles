@@ -12,9 +12,11 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
+const pageCategories = getUnitCategories('reference')
+
 export default async function Page(props: any) {
     return (
-        <Layout {...props} $type="prose" pageCategories={getUnitCategories('reference')} pageDirname={__dirname} metadata={metadata} toc={toc}>
+        <Layout {...props} $type="prose" pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata} toc={toc}>
             <Content />
         </Layout >
     )

@@ -12,9 +12,11 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
+const pageCategories = getUnitCategories('guide')
+
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageCategories={getUnitCategories('guide')} pageDirname={__dirname} hideTabs>
+        <Layout {...props} pageCategories={pageCategories} pageDirname={__dirname} hideTabs>
             <Content />
         </Layout >
     )

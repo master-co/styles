@@ -8,13 +8,15 @@ export async function generateStaticParams() {
     return i18n.locales.map((locale: any) => ({ locale }))
 }
 
+const pageCategories = getUnitCategories('guide')
+
 export default async function Layout({ children }: {
     children: React.ReactElement
 }) {
     return (
         <Body className="bg:base">
             <DocHeader contained />
-            <DocSidebar pageCategories={getUnitCategories('guide')} />
+            <DocSidebar pageCategories={pageCategories} />
             {children}
         </Body>
     )

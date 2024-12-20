@@ -12,11 +12,13 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
+const pageCategories = getUnitCategories('guide')
+
 export default async function Layout(props: any) {
     const { locale } = await props.params
     const $ = createTranslation(locale)
     return (
-        <DocLayout {...props} pageCategories={getUnitCategories('guide')} pageDirname={__dirname} metadata={metadata}>
+        <DocLayout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
             <Content />
         </DocLayout >
     )
