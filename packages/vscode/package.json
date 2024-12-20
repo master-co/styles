@@ -8,7 +8,7 @@
         "lint": "eslint",
         "vscode:publish": "vsce publish --pre-release"
     },
-    "version": "2.0.9",
+    "version": "2.0.10",
     "description": "Master CSS for Visual Studio Code",
     "displayName": "Master CSS",
     "author": "Aoyue Design LLC.",
@@ -23,7 +23,7 @@
         "directory": "packages/vscode"
     },
     "engines": {
-        "vscode": "^1.87.0"
+        "vscode": "^1.96.0"
     },
     "activationEvents": [
         "onStartupFinished"
@@ -34,7 +34,10 @@
         "./server": "./dist/server.min.cjs"
     },
     "files": [
-        "dist"
+        "dist",
+        "syntaxes",
+        "LICENSE",
+        "icon.png"
     ],
     "capabilities": {
         "virtualWorkspaces": {
