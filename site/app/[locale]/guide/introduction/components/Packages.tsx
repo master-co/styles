@@ -1,37 +1,37 @@
 import Link from 'internal/components/Link'
 
 const mainPackages = [
-    require('~/packages/core/package.json'),
-    require('~/packages/runtime/package.json'),
-    require('~/packages/server/package.json'),
-    require('~/packages/extractor/package.json'),
-    require('~/packages/validator/package.json'),
-    require('~/packages/cli/package.json'),
-    require('~/packages/create/package.json'),
+    await import('~/packages/core/package.json'),
+    await import('~/packages/runtime/package.json'),
+    await import('~/packages/server/package.json'),
+    await import('~/packages/extractor/package.json'),
+    await import('~/packages/validator/package.json'),
+    await import('~/packages/cli/package.json'),
+    await import('~/packages/create/package.json'),
 ]
 
 const integrationPackages = [
-    require('~/packages/react/package.json'),
-    require('~/packages/svelte/package.json'),
-    require('~/packages/vue/package.json'),
-    require('~/packages/nuxt/package.json'),
-    require('~/packages/extractor.vite/package.json'),
-    require('~/packages/extractor.webpack/package.json')
+    await import('~/packages/react/package.json'),
+    await import('~/packages/svelte/package.json'),
+    await import('~/packages/vue/package.json'),
+    await import('~/packages/nuxt/package.json'),
+    await import('~/packages/extractor.vite/package.json'),
+    await import('~/packages/extractor.webpack/package.json')
 ]
 
 const developerToolPackages = [
-    require('~/packages/eslint-config/package.json'),
-    require('~/packages/eslint-plugin/package.json'),
-    require('~/packages/language-server/package.json'),
-    require('~/packages/language-service/package.json'),
-    require('~/packages/vscode/package.json'),
+    await import('~/packages/eslint-config/package.json'),
+    await import('~/packages/eslint-plugin/package.json'),
+    await import('~/packages/language-server/package.json'),
+    await import('~/packages/language-service/package.json'),
+    await import('~/packages/vscode/package.json'),
 ]
 
 const solutionPackages = [
-    require('~/site/node_modules/@master/colors/package.json'),
-    require('~/site/node_modules/@master/normal.css/package.json'),
-    require('~/site/node_modules/theme-mode/package.json'),
-    require('~/site/node_modules/class-variant/package.json'),
+    await import('~/site/node_modules/@master/colors/package.json'),
+    await import('~/site/node_modules/@master/normal.css/package.json'),
+    await import('~/site/node_modules/theme-mode/package.json'),
+    await import('~/site/node_modules/class-variant/package.json'),
 ]
 
 export default () => {
