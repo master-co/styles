@@ -244,7 +244,7 @@ export default function Play(props: any) {
         }
     }, [tab, generatedCSSText, shareItem.files])
 
-    const hotUpdatePreviewByFile = useCallback(debounce(250, () => {
+    const hotUpdatePreviewByFile = useCallback(() => debounce(250, () => {
         if (editorRef.current) {
             tabFile.content = editorRef.current?.getValue()
             validateShareable()
@@ -269,12 +269,12 @@ export default function Play(props: any) {
 
     // dispose monaco providers
     useEffect(() => {
+        const providers = monacoProvidersRef.current
         return () => {
-            monacoProvidersRef.current.forEach((provider: any) => {
+            providers.forEach((provider: any) => {
                 provider.dispose()
             })
             editorRef.current?.dispose()
-
         }
     }, [])
 
@@ -712,7 +712,9 @@ export default function Play(props: any) {
                         )}
                         showHeight={true}
                     >
-                        <iframe ref={previewIframeRef}
+                        <iframe
+                            title="Preview"
+                            ref={previewIframeRef}
                             className={clsx('demo', { hidden: preview === 'css' })}
                             style={{ width: '100%', height: '100%', borderRadius: 0, margin: 0, padding: 0, border: 0 }}
                             sandbox="allow-popups-to-escape-sandbox allow-scripts allow-popups allow-forms allow-same-origin allow-pointer-lock allow-top-navigation allow-modals"
