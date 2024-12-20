@@ -4,7 +4,6 @@ import type { App } from 'internal/contexts/app'
 import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
 import roadmap from './[locale]/roadmap/metadata'
 import Logotype from 'internal/components/CSSLogotype'
-import categories from '../categories'
 
 export default {
     navs: [
