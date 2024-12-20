@@ -1,5 +1,7 @@
 
 import Layout from 'internal/layouts/doc'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 import Content from './content.mdx'
 import { getSponsorTiers } from 'internal/utils/get-sponsor-tiers'
@@ -161,7 +163,7 @@ export default async function Page(props: any): Promise<React.ReactNode> {
     )
 
     return <>
-        <Layout {...props} pageDirname={import.meta.url} metadata={metadata} $hideLeftSide>
+        <Layout {...props} pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata} $hideLeftSide>
             <div className="flex align-items:center gap:10 mb:5x mt:12x">
                 <h2 id="backer" className="m:0!">Backer</h2>
                 <hr className="flex:1|1|auto my:0!" />

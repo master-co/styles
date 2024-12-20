@@ -13,7 +13,7 @@ export async function generateMetadata(props: any, parent: any) {
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageDirname={import.meta.url} metadata={metadata} toc={toc} >
+        <Layout {...props} pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata} toc={toc} >
             <Content />
         </Layout >
     )

@@ -1,3 +1,5 @@
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
@@ -15,7 +17,7 @@ import pageCategories from '~/site/.categories/guide.json'
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageCategories={pageCategories} pageDirname={import.meta.url} metadata={metadata} toc={toc}>
+        <Layout {...props} pageCategories={pageCategories} pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata} toc={toc}>
             <Content />
         </Layout >
     )

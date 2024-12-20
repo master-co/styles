@@ -1,4 +1,6 @@
 import Layout from 'internal/layouts/article'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
@@ -14,7 +16,7 @@ export async function generateMetadata(props: any, parent: any) {
 export default async function Page() {
     return (
         <>
-            <Layout pageDirname={import.meta.url} metadata={metadata} toc={toc} >
+            <Layout pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata} toc={toc} >
                 <Content />
             </Layout >
         </>

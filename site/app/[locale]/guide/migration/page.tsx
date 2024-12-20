@@ -1,3 +1,5 @@
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
@@ -17,7 +19,7 @@ export default async function Layout(props: any) {
     const { locale } = await props.params
     const $ = createTranslation(locale)
     return (
-        <DocLayout {...props} pageCategories={pageCategories} pageDirname={import.meta.url} metadata={metadata}>
+        <DocLayout {...props} pageCategories={pageCategories} pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata}>
             <Content />
         </DocLayout >
     )
