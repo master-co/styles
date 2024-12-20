@@ -16,7 +16,6 @@ const pageCategories = getUnitCategories('guide')
 export default async function Page(props: any) {
     return (
         <Layout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
-            {/* @ts-expect-error */}
             <Content pageCategories={pageCategories} />
         </Layout >
     )
