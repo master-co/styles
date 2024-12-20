@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Customizing utility classes for your design system.',
     category: 'Customization',
     unfinished: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Customizing primitive color variables or starting with the official design system.',
     category: 'Design Token',
     order: 2,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Guide to installing Master CSS ESLint in your React project.',
     category: 'Code Linting',
     vercelOG: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=caret-color',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/caret-color',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

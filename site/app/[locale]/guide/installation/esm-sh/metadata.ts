@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Paste the esm.sh CDN to instantly launch the Master CSS runtime engine.',
     category: 'Installation',
     vercelOG: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

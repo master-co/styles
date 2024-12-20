@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Style utility for imporving the accessibility with screen readers.',
     category: 'Syntax',
     unfinished: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

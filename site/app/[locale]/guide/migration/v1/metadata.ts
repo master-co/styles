@@ -5,7 +5,7 @@ const metadata = define({
     description: 'A guide to upgrading Master CSS from v1 to v2.',
     category: 'Migration',
     vercelOG: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

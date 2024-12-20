@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Style shorthand for setting the min-width and min-height of an element.',
     category: 'Syntax',
     unfinished: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

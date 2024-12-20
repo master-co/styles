@@ -11,7 +11,7 @@ const metadata = define({
         { name: 'Joy' }
     ],
     date: '2023-12-19T15:04:56.712Z',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

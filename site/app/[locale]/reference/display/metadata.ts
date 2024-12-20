@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=display',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/display',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

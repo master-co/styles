@@ -5,7 +5,7 @@ const metadata = define({
     description: 'A guide to creating abstract styles for your design system.',
     category: 'Customization',
     order: 5,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

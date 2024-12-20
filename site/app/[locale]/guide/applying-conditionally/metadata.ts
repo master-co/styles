@@ -6,7 +6,7 @@ const metadata = define({
     category: 'Syntax Tutorial',
     order: 3,
     disabled: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

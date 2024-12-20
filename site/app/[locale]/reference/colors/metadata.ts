@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Customizing color variables or starting with the crafted palette.',
     category: 'Design Token',
     order: 1,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

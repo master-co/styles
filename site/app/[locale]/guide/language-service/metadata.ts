@@ -11,7 +11,7 @@ const metadata = define({
         subject: 'Language Service'
     },
     order: 3,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Language Service',
     description: 'The language service reference for Master CSS.',
     category: 'Package',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

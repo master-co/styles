@@ -14,7 +14,7 @@ const metadata = define({
         description: 'An ESLint plugin enforcing a consistent coding style for Master CSS.'
     },
     vercelOG: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

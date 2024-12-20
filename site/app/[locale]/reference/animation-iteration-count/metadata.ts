@@ -6,7 +6,7 @@ const metadata = define({
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=animation-iteration-count',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/animation-iteration-count',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

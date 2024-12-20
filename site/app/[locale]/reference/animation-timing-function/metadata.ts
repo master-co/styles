@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=animation-timing-function',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

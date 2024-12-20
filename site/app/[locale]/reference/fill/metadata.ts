@@ -8,7 +8,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=fill',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/fill',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

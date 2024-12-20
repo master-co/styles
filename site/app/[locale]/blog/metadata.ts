@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Blog',
     description: 'The latest Master CSS things',
     unfinished: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

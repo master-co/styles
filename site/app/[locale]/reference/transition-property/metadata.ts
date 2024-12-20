@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=transition-property',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/transition-property',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

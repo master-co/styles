@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Render pages early to improve user experience and SEO.',
     category: 'Production Optimization',
     disabled: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=text-decoration-style',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-style',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

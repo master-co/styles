@@ -6,7 +6,7 @@ const metadata = define({
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=float',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/float',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

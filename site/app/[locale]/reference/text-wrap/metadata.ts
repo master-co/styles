@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=text-wrap',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

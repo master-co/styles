@@ -7,7 +7,7 @@ const metadata = define({
     other: {
         subject: 'Unstyled Content'
     },
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

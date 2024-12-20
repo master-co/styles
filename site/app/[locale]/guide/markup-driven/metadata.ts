@@ -8,7 +8,7 @@ const metadata = define({
         subject: 'Markup-driven'
     },
     order: 2,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=grid-area',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/grid-area',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

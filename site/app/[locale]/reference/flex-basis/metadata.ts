@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=flex-basis',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

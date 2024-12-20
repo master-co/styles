@@ -4,7 +4,7 @@ const metadata = define({
     title: 'CLI',
     description: 'Command line interface for Master CSS.',
     category: 'Package',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

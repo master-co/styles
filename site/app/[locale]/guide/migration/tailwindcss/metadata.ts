@@ -5,7 +5,7 @@ const metadata = define({
     description: 'A guide on how to refactor Tailwind CSS using Master CSS.',
     category: 'Migration',
     vercelOG: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=break-after',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/break-after',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -14,7 +14,6 @@ export async function generateMetadata(props: any, parent: any) {
 import pageCategories from '~/site/.categories/guide.json'
 
 export default async function Page(props: any) {
-    console.log(__dirname)
     return (
         <Layout {...props} $type="prose" pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata} toc={toc} h2Big>
             <Content />

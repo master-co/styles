@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Extractor',
     description: 'Master CSS static extractor for various raw text extraction.',
     category: 'Package',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

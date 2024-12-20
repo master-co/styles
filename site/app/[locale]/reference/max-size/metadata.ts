@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Style shorthand for setting the max-width and max-height of an element.',
     category: 'Syntax',
     unfinished: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

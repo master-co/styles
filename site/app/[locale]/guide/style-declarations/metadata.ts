@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Master CSS covers all native CSS features with a structured syntax and simplifies CSS with smart rules.',
     category: 'Syntax Tutorial',
     order: 1,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

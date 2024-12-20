@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=shape-outside',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/shape-outside',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

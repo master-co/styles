@@ -5,7 +5,7 @@ const metadata = define({
     description: 'A revolutionary technology that makes abstract styles transformable.',
     category: 'Fundamentals',
     disabled: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

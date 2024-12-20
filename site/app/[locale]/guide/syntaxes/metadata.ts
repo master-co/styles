@@ -6,7 +6,7 @@ const metadata = define({
     category: 'Customization',
     order: 3,
     unfinished: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

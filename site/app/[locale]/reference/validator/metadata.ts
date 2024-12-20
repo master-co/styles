@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Validator',
     description: 'Validator for Master CSS syntactic class.',
     category: 'Package',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

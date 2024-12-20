@@ -4,7 +4,7 @@ const metadata = define({
     title: 'ESLint',
     description: 'The ESLint configuration and plugin reference for Master CSS.',
     category: 'Package',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=-webkit-text-fill-color',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-fill-color',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

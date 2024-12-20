@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=text-decoration-line',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-line',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

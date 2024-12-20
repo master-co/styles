@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Animations',
     description: 'Customizing animation keyframes for your design system.',
     category: 'Customization',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

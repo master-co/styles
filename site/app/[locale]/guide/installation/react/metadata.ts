@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Guide to setting up Master CSS runtime rendering in your React project.',
     category: 'Installation',
     vercelOG: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

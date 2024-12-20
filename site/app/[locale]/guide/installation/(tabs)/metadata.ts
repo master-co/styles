@@ -10,7 +10,7 @@ const metadata = define({
         subject: 'Installation'
     },
     order: 2,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

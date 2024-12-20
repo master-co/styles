@@ -6,7 +6,7 @@ const metadata = define({
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=box-decoration-break',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/box-decoration-break',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

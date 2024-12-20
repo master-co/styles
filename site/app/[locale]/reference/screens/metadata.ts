@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Screens',
     description: 'Customizing screen sizes and breakpoints for your design system.',
     category: 'Design Token',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

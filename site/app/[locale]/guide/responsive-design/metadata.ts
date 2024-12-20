@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Adapt your user interface to different devices with flexible responsive syntax.',
     category: 'Syntax Tutorial',
     order: 4,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

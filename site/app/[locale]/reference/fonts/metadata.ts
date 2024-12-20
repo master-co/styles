@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Fonts',
     description: 'Customizing fonts for your design system.',
     category: 'Design Token',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

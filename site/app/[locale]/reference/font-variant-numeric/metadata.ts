@@ -7,7 +7,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=font-variant-numeric',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

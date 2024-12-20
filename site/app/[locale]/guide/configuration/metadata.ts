@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Implement your design system using the configuration API.',
     category: 'Customization',
     order: 1,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

@@ -6,7 +6,7 @@ const metadata = define({
     category: 'Syntax',
     canIUseLink: 'https://caniuse.com/?search=font-family',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/font-family',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

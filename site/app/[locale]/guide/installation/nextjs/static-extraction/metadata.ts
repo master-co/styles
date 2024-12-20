@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Guide to setting up Master CSS static extraction in your Next.js project.',
     category: 'Installation',
     vercelOG: true,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

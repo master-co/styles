@@ -6,7 +6,7 @@ const metadata = define({
     date: '2024-03-12T16:19:12.321Z',
     category: 'v' + process.env.NEXT_PUBLIC_VERSION,
     authors: [{ name: 'Aron' }],
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

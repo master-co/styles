@@ -4,7 +4,7 @@ const metadata = define({
     title: 'Core',
     description: 'The core syntax parsing of Master CSS.',
     category: 'Package',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

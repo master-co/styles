@@ -5,7 +5,7 @@ const metadata = define({
     description: 'Normalize browser and preset global styles for more concise-style programming.',
     category: 'Customization',
     order: 1,
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata

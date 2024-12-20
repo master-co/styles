@@ -8,7 +8,7 @@ const metadata = define({
     unfinished: true,
     canIUseLink: 'https://caniuse.com/?search=-webkit-text-stroke-width',
     mdnLink: 'https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-stroke-width',
-    filename: __filename
+    fileURL: import.meta.url
 })
 
 export default metadata
