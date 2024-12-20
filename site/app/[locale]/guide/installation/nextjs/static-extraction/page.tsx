@@ -1,5 +1,4 @@
 import Layout from 'internal/layouts/doc'
-import { getUnitCategories } from '~/site/metadata'
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'

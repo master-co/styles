@@ -1,10 +1,9 @@
 import Tabs, { Tab } from 'internal/components/Tabs'
 import { createTranslation } from 'internal/utils/i18n'
 import DocLayout from 'internal/layouts/doc'
-import { getUnitCategories } from '~/site/metadata'
 import metadata from './metadata'
 
-const pageCategories = getUnitCategories('guide')
+import pageCategories from '~/site/.categories/guide.json'
 
 export default async function Layout(props: any) {
     const { locale } = await props.params

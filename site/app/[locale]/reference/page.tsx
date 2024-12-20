@@ -1,5 +1,4 @@
 import Layout from 'internal/layouts/doc'
-import { getUnitCategories } from '~/site/metadata'
 import metadata from './metadata'
 import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
@@ -11,7 +10,7 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
-const pageCategories = getUnitCategories('reference')
+import pageCategories from '~/site/.categories/reference.json'
 
 export default async function Page(props: any) {
     return (

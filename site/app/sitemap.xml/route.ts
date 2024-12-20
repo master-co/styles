@@ -1,6 +1,7 @@
 import generateSitemapResponse from 'internal/utils/generate-sitemap-response'
-import { definedMetadataList } from '~/site/metadata'
+import pages from '~/site/.pages.json'
+
 
 export function GET(request: Request) {
-    return generateSitemapResponse(request, definedMetadataList)
+    return generateSitemapResponse(request, pages)
 }

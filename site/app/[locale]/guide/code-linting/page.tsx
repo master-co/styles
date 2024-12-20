@@ -2,7 +2,6 @@ import metadata from './metadata'
 import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
 import Layout from 'internal/layouts/doc'
-import { getUnitCategories } from '~/site/metadata'
 import ESLintSvg from '~/site/public/icons/eslint.svg'
 
 export const dynamic = 'force-static'
@@ -12,7 +11,7 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
-const pageCategories = getUnitCategories('guide')
+import pageCategories from '~/site/.categories/guide.json'
 
 export default async function Page(props: any) {
     return (
