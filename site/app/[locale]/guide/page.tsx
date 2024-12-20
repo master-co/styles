@@ -1,6 +1,4 @@
 import Layout from 'internal/layouts/doc'
-import { dirname } from 'path'
-import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 import Content from './content.mdx'
 import generate from 'internal/utils/generate-metadata'
@@ -16,7 +14,7 @@ import pageCategories from '~/site/.categories/guide.json'
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageCategories={pageCategories} pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata}>
+        <Layout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
             <Content pageCategories={pageCategories} />
         </Layout >
     )

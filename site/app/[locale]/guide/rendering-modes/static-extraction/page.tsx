@@ -1,6 +1,4 @@
 import Layout from 'internal/layouts/doc'
-import { dirname } from 'path'
-import { fileURLToPath } from 'node:url'
 import metadata from './metadata'
 /* @ts-expect-error toc */
 import Content, { toc } from './content.mdx'
@@ -15,7 +13,7 @@ export async function generateMetadata(props: any, parent: any) {
 
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata} toc={toc} backOnClickCategory='/guide/rendering-modes'>
+        <Layout {...props} pageDirname={__dirname} metadata={metadata} toc={toc} backOnClickCategory='/guide/rendering-modes'>
             <Content />
         </Layout >
     )
