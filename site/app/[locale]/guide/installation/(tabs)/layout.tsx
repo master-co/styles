@@ -9,7 +9,7 @@ export default async function Layout(props: any) {
     const { locale } = await props.params
     const $ = createTranslation(locale)
     return (
-        <DocLayout {...props} pageCategories={pageCategories} pageDirname={dirname(fileURLToPath(import.meta.url))} metadata={metadata}>
+        <DocLayout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
             <Tabs className="mb:8x">
                 <Tab href='/guide/installation'>{$('Guides')}</Tab>
                 <Tab href='/guide/installation/cdn'>{$('CDN')}</Tab>
