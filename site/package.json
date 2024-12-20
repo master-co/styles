@@ -1,8 +1,9 @@
 {
     "name": "site",
     "private": true,
+    "type": "module",
     "scripts": {
-        "prepare": "tsx ../internal/scripts/prepare-app",
+        "prepare": "tsx --env-file=.env ../internal/scripts/prepare-app",
         "dev": "pnpm prepare && next dev",
         "build": "cross-env NODE_OPTIONS=--max-old-space-size=16384 pnpm prepare && cd ../ && pnpm build && cd site && next build && node ../packages/cli/dist/bin/index.mjs render \".next/**/*.html\"",
         "start": "next start",

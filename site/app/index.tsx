@@ -4,7 +4,7 @@ import type { App } from 'internal/contexts/app'
 import { IconCompass, IconFileText, IconRoad, IconSourceCode } from '@tabler/icons-react'
 import roadmap from './[locale]/roadmap/metadata'
 import Logotype from 'internal/components/CSSLogotype'
-import categories from './categories'
+import categories from '../categories'
 
 export default {
     navs: [
@@ -16,7 +16,6 @@ export default {
         // { name: 'Components', href: '/components', Icon: IconComponents, disabled: true },
         // { name: 'Templates', href: '/templates', disabled: true }
     ],
-    categories,
     versions: [
         { name: 'v1.37.3', href: 'https://css.master.co' }
     ],
