@@ -1,4 +1,4 @@
-import { Body } from 'internal/layouts/root'
+import Body from 'internal/layouts/body'
 import metadata from './metadata'
 import generate from 'internal/utils/generate-metadata'
 import Script from 'next/script'

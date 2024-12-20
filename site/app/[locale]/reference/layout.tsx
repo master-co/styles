@@ -1,4 +1,4 @@
-import { Body } from 'internal/layouts/root'
+import Body from 'internal/layouts/body'
 import i18n from 'internal/common/i18n.config.mjs'
 import DocHeader from 'internal/components/DocHeader'
 import DocSidebar from 'internal/components/DocSidebar'

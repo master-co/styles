@@ -1,10 +1,12 @@
 import NotFoundLayout from 'internal/layouts/not-found'
-import app from '.'
-import config from '~/site/master.css'
-import redirects from '../redirects.mjs'
+import RootClient from './root'
+import { importTranslations } from '~/internal/utils/i18n'
 
 export default async function NotFound() {
+    const translations = importTranslations('en')
     return (
-        <NotFoundLayout app={app} cssConfig={config} redirects={redirects}/>
+        <RootClient locale='en' translations={translations} style={{ display: 'none' }}>
+            <NotFoundLayout />
+        </RootClient>
     )
 }

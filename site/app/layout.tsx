@@ -1,8 +1,10 @@
-if (process.env.NODE_ENV === 'development') {
-    require('~/site/master.css')
-}
+import { Viewport } from 'next'
 
-export { viewport } from 'internal/layouts/root'
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    viewportFit: 'cover'
+}
 
 export const metadata = {
     title: {

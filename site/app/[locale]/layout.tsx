@@ -1,26 +1,16 @@
-import RootLayout from 'internal/layouts/root'
 import i18n from '~/internal/common/i18n.config.mjs'
-import app from '~/site/app'
-import redirects from '~/site/redirects.mjs'
-import cssConfig from '~/site/master.css'
+import RootClient from '../root'
+import { importTranslations } from '~/internal/utils/i18n'
 
 export default async function Layout({ children, params }: {
     children: React.ReactElement,
     params: Promise<{ locale: typeof i18n.locales[number] }>
 }) {
     const { locale } = await params
+    const translations = importTranslations(locale)
     return (
-        <RootLayout
-            app={app}
-            cssConfig={cssConfig}
-            locale={locale}
-            redirects={redirects}
-        >
+        <RootClient locale={locale} translations={translations}>
             {children}
-        </RootLayout>
+        </RootClient>
     )
-}
-
-if (process.env.NODE_ENV === 'development') {
-    require('~/site/master.css')
 }
