@@ -11,10 +11,13 @@ export async function generateMetadata(props: any, parent: any) {
     return await generate(metadata, props, parent)
 }
 
+const pageCategories = getUnitCategories('guide')
+
 export default async function Page(props: any) {
     return (
-        <Layout {...props} pageCategories={getUnitCategories('guide')} pageDirname={__dirname} metadata={metadata}>
-            <Content />
+        <Layout {...props} pageCategories={pageCategories} pageDirname={__dirname} metadata={metadata}>
+            {/* @ts-expect-error */}
+            <Content pageCategories={pageCategories} />
         </Layout >
     )
 }
