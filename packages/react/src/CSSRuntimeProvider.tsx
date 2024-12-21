@@ -2,87 +2,54 @@
 
 import type { Config } from '@master/css'
 import { RuntimeCSS } from '@master/css-runtime'
-import React, { useEffect, useLayoutEffect, createContext, useContext, useState, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, createContext, useContext, useRef } from 'react'
 
 export const RuntimeCSSContext = createContext<RuntimeCSS | undefined>(undefined)
 export const useRuntimeCSS = () => useContext(RuntimeCSSContext)
+const useIsomorphicEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export default function CSSRuntimeProvider({ children, config, root }: {
     children: React.ReactNode,
     config?: Config | Promise<any>,
     root?: Document | ShadowRoot
 }) {
-    const [runtimeCSS, setCSSRuntime] = useState<RuntimeCSS>()
-    const identifier = useRef<number>(0)
-    const initializing = useRef<boolean>(false)
-    const newRuntimeCSS = useRef<RuntimeCSS | undefined>(undefined)
-    const isExternalRuntimeCSS = useRef<boolean>(false)
-    const waitInitialized = async () => {
-        const currentIdentifier = ++identifier.current
-        if (initializing.current) {
-            await new Promise<void>((resolve) => {
-                const interval = setInterval(() => {
-                    if (!initializing.current) {
-                        clearInterval(interval)
-                        resolve()
-                    }
-                }, 10)
-            })
-        }
-        return currentIdentifier === identifier.current
-    }
+    const runtimeCSS = useRef<RuntimeCSS>(undefined)
 
-    (typeof window !== 'undefined' ? useLayoutEffect : useEffect)(() => {
-        (async () => {
-            if (!await waitInitialized())
-                return
-
+    useIsomorphicEffect(() => {
+        const controller = new AbortController()
+        const initialize = async () => {
             const configModule = await config
+            if (controller.signal.aborted) return
             const resolvedConfig = configModule?.config || configModule?.default || configModule
-
-            const init = async () => {
-                initializing.current = true
-
-                const currentRoot = root ?? document
-                const existingCSSRuntime = (globalThis as any).runtimeCSSs.find((eachCSS: RuntimeCSS) => eachCSS.root === currentRoot)
-                if (existingCSSRuntime) {
-                    setCSSRuntime(newRuntimeCSS.current = existingCSSRuntime)
-                    isExternalRuntimeCSS.current = true
-                } else {
-                    setCSSRuntime(newRuntimeCSS.current = new RuntimeCSS(root, resolvedConfig).observe())
-                    isExternalRuntimeCSS.current = false
-                }
-
-                initializing.current = false
-            }
-
-            if (!newRuntimeCSS.current) {
-                await init()
-            } else if (
-                newRuntimeCSS.current.root !== root
-                && (root || newRuntimeCSS.current.root !== document)
-            ) {
-                newRuntimeCSS.current.destroy()
-                await init()
+            const currentRoot = root ?? document
+            const existingCSSRuntime = (globalThis as any).runtimeCSSs.find((eachCSS: RuntimeCSS) => eachCSS.root === currentRoot)
+            if (existingCSSRuntime) {
+                runtimeCSS.current = existingCSSRuntime
             } else {
-                newRuntimeCSS.current.refresh(resolvedConfig)
+                runtimeCSS.current = new RuntimeCSS(root, resolvedConfig).observe()
+                console.log(runtimeCSS.current.style.sheet?.cssRules.length)
             }
-        })()
-    }, [config, root])
+        }
+        initialize()
+        return () => {
+            controller.abort()
+            runtimeCSS?.current?.destroy()
+        }
+    }, [config, root, runtimeCSS])
 
     useEffect(() => {
-        return () => {
-            if (!isExternalRuntimeCSS.current) {
-                (async () => {
-                    if (!await waitInitialized())
-                        return
-
-                    newRuntimeCSS.current?.destroy()
-                    newRuntimeCSS.current = undefined
-                })()
-            }
+        const controller = new AbortController()
+        const initialize = async () => {
+            const configModule = await config
+            if (controller.signal.aborted || !runtimeCSS.current) return
+            const resolvedConfig = configModule?.config || configModule?.default || configModule
+            runtimeCSS.current.refresh(resolvedConfig)
         }
-    }, [])
+        initialize()
+        return () => {
+            controller.abort()
+        }
+    }, [config])
 
-    return <RuntimeCSSContext.Provider value={runtimeCSS}>{children}</RuntimeCSSContext.Provider>
+    return <RuntimeCSSContext.Provider value={runtimeCSS.current}>{children}</RuntimeCSSContext.Provider>
 }
