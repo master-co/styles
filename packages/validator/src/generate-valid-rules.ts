@@ -1,4 +1,4 @@
-import { Config, MasterCSS, Rule } from '@master/css'
+import { MasterCSS } from '@master/css'
 import validateCSS from './validate-css'
 
 /**
@@ -8,7 +8,7 @@ import validateCSS from './validate-css'
 export default function generateValidRules(
     syntax: string,
     css = new MasterCSS()
-): Rule[] {
+) {
     const rules = css.generate(syntax)
     if (rules.length) {
         for (const eachRule of rules) {
