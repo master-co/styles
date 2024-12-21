@@ -2,15 +2,7 @@ import { Rule } from './rule'
 import MasterCSS from './core'
 
 export default class Layer {
-
     readonly ruleBy: Record<string, Rule> = {}
-
-    get text(): string {
-        return this.name
-            ? '@layer ' + this.name + '{' + this.rules.map((eachRule) => (eachRule as Rule).text).join('') + '}'
-            : this.rules.map((eachRule) => (eachRule as Rule).text).join('')
-    }
-
     native?: CSSLayerBlockRule | CSSStyleSheet
     rules: (Rule | Layer)[] = []
 
@@ -36,7 +28,7 @@ export default class Layer {
                     if ('natives' in previouRule) {
                         if (!previouRule.natives.length)
                             return getLastCssRule(layer, index - 1)
-    
+
                         const lastNativeRule = previouRule.natives[previouRule.natives.length - 1]
                         lastCssRule = lastNativeRule.cssRule
                     } else {
@@ -89,6 +81,7 @@ export default class Layer {
                 for (let i = 0; i < this.native.cssRules.length; i++) {
                     const eachCSSRule = this.native.cssRules[i]
                     if (eachCSSRule === firstNativeRule.cssRule) {
+                        // eslint-disable-next-line @typescript-eslint/prefer-for-of
                         for (let j = 0; j < rule.natives.length; j++) {
                             this.native.deleteRule(i)
                         }
@@ -104,5 +97,11 @@ export default class Layer {
 
     getName(className: string, fixedClass?: string) {
         return (fixedClass ? fixedClass + ' ' : '') + className
+    }
+
+    get text(): string {
+        return this.name
+            ? '@layer ' + this.name + '{' + this.rules.map((eachRule) => (eachRule as Rule).text).join('') + '}'
+            : this.rules.map((eachRule) => (eachRule as Rule).text).join('')
     }
 }

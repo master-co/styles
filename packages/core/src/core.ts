@@ -600,8 +600,8 @@ export default class MasterCSS {
         return this
     }
 
-    insert(...rules: SyntaxRule[]) {
-        for (const eachSyntaxRule of rules) {
+    insert(...syntaxRules: SyntaxRule[]) {
+        for (const eachSyntaxRule of syntaxRules) {
             if (eachSyntaxRule.fixedClass) {
                 this.styleLayer.insert(eachSyntaxRule)
             } else {
