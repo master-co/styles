@@ -2,9 +2,7 @@ import Layer from './layer'
 import { AtFeatureComponent, SyntaxRule } from './syntax-rule'
 
 export default class SyntaxLayer extends Layer {
-
     readonly ruleBy: Record<string, SyntaxRule> = {}
-
     rules: SyntaxRule[] = []
 
     /**
@@ -283,33 +281,19 @@ export default class SyntaxLayer extends Layer {
                 }
             }
         }
-
         super.insert(syntaxRule, index)
-
-        // variables
         this.css.themeLayer.insert(syntaxRule)
-
-        // keyframe
         this.css.keyframeLayer.insert(syntaxRule)
-
         syntaxRule.definition.insert?.call(syntaxRule)
-        
         return index
     }
 
     delete(className: string, fixedClass?: string): SyntaxRule {
         const syntaxRule = super.delete(className, fixedClass) as SyntaxRule
-        if (!syntaxRule)
-            return syntaxRule
-
-        // variables
+        if (!syntaxRule) return syntaxRule
         this.css.themeLayer.delete(syntaxRule)
-
-        // animations
         this.css.keyframeLayer.delete(syntaxRule)
-
         syntaxRule.definition.delete?.call(syntaxRule, syntaxRule.name)
-
         return syntaxRule
     }
 
