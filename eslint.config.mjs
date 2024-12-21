@@ -7,5 +7,10 @@ const gitignorePath = fileURLToPath(new URL('./.gitignore', import.meta.url))
 export default [
     includeIgnoreFile(gitignorePath),
     techor.configs.base,
-    techor.configs.stylistic
+    techor.configs.stylistic,
+    {
+        rules: {
+            '@typescript-eslint/no-non-null-assertion': 'off'
+        }
+    }
 ]
