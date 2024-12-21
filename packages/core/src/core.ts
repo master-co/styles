@@ -27,9 +27,7 @@ export type TypeVariable = StringVariable | NumberVariable | ColorVariable
 export type Variable = TypeVariable & VariableCommon
 
 export default class MasterCSS {
-
     static config: Config = defaultConfig
-
     readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
@@ -596,13 +594,18 @@ export default class MasterCSS {
         for (const className of classNames) {
             const syntaxeRules = this.generate(className)
             if (syntaxeRules.length) {
-                for (const eachSyntaxRule of syntaxeRules) {
-                    if (eachSyntaxRule.fixedClass) {
-                        this.styleLayer.insert(eachSyntaxRule)
-                    } else {
-                        this.utilityLayer.insert(eachSyntaxRule)
-                    }
-                }
+                this.insert(...syntaxeRules)
+            }
+        }
+        return this
+    }
+
+    insert(...rules: SyntaxRule[]) {
+        for (const eachSyntaxRule of rules) {
+            if (eachSyntaxRule.fixedClass) {
+                this.styleLayer.insert(eachSyntaxRule)
+            } else {
+                this.utilityLayer.insert(eachSyntaxRule)
             }
         }
         return this
