@@ -1,11 +1,22 @@
 import { it, test, expect, describe } from 'vitest'
 import { MasterCSS } from '../../src'
+import { expectLayers } from '../test'
 
 describe.concurrent('@tve', () => {
     it.concurrent('scope', () => {
-        expect(new MasterCSS({ scope: '.master-css' }).add('pt:2ex').text)
-            .toBe('.master-css .pt\\:2ex{padding-top:2ex}')
-        expect(new MasterCSS({ scope: '.master-css' }).add('pt:2ex@dark').text)
-            .toBe('.dark .master-css .pt\\:2ex\\@dark{padding-top:2ex}')
+        expectLayers(
+            {
+                utility: '.master-css .pt\\:2ex{padding-top:2ex}'
+            },
+            'pt:2ex',
+            { scope: '.master-css' }
+        )
+        expectLayers(
+            {
+                utility: '.dark .master-css .pt\\:2ex\\@dark{padding-top:2ex}'
+            },
+            'pt:2ex@dark',
+            { scope: '.master-css' }
+        )
     })
 })

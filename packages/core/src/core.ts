@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import { Rule, type NativeRule, type SyntaxDefinition, type RegisteredRule, AtFeatureComponent } from './rule'
-import type { Config, AnimationDefinitions, VariableDefinition } from './config'
+import { type SyntaxDefinition, type RegisteredSyntax, AtFeatureComponent, SyntaxRule } from './syntax-rule'
+import type { Config, AnimationDefinitions, VariableDefinition, SyntaxDefinitions } from './config'
 import { config as defaultConfig } from './config'
 import Layer from './layer'
 import hexToRgb from './utils/hex-to-rgb'
@@ -8,9 +8,13 @@ import { flattenObject } from './utils/flatten-object'
 import extendConfig from './utils/extend-config'
 import { type PropertiesHyphen } from 'csstype'
 import './types/global' // fix: ../css/src/core.ts:1205:16 - error TS7017: Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature.
+import SyntaxLayer from './syntax-layer'
+import { Rule } from './rule'
+import SyntaxType from './syntax-type'
+import ThemeLayer from './theme-layer'
+import KeyframeLayer from './keyframe-layer'
 
-interface VariableCommon {
-    usage?: number,
+type VariableCommon = {
     group?: string,
     name: string,
     key: string,
@@ -23,37 +27,53 @@ export type TypeVariable = StringVariable | NumberVariable | ColorVariable
 export type Variable = TypeVariable & VariableCommon
 
 export default class MasterCSS {
+
     static config: Config = defaultConfig
-    readonly syntaxes: Rule[] = []
-    readonly ruleBy: Record<string, Rule> = {}
-    readonly classesUsage: Record<string, number> = {}
+
+    readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
-    readonly Rules: RegisteredRule[] = []
+    readonly classesUsage: Record<string, number> = {}
+    readonly layerStatementRule = new Rule('layer-statement'
+        , this
+        , [{ text: '@layer base,preset,theme,style,utility;' }])
+    readonly themeLayer = new ThemeLayer(this)
+    readonly styleLayer = new SyntaxLayer('style', this)
+    readonly utilityLayer = new SyntaxLayer('utility', this)
+    readonly keyframeLayer = new KeyframeLayer(this)
+    readonly sheet = new Layer('', this)
+
+    get text() {
+        return this.sheet.rules.map((eachRule) => eachRule.text).join('')
+    }
 
     constructor(
         public customConfig?: Config
     ) {
-        if (!customConfig?.override) {
-            this.config = extendConfig(defaultConfig, customConfig)
-        } else {
-            this.config = extendConfig(customConfig)
-        }
+        this.config = customConfig?.override
+            ? extendConfig(customConfig)
+            : extendConfig(defaultConfig, customConfig)
         this.resolve()
         if (this.constructor === MasterCSS) {
             masterCSSs.push(this)
         }
+
+        this.sheet.rules = [
+            this.layerStatementRule,
+            this.themeLayer,
+            this.keyframeLayer,
+            this.styleLayer,
+            this.utilityLayer
+        ]
     }
 
     resolve() {
         this.styles = {}
-        this.stylesBy = {}
         this.selectors = {}
         this.variables = {}
         this.at = {}
         this.animations = {}
-        this.Rules.length = 0
-        this.variablesNativeRules = {}
-        this.hasKeyframesRule = false
+        this.syntaxes.length = 0
+
         const colorVariableNames: Record<string, undefined> = {
             current: undefined,
             currentColor: undefined,
@@ -294,15 +314,6 @@ export default class MasterCSS {
                 .split(' ')
             for (const eachClassName of classNames) {
                 const handle = (className: string) => {
-                    if (Object.prototype.hasOwnProperty.call(this.stylesBy, className)) {
-                        const currentRelation = this.stylesBy[className]
-                        if (!currentRelation.includes(utilityName)) {
-                            currentRelation.push(utilityName)
-                        }
-                    } else {
-                        this.stylesBy[className] = [utilityName]
-                    }
-
                     if (!currentClass.includes(className)) {
                         currentClass.push(className)
                     }
@@ -328,7 +339,7 @@ export default class MasterCSS {
             if (utilities) {
                 for (const utilityName in utilities) {
                     const declarations = utilities[utilityName] as any
-                    rulesEntries.push([utilityName, { declarations, layer: Layer.Utility }])
+                    rulesEntries.push([utilityName, { declarations, syntaxType: SyntaxType.Utility }])
                 }
             }
             if (syntaxes) {
@@ -338,13 +349,13 @@ export default class MasterCSS {
             const colorNames = Object.keys(colorVariableNames)
             rulesEntries
                 .sort((a: any, b: any) => {
-                    if (a[1].layer !== b[1].layer) {
-                        return (b[1].layer || 0) - (a[1].layer || 0)
+                    if (a[1].syntaxType !== b[1].syntaxType) {
+                        return (b[1].syntaxType || 0) - (a[1].syntaxType || 0)
                     }
                     return b[0].localeCompare(a[0])
                 })
                 .forEach(([id, eachSyntaxDefinition], index: number) => {
-                    const EachRule: RegisteredRule = {
+                    const syntax: RegisteredSyntax = {
                         id,
                         keys: [],
                         variables: {},
@@ -352,11 +363,17 @@ export default class MasterCSS {
                         order: rulesEntriesLength - 1 - index,
                         definition: eachSyntaxDefinition
                     }
-                    this.Rules.push(EachRule)
-                    const { matcher, layer, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxDefinition
-                    if (layer === Layer.Utility) {
-                        EachRule.id = '.' + id
-                        EachRule.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
+                    if (!eachSyntaxDefinition.unit) {
+                        eachSyntaxDefinition.unit = ''
+                    }
+                    if (!eachSyntaxDefinition.separators) {
+                        eachSyntaxDefinition.separators = [',']
+                    }
+                    this.syntaxes.push(syntax)
+                    const { matcher, syntaxType, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxDefinition
+                    if (syntaxType === SyntaxType.Utility) {
+                        syntax.id = '.' + id
+                        syntax.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
                     }
 
                     // todo: 不可使用 startsWith 判斷，應改為更精準的從 config.variables 取得目標變數群組，但 config.variables 中的值還沒被 resolve 像是 Array
@@ -364,7 +381,7 @@ export default class MasterCSS {
                         for (const eachVariableName in this.variables) {
                             const eachVariable = this.variables[eachVariableName]
                             if (eachVariable.group === groupName) {
-                                EachRule.variables[eachVariable.key] = eachVariable
+                                syntax.variables[eachVariable.key] = eachVariable
                             }
                         }
                     }
@@ -380,12 +397,12 @@ export default class MasterCSS {
                     addResolvedVariables(id)
                     const keys = []
                     let { key } = eachSyntaxDefinition
-                    if (layer === Layer.NativeShorthand || layer === Layer.Native) {
+                    if (syntaxType === SyntaxType.NativeShorthand || syntaxType === SyntaxType.Native) {
                         if (!key) eachSyntaxDefinition.key = key = id
                         keys.push(id)
                     }
                     if (sign) {
-                        EachRule.matchers.arbitrary = new RegExp(`^${sign}[^!*>+~:[@_]+\\|`)
+                        syntax.matchers.arbitrary = new RegExp(`^${sign}[^!*>+~:[@_]+\\|`)
                     } else if (!matcher) {
                         const colorsPatten = colorNames.join('|')
                         if (!key && !subkey) {
@@ -393,13 +410,13 @@ export default class MasterCSS {
                         } else {
                             if (key && !keys.includes(key)) keys.push(key)
                             if (subkey) keys.push(subkey)
-                            if (layer === Layer.Shorthand) {
+                            if (syntaxType === SyntaxType.Shorthand) {
                                 keys.push(id)
                             }
                         }
                         if (ambiguousKeys?.length) {
                             const ambiguousKeyPattern = ambiguousKeys.length > 1 ? `(?:${ambiguousKeys.join('|')})` : ambiguousKeys[0]
-                            const variableKeys = Object.keys(EachRule.variables)
+                            const variableKeys = Object.keys(syntax.variables)
                             if (ambiguousValues?.length) {
                                 const ambiguousValuePatterns = []
                                 for (const eachAmbiguousValue of ambiguousValues) {
@@ -409,19 +426,46 @@ export default class MasterCSS {
                                         ambiguousValuePatterns.unshift(`${eachAmbiguousValue}(?:\\b|_)`)
                                     }
                                 }
-                                EachRule.matchers.value = new RegExp(`^${ambiguousKeyPattern}:(?:${ambiguousValuePatterns.join('|')})[^|]*?(?:@|$)`)
+                                syntax.matchers.value = new RegExp(`^${ambiguousKeyPattern}:(?:${ambiguousValuePatterns.join('|')})[^|]*?(?:@|$)`)
                             }
                             if (variableKeys.length) {
-                                EachRule.matchers.variable = new RegExp(`^${ambiguousKeyPattern}:(?:${variableKeys.join('|')}(?![a-zA-Z0-9-]))[^|]*?(?:@|$)`)
+                                syntax.matchers.variable = new RegExp(`^${ambiguousKeyPattern}:(?:${variableKeys.join('|')}(?![a-zA-Z0-9-]))[^|]*?(?:@|$)`)
                             }
                         }
                     } else {
-                        EachRule.matchers.arbitrary = matcher as RegExp
+                        syntax.matchers.arbitrary = matcher as RegExp
                     }
                     if (keys.length) {
-                        EachRule.keys = keys
-                        EachRule.matchers.key = new RegExp(`^${keys.length > 1 ? `(${keys.join('|')})` : keys[0]}:.`)
+                        syntax.keys = keys
+                        syntax.matchers.key = new RegExp(`^${keys.length > 1 ? `(${keys.join('|')})` : keys[0]}:.`)
                     }
+                })
+        }
+
+        for (const utilityName in this.styles) {
+            const syntaxRulesByStateToken = this.styles[utilityName]
+                .map((eachSyntax) => this.create(eachSyntax))
+                .filter(eachSyntax => eachSyntax?.text)
+                .reduce((obj, eachSyntaxRule) => {
+                    if (eachSyntaxRule!.stateToken in obj) {
+                        obj[eachSyntaxRule!.stateToken].push(eachSyntaxRule!)
+                    } else {
+                        obj[eachSyntaxRule!.stateToken] = [eachSyntaxRule!]
+                    }
+                    return obj
+                }, {} as Record<string, SyntaxRule[]>)
+            this.styles[utilityName] = Object
+                .keys(syntaxRulesByStateToken)
+                .map(stateToken => {
+                    const syntaxRules = syntaxRulesByStateToken[stateToken]
+                    return syntaxRules.length === 1
+                        ? syntaxRules[0].name
+                        : (
+                            '{'
+                            + syntaxRulesByStateToken[stateToken].map(eachSyntaxRule => eachSyntaxRule.name.slice(0, eachSyntaxRule.name.length - eachSyntaxRule.stateToken.length)).join(';')
+                            + '}'
+                            + stateToken
+                        )
                 })
         }
     }
@@ -431,63 +475,76 @@ export default class MasterCSS {
      * @param className
      * @returns css text
      */
-    match(className: string): RegisteredRule | undefined {
+    match(className: string): RegisteredSyntax | undefined {
         /**
          * 1. variable
          * @example fg:primary bg:blue
          */
-        for (const EachRule of this.Rules) {
-            if (EachRule.matchers.variable?.test(className)) return EachRule
+        for (const eachSyntax of this.syntaxes) {
+            if (eachSyntax.matchers.variable?.test(className)) return eachSyntax
         }
         /**
          * 2. value (ambiguous.key * ambiguous.values)
          * @example bg:current box:content font:12
          */
-        for (const EachRule of this.Rules) {
-            if (EachRule.matchers.value?.test(className)) return EachRule
+        for (const eachSyntax of this.syntaxes) {
+            if (eachSyntax.matchers.value?.test(className)) return eachSyntax
         }
         /**
          * 3. full key
          * @example text-align:center color:blue-40
          */
-        for (const EachRule of this.Rules) {
-            if (EachRule.matchers.key?.test(className)) return EachRule
+        for (const eachSyntax of this.syntaxes) {
+            if (eachSyntax.matchers.key?.test(className)) return eachSyntax
         }
         /**
          * 4. arbitrary
          * @example custom RegExp, utility
          */
-        for (const EachRule of this.Rules) {
-            if (EachRule.matchers.arbitrary?.test(className)) return EachRule
+        for (const eachSyntax of this.syntaxes) {
+            if (eachSyntax.matchers.arbitrary?.test(className)) return eachSyntax
         }
     }
 
     /**
-     * Generate syntaxes from class name
+     * Generate syntax rules from class name
      * @param className
-     * @returns Rule[]
+     * @returns SyntaxRule[]
      */
-    generate(className: string): Rule[] {
-        return (
-            Object.prototype.hasOwnProperty.call(this.styles, className)
-                ? this.styles[className].map((eachSyntax) => this.create(eachSyntax))
-                : [this.create(className)]
-        )
-            .filter(eachSyntax => eachSyntax && eachSyntax?.text) as Rule[]
+    generate(className: string, mode?: string): SyntaxRule[] {
+        let syntaxRules: SyntaxRule[] = []
+        if (Object.prototype.hasOwnProperty.call(this.styles, className)) {
+            syntaxRules = this.styles[className].map((eachSyntax) => this.create(eachSyntax, className, mode)) as SyntaxRule[]
+        } else {
+            const atIndex = className.indexOf('@')
+            if (atIndex !== -1) {
+                const name = className.slice(0, atIndex)
+                if (Object.prototype.hasOwnProperty.call(this.styles, name)) {
+                    const atToken = className.slice(atIndex)
+                    syntaxRules = this.styles[name].map((eachSyntax) => this.create(eachSyntax + atToken, className, mode)) as SyntaxRule[]
+                } else {
+                    syntaxRules = [this.create(className, undefined, mode)] as SyntaxRule[]
+                }
+            } else {
+                syntaxRules = [this.create(className, undefined, mode)] as SyntaxRule[]
+            }
+        }
+        return syntaxRules.filter(eachSyntax => eachSyntax?.text) as SyntaxRule[]
     }
 
     /**
-     * Create rule from given syntax
-     * @param syntax
-     * @returns Rule
+     * Create syntax rule from given class name
+     * @param className
+     * @returns SyntaxRule
      */
-    create(syntax: string) {
-        if (Object.prototype.hasOwnProperty.call(this.ruleBy, syntax))
-            return this.ruleBy[syntax]
-        const RegisteredRule = this.match(syntax)
-        if (RegisteredRule) {
-            return new Rule(syntax, RegisteredRule, this)
-        }
+    create(className: string, fixedClass?: string, mode?: string): SyntaxRule | undefined {
+        const syntaxRule = this.utilityLayer.getRule(className, fixedClass)
+        if (syntaxRule)
+            return syntaxRule
+
+        const registeredRule = this.match(className)
+        if (registeredRule)
+            return new SyntaxRule(className, this, registeredRule, fixedClass, mode)
     }
 
     /**
@@ -499,17 +556,20 @@ export default class MasterCSS {
         } else {
             customConfig = this.customConfig
         }
-        if (!customConfig?.override) {
-            // @ts-ignore
-            this.config = extendConfig(defaultConfig, customConfig)
-        } else {
-            // @ts-ignore
-            this.config = extendConfig(customConfig)
-        }
-        this.resolve()
-        this.syntaxes.length = 0
         // @ts-ignore
-        this.ruleBy = {}
+        this.config = customConfig?.override
+            ? extendConfig(customConfig)
+            : extendConfig(defaultConfig, customConfig)
+        this.resolve()
+
+        for (const eachRule of this.sheet.rules) {
+            if ('rules' in eachRule) {
+                eachRule.rules.length = 0
+                // @ts-ignore
+                eachRule.ruleBy = {}
+            }
+        }
+
         /**
          * 拿當前所有的 classNames 按照最新的 colors, config.syntaxes 匹配並生成新的 style
          * 所以 refresh 過後 syntaxes 可能會變多也可能會變少
@@ -522,21 +582,7 @@ export default class MasterCSS {
 
     reset() {
         // @ts-ignore
-        this.ruleBy = {}
-        // @ts-ignore
         this.classesUsage = {}
-        this.syntaxes.length = 0
-        this.hasKeyframesRule = false
-        this.variablesNativeRules = {}
-        for (const keyframeName in this.animations) {
-            const animation = this.animations[keyframeName]
-            animation.usage = 0
-            animation.native = undefined
-        }
-        for (const variableName in this.variables) {
-            const variable = this.variables[variableName]
-            variable.usage = 0
-        }
         return this
     }
 
@@ -548,671 +594,47 @@ export default class MasterCSS {
 
     add(...classNames: string[]) {
         for (const className of classNames) {
-            const syntaxes = this.generate(className)
-            if (syntaxes.length) {
-                for (const rule of syntaxes) {
-                    this.insert(rule)
+            const syntaxeRules = this.generate(className)
+            if (syntaxeRules.length) {
+                for (const eachSyntaxRule of syntaxeRules) {
+                    if (eachSyntaxRule.fixedClass) {
+                        this.styleLayer.insert(eachSyntaxRule)
+                    } else {
+                        this.utilityLayer.insert(eachSyntaxRule)
+                    }
                 }
             }
         }
         return this
     }
 
-    delete(...classNames: string[]) {
+    remove(...classNames: string[]) {
         /**
          * class name 從 DOM tree 中被移除，
          * 匹配並刪除對應的 rule
          */
-        const sheet = this.style?.sheet
-        const deleteRule = (name: string) => {
-            const rule = this.ruleBy[name]
-            if (
-                !rule
-                || Object.prototype.hasOwnProperty.call(this.stylesBy, name) && this.stylesBy[name].some(eachClassName => Object.prototype.hasOwnProperty.call(this.classesUsage, eachClassName))
-            )
-                return
-
-            if (sheet && rule.natives.length) {
-                const firstNative = rule.natives[0]
-                for (let index = 0; index < sheet.cssRules.length; index++) {
-                    const eachCSSRule = sheet.cssRules[index]
-                    if (eachCSSRule === firstNative.cssRule) {
-                        for (const {} of rule.natives) {
-                            sheet.deleteRule(index)
-                        }
-                        break
-                    }
-                }
-            }
-
-            this.syntaxes.splice(this.syntaxes.indexOf(rule), 1)
-            delete this.ruleBy[name]
-
-            // variables
-            if (rule.variableNames) {
-                for (const eachVariableName of rule.variableNames) {
-                    const variable = this.variables[eachVariableName]
-                    if (!variable.usage) variable.usage = 0
-                    if (!--variable.usage) {
-                        const removeProperty = (mode: string) => {
-                            const nativeRule = this.variablesNativeRules[mode];
-                            (nativeRule.cssRule as CSSStyleRule).style.removeProperty('--' + eachVariableName)
-                            if (!(nativeRule.cssRule as CSSStyleRule).style.length) {
-                                const variablesRule = this.syntaxes[0]
-                                const index = variablesRule.natives.indexOf(nativeRule)
-                                sheet?.deleteRule(index)
-                                variablesRule.natives.splice(index, 1)
-                                delete this.variablesNativeRules[mode]
-                                if (!variablesRule.natives.length) {
-                                    this.syntaxes.splice(0, 1)
-                                    this.variablesNativeRules = {}
-                                }
-                            }
-                        }
-                        if (variable.value) {
-                            removeProperty('')
-                        }
-                        if (variable.modes) {
-                            for (const mode in variable.modes) {
-                                removeProperty(mode)
-                            }
-                        }
-                    }
-                }
-            }
-
-            // animations
-            if (rule.animationNames) {
-                const keyframeRulesIndex = Object.keys(this.variablesNativeRules).length ? 1 : 0
-                const keyframeRule = this.syntaxes[keyframeRulesIndex]
-                for (const eachKeyframeName of rule.animationNames) {
-                    const keyframe = this.animations[eachKeyframeName]
-                    if (!keyframe.usage) keyframe.usage = 0
-                    if (!--keyframe.usage && keyframe.native) {
-                        const nativeIndex = keyframeRule.natives.indexOf(keyframe.native)
-                        sheet?.deleteRule(Object.keys(this.variablesNativeRules).length + nativeIndex)
-                        keyframeRule.natives.splice(nativeIndex, 1)
-                        keyframe.native = undefined
-                    }
-                }
-
-                if (!keyframeRule.natives.length) {
-                    this.syntaxes.splice(keyframeRulesIndex, 1)
-                    this.hasKeyframesRule = false
-                }
-            }
-
-            rule.definition.delete?.call(rule, name)
-        }
-
         for (const className of classNames) {
             if (Object.prototype.hasOwnProperty.call(this.styles, className)) {
-                for (const eachClassName of this.styles[className]) {
-                    if (!Object.prototype.hasOwnProperty.call(this.classesUsage, eachClassName)) {
-                        deleteRule(eachClassName)
-                    }
+                for (const eachSyntax of this.styles[className]) {
+                    this.styleLayer.delete(eachSyntax, className)
                 }
-
-                delete this.ruleBy[className]
             } else {
-                deleteRule(className)
-            }
-        }
-    }
-
-    /**
-    * 加工插入規則
-    * 1. where
-    * 2. normal
-    * 3. where selectors
-    * 4. normal selectors
-    * 5. media where
-    * 6. media normal
-    * 7. media where selectors
-    * 8. media selectors
-    * 9. media width where
-    * 10. media width
-    * 11. media width where selectors
-    * 12. media width selectors
-    */
-    insert(rule: Rule) {
-        if (this.ruleBy[rule.className])
-            return
-
-        let index: number | undefined
-        /**
-         * 必須按斷點值遞增，並透過索引插入，
-         * 以實現響應式先後套用的規則
-         * @example <1  <2  <3  ALL  >=1 >=2 >=3
-         * @description
-         */
-        const endIndex = this.syntaxes.length - 1
-        const { at, atToken, order, priority, hasWhere, className } = rule
-
-        const findIndex = (startIndex: number, stopCheck?: (rule: Rule) => any, matchCheck?: (rule: Rule) => any) => {
-            let i = startIndex
-            for (; i <= endIndex; i++) {
-                const eachSyntax = this.syntaxes[i]
-                if (stopCheck?.(eachSyntax))
-                    return matchCheck
-                        ? -1
-                        : i - 1
-                if (matchCheck?.(eachSyntax))
-                    return i
-            }
-
-            return matchCheck
-                ? -1
-                : i - 1
-        }
-
-        let matchStartIndex: number | undefined
-        let matchEndIndex: number | undefined
-        if (atToken) {
-            const mediaStartIndex = this.syntaxes.findIndex(eachSyntax => eachSyntax.at?.media)
-            if (mediaStartIndex === -1) {
-                index = endIndex + 1
-            } else {
-                const maxWidthFeature = at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent
-                const minWidthFeature = at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent
-                if (maxWidthFeature || minWidthFeature) {
-                    const mediaWidthStartIndex = this.syntaxes.findIndex(eachSyntax => eachSyntax.at?.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width'))
-                    if (mediaWidthStartIndex === -1) {
-                        index = endIndex + 1
+                const atIndex = className.indexOf('@')
+                if (atIndex !== -1) {
+                    const name = className.slice(0, atIndex)
+                    if (Object.prototype.hasOwnProperty.call(this.styles, name)) {
+                        const atToken = className.slice(atIndex)
+                        for (const eachSyntax of this.styles[name]) {
+                            this.styleLayer.delete(eachSyntax + atToken, className)
+                        }
                     } else {
-                        if (maxWidthFeature && minWidthFeature) {
-                            /**
-                             * 範圍越小 ( 越限定 越侷限 ) 越優先，
-                             * 按照範圍 max-width - min-width 遞減排序
-                             * find 第一個所遇到同樣 feature 且範圍值比自己大的 rule，
-                             * 並插入在該 rule 之後，讓自己優先被套用
-                             */
-                            if (priority === -1) {
-                                matchStartIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.priority !== -1,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width')
-                                )
-                                matchEndIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.priority !== -1
-                                )
-                            } else {
-                                matchStartIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    undefined,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
-                                )
-                                matchEndIndex = endIndex
-                            }
-
-                            if (matchStartIndex !== -1) {
-                                const range = (maxWidthFeature.value) as number - (minWidthFeature.value as number)
-
-                                let i = matchEndIndex
-                                const endI = matchStartIndex
-                                matchStartIndex = matchEndIndex + 1
-                                for (; i >= endI; i--) {
-                                    const eachSyntax = this.syntaxes[i]
-                                    const eachMaxWidthFeature = eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent
-                                    const eachMinWidthFeature = eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent
-                                    if (!eachMaxWidthFeature || !eachMinWidthFeature) {
-                                        break
-                                    } else {
-                                        const eachRange = (eachMaxWidthFeature.value as number) - (eachMinWidthFeature.value as number)
-                                        if (eachRange < range) {
-                                            matchEndIndex = i - 1
-                                        } else if (eachRange === range) {
-                                            matchStartIndex = i
-                                        } else {
-                                            break
-                                        }
-                                    }
-                                }
-                            }
-                        } else if (minWidthFeature) {
-                            /**
-                             * find 第一個所遇到同樣 feature 且值比自己大的 rule，
-                             * 並插入在該 rule 之後，讓自己優先被套用
-                             */
-                            if (priority === -1) {
-                                matchStartIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1,
-                                    eachSyntax => !eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width')
-                                )
-                                matchEndIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1
-                                )
-                            } else {
-                                matchStartIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1,
-                                    eachSyntax => !eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
-                                )
-                                matchEndIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
-                                )
-                            }
-
-                            if (matchStartIndex !== -1) {
-                                for (let i = matchEndIndex; i >= matchStartIndex; i--) {
-                                    const value = (this.syntaxes[i].at.media?.find(({ name }: any) => name === 'min-width') as AtFeatureComponent).value
-                                    if (value > minWidthFeature.value) {
-                                        matchEndIndex = i - 1
-                                    } else if (value < minWidthFeature.value) {
-                                        matchStartIndex = i + 1
-                                        break
-                                    }
-                                }
-                            }
-                        } else {
-                            /**
-                             * find 第一個所遇到同樣 feature 且值比自己大的 rule，
-                             * 並插入在該 rule 之後，讓自己優先被套用
-                             */
-                            if (priority === -1) {
-                                matchStartIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width')
-                                )
-                                matchEndIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') || eachSyntax.priority !== -1
-                                )
-                            } else {
-                                matchStartIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width') && eachSyntax.priority !== -1
-                                )
-                                matchEndIndex = findIndex(
-                                    mediaWidthStartIndex,
-                                    eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'min-width') && eachSyntax.priority !== -1
-                                )
-                            }
-
-                            if (matchStartIndex !== -1) {
-                                for (let i = matchEndIndex; i >= matchStartIndex; i--) {
-                                    const value = (this.syntaxes[i].at.media?.find(({ name }: any) => name === 'max-width') as AtFeatureComponent).value
-                                    if (value < maxWidthFeature.value) {
-                                        matchEndIndex = i - 1
-                                    } else if (value > maxWidthFeature.value) {
-                                        matchStartIndex = i + 1
-                                        break
-                                    }
-                                }
-                            }
-                        }
+                        this.utilityLayer.delete(className)
                     }
                 } else {
-                    if (priority === -1) {
-                        matchStartIndex = mediaStartIndex
-                        matchEndIndex = findIndex(
-                            mediaStartIndex,
-                            eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width') || eachSyntax.priority !== -1
-                        )
-                    } else {
-                        matchStartIndex = findIndex(
-                            mediaStartIndex,
-                            eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width'),
-                            eachSyntax => eachSyntax.priority !== -1
-                        )
-                        matchEndIndex = findIndex(
-                            mediaStartIndex,
-                            eachSyntax => eachSyntax.at.media?.find(({ name }: any) => name === 'max-width' || name === 'min-width')
-                        )
-                    }
-                }
-            }
-        } else {
-            const findStartIndex = Object.keys(this.variablesNativeRules).length
-                ? this.hasKeyframesRule
-                    ? 2
-                    : 1
-                : this.hasKeyframesRule
-                    ? 1
-                    : 0
-
-            if (priority === -1) {
-                matchStartIndex = findStartIndex
-                matchEndIndex = findIndex(
-                    findStartIndex,
-                    eachSyntax => eachSyntax.atToken || eachSyntax.priority !== -1
-                )
-            } else {
-                matchStartIndex = findIndex(
-                    findStartIndex,
-                    eachSyntax => eachSyntax.atToken,
-                    eachSyntax => eachSyntax.priority !== -1
-                )
-                matchEndIndex = findIndex(
-                    findStartIndex,
-                    eachSyntax => eachSyntax.atToken
-                )
-            }
-        }
-
-        if (index === undefined && matchEndIndex !== undefined && matchStartIndex !== undefined) {
-            if (matchStartIndex === -1) {
-                index = matchEndIndex + 1
-            } else {
-                if (priority === -1) {
-                    for (let i = matchStartIndex; i <= matchEndIndex; i++) {
-                        const currentRule = this.syntaxes[i]
-                        if (!hasWhere && currentRule.hasWhere)
-                            continue
-
-                        if (
-                            hasWhere && !currentRule.hasWhere
-                            || currentRule.order >= order
-                        ) {
-                            index = i
-                            break
-                        }
-                    }
-                } else {
-                    for (let i = matchStartIndex; i <= matchEndIndex; i++) {
-                        const currentRule = this.syntaxes[i]
-                        if (!hasWhere && currentRule.hasWhere)
-                            continue
-
-                        if (hasWhere && !currentRule.hasWhere) {
-                            index = i
-                            break
-                        }
-
-                        if (currentRule.priority < priority) {
-                            index = i
-                            break
-                        } else if (currentRule.priority === priority) {
-                            if (currentRule.order >= order) {
-                                index = i
-                                break
-                            }
-                        } else {
-                            index = i + 1
-                        }
-                    }
-                }
-
-                if (index === undefined) {
-                    index = matchEndIndex + 1
+                    this.utilityLayer.delete(className)
                 }
             }
         }
-
-        this.syntaxes.splice(index as number, 0, rule)
-        this.ruleBy[className] = rule
-
-        if (this.style) {
-            const sheet = this.style.sheet
-            let cssRuleIndex = 0
-            const getCssRuleIndex = (index: number): void => {
-                const previousRule = this.syntaxes[index]
-                if (previousRule) {
-                    if (!previousRule.natives.length)
-                        return getCssRuleIndex(index - 1)
-
-                    const lastNative = previousRule.natives[previousRule.natives.length - 1]
-                    const lastNativeCssRule = lastNative.cssRule?.parentRule ?? lastNative.cssRule
-                    if (sheet)
-                        for (let i = 0; i < sheet.cssRules.length; i++) {
-                            if (sheet.cssRules[i] === lastNativeCssRule) {
-                                cssRuleIndex = i + 1
-                                break
-                            }
-                        }
-                }
-            }
-            getCssRuleIndex(index as number - 1)
-
-            for (let i = 0; i < rule.natives.length;) {
-                try {
-                    const native = rule.natives[i]
-                    sheet?.insertRule(native.text, cssRuleIndex)
-                    native.cssRule = sheet?.cssRules[cssRuleIndex++]
-                    i++
-                } catch (error) {
-                    console.error(error)
-                    rule.natives.splice(i, 1)
-                }
-            }
-        }
-
-        // variables
-        this.handleRuleWithVariableNames(rule)
-
-        // animations
-        this.handleRuleWithAnimationNames(rule)
-
-        rule.definition.insert?.call(rule)
-        return index
-    }
-
-    get text() {
-        return this.syntaxes.map((eachSyntax) => eachSyntax.text).join('')
-    }
-
-    handleRuleWithAnimationNames(rule: Rule, initializing = false) {
-        if (rule.animationNames) {
-            const sheet = this.style?.sheet
-            for (const eachKeyframeName of rule.animationNames) {
-                const animation = this.animations[eachKeyframeName]
-                if (animation.usage) {
-                    animation.usage++
-                } else {
-                    const nativeRule: NativeRule = {
-                        text: `@keyframes ${eachKeyframeName}{`
-                            + Object
-                                .entries(animation)
-                                .filter(([key]) => key !== 'usage' && key !== 'native')
-                                .map(([key, variables]) => `${key}{${Object.entries(variables).map(([name, value]) => name + ':' + value).join(';')}}`)
-                                .join('')
-                            + '}'
-                    }
-
-                    const keyframeRulesIndex = Object.keys(this.variablesNativeRules).length ? 1 : 0
-                    let keyframeRule: Rule
-                    if (this.hasKeyframesRule) {
-                        (keyframeRule = this.syntaxes[keyframeRulesIndex]).natives.push(nativeRule)
-                    } else {
-                        this.syntaxes.splice(
-                            keyframeRulesIndex,
-                            0,
-                            keyframeRule = {
-                                natives: [nativeRule],
-                                get text() {
-                                    return this.natives.map((eachNative) => eachNative.text).join('')
-                                }
-                            } as Rule
-                        )
-                        this.hasKeyframesRule = true
-                    }
-
-                    if (sheet) {
-                        let cssRule: CSSRule | undefined
-                        if (initializing) {
-                            for (const eachCSSRule of sheet.cssRules) {
-                                if (eachCSSRule.constructor.name === 'CSSKeyframesRule' && (eachCSSRule as CSSKeyframesRule).name === eachKeyframeName) {
-                                    cssRule = eachCSSRule
-                                    break
-                                }
-                            }
-                        }
-
-                        if (cssRule) {
-                            nativeRule.cssRule = cssRule
-                        } else {
-                            const cssRuleIndex = Object.keys(this.variablesNativeRules).length + keyframeRule.natives.length - 1
-                            sheet.insertRule(nativeRule.text, cssRuleIndex)
-                            nativeRule.cssRule = sheet.cssRules[cssRuleIndex]
-                        }
-                    }
-
-                    animation.usage = 1
-                    animation.native = nativeRule
-                }
-            }
-        }
-    }
-
-    handleRuleWithVariableNames(rule: Rule, initializing = false) {
-        if (rule.variableNames) {
-            const sheet = this.style?.sheet
-            for (const eachVariableName of rule.variableNames) {
-                const variable = this.variables[eachVariableName]
-                if (variable.usage) {
-                    variable.usage++
-                } else {
-                    const addProperty = (mode: string, variable: TypeVariable) => {
-                        let nativeRule = this.variablesNativeRules[mode]
-                        if (!nativeRule) {
-                            let cssRule: CSSStyleRule
-                            let mediaConditionText: string | undefined
-                            let selectorText: string
-
-                            if (mode) {
-                                switch (this.config.modes?.[mode]) {
-                                    case 'media':
-                                        mediaConditionText = `@media(prefers-color-scheme:${mode})`
-                                        selectorText = ':root'
-                                        break
-                                    case 'host':
-                                        selectorText = `:host(.${mode})`
-                                        if (this.config.defaultMode === mode) {
-                                            selectorText += ',:host'
-                                        }
-                                        break
-                                    case 'class':
-                                        selectorText = '.' + mode
-                                        if (this.config.defaultMode === mode) {
-                                            selectorText += ',:root'
-                                        }
-                                        break
-                                    default:
-                                        return
-                                }
-                            } else {
-                                selectorText = ':root'
-                            }
-
-                            if (sheet) {
-                                const newCSSRuleIndex = Object.keys(this.variablesNativeRules).length
-                                    ? this.syntaxes[0].natives.length
-                                    : 0
-                                sheet.insertRule(
-                                    (mediaConditionText ? mediaConditionText + '{' : '')
-                                    + selectorText
-                                    + '{}'
-                                    + (mediaConditionText ? mediaConditionText + '}' : ''),
-                                    newCSSRuleIndex
-                                )
-                                cssRule = (mediaConditionText
-                                    ? (sheet.cssRules[newCSSRuleIndex] as CSSMediaRule).cssRules[0]
-                                    : sheet.cssRules[newCSSRuleIndex]) as CSSStyleRule
-                            } else {
-                                const styleMap = new Map()
-                                const style: CSSStyleDeclaration = Object.defineProperties(
-                                    {} as CSSStyleDeclaration,
-                                    {
-                                        getPropertyValue: {
-                                            value: (property: string) => styleMap.get(property)
-                                        },
-                                        removeProperty: {
-                                            value: (property: string) => {
-                                                styleMap.delete(property)
-                                                for (let i = 0; i < style.length; i++) {
-                                                    if (style[i] === property) {
-                                                        delete style[i]
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        setProperty: {
-                                            value: (property: string, value: string) => {
-                                                style[style.length] = property
-                                                styleMap.set(property, value)
-                                            }
-                                        },
-                                        length: {
-                                            get() {
-                                                return Object.keys(style).length
-                                            }
-                                        }
-                                    }
-                                )
-                                cssRule = {
-                                    selectorText,
-                                    style,
-                                    styleMap
-                                } as any as CSSStyleRule
-                                if (mediaConditionText) {
-                                    // @ts-ignore
-                                    cssRule.parentRule = { conditionText: mediaConditionText }
-                                }
-                            }
-
-                            nativeRule = this.pushVariableNativeRule(mode, cssRule)
-                        }
-
-                        const propertyName = '--' + eachVariableName
-                        if (!initializing || !(nativeRule.cssRule as CSSStyleRule).style.getPropertyValue(propertyName)) {
-                            (nativeRule.cssRule as CSSStyleRule).style.setProperty(propertyName, String(variable.value))
-                        }
-                    }
-                    if (variable.value) {
-                        addProperty('', variable as any)
-                    }
-                    if (variable.modes) {
-                        for (const mode in variable.modes) {
-                            addProperty(mode, variable.modes[mode])
-                        }
-                    }
-
-                    variable.usage = 1
-                }
-            }
-        }
-    }
-
-    pushVariableNativeRule(mode: string, variableCSSRule: CSSStyleRule) {
-        if (!Object.keys(this.variablesNativeRules).length) {
-            this.variablesNativeRules = {}
-            const newRule = {
-                natives: [],
-                get text() {
-                    return this.natives.map((eachNative: any) => eachNative.text).join('')
-                }
-            }
-            this.syntaxes.splice(0, 0, newRule as any)
-        }
-
-        let prefix = ''
-        let suffix = '}'
-        if (variableCSSRule.parentRule) {
-            prefix += '@media' + (variableCSSRule.parentRule as CSSMediaRule).conditionText.replace(/ /g, '') + '{'
-            suffix += '}'
-        }
-        prefix += variableCSSRule.selectorText + '{'
-
-        const nativeRule: NativeRule = {
-            cssRule: variableCSSRule,
-            get text() {
-                const properties: string[] = []
-                // eslint-disable-next-line @typescript-eslint/prefer-for-of
-                for (let i = 0; i < variableCSSRule.style.length; i++) {
-                    const property = variableCSSRule.style[i]
-                    properties.push(property + ':' + (variableCSSRule as CSSStyleRule).style.getPropertyValue(property))
-                }
-                return prefix + properties.join(';') + suffix
-            }
-        }
-        this.syntaxes[0].natives.push(this.variablesNativeRules[mode] = nativeRule)
-        return nativeRule
     }
 }
 
@@ -1221,13 +643,10 @@ export const masterCSSs: MasterCSS[] = []
 export default interface MasterCSS {
     style: HTMLStyleElement
     styles: Record<string, string[]>
-    stylesBy: Record<string, string[]>
     selectors: Record<string, [RegExp, string[]][]>
     variables: Record<string, Variable>
     at: Record<string, string | number>
-    variablesNativeRules: Record<string, NativeRule>
-    hasKeyframesRule: boolean
-    animations: Record<string, AnimationDefinitions & { usage?: number, native?: NativeRule }>
+    animations: Record<string, AnimationDefinitions>
 }
 
 (() => {

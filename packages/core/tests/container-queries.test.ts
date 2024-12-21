@@ -1,7 +1,12 @@
-import { it, test, expect } from 'vitest'
+import { test, expect } from 'vitest'
 import { MasterCSS } from '../src'
+import { expectLayers } from './test'
 
 test.concurrent('container queries', () => {
-    expect(new MasterCSS().add('font:32@container|sidebar(min-width:800px)').text)
-        .toBe('@container  sidebar(min-width:800px){.font\\:32\\@container\\|sidebar\\(min-width\\:800px\\){font-size:2rem}}')
+    expectLayers(
+        {
+            utility: '@container  sidebar(min-width:800px){.font\\:32\\@container\\|sidebar\\(min-width\\:800px\\){font-size:2rem}}'
+        },
+        'font:32@container|sidebar(min-width:800px)'
+    )
 })

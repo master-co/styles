@@ -8,15 +8,15 @@ export default function filterCollisionClasses(classNames: string[], css: Master
     const collisionClassesRecord: Record<string, string[]> = {}
     for (let i = 0; i < classNames.length; i++) {
         const className = classNames[i]
-        const rule = validRules.find((eachValidRule) => eachValidRule.className === className)
+        const rule = validRules.find((eachValidRule) => eachValidRule.name === className)
         const collisionClasses = []
         if (rule) {
             for (let j = 0; j < classNames.length; j++) {
                 const compareClassName = classNames[j]
-                const compareRule = validRules.find((eachValidRule) => eachValidRule.className === compareClassName)
+                const compareRule = validRules.find((eachValidRule) => eachValidRule.name === compareClassName)
                 if (i !== j && compareRule
-                    && areRulesDuplicated(rule, compareRule)
-                    && areRuleStatesEqual(rule, compareRule)
+                    && areRulesDuplicated(rule as any, compareRule as any)
+                    && areRuleStatesEqual(rule as any, compareRule as any)
                 ) {
                     collisionClasses.push(compareClassName)
                 }

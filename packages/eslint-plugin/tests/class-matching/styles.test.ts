@@ -13,7 +13,8 @@ new RuleTester({
     }
 }).run('class matching styles', rule, {
     valid: [
-        { code: 'export default { styles: { btn: "block" } }' }
+        { code: 'export default { styles: { btn: "block" } }' },
+        { code: 'export default { styles: { btn: { xs: "font: 12 h: 6x px: 2x r: 2x", rounded: { xs: "font: 12 h: 6x px: 2x r: 2x" } } } }' }
     ],
     invalid: [
         { code: 'export default { styles: { btn: "bg:error" } }', errors: [{ messageId: 'invalidClass' }] },

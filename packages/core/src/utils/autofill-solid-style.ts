@@ -1,5 +1,5 @@
 import { BORDER_STYLE_VALUES } from '../common'
-import { SyntaxDefinition } from '../rule'
+import { SyntaxDefinition } from '../syntax-rule'
 
 const autofillSolidStyle: SyntaxDefinition['transformValueComponents'] = function (valueComponents) {
     if (valueComponents.length < 2) return valueComponents

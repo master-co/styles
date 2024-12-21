@@ -3,7 +3,7 @@ import { MasterCSS } from '../src'
 
 test.concurrent('media', () => {
     const css = new MasterCSS().add('font:12@sm&<md')
-    expect(css.syntaxes[0].at).toEqual({
+    expect(css.utilityLayer.rules[0].at).toEqual({
         'media': [
             {
                 'name': 'min-width',
@@ -26,7 +26,7 @@ test.concurrent('media', () => {
             },
         ],
     })
-    expect(css.syntaxes[0].text).toContain('(min-width:834px) and (max-width:1023.98px)')
+    expect(css.utilityLayer.rules[0].text).toContain('(min-width:834px) and (max-width:1023.98px)')
 
     // expect(new MasterCSS().generate('font:12@supports(display:grid)')[0].at).toEqual({
     //     'supports': '(display:grid)',

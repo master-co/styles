@@ -2,15 +2,15 @@ import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
 it.concurrent('checks margin order', () => {
-    expect(new MasterCSS().add('mx:0', 'ml:0', 'mr:0', 'm:0', 'mt:0', 'mb:0', 'my:0').syntaxes)
+    expect(new MasterCSS().add('mx:0', 'ml:0', 'mr:0', 'm:0', 'mt:0', 'mb:0', 'my:0').utilityLayer.rules)
         .toMatchObject([
-            { className: 'm:0' },
-            { className: 'mx:0' },
-            { className: 'my:0' },
-            { className: 'mb:0' },
-            { className: 'ml:0' },
-            { className: 'mr:0' },
-            { className: 'mt:0' }
+            { name: 'm:0' },
+            { name: 'mx:0' },
+            { name: 'my:0' },
+            { name: 'mb:0' },
+            { name: 'ml:0' },
+            { name: 'mr:0' },
+            { name: 'mt:0' }
         ])
 })
 

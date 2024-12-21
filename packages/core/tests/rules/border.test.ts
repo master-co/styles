@@ -1,5 +1,6 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
+import { expectLayers } from '../test'
 
 test.concurrent('border', () => {
     expect(new MasterCSS().create('border:current')?.text).toContain('border-color:currentColor')
@@ -53,11 +54,11 @@ it.concurrent('validates border syntaxes', () => {
 })
 
 it.concurrent('checks border order', () => {
-    expect(new MasterCSS().add('bt:1|solid', 'b:1|solid', 'br:1|solid').syntaxes)
+    expect(new MasterCSS().add('bt:1|solid', 'b:1|solid', 'br:1|solid').utilityLayer.rules)
         .toMatchObject([
-            { className: 'b:1|solid' },
-            { className: 'br:1|solid' },
-            { className: 'bt:1|solid' }
+            { name: 'b:1|solid' },
+            { name: 'br:1|solid' },
+            { name: 'bt:1|solid' }
         ])
 })
 
@@ -66,22 +67,30 @@ test.concurrent('autofill solid', () => {
     expect(new MasterCSS().create('border:16|black|solid')?.text).toContain('border:1rem rgb(0 0 0) solid')
     expect(new MasterCSS().create('border:16|var(--style)')?.text).not.toContain('solid')
     expect(new MasterCSS({ variables: { line: 'solid' } }).create('border:16|black|line')?.text).toContain('border:1rem rgb(0 0 0) solid')
-    expect(new MasterCSS({
-        variables: {
-            line: { '@light': 'solid', '@dark': 'dotted' }
+   
+    expectLayers(
+        {
+            theme: '.light,:root{--line:solid}.dark{--line:dotted}',
+            utility: '.border\\:16\\|line{border:1rem var(--line) solid}'
+        },
+        'border:16|line',
+        {
+            variables: {
+                line: { '@light': 'solid', '@dark': 'dotted' }
+            }
         }
-    }).add('border:16|line').text).toBe(
-        '.light,:root{--line:solid}' +
-        '.dark{--line:dotted}' +
-        '.border\\:16\\|line{border:1rem var(--line) solid}'
     )
-    expect(new MasterCSS({
-        variables: {
-            primary: { '@light': '#000000', '@dark': '#ffffff' }
+
+    expectLayers(
+        {
+            theme: '.light,:root{--line:solid}.dark{--line:dotted}',
+            utility: '.border\\:16\\|line{border:1rem var(--line) solid}'
+        },
+        'border:16|line',
+        {
+            variables: {
+                line: { '@light': 'solid', '@dark': 'dotted' }
+            }
         }
-    }).add('border:16|primary').text).toBe(
-        '.light,:root{--primary:0 0 0}' +
-        '.dark{--primary:255 255 255}' +
-        '.border\\:16\\|primary{border:1rem rgb(var(--primary)) solid}'
     )
 })

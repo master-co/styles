@@ -1,13 +1,14 @@
 import cssEscape from 'shared/utils/css-escape'
-import type { Rule, SyntaxDefinition } from '../rule'
-import Layer from '../layer'
+import type { SyntaxRule } from '../syntax-rule'
+import SyntaxType from '../syntax-type'
 import { BORDER_STYLE_VALUES, COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE_REGEX, VALUE_DELIMITERS } from '../common'
 import autofillSolidStyle from '../utils/autofill-solid-style'
+import { SyntaxDefinition } from '../syntax-rule'
 
 const syntaxes = {
     group: {
         matcher: /^(?:.+?[*_>~+])?\{.+?\}/,
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         analyze(className: string) {
             let i = 0
             for (; i < className.length; i++) {
@@ -26,9 +27,9 @@ const syntaxes = {
                     declarations[propName] = propertyName.slice(indexOfColon + 1)
                 }
             }
-            const handleRule = (rule: Rule) => {
+            const handleRule = (rule: SyntaxRule) => {
                 const addProps = (cssText: string) => {
-                    const cssProperties = cssText.slice(cssEscape(rule.className).length).match(/\{(.*)\}/)?.[1].split(';')
+                    const cssProperties = cssText.slice(cssEscape(rule.name).length).match(/\{(.*)\}/)?.[1].split(';')
                     if (cssProperties)
                         for (const eachCssProperty of cssProperties) {
                             addProp(eachCssProperty)
@@ -115,7 +116,7 @@ const syntaxes = {
             addName()
 
             for (const eachName of names) {
-                const syntaxes = this.css.generate(eachName)
+                const syntaxes = this.css.generate(eachName, this.mode)
                 if (syntaxes.length) {
                     for (const eachRule of syntaxes) {
                         handleRule(eachRule)
@@ -130,7 +131,7 @@ const syntaxes = {
     } as SyntaxDefinition,
     variable: {
         matcher: /^\$[\w-]+:/, // don't use 'rem' as default, because css variable is common API
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 ['--' + this.keyToken.slice(1, -1)]: value
@@ -141,21 +142,21 @@ const syntaxes = {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'font-weight': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['bolder'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'font-family': {
         ambiguousKeys: ['font', 'f'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'font-smoothing': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['antialiased', 'subpixel-antialiased'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             switch (value) {
                 case 'subpixel-antialiased':
@@ -174,21 +175,21 @@ const syntaxes = {
     'font-style': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['normal', 'italic', 'oblique'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'deg'
     } as SyntaxDefinition,
     'font-variant-numeric': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['ordinal', 'slashed-zero', 'lining-nums', 'oldstyle-nums', 'proportional-nums', 'tabular-nums', 'diagonal-fractions', 'stacked-fractions'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'font-variant': {
         ambiguousKeys: ['font', 'f'],
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
     },
     font: {
         subkey: 'f',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: [
             'font-family',
             'font-variant',
@@ -200,35 +201,35 @@ const syntaxes = {
     } as SyntaxDefinition,
     'font-feature-settings': {
         key: 'font-feature',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     color: {
         key: 'fg',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['text']
     } as SyntaxDefinition,
     // margin
     'margin-left': {
         key: 'ml',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'margin-right': {
         key: 'mr',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'margin-top': {
         key: 'mt',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'margin-bottom': {
         key: 'mb',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
@@ -236,7 +237,7 @@ const syntaxes = {
         key: 'mx',
         subkey: 'margin-x',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'margin-left': value,
@@ -248,7 +249,7 @@ const syntaxes = {
     'margin-y': {
         key: 'my',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'margin-top': value,
@@ -260,57 +261,57 @@ const syntaxes = {
     margin: {
         key: 'm',
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     // margin inline
     'margin-inline-start': {
         key: 'mis',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'margin-inline-end': {
         key: 'mie',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'margin-inline': {
         key: 'mi',
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     // padding
     'padding-left': {
         key: 'pl',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'padding-right': {
         key: 'pr',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'padding-top': {
         key: 'pt',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'padding-bottom': {
         key: 'pb',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'padding-x': {
         key: 'px',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'padding-left': value,
@@ -322,7 +323,7 @@ const syntaxes = {
     'padding-y': {
         key: 'py',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'padding-top': value,
@@ -334,81 +335,81 @@ const syntaxes = {
     padding: {
         key: 'p',
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     // padding inline
     'padding-inline-start': {
         key: 'pis',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'padding-inline-end': {
         key: 'pie',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'padding-inline': {
         key: 'pi',
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     // flex
     'flex-basis': {
         ambiguousKeys: ['flex'],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'flex-wrap': {
         ambiguousKeys: ['flex'],
         ambiguousValues: ['wrap', 'nowrap', 'wrap-reverse'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'flex-grow': {
         ambiguousKeys: ['flex'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'flex-shrink': {
         ambiguousKeys: ['flex'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'flex-direction': {
         ambiguousKeys: ['flex'],
         ambiguousValues: ['row', 'row-reverse', 'column', 'column-reverse'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     flex: {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     display: {
         key: 'd',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     width: {
         key: 'w',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     height: {
         key: 'h',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'min-width': {
         key: 'min-w',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'min-height': {
         key: 'min-h',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     size: {
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         unit: 'rem',
         declare(_value, valueComponents) {
             const length = valueComponents.length
@@ -424,7 +425,7 @@ const syntaxes = {
     } as SyntaxDefinition,
     'min-size': {
         key: 'min',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         unit: 'rem',
         declare(_value, valueComponents) {
             const length = valueComponents.length
@@ -440,7 +441,7 @@ const syntaxes = {
     } as SyntaxDefinition,
     'max-size': {
         key: 'max',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         unit: 'rem',
         declare(_value, valueComponents) {
             const length = valueComponents.length
@@ -456,11 +457,11 @@ const syntaxes = {
     } as SyntaxDefinition,
     'box-sizing': {
         ambiguousKeys: ['box'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'box-decoration-break': {
         key: 'box-decoration',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-box-decoration-break': value,
@@ -469,70 +470,70 @@ const syntaxes = {
         }
     } as SyntaxDefinition,
     contain: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     content: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'counter-increment': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'counter-reset': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'letter-spacing': {
         key: 'tracking',
         subkey: 'ls',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'em'
     } as SyntaxDefinition,
     'line-height': {
         key: 'leading',
         subkey: 'line-h',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'object-fit': {
         ambiguousKeys: ['object', 'obj'],
         ambiguousValues: ['contain', 'cover', 'fill', 'scale-down'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'object-position': {
         ambiguousKeys: ['object', 'obj'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'text-align': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['justify', 'center', 'left', 'right', 'start', 'end'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'text-decoration-color': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['text']
     } as SyntaxDefinition,
     'text-decoration-style': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['solid', 'double', 'dotted', 'dashed', 'wavy'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'text-decoration-thickness': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['from-font', NUMBER_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'em'
     } as SyntaxDefinition,
     'text-decoration-line': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['underline', 'overline', 'line-through'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'text-decoration': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['underline', 'overline', 'line-through'],
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['text'],
         declare(value) {
             return {
@@ -544,107 +545,107 @@ const syntaxes = {
     'text-underline-offset': {
         ambiguousKeys: ['text-underline'],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     'text-underline-position': {
         ambiguousKeys: ['text-underline'],
         ambiguousValues: ['front-font', 'under', 'left', 'right'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'text-overflow': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['ellipsis', 'clip'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'text-orientation': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['mixed', 'upright', 'sideways-right', 'sideways', 'use-glyph-orientation'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'text-transform': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['uppercase', 'lowercase', 'capitalize'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'text-rendering': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['optimizeSpeed', 'optimizeLegibility', 'geometricPrecision'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'text-wrap': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['wrap', 'nowrap', 'balance', 'pretty'],
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
     } as SyntaxDefinition,
     'text-indent': {
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'vertical-align': {
         key: 'v',
         subkey: 'vertical',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     columns: {
         key: 'cols',
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'white-space': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     top: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     bottom: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     left: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     right: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     inset: {
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     'max-height': {
         key: 'max-h',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'max-width': {
         key: 'max-w',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     opacity: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     visibility: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     clear: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     float: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     isolation: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'overflow-x': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return value === 'overlay'
                 ? { 'overflow-x': ['auto', value] }
@@ -652,7 +653,7 @@ const syntaxes = {
         }
     } as SyntaxDefinition,
     'overflow-y': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return value === 'overlay'
                 ? { 'overflow-y': ['auto', value] }
@@ -660,7 +661,7 @@ const syntaxes = {
         }
     } as SyntaxDefinition,
     overflow: {
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         declare(value) {
             return value === 'overlay'
                 ? { overflow: ['auto', value] }
@@ -668,42 +669,42 @@ const syntaxes = {
         }
     } as SyntaxDefinition,
     'overscroll-behavior-x': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'overscroll-behavior-y': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'overscroll-behavior': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'z-index': {
         key: 'z',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     position: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     cursor: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'pointer-events': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     resize: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'touch-action': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'word-break': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'word-spacing': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'em'
     } as SyntaxDefinition,
     'user-drag': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-user-drag': value,
@@ -712,7 +713,7 @@ const syntaxes = {
         }
     } as SyntaxDefinition,
     'user-select': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-user-select': value,
@@ -722,7 +723,7 @@ const syntaxes = {
     } as SyntaxDefinition,
     'text-shadow': {
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'text-size': {
         ambiguousKeys: ['text', 't'],
@@ -735,12 +736,12 @@ const syntaxes = {
                 'line-height': `calc(${value} + ${diff}em)`
             }
         },
-        layer: Layer.Shorthand
+        syntaxType: SyntaxType.Shorthand
     } as SyntaxDefinition,
     'text-fill-color': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['text'],
         declare(value) {
             return {
@@ -752,7 +753,7 @@ const syntaxes = {
         ambiguousKeys: ['text-stroke'],
         ambiguousValues: ['thin', 'medium', 'thick', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-text-stroke-width': value
@@ -762,7 +763,7 @@ const syntaxes = {
     'text-stroke-color': {
         ambiguousKeys: ['text-stroke'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-text-stroke-color': value
@@ -771,7 +772,7 @@ const syntaxes = {
     } as SyntaxDefinition,
     'text-stroke': {
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-text-stroke': value
@@ -790,35 +791,35 @@ const syntaxes = {
                 'text-overflow': 'ellipsis',
             }
         },
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
     } as SyntaxDefinition,
     'box-shadow': {
         key: 'shadow',
         subkey: 's',
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'table-layout': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'transform-box': {
         ambiguousKeys: ['transform'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'transform-style': {
         ambiguousKeys: ['transform'],
         ambiguousValues: ['flat', 'preserve-3d'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'transform-origin': {
         ambiguousKeys: ['transform'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center', NUMBER_VALUE_REGEX],
         unit: 'px',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     transform: {
         matcher: /^(?:translate|scale|skew|rotate|perspective|matrix)(?:3d|[XYZ])?\(/,
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         analyze(className: string) {
             return [className.startsWith('transform') ? className.slice(10) : className]
         },
@@ -827,20 +828,20 @@ const syntaxes = {
     } as SyntaxDefinition,
     'transition-property': {
         key: '~property',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'transition-timing-function': {
         key: '~easing',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'transition-duration': {
         key: '~duration',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'ms'
     } as SyntaxDefinition,
     'transition-delay': {
         key: '~delay',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'ms'
     } as SyntaxDefinition,
     transition: {
@@ -854,46 +855,46 @@ const syntaxes = {
                 return [className.slice(indexOfColon + 1)]
             }
         },
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'animation-delay': {
         key: '@delay',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'ms'
     } as SyntaxDefinition,
     'animation-direction': {
         key: '@direction',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'animation-duration': {
         key: '@duration',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'ms'
     } as SyntaxDefinition,
     'animation-fill-mode': {
         key: '@fill',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'animation-iteration-count': {
         key: '@iteration',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'animation-name': {
         key: '@name',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         includeAnimations: true
     } as SyntaxDefinition,
     'animation-play-state': {
         key: '@play',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'animation-timing-function': {
         key: '@easing',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     animation: {
         sign: '@',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         includeAnimations: true,
         analyze(className: string) {
             if (className.startsWith('@')) {
@@ -908,42 +909,42 @@ const syntaxes = {
     'border-collapse': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: ['collapse', 'separate'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-spacing': {
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     // border color
     'border-top-color': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['frame'],
     } as SyntaxDefinition,
     'border-bottom-color': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['frame'],
     } as SyntaxDefinition,
     'border-left-color': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['frame'],
     } as SyntaxDefinition,
     'border-right-color': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['frame'],
     } as SyntaxDefinition,
     'border-x-color': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         variables: ['frame'],
         declare(value) {
             return {
@@ -955,7 +956,7 @@ const syntaxes = {
     'border-y-color': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         variables: ['frame'],
         declare(value) {
             return {
@@ -967,34 +968,34 @@ const syntaxes = {
     'border-color': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['frame'],
     } as SyntaxDefinition,
     // border radius
     'border-top-left-radius': {
         key: 'rtl',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-top-right-radius': {
         key: 'rtr',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-bottom-left-radius': {
         key: 'rbl',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-bottom-right-radius': {
         key: 'rbr',
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-top-radius': {
         key: 'rt',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-top-left-radius': value,
@@ -1005,7 +1006,7 @@ const syntaxes = {
     'border-bottom-radius': {
         key: 'rb',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-bottom-left-radius': value,
@@ -1016,7 +1017,7 @@ const syntaxes = {
     'border-left-radius': {
         key: 'rl',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-top-left-radius': value,
@@ -1027,7 +1028,7 @@ const syntaxes = {
     'border-right-radius': {
         key: 'rr',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-top-right-radius': value,
@@ -1038,33 +1039,33 @@ const syntaxes = {
     'border-radius': {
         key: 'r',
         unit: 'rem',
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     // border style
     'border-top-style': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-bottom-style': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-left-style': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-right-style': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-x-style': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-left-style': value,
@@ -1075,7 +1076,7 @@ const syntaxes = {
     'border-y-style': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-top-style': value,
@@ -1086,38 +1087,38 @@ const syntaxes = {
     'border-style': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     // border width
     'border-top-width': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-bottom-width': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-left-width': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-right-width': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'border-x-width': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-left-width': value,
@@ -1129,7 +1130,7 @@ const syntaxes = {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'border-top-width': value,
@@ -1141,63 +1142,63 @@ const syntaxes = {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     // border image
     'border-image-repeat': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: ['stretch', 'repeat', 'round', 'space'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-image-slice': {
         ambiguousKeys: ['border-image'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-image-source': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-image-width': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: ['auto', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-image-outset': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'border-image': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     // border
     'border-top': {
         key: 'bt',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
     } as SyntaxDefinition,
     'border-bottom': {
         key: 'bb',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
     } as SyntaxDefinition,
     'border-left': {
         key: 'bl',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
     } as SyntaxDefinition,
     'border-right': {
         key: 'br',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
@@ -1205,7 +1206,7 @@ const syntaxes = {
     'border-x': {
         key: 'bx',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
         declare(value) {
@@ -1218,7 +1219,7 @@ const syntaxes = {
     'border-y': {
         key: 'by',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
         declare(value) {
@@ -1231,27 +1232,27 @@ const syntaxes = {
     border: {
         key: 'b',
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
     } as SyntaxDefinition,
     'background-attachment': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['fixed', 'local', 'scroll'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'background-blend-mode': {
         key: 'bg-blend',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'background-color': {
         ambiguousKeys: ['bg'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'background-clip': {
         key: 'bg-clip',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-background-clip': value,
@@ -1261,37 +1262,37 @@ const syntaxes = {
     } as SyntaxDefinition,
     'background-origin': {
         key: 'bg-origin',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'background-position': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center'],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'px'
     } as SyntaxDefinition,
     'background-repeat': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['space', 'round', 'repeat', 'no-repeat', 'repeat-x', 'repeat-y'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'background-size': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['auto', 'cover', 'contain', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'background-image': {
         ambiguousKeys: ['bg'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     background: {
         key: 'bg',
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     gradient: {
         matcher: /^gradient\(/,
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'background-image': 'linear-' + value
@@ -1300,11 +1301,11 @@ const syntaxes = {
     } as SyntaxDefinition,
     'mix-blend-mode': {
         key: 'blend',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'backdrop-filter': {
         key: 'bd',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-backdrop-filter': value,
@@ -1314,59 +1315,59 @@ const syntaxes = {
     } as SyntaxDefinition,
     filter: {
         matcher: /^(?:blur|brightness|contrast|drop-shadow|grayscale|hue-rotate|invert|opacity|saturate|sepia)\(/,
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     fill: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     'stroke-dasharray': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'stroke-dashoffset': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     'stroke-width': {
         ambiguousKeys: ['stroke'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     stroke: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     x: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     y: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     cx: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     cy: {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     rx: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     ry: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-column-start': {
         key: 'grid-col-start',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-column-end': {
         key: 'grid-col-end',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-column-span': {
         key: 'grid-col-span',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         transformValue(value) {
             return 'span' + ' ' + value + '/' + 'span' + ' ' + value
         },
@@ -1378,7 +1379,7 @@ const syntaxes = {
     } as SyntaxDefinition,
     'grid-column': {
         key: 'grid-col',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
     } as SyntaxDefinition,
     'grid-columns': {
         key: 'grid-cols',
@@ -1392,16 +1393,16 @@ const syntaxes = {
                     + '(' + 0 + ',' + 1 + 'fr' + '))',
             }
         },
-        layer: Layer.Shorthand
+        syntaxType: SyntaxType.Shorthand
     } as SyntaxDefinition,
     'grid-row-start': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-row-end': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-row-span': {
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         transformValue(value) {
             return 'span' + ' ' + value + '/' + 'span' + ' ' + value
         },
@@ -1412,7 +1413,7 @@ const syntaxes = {
         }
     } as SyntaxDefinition,
     'grid-row': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'grid-rows': {
         declare(value) {
@@ -1426,154 +1427,154 @@ const syntaxes = {
                     + '(' + 0 + ',' + 1 + 'fr' + '))',
             }
         },
-        layer: Layer.Shorthand
+        syntaxType: SyntaxType.Shorthand
     } as SyntaxDefinition,
     'grid-auto-columns': {
         key: 'grid-auto-cols',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-auto-flow': {
         key: 'grid-flow',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-auto-rows': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-template-areas': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'grid-template-columns': {
         key: 'grid-template-cols',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem'
     } as SyntaxDefinition,
     'grid-template-rows': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem'
     } as SyntaxDefinition,
     'grid-template': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'grid-area': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     grid: {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'column-gap': {
         key: 'gap-x',
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     'row-gap': {
         key: 'gap-y',
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     gap: {
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     order: {
         key: 'o',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'break-inside': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'break-before': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'break-after': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'aspect-ratio': {
         key: 'aspect',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'column-span': {
         key: 'col-span',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'align-content': {
         subkey: 'ac',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'align-items': {
         subkey: 'ai',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'align-self': {
         subkey: 'as',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'justify-content': {
         subkey: 'jc',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'justify-items': {
         subkey: 'ji',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'justify-self': {
         subkey: 'js',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'place-content': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'place-items': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'place-self': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'list-style-position': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: ['inside', 'outside'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'list-style-type': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: ['disc', 'decimal'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'list-style-image': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'list-style': {
-        layer: Layer.NativeShorthand
+        syntaxType: SyntaxType.NativeShorthand
     } as SyntaxDefinition,
     'outline-color': {
         ambiguousKeys: ['outline'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['frame'],
     } as SyntaxDefinition,
     'outline-offset': {
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     'outline-style': {
         ambiguousKeys: ['outline'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'outline-width': {
         ambiguousKeys: ['outline'],
         ambiguousValues: ['medium', 'thick', 'thin', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     outline: {
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: [
             'outline-width',
             'outline-style',
@@ -1585,48 +1586,48 @@ const syntaxes = {
     } as SyntaxDefinition,
     'accent-color': {
         key: 'accent',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
     } as SyntaxDefinition,
     appearance: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'caret-color': {
         key: 'caret',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['text']
     } as SyntaxDefinition,
     'scroll-behavior': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     // scroll margin
     'scroll-margin-left': {
         key: 'scroll-ml',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-margin-right': {
         key: 'scroll-mr',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-margin-top': {
         key: 'scroll-mt',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-margin-bottom': {
         key: 'scroll-mb',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-margin-x': {
         key: 'scroll-mx',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'scroll-margin-left': value,
@@ -1638,7 +1639,7 @@ const syntaxes = {
     'scroll-margin-y': {
         key: 'scroll-my',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'scroll-margin-top': value,
@@ -1650,38 +1651,38 @@ const syntaxes = {
     'scroll-margin': {
         key: 'scroll-m',
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     // scroll padding
     'scroll-padding-left': {
         key: 'scroll-pl',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-padding-right': {
         key: 'scroll-pr',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-padding-top': {
         key: 'scroll-pt',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-padding-bottom': {
         key: 'scroll-pb',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         unit: 'rem',
         variables: ['spacing']
     } as SyntaxDefinition,
     'scroll-padding-x': {
         key: 'scroll-px',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'scroll-padding-left': value,
@@ -1693,7 +1694,7 @@ const syntaxes = {
     'scroll-padding-y': {
         key: 'scroll-py',
         unit: 'rem',
-        layer: Layer.Shorthand,
+        syntaxType: SyntaxType.Shorthand,
         declare(value) {
             return {
                 'scroll-padding-top': value,
@@ -1705,59 +1706,59 @@ const syntaxes = {
     'scroll-padding': {
         key: 'scroll-p',
         unit: 'rem',
-        layer: Layer.NativeShorthand,
+        syntaxType: SyntaxType.NativeShorthand,
         variables: ['spacing']
     } as SyntaxDefinition,
     // scroll snap
     'scroll-snap-align': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['start', 'end', 'center'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'scroll-snap-stop': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['normal', 'always'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'scroll-snap-type': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['x', 'y', 'block', 'inline', 'both'],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'will-change': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'writing-mode': {
         key: 'writing',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     direction: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'shape-outside': {
         ambiguousKeys: ['shape'],
         ambiguousValues: [/(?:inset|circle|ellipse|polygon|url|linear-gradient)\(.*\)/],
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'shape-margin': {
         ambiguousKeys: ['shape'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         variables: ['spacing']
     } as SyntaxDefinition,
     'shape-image-threshold': {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'clip-path': {
         key: 'clip',
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     quotes: {
-        layer: Layer.Native
+        syntaxType: SyntaxType.Native
     } as SyntaxDefinition,
     'mask-image': {
-        layer: Layer.Native,
+        syntaxType: SyntaxType.Native,
         declare(value) {
             return {
                 '-webkit-mask-image': value,

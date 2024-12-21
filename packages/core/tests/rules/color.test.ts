@@ -1,8 +1,14 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
+import { expectLayers } from '../test'
 
 test.concurrent('color', () => {
-    expect(new MasterCSS().add('color:current:hover').text).toBe('.color\\:current\\:hover:hover{color:currentColor}')
+    expectLayers(
+        {
+            utility: '.color\\:current\\:hover:hover{color:currentColor}'
+        },
+        'color:current:hover'
+    )
     expect(new MasterCSS().create('color:current')?.declarations).toStrictEqual({ color: 'currentColor' })
     expect(new MasterCSS().create('color:current')?.text).toContain('color:currentColor')
     expect(new MasterCSS().create('color:rgb(255,255,255)')?.text).toContain('color:rgb(255,255,255)')

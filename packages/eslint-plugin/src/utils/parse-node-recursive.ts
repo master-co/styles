@@ -92,7 +92,7 @@ export function parseNodeRecursive(rootNode, childNode, cb, skipConditional = fa
                     }
 
                     parseNodeRecursive(
-                        rootNode,
+                        prop,
                         isUsedByClassNamesPlugin ? prop.key : prop.value,
                         cb,
                         skipConditional,

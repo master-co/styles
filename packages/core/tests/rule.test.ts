@@ -19,10 +19,10 @@ test.concurrent('declarations', () => {
 })
 
 test.concurrent('registered Rule', () => {
-    expect(new MasterCSS().Rules.find(({ id }) => id === 'content')).toMatchObject({
+    expect(new MasterCSS().syntaxes.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
-            layer: -1
+            syntaxType: -1
         },
         id: 'content',
         keys: ['content'],
@@ -51,10 +51,10 @@ test.concurrent('variables', () => {
     })
     expect(css.variables['a-1']).toMatchObject({ type: 'string', value: 'test', group: 'a' })
     expect(css.variables['a-b-2']).toMatchObject({ type: 'string', value: 'test', group: 'a.b' })
-    expect(css.Rules.find(({ id }) => id === 'content')).toMatchObject({
+    expect(css.syntaxes.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
-            layer: -1,
+            syntaxType: -1,
             variables: ['a.b']
         },
         id: 'content',
@@ -75,7 +75,7 @@ test.concurrent('variables', () => {
 })
 
 test.concurrent('text variables', () => {
-    expect(Object.keys(new MasterCSS().Rules.find(({ id }) => id === 'color')?.variables || {})).toEqual(Object.keys(variables.text))
+    expect(Object.keys(new MasterCSS().syntaxes.find(({ id }) => id === 'color')?.variables || {})).toEqual(Object.keys(variables.text))
 })
 
 describe.concurrent('token', () => {

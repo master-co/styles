@@ -1,5 +1,6 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
+import { expectLayers } from '../test'
 
 test.concurrent('outline', () => {
     expect(new MasterCSS().create('outline:current')?.text).toContain('outline-color:currentColor')
@@ -25,13 +26,17 @@ test.concurrent('autofill solid', () => {
     expect(new MasterCSS().create('outline:16|black')?.text).toContain('outline:1rem rgb(0 0 0) solid')
     expect(new MasterCSS().create('outline:16|black|solid')?.text).toContain('outline:1rem rgb(0 0 0) solid')
     expect(new MasterCSS({ variables: { line: 'solid' } }).create('outline:16|black|line')?.text).toContain('outline:1rem rgb(0 0 0) solid')
-    expect(new MasterCSS({
-        variables: {
-            line: { '@light': 'solid', '@dark': 'dotted' }
+
+    expectLayers(
+        {
+            theme: '.light,:root{--line:solid}.dark{--line:dotted}',
+            utility: '.outline\\:16\\|line{outline:1rem var(--line) solid}'
+        },
+        'outline:16|line',
+        {
+            variables: {
+                line: { '@light': 'solid', '@dark': 'dotted' }
+            }
         }
-    }).add('outline:16|line').text).toBe(
-        '.light,:root{--line:solid}' +
-        '.dark{--line:dotted}' +
-        '.outline\\:16\\|line{outline:1rem var(--line) solid}'
     )
 })

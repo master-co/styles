@@ -1,6 +1,6 @@
 import { indexOfAll } from './index-of-all'
 
-export default function findLoc(text, lines, startLine, endLine) {
+export default function findLoc(text, lines, startLine, startColumn, endLine, endColumn) {
     const targetLines = text.match(/.+(?:\r\n|\n)?/g)
 
     let checkingTargetLine = 0
@@ -14,6 +14,10 @@ export default function findLoc(text, lines, startLine, endLine) {
         const indexes = indexOfAll(sourceCodeLine, content)
         if (indexes.length > 0) {
             for (const index of indexes) {
+
+                if (i === startLine && index < startColumn || i === endLine && index > endColumn) {
+                    continue
+                }
 
                 if ((index !== 0 && sourceCodeLine[index - 1].match(/\w/)) ||
                     (index + content.length < sourceCodeLine.length && sourceCodeLine[index + content.length].match(/\w/))) {

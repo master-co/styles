@@ -31,14 +31,17 @@ export default createRule({
                     const sourceCode = context.sourceCode
                     const sourceCodeLines = sourceCode.lines
                     const nodeStartLine = node.loc.start.line
+                    const nodeStartColumn = node.loc.start.column
                     const nodeEndLine = node.loc.end.line
+                    const nodeEndColumn = node.loc.end.column
+
                     for (const className of classNames) {
                         const { matched, errors } = validate(className, css)
                         if (errors.length > 0) {
                             for (const error of errors) {
                                 if (matched) {
                                     context.report({
-                                        loc: findLoc(className, sourceCodeLines, nodeStartLine, nodeEndLine),
+                                        loc: findLoc(className, sourceCodeLines, nodeStartLine, nodeStartColumn, nodeEndLine, nodeEndColumn),
                                         messageId: 'invalidClass',
                                         data: {
                                             message: error.message + '.',
@@ -46,7 +49,7 @@ export default createRule({
                                     })
                                 } else if (options.disallowUnknownClass) {
                                     context.report({
-                                        loc: findLoc(className, sourceCodeLines, nodeStartLine, nodeEndLine),
+                                        loc: findLoc(className, sourceCodeLines, nodeStartLine, nodeStartColumn, nodeEndLine, nodeEndColumn),
                                         messageId: 'disallowUnknownClass',
                                         data: {
                                             message: `"${className}" is not a valid or known class.`
