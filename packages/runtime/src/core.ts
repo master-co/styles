@@ -62,7 +62,7 @@ export class RuntimeCSS extends MasterCSS {
                     switch (cssLayerBlockRule.name) {
                         case 'theme':
                             this.themeLayer.native = cssLayerBlockRule
-                            let variableRule: Rule
+                            let variableRule: Rule | undefined
                             let lastVariableName: string | undefined
                             for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
                                 const cssRule = cssLayerBlockRule.cssRules[j]
@@ -181,8 +181,6 @@ export class RuntimeCSS extends MasterCSS {
                                     if (cssRule.selectorText) {
                                         const selectorTexts = cssRule.selectorText.split(', ')
                                         const escapedClassNames = selectorTexts[0].split(' ')
-
-                                        // eslint-disable-next-line @typescript-eslint/prefer-for-of
                                         for (let k = 0; k < escapedClassNames.length; k++) {
                                             const eachSelectorText = escapedClassNames[k]
                                             if (eachSelectorText[0] === '.') {
@@ -216,7 +214,6 @@ export class RuntimeCSS extends MasterCSS {
                                             }
                                         }
                                     } else if (cssRule.cssRules) {
-                                        // eslint-disable-next-line @typescript-eslint/prefer-for-of
                                         for (let k = 0; k < cssRule.cssRules.length; k++) {
                                             const syntaxRule = getSyntaxRule(cssRule.cssRules[k])
                                             if (syntaxRule)
@@ -256,7 +253,6 @@ export class RuntimeCSS extends MasterCSS {
                             break
                         case 'keyframe':
                             this.keyframeLayer.native = cssLayerBlockRule
-                            // eslint-disable-next-line @typescript-eslint/prefer-for-of
                             for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
                                 const keyframsRule = cssLayerBlockRule.cssRules[j] as CSSKeyframesRule
                                 const animationRule = new Rule(
@@ -481,7 +477,7 @@ export class RuntimeCSS extends MasterCSS {
         // todo: e2e test
         for (const eachRule of this.sheet.rules) {
             if ('native' in eachRule && eachRule.native) {
-                for (let i =  eachRule.native.cssRules.length - 1; i >= 0; i--) {
+                for (let i = eachRule.native.cssRules.length - 1; i >= 0; i--) {
                     eachRule.native.deleteRule(i)
                 }
             }
@@ -494,7 +490,7 @@ export class RuntimeCSS extends MasterCSS {
         super.reset()
         for (const eachRule of this.sheet.rules) {
             if ('native' in eachRule && eachRule.native) {
-                for (let i =  eachRule.native.cssRules.length - 1; i >= 0; i--) {
+                for (let i = eachRule.native.cssRules.length - 1; i >= 0; i--) {
                     eachRule.native.deleteRule(i)
                 }
             }
