@@ -51,8 +51,215 @@ export class RuntimeCSS extends MasterCSS {
                     break
                 }
             }
+        if (this.progressive) {
+            /* eslint-disable @typescript-eslint/prefer-for-of */
+            for (let i = 0; i < this.style.sheet!.cssRules.length; i++) {
+                const eachCSSRule = this.style.sheet!.cssRules[i]
+                if (eachCSSRule.constructor.name === 'CSSLayerBlockRule') {
+                    const cssLayerBlockRule = eachCSSRule as CSSLayerBlockRule
+                    switch (cssLayerBlockRule.name) {
+                        case 'theme':
+                            this.themeLayer.native = cssLayerBlockRule
+                            let variableRule: Rule | undefined
+                            let lastVariableName: string | undefined
+                            for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
+                                const cssRule = cssLayerBlockRule.cssRules[j]
+                                const variableCSSRule = (cssRule.constructor.name === 'CSSMediaRule'
+                                    ? (cssRule as CSSMediaRule).cssRules[0]
+                                    : cssRule) as CSSStyleRule
+                                const variableName = variableCSSRule.style[0].slice(2)
+                                if (variableName !== lastVariableName) {
+                                    lastVariableName = variableName
+                                    variableRule = new Rule(variableName, this)
+                                    this.themeLayer.rules.push(variableRule)
+                                    this.themeLayer.ruleBy[variableRule.name] = variableRule
+                                    this.themeLayer.usages[variableRule.name] = 0
+                                }
+                                variableRule?.natives.push({
+                                    cssRule,
+                                    text: cssRule.cssText
+                                })
+                            }
+                            break
+                        case 'style':
+                            this.styleLayer.native = cssLayerBlockRule
+                            let stylePreText: string
+                            for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
+                                const cssRule = cssLayerBlockRule.cssRules[j]
+                                const getSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
+                                    if (cssRule.selectorText) {
+                                        const selectorTexts = cssRule.selectorText.split(', ')
+                                        const escapedClassNames = selectorTexts[0].split(' ')
 
-        const syncSheet = () => {
+                                        for (let k = 0; k < escapedClassNames.length; k++) {
+                                            const eachSelectorText = escapedClassNames[k]
+                                            if (eachSelectorText[0] === '.') {
+                                                const escapedClassName = eachSelectorText.slice(1)
+
+                                                let className = ''
+                                                for (let l = 0; l < escapedClassName.length; l++) {
+                                                    const char = escapedClassName[l]
+                                                    const nextChar = escapedClassName[l + 1]
+
+                                                    if (char === '\\') {
+                                                        l++
+
+                                                        if (nextChar !== '\\') {
+                                                            className += nextChar
+
+                                                            continue
+                                                        }
+                                                    } else if ([',', '.', '#', '[', '!', '*', '>', '+', '~', ':', '@'].includes(char)) {
+                                                        break
+                                                    }
+
+                                                    className += char
+                                                }
+
+                                                const syntaxRules = this.generate(className)
+                                                if (syntaxRules.length) {
+                                                    stylePreText = cssRule.selectorText + '{'
+                                                    return syntaxRules
+                                                }
+                                            }
+                                        }
+                                    } else if (cssRule.cssRules) {
+                                        for (let k = 0; k < cssRule.cssRules.length; k++) {
+                                            const syntaxRules = getSyntaxRules(cssRule.cssRules[k])
+                                            if (syntaxRules)
+                                                return syntaxRules
+                                        }
+                                    }
+                                }
+                                const syntaxRules = getSyntaxRules(cssRule)
+                                if (syntaxRules) {
+                                    let matched = false
+                                    for (const eachSyntaxRule of syntaxRules) {
+                                        for (const eachNativeRule of eachSyntaxRule.natives) {
+                                            if (!eachNativeRule.cssRule && eachNativeRule.text.includes(stylePreText!)) {
+                                                eachNativeRule.cssRule = cssRule
+                                                const name = eachSyntaxRule.fixedClass + ' ' + eachSyntaxRule.name
+                                                if (!Object.prototype.hasOwnProperty.call(this.styleLayer.ruleBy, name)) {
+                                                    this.styleLayer.rules.push(eachSyntaxRule)
+                                                    this.styleLayer.ruleBy[name] = eachSyntaxRule
+                                                    this.themeLayer.insert(eachSyntaxRule)
+                                                    this.keyframeLayer.insert(eachSyntaxRule)
+                                                    eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
+                                                }
+                                                matched = true
+                                                break
+                                            }
+                                        }
+                                        if (matched)
+                                            break
+                                    }
+                                } else {
+                                    cssLayerBlockRule.deleteRule(j--)
+                                }
+                            }
+                            for (const eachRule of this.styleLayer.rules) {
+                                for (let k = eachRule.natives.length - 1; k >= 0; k--) {
+                                    if (!eachRule.natives[k].cssRule) {
+                                        eachRule.natives.splice(k, 1)
+                                    }
+                                }
+                            }
+                            break
+                        case 'utility':
+                            this.utilityLayer.native = cssLayerBlockRule
+                            let utilityPreText: string
+                            for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
+                                const cssRule = cssLayerBlockRule.cssRules[j]
+                                const getSyntaxRule = (cssRule: any): SyntaxRule | undefined => {
+                                    if (cssRule.selectorText) {
+                                        const selectorTexts = cssRule.selectorText.split(', ')
+                                        const escapedClassNames = selectorTexts[0].split(' ')
+                                        for (let k = 0; k < escapedClassNames.length; k++) {
+                                            const eachSelectorText = escapedClassNames[k]
+                                            if (eachSelectorText[0] === '.') {
+                                                const escapedClassName = eachSelectorText.slice(1)
+                                                let className = ''
+                                                for (let l = 0; l < escapedClassName.length; l++) {
+                                                    const char = escapedClassName[l]
+                                                    const nextChar = escapedClassName[l + 1]
+                                                    if (char === '\\') {
+                                                        l++
+                                                        if (nextChar !== '\\') {
+                                                            className += nextChar
+
+                                                            continue
+                                                        }
+                                                    } else if ([',', '.', '#', '[', '!', '*', '>', '+', '~', ':', '@'].includes(char)) {
+                                                        break
+                                                    }
+                                                    className += char
+                                                }
+                                                const syntaxRule = this.generate(className)[0]
+                                                if (syntaxRule) {
+                                                    utilityPreText = cssRule.selectorText + '{'
+                                                    return syntaxRule
+                                                }
+                                            }
+                                        }
+                                    } else if (cssRule.cssRules) {
+                                        for (let k = 0; k < cssRule.cssRules.length; k++) {
+                                            const syntaxRule = getSyntaxRule(cssRule.cssRules[k])
+                                            if (syntaxRule)
+                                                return syntaxRule
+                                        }
+                                    }
+                                }
+                                const syntaxRule = getSyntaxRule(cssRule)
+                                if (syntaxRule) {
+                                    if (!Object.prototype.hasOwnProperty.call(this.utilityLayer.ruleBy, syntaxRule.name)) {
+                                        this.utilityLayer.rules.push(syntaxRule)
+                                        this.utilityLayer.ruleBy[syntaxRule.name] = syntaxRule
+                                        this.themeLayer.insert(syntaxRule)
+                                        this.keyframeLayer.insert(syntaxRule)
+                                        syntaxRule.definition.insert?.call(syntaxRule)
+                                    }
+                                    for (const eachNativeRule of syntaxRule.natives) {
+                                        if (!eachNativeRule.cssRule && eachNativeRule.text.includes(utilityPreText!)) {
+                                            eachNativeRule.cssRule = cssRule
+                                            break
+                                        }
+                                    }
+                                } else {
+                                    cssLayerBlockRule.deleteRule(j--)
+                                }
+                            }
+                            for (const eachRule of this.utilityLayer.rules) {
+                                for (let k = eachRule.natives.length - 1; k >= 0; k--) {
+                                    if (!eachRule.natives[k].cssRule) {
+                                        eachRule.natives.splice(k, 1)
+                                    }
+                                }
+                            }
+                            break
+                        case 'keyframe':
+                            this.keyframeLayer.native = cssLayerBlockRule
+                            for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
+                                const keyframsRule = cssLayerBlockRule.cssRules[j] as CSSKeyframesRule
+                                const animationRule = new Rule(
+                                    keyframsRule.name,
+                                    this,
+                                    [{
+                                        cssRule: keyframsRule,
+                                        text: keyframsRule.cssText
+                                    }]
+                                )
+                                this.keyframeLayer.rules.push(animationRule)
+                                this.keyframeLayer.ruleBy[animationRule.name] = animationRule
+                                this.keyframeLayer.usages[animationRule.name] = 0
+                            }
+                            break
+                    }
+                }
+            }
+        } else {
+            this.style = document.createElement('style')
+            this.style.id = 'master'
+            this.container.append(this.style)
             for (let i = 0; i < this.sheet.rules.length; i++) {
                 const ruleOrLayer = this.sheet.rules[i]
                 this.style.sheet?.insertRule(ruleOrLayer.text, i)
@@ -60,223 +267,6 @@ export class RuntimeCSS extends MasterCSS {
                     ruleOrLayer.native = this.style.sheet?.cssRules.item(i) as CSSLayerBlockRule
                 }
             }
-        }
-
-        if (this.progressive && this.style?.sheet) {
-            if (this.style.sheet.cssRules.length) {
-                /* eslint-disable @typescript-eslint/prefer-for-of */
-                for (let i = 0; i < this.style.sheet.cssRules.length; i++) {
-                    const eachCSSRule = this.style.sheet.cssRules[i]
-                    if (eachCSSRule.constructor.name === 'CSSLayerBlockRule') {
-                        const cssLayerBlockRule = eachCSSRule as CSSLayerBlockRule
-                        switch (cssLayerBlockRule.name) {
-                            case 'theme':
-                                this.themeLayer.native = cssLayerBlockRule
-                                let variableRule: Rule | undefined
-                                let lastVariableName: string | undefined
-                                for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                                    const cssRule = cssLayerBlockRule.cssRules[j]
-                                    const variableCSSRule = (cssRule.constructor.name === 'CSSMediaRule'
-                                        ? (cssRule as CSSMediaRule).cssRules[0]
-                                        : cssRule) as CSSStyleRule
-                                    const variableName = variableCSSRule.style[0].slice(2)
-                                    if (variableName !== lastVariableName) {
-                                        lastVariableName = variableName
-                                        variableRule = new Rule(variableName, this)
-                                        this.themeLayer.rules.push(variableRule)
-                                        this.themeLayer.ruleBy[variableRule.name] = variableRule
-                                        this.themeLayer.usages[variableRule.name] = 0
-                                    }
-                                    variableRule?.natives.push({
-                                        cssRule,
-                                        text: cssRule.cssText
-                                    })
-                                }
-                                break
-                            case 'style':
-                                this.styleLayer.native = cssLayerBlockRule
-                                let stylePreText: string
-                                for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                                    const cssRule = cssLayerBlockRule.cssRules[j]
-                                    const getSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
-                                        if (cssRule.selectorText) {
-                                            const selectorTexts = cssRule.selectorText.split(', ')
-                                            const escapedClassNames = selectorTexts[0].split(' ')
-
-                                            for (let k = 0; k < escapedClassNames.length; k++) {
-                                                const eachSelectorText = escapedClassNames[k]
-                                                if (eachSelectorText[0] === '.') {
-                                                    const escapedClassName = eachSelectorText.slice(1)
-
-                                                    let className = ''
-                                                    for (let l = 0; l < escapedClassName.length; l++) {
-                                                        const char = escapedClassName[l]
-                                                        const nextChar = escapedClassName[l + 1]
-
-                                                        if (char === '\\') {
-                                                            l++
-
-                                                            if (nextChar !== '\\') {
-                                                                className += nextChar
-
-                                                                continue
-                                                            }
-                                                        } else if ([',', '.', '#', '[', '!', '*', '>', '+', '~', ':', '@'].includes(char)) {
-                                                            break
-                                                        }
-
-                                                        className += char
-                                                    }
-
-                                                    const syntaxRules = this.generate(className)
-                                                    if (syntaxRules.length) {
-                                                        stylePreText = cssRule.selectorText + '{'
-                                                        return syntaxRules
-                                                    }
-                                                }
-                                            }
-                                        } else if (cssRule.cssRules) {
-                                            for (let k = 0; k < cssRule.cssRules.length; k++) {
-                                                const syntaxRules = getSyntaxRules(cssRule.cssRules[k])
-                                                if (syntaxRules)
-                                                    return syntaxRules
-                                            }
-                                        }
-                                    }
-                                    const syntaxRules = getSyntaxRules(cssRule)
-                                    if (syntaxRules) {
-                                        let matched = false
-                                        for (const eachSyntaxRule of syntaxRules) {
-                                            for (const eachNativeRule of eachSyntaxRule.natives) {
-                                                if (!eachNativeRule.cssRule && eachNativeRule.text.includes(stylePreText!)) {
-                                                    eachNativeRule.cssRule = cssRule
-                                                    const name = eachSyntaxRule.fixedClass + ' ' + eachSyntaxRule.name
-                                                    if (!Object.prototype.hasOwnProperty.call(this.styleLayer.ruleBy, name)) {
-                                                        this.styleLayer.rules.push(eachSyntaxRule)
-                                                        this.styleLayer.ruleBy[name] = eachSyntaxRule
-                                                        this.themeLayer.insert(eachSyntaxRule)
-                                                        this.keyframeLayer.insert(eachSyntaxRule)
-                                                        eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
-                                                    }
-                                                    matched = true
-                                                    break
-                                                }
-                                            }
-                                            if (matched)
-                                                break
-                                        }
-                                    } else {
-                                        cssLayerBlockRule.deleteRule(j--)
-                                    }
-                                }
-                                for (const eachRule of this.styleLayer.rules) {
-                                    for (let k = eachRule.natives.length - 1; k >= 0; k--) {
-                                        if (!eachRule.natives[k].cssRule) {
-                                            eachRule.natives.splice(k, 1)
-                                        }
-                                    }
-                                }
-                                break
-                            case 'utility':
-                                this.utilityLayer.native = cssLayerBlockRule
-                                let utilityPreText: string
-                                for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                                    const cssRule = cssLayerBlockRule.cssRules[j]
-                                    const getSyntaxRule = (cssRule: any): SyntaxRule | undefined => {
-                                        if (cssRule.selectorText) {
-                                            const selectorTexts = cssRule.selectorText.split(', ')
-                                            const escapedClassNames = selectorTexts[0].split(' ')
-                                            for (let k = 0; k < escapedClassNames.length; k++) {
-                                                const eachSelectorText = escapedClassNames[k]
-                                                if (eachSelectorText[0] === '.') {
-                                                    const escapedClassName = eachSelectorText.slice(1)
-                                                    let className = ''
-                                                    for (let l = 0; l < escapedClassName.length; l++) {
-                                                        const char = escapedClassName[l]
-                                                        const nextChar = escapedClassName[l + 1]
-                                                        if (char === '\\') {
-                                                            l++
-                                                            if (nextChar !== '\\') {
-                                                                className += nextChar
-
-                                                                continue
-                                                            }
-                                                        } else if ([',', '.', '#', '[', '!', '*', '>', '+', '~', ':', '@'].includes(char)) {
-                                                            break
-                                                        }
-                                                        className += char
-                                                    }
-                                                    const syntaxRule = this.generate(className)[0]
-                                                    if (syntaxRule) {
-                                                        utilityPreText = cssRule.selectorText + '{'
-                                                        return syntaxRule
-                                                    }
-                                                }
-                                            }
-                                        } else if (cssRule.cssRules) {
-                                            for (let k = 0; k < cssRule.cssRules.length; k++) {
-                                                const syntaxRule = getSyntaxRule(cssRule.cssRules[k])
-                                                if (syntaxRule)
-                                                    return syntaxRule
-                                            }
-                                        }
-                                    }
-                                    const syntaxRule = getSyntaxRule(cssRule)
-                                    if (syntaxRule) {
-                                        if (!Object.prototype.hasOwnProperty.call(this.utilityLayer.ruleBy, syntaxRule.name)) {
-                                            this.utilityLayer.rules.push(syntaxRule)
-                                            this.utilityLayer.ruleBy[syntaxRule.name] = syntaxRule
-                                            this.themeLayer.insert(syntaxRule)
-                                            this.keyframeLayer.insert(syntaxRule)
-                                            syntaxRule.definition.insert?.call(syntaxRule)
-                                        }
-                                        for (const eachNativeRule of syntaxRule.natives) {
-                                            if (!eachNativeRule.cssRule && eachNativeRule.text.includes(utilityPreText!)) {
-                                                eachNativeRule.cssRule = cssRule
-                                                break
-                                            }
-                                        }
-                                    } else {
-                                        cssLayerBlockRule.deleteRule(j--)
-                                    }
-                                }
-                                for (const eachRule of this.utilityLayer.rules) {
-                                    for (let k = eachRule.natives.length - 1; k >= 0; k--) {
-                                        if (!eachRule.natives[k].cssRule) {
-                                            eachRule.natives.splice(k, 1)
-                                        }
-                                    }
-                                }
-                                break
-                            case 'keyframe':
-                                this.keyframeLayer.native = cssLayerBlockRule
-                                for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                                    const keyframsRule = cssLayerBlockRule.cssRules[j] as CSSKeyframesRule
-                                    const animationRule = new Rule(
-                                        keyframsRule.name,
-                                        this,
-                                        [{
-                                            cssRule: keyframsRule,
-                                            text: keyframsRule.cssText
-                                        }]
-                                    )
-                                    this.keyframeLayer.rules.push(animationRule)
-                                    this.keyframeLayer.ruleBy[animationRule.name] = animationRule
-                                    this.keyframeLayer.usages[animationRule.name] = 0
-                                }
-                                break
-                        }
-                    }
-                }
-            } else {
-                syncSheet()
-            }
-        } else {
-            // @ts-ignore
-            this.style = document.createElement('style')
-            this.style.id = 'master'
-            this.container.append(this.style)
-            syncSheet()
         }
 
         const handleClassList = (classList: DOMTokenList) => {
@@ -478,8 +468,13 @@ export class RuntimeCSS extends MasterCSS {
         return this
     }
 
-    reset() {
-        super.reset()
+    disconnect() {
+        if (this.observer) {
+            this.observer.disconnect()
+            this.observer = null
+        }
+        // @ts-ignore
+        this.observing = false
         for (const eachRule of this.sheet.rules) {
             if ('native' in eachRule && eachRule.native) {
                 for (let i = eachRule.native.cssRules.length - 1; i >= 0; i--) {
@@ -492,17 +487,6 @@ export class RuntimeCSS extends MasterCSS {
             // @ts-ignore
             this.style = null
         }
-        return this
-    }
-
-    disconnect() {
-        if (this.observer) {
-            this.observer.disconnect()
-            this.observer = null
-        }
-        // @ts-ignore
-        this.observing = false
-        this.reset()
         return this
     }
 
