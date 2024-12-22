@@ -1,104 +1,65 @@
 <script lang="ts">
-    import type { Config } from "@master/css";
-    import RuntimeCSS from "@master/css-runtime";
-    import { onMount, setContext, onDestroy } from "svelte";
-    import { writable } from "svelte/store";
-    export let config: Config | Promise<Config | unknown> | undefined
-    export let root: Document | ShadowRoot | undefined = undefined;
-    const runtimeCSS = writable<RuntimeCSS>();
+    import { onMount, setContext } from 'svelte';
+    import { writable, get } from 'svelte/store';
+    import type { Config } from '@master/css';
+    import { RuntimeCSS } from '@master/css-runtime';
 
-    let initializing = false;
-    let isExternalRuntimeCSS = false;
-    let identifier = 0;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    export let config: Config | Promise<any> | undefined;
+    export let root: Document | ShadowRoot | undefined;
 
-    const getResolvedConfig = async () => {
-        if (config instanceof Promise) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const configModule = await config as any
-            return (
-                configModule?.config || configModule?.default || configModule
-            );
-        } else {
-            return config;
-        }
-    };
-    const init = async (resolvedConfig?: Config | undefined) => {
-        initializing = true;
+    const runtimeCSSSymbol = Symbol('runtime-css');
+    const runtimeCSS = writable<RuntimeCSS | undefined>(undefined);
 
-        const currentRoot = root ?? document;
-        const existingCSSRuntime = globalThis.runtimeCSSs.find(
-            (eachCSS: RuntimeCSS) => eachCSS.root === currentRoot,
-        );
-        if (existingCSSRuntime) {
-            runtimeCSS.set(existingCSSRuntime);
-            isExternalRuntimeCSS = true;
-        } else {
-            runtimeCSS.set(
-                new RuntimeCSS(
-                    root,
-                    resolvedConfig ?? (await getResolvedConfig()),
-                ).observe(),
-            );
-            isExternalRuntimeCSS = false;
-        }
-
-        initializing = false;
-    };
-    const waitInitialized = async () => {
-        const currentIdentifier = ++identifier;
-        if (initializing) {
-            await new Promise<void>((resolve) => {
-                const interval = setInterval(() => {
-                    if (!initializing) {
-                        clearInterval(interval);
-                        resolve();
-                    }
-                }, 10);
-            });
-        }
-        return currentIdentifier === identifier;
+    const resolveConfig = async () => {
+        const configModule = await config;
+        return configModule?.config || configModule?.default || configModule;
     };
 
-    onMount(async () => await init());
+    const initialize = async (signal: AbortSignal) => {
+        const resolvedConfig = await resolveConfig();
+        if (signal.aborted) return;
+        runtimeCSS.set(new RuntimeCSS(root ?? document, resolvedConfig).observe());
+    };
 
-    const getRuntimeCSS = () => $runtimeCSS;
-    $: {
-        const currentRuntimeCSS = getRuntimeCSS();
-        if (currentRuntimeCSS) {
-            (async () => {
-                if (!(await waitInitialized())) return;
+    let controller: AbortController | null = null;
 
-                if (
-                    currentRuntimeCSS.root !== root &&
-                    (root || currentRuntimeCSS.root !== document)
-                ) {
-                    currentRuntimeCSS.destroy();
-                    await init(await getResolvedConfig());
-                }
-            })();
-        }
-    }
+    onMount(() => {
+        controller = new AbortController();
+        initialize(controller.signal);
 
-    $: {
-        const currentRuntimeCSS = getRuntimeCSS();
-        if (currentRuntimeCSS) {
-            (async () => {
-                if (!(await waitInitialized())) return;
-
-                currentRuntimeCSS.refresh(
-                    config && (await getResolvedConfig()),
-                );
-            })();
-        }
-    }
-
-    onDestroy(() => {
-        if (!isExternalRuntimeCSS) {
-            $runtimeCSS?.destroy();
-        }
+        return () => {
+            controller?.abort();
+            const currentRuntimeCSS = get(runtimeCSS);
+            currentRuntimeCSS?.destroy();
+            runtimeCSS.set(undefined);
+        };
     });
 
-    setContext("runtime-css", runtimeCSS);
+    $: (async () => {
+        if (!config) return;
+        const controller = new AbortController();
+        const resolvedConfig = await resolveConfig();
+        if (controller.signal.aborted) return;
+        const currentRuntimeCSS = get(runtimeCSS);
+        if (currentRuntimeCSS) {
+            currentRuntimeCSS.refresh(resolvedConfig);
+        }
+    })();
+
+    $: (async () => {
+        if (!root) return;
+        const controller = new AbortController();
+        const currentRuntimeCSS = get(runtimeCSS);
+        if (controller.signal.aborted) return;
+        if (currentRuntimeCSS) {
+            currentRuntimeCSS.destroy();
+            runtimeCSS.set(undefined);
+            initialize(controller.signal);
+        }
+    })();
+
+    setContext(runtimeCSSSymbol, runtimeCSS);
 </script>
 
 <slot />
