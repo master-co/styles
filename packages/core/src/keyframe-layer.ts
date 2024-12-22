@@ -1,12 +1,12 @@
 import Layer from './layer'
 import { SyntaxRule } from './syntax-rule'
-import MasterCSS, { TypeVariable } from './core'
+import MasterCSS from './core'
 import { Rule } from './rule'
 
 export default class KeyframeLayer extends Layer {
 
     readonly usages: Record<string, number> = {}
-    
+
     constructor(
         public css: MasterCSS
     ) {
@@ -20,7 +20,7 @@ export default class KeyframeLayer extends Layer {
                     this.usages[eachAnimationName]++
                 } else {
                     super.insert(new Rule(
-                        eachAnimationName, 
+                        eachAnimationName,
                         this.css,
                         [{
                             text: `@keyframes ${eachAnimationName}{`
