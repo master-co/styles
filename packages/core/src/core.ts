@@ -578,14 +578,9 @@ export default class MasterCSS {
         return this
     }
 
-    reset() {
+    destroy() {
         // @ts-ignore
         this.classesUsage = {}
-        return this
-    }
-
-    destroy() {
-        this.reset()
         masterCSSs.splice(masterCSSs.indexOf(this), 1)
         return this
     }
