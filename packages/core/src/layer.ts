@@ -3,13 +3,13 @@ import MasterCSS from './core'
 
 export default class Layer {
     readonly ruleBy: Record<string, Rule> = {}
-    native?: CSSLayerBlockRule | CSSStyleSheet
-    rules: (Rule | Layer)[] = []
+    native?: CSSLayerBlockRule
+    readonly rules: (Rule | Layer)[] = []
 
     constructor(
         public name: string,
         public css: MasterCSS
-    ) {}
+    ) { }
 
     insert(rule: Rule, index?: number) {
         const name = this.getName(rule.name, rule.fixedClass)
@@ -67,14 +67,21 @@ export default class Layer {
 
         this.rules.splice(index as number, 0, rule)
         this.ruleBy[name] = rule
+        if (!this.css.rules.includes(this)) {
+            this.css.rules.push(this)
+            const nativeSheet = this.css.style?.sheet
+            if (nativeSheet && !this.native) {
+                const lengthOfRules = this.css.rules.length
+                nativeSheet.insertRule(this.text, lengthOfRules - 1)
+                this.native = nativeSheet.cssRules.item(lengthOfRules - 1) as CSSLayerBlockRule
+            }
+        }
     }
 
     delete(className: string, fixedClass?: string): Rule {
         const name = this.getName(className, fixedClass)
         const rule = this.ruleBy[name]
-        if (!rule)
-            return rule
-
+        if (!rule) return rule
         if (this.native) {
             if (rule.natives.length) {
                 const firstNativeRule = rule.natives[0]
@@ -92,11 +99,29 @@ export default class Layer {
         }
         delete this.ruleBy[name]
         this.rules.splice(this.rules.indexOf(rule), 1)
+        if (!this.rules.length) {
+            const indexOfLayer = this.css.rules.indexOf(this)
+            this.css.rules.splice(indexOfLayer, 1)
+            const nativeSheet = this.css.style?.sheet
+            if (nativeSheet && this.native) {
+                nativeSheet.deleteRule(indexOfLayer)
+                this.native = undefined
+            }
+        }
         return rule
     }
 
     getName(className: string, fixedClass?: string) {
         return (fixedClass ? fixedClass + ' ' : '') + className
+    }
+
+    reset() {
+        // @ts-expect-error
+        this.ruleBy = {}
+        this.rules.length = 0
+        if (this.native) {
+            this.native = undefined
+        }
     }
 
     get text(): string {

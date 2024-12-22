@@ -2,7 +2,6 @@
 import { type SyntaxDefinition, type RegisteredSyntax, SyntaxRule } from './syntax-rule'
 import type { Config, AnimationDefinitions, VariableDefinition } from './config'
 import { config as defaultConfig } from './config'
-import Layer from './layer'
 import hexToRgb from './utils/hex-to-rgb'
 import { flattenObject } from './utils/flatten-object'
 import extendConfig from './utils/extend-config'
@@ -13,6 +12,7 @@ import { Rule } from './rule'
 import SyntaxType from './syntax-type'
 import ThemeLayer from './theme-layer'
 import KeyframeLayer from './keyframe-layer'
+import Layer from './layer'
 
 type VariableCommon = {
     group?: string,
@@ -31,17 +31,18 @@ export default class MasterCSS {
     readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
-    readonly layerStatementRule = new Rule('layer-statement'
-        , this
-        , [{ text: '@layer base,preset,theme,style,utility;' }])
+    readonly layerStatementRule: { name: 'layer-statement', text: string, native?: CSSLayerStatementRule } = {
+        name: 'layer-statement',
+        text: '@layer base,preset,theme,style,utility;'
+    }
     readonly themeLayer = new ThemeLayer(this)
     readonly styleLayer = new SyntaxLayer('style', this)
     readonly utilityLayer = new SyntaxLayer('utility', this)
     readonly keyframeLayer = new KeyframeLayer(this)
-    readonly sheet = new Layer('', this)
+    readonly rules: (Layer | typeof this.layerStatementRule)[] = [this.layerStatementRule]
 
     get text() {
-        return this.sheet.rules.map((eachRule) => eachRule.text).join('')
+        return this.rules.map(({ text }) => text).join('')
     }
 
     constructor(
@@ -54,14 +55,6 @@ export default class MasterCSS {
         if (this.constructor === MasterCSS) {
             masterCSSs.push(this)
         }
-
-        this.sheet.rules = [
-            this.layerStatementRule,
-            this.themeLayer,
-            this.keyframeLayer,
-            this.styleLayer,
-            this.utilityLayer
-        ]
     }
 
     resolve() {
@@ -560,13 +553,14 @@ export default class MasterCSS {
             : extendConfig(defaultConfig, customConfig)
         this.resolve()
 
-        for (const eachRule of this.sheet.rules) {
-            if ('rules' in eachRule) {
-                eachRule.rules.length = 0
-                // @ts-ignore
-                eachRule.ruleBy = {}
+        for (const eachRule of this.rules) {
+            if (eachRule instanceof Layer) {
+                eachRule.reset()
             }
         }
+
+        // @ts-expect-error readonly
+        this.rules = [this.layerStatementRule]
 
         /**
          * 拿當前所有的 classNames 按照最新的 colors, config.syntaxes 匹配並生成新的 style

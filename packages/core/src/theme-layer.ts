@@ -4,15 +4,12 @@ import MasterCSS, { TypeVariable } from './core'
 import { Rule } from './rule'
 
 export default class ThemeLayer extends Layer {
-
     readonly usages: Record<string, number> = {}
-    
     constructor(
         public css: MasterCSS
     ) {
         super('theme', css)
     }
-
     insert(syntaxRule: SyntaxRule) {
         if (syntaxRule.variableNames) {
             for (const eachVariableName of syntaxRule.variableNames) {
