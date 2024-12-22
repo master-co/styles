@@ -3,7 +3,7 @@ import { ref, provide, onMounted, onUnmounted, watch, onWatcherCleanup } from 'v
 import type { Config } from '@master/css';
 import { RuntimeCSS } from '@master/css-runtime';
 
-const RuntimeCSSKey = Symbol('runtime-css');
+const RuntimeCSSSymbol = Symbol('runtime-css');
 const props = defineProps<{
     config?: Config | Promise<any>;
     root?: Document | ShadowRoot;
@@ -23,39 +23,41 @@ const initialize = async (signal: AbortSignal) => {
 }
 
 onMounted(() => {
-    const controller = new AbortController();
-    initialize(controller.signal);
+    const controller = new AbortController()
+    initialize(controller.signal)
     onUnmounted(() => {
-        controller.abort();
-        runtimeCSS.value?.destroy();
-        runtimeCSS.value = undefined;
+        controller.abort()
+        runtimeCSS.value?.destroy()
+        runtimeCSS.value = undefined
     })
 })
 
-watch(() => props.config, async () => {
+watch(() => props.config, () => {
     const controller = new AbortController();
-    const resolvedConfig = await resolveConfig();
-    if (controller.signal.aborted) return;
-    if (runtimeCSS.value) {
-        runtimeCSS.value.refresh(resolvedConfig);
-    }
+    (async () => {
+        const resolvedConfig = await resolveConfig()
+        if (controller.signal.aborted) return;
+        if (runtimeCSS.value) {
+            runtimeCSS.value.refresh(resolvedConfig)
+        }
+    })()
     onWatcherCleanup(controller.abort)
 })
 
 watch(() => props.root, () => {
     const controller = new AbortController();
     (async () => {
-        if (controller.signal.aborted) return;
+        if (controller.signal.aborted) return
         if (runtimeCSS.value) {
-            runtimeCSS.value.destroy();
-            runtimeCSS.value = undefined;
-            initialize(controller.signal);
+            runtimeCSS.value.destroy()
+            runtimeCSS.value = undefined
+            initialize(controller.signal)
         }
     })()
     onWatcherCleanup(controller.abort)
 })
 
-provide(RuntimeCSSKey, runtimeCSS.value);
+provide(RuntimeCSSSymbol, runtimeCSS.value)
 </script>
 
 <template>
