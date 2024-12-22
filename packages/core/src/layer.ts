@@ -118,7 +118,8 @@ export default class Layer {
     reset() {
         // @ts-expect-error
         this.ruleBy = {}
-        this.rules.length = 0
+        // @ts-expect-error
+        this.rules = []
         if (this.native) {
             this.native = undefined
         }
