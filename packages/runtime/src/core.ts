@@ -10,11 +10,10 @@ export class RuntimeCSS extends MasterCSS {
     readonly container: HTMLElement | ShadowRoot
     observer?: MutationObserver | null
     constructor(
-        public root: Document | ShadowRoot | undefined | null = document,
+        public root: Document | ShadowRoot = document,
         public customConfig: Config = defaultConfig
     ) {
         super(customConfig)
-        if (!root) this.root = document
         const existingRuntimeCSS = (globalThis as any).runtimeCSSs.find((eachCSS: RuntimeCSS) => eachCSS.root === this.root)
         if (existingRuntimeCSS) throw new Error('Cannot create multiple RuntimeCSS instances for the same root element.')
         const rootConstructorName = this.root?.constructor.name
@@ -36,13 +35,8 @@ export class RuntimeCSS extends MasterCSS {
      * @returns this
      */
     observe(options: MutationObserverInit = { subtree: true, childList: true }) {
-        if (this.observing || !this.root) return this
-        if (runtimeCSSs.find((eachRuntimeCSS) => eachRuntimeCSS !== this && eachRuntimeCSS.root === this.root)) {
-            console.warn('Cannot observe the same root element repeatedly.')
-            return this
-        }
-
-        if (this.root?.styleSheets)
+        if (this.observing) return this
+        if (this.root.styleSheets)
             for (const sheet of this.root.styleSheets) {
                 const { ownerNode } = sheet
                 if (ownerNode && (ownerNode as HTMLStyleElement).id === 'master') {
@@ -82,6 +76,7 @@ export class RuntimeCSS extends MasterCSS {
                                     text: cssRule.cssText
                                 })
                             }
+                            if (this.themeLayer.rules.length) this.rules.push(this.themeLayer)
                             break
                         case 'style':
                             this.styleLayer.native = cssLayerBlockRule
@@ -166,6 +161,7 @@ export class RuntimeCSS extends MasterCSS {
                                     }
                                 }
                             }
+                            if (this.styleLayer.rules.length) this.rules.push(this.styleLayer)
                             break
                         case 'utility':
                             this.utilityLayer.native = cssLayerBlockRule
@@ -237,6 +233,7 @@ export class RuntimeCSS extends MasterCSS {
                                     }
                                 }
                             }
+                            if (this.utilityLayer.rules.length) this.rules.push(this.utilityLayer)
                             break
                         case 'keyframe':
                             this.keyframeLayer.native = cssLayerBlockRule
@@ -254,21 +251,19 @@ export class RuntimeCSS extends MasterCSS {
                                 this.keyframeLayer.ruleBy[animationRule.name] = animationRule
                                 this.keyframeLayer.usages[animationRule.name] = 0
                             }
+                            if (this.keyframeLayer.rules.length) this.rules.push(this.keyframeLayer)
                             break
                     }
+                } else if (eachCSSRule.constructor.name === 'CSSLayerStatementRule') {
+                    this.layerStatementRule.native = eachCSSRule as CSSLayerStatementRule
                 }
             }
         } else {
             this.style = document.createElement('style')
             this.style.id = 'master'
             this.container.append(this.style)
-            for (let i = 0; i < this.sheet.rules.length; i++) {
-                const ruleOrLayer = this.sheet.rules[i]
-                this.style.sheet?.insertRule(ruleOrLayer.text, i)
-                if (ruleOrLayer instanceof Layer) {
-                    ruleOrLayer.native = this.style.sheet?.cssRules.item(i) as CSSLayerBlockRule
-                }
-            }
+            this.style.sheet!.insertRule(this.layerStatementRule.text)
+            this.layerStatementRule.native = this.style.sheet!.cssRules.item(0) as CSSLayerStatementRule
         }
 
         const handleClassList = (classList: DOMTokenList) => {
@@ -456,39 +451,30 @@ export class RuntimeCSS extends MasterCSS {
         return this
     }
 
-    refresh(customConfig: Config = this.customConfig) {
-        // remove all CSS rules
-        // todo: e2e test
-        for (const eachRule of this.sheet.rules) {
-            if ('native' in eachRule && eachRule.native) {
-                for (let i = eachRule.native.cssRules.length - 1; i >= 0; i--) {
-                    eachRule.native.deleteRule(i)
-                }
-            }
-        }
-        super.refresh(customConfig)
-        return this
-    }
-
     disconnect() {
+        if (!this.observing) return
         if (this.observer) {
             this.observer.disconnect()
             this.observer = null
         }
         // @ts-ignore
         this.observing = false
-        for (const eachRule of this.sheet.rules) {
-            if ('native' in eachRule && eachRule.native) {
-                for (let i = eachRule.native.cssRules.length - 1; i >= 0; i--) {
-                    eachRule.native.deleteRule(i)
-                }
-            }
-        }
         if (!this.progressive) {
             this.style?.remove()
             // @ts-ignore
             this.style = null
         }
+        return this
+    }
+
+    refresh(customConfig = this.customConfig) {
+        if (!this.observing || !this.style.sheet) return this
+        if (this.style.sheet.cssRules) {
+            for (let i = this.style.sheet.cssRules.length - 1; i > 0; i--) {
+                this.style.sheet.deleteRule(i)
+            }
+        }
+        super.refresh(customConfig)
         return this
     }
 
