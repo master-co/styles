@@ -1,90 +1,63 @@
 <script setup lang="ts">
+import { ref, provide, onMounted, onUnmounted, watch, onWatcherCleanup } from 'vue';
+import type { Config } from '@master/css';
+import { RuntimeCSS } from '@master/css-runtime';
 
-import type { Config } from '@master/css'
-import RuntimeCSS from '@master/css-runtime'
-import { onMounted, onBeforeUnmount, ref, provide, onUpdated } from 'vue'
-
+const RuntimeCSSKey = Symbol('runtime-css');
 const props = defineProps<{
-    config?: Config | Promise<Config> | Promise<any>
-    root?: Document | ShadowRoot
-}>()
+    config?: Config | Promise<any>;
+    root?: Document | ShadowRoot;
+}>();
 
-const initializing = ref(false)
-const identifier = ref(0)
-const runtimeCSS = ref()
-const isExternalRuntimeCSS = ref(false)
+const runtimeCSS = ref<RuntimeCSS | undefined>(undefined);
 
-const getResolvedConfig = async () => {
-    if (props.config instanceof Promise) {
-        const configModule: any = await props.config
-        return configModule?.config || configModule?.default || configModule
-    } else {
-        return props.config
-    }
-}
-const init = async (resolvedConfig?: Config | undefined) => {
-    initializing.value = true
-
-    const root = props.root ?? document
-    const existingCSSRuntime = (globalThis as any).runtimeCSSs.find((eachCSS: RuntimeCSS) => eachCSS.root === root)
-    if (existingCSSRuntime) {
-        runtimeCSS.value = existingCSSRuntime
-        isExternalRuntimeCSS.value = true
-    } else {
-        runtimeCSS.value = new RuntimeCSS(root, resolvedConfig ?? await getResolvedConfig()).observe()
-    }
-
-    initializing.value = false
-}
-const waitInitialized = async () => {
-    if (initializing.value) {
-        await new Promise<void>((resolve) => {
-            const interval = setInterval(() => {
-                if (!initializing.value) {
-                    clearInterval(interval)
-                    resolve()
-                }
-            }, 10)
-        })
-    }
+const resolveConfig = async () => {
+    const configModule = await props.config;
+    return configModule?.config || configModule?.default || configModule;
 }
 
-onMounted(async () => {
-    if (typeof window === 'undefined')
-        return
+const initialize = async (signal: AbortSignal) => {
+    const resolvedConfig = await resolveConfig();
+    if (signal.aborted) return;
+    runtimeCSS.value = new RuntimeCSS(props.root ?? document, resolvedConfig).observe();
+}
 
-    // in HMR, runtimeCSS will have a value
-    await init()
+onMounted(() => {
+    const controller = new AbortController();
+    initialize(controller.signal);
+    onUnmounted(() => {
+        controller.abort();
+        runtimeCSS.value?.destroy();
+        runtimeCSS.value = undefined;
+    })
 })
 
-onUpdated(async () => {
-    const currentIdentifier = ++identifier.value
-    await waitInitialized()
-    if (currentIdentifier !== identifier.value)
-        return
-
-    const resolvedConfig = await getResolvedConfig()
-    if (
-        runtimeCSS.value.root !== props.root
-        && (props.root || runtimeCSS.value.root !== document)
-    ) {
-        runtimeCSS.value.destroy()
-        await init(resolvedConfig)
-    } else {
-        runtimeCSS.value.refresh(resolvedConfig)
+watch(() => props.config, async () => {
+    const controller = new AbortController();
+    const resolvedConfig = await resolveConfig();
+    if (controller.signal.aborted) return;
+    if (runtimeCSS.value) {
+        runtimeCSS.value.refresh(resolvedConfig);
     }
+    onWatcherCleanup(controller.abort)
 })
 
-onBeforeUnmount(async () => {
-    if (!isExternalRuntimeCSS.value) {
-        runtimeCSS.value?.destroy()
-    }
+watch(() => props.root, () => {
+    const controller = new AbortController();
+    (async () => {
+        if (controller.signal.aborted) return;
+        if (runtimeCSS.value) {
+            runtimeCSS.value.destroy();
+            runtimeCSS.value = undefined;
+            initialize(controller.signal);
+        }
+    })()
+    onWatcherCleanup(controller.abort)
 })
 
-provide('runtime-css', runtimeCSS)
-
+provide(RuntimeCSSKey, runtimeCSS.value);
 </script>
 
 <template>
-    <slot></slot>
+    <slot />
 </template>
