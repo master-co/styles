@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import { type SyntaxDefinition, type RegisteredSyntax, AtFeatureComponent, SyntaxRule } from './syntax-rule'
-import type { Config, AnimationDefinitions, VariableDefinition, SyntaxDefinitions } from './config'
+import { type SyntaxDefinition, type RegisteredSyntax, SyntaxRule } from './syntax-rule'
+import type { Config, AnimationDefinitions, VariableDefinition } from './config'
 import { config as defaultConfig } from './config'
 import Layer from './layer'
 import hexToRgb from './utils/hex-to-rgb'
