@@ -8,33 +8,65 @@ export const RuntimeCSSContext = createContext<RuntimeCSS | undefined>(undefined
 export const useRuntimeCSS = () => useContext(RuntimeCSSContext)
 const useIsomorphicEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
-export default function CSSRuntimeProvider({ children, config, root }: {
+export default function CSSRuntimeProvider(props: {
     children: React.ReactNode,
     config?: Config | Promise<any>,
     root?: Document | ShadowRoot
 }) {
     const runtimeCSS = useRef<RuntimeCSS>(undefined)
-    const initialize = useCallback(async (signal: AbortSignal) => {
-        const configModule = await config
-        if (signal.aborted) return
-        const resolvedConfig = configModule?.config || configModule?.default || configModule
-        const currentRoot = root ?? document
-        const existingCSSRuntime = (globalThis as any).runtimeCSSs.find((eachCSS: RuntimeCSS) => eachCSS.root === currentRoot)
-        if (existingCSSRuntime) {
-            runtimeCSS.current = existingCSSRuntime
-        } else {
-            runtimeCSS.current = new RuntimeCSS(root, resolvedConfig).observe()
-        }
-    }, [config, root])
 
+    const resolveConfig = useCallback(async () => {
+        const configModule = await props.config
+        return configModule?.config || configModule?.default || configModule
+    }, [props.config])
+
+    const initialize = useCallback(async (signal: AbortSignal) => {
+        const resolvedConfig = await resolveConfig()
+        if (signal.aborted) return
+        runtimeCSS.current = new RuntimeCSS(props.root ?? document, resolvedConfig).observe()
+    }, [props.root, resolveConfig])
+
+    /** onMounted */
     useIsomorphicEffect(() => {
         const controller = new AbortController()
         initialize(controller.signal)
         return () => {
             controller.abort()
-            runtimeCSS?.current?.destroy()
+            runtimeCSS.current?.destroy()
+            runtimeCSS.current = undefined
         }
-    }, [initialize])
+    }, [])
 
-    return <RuntimeCSSContext.Provider value={runtimeCSS.current}>{children}</RuntimeCSSContext.Provider>
+    /** on config change */
+    useEffect(() => {
+        const controller = new AbortController();
+        (async () => {
+            const resolvedConfig = await resolveConfig()
+            if (controller.signal.aborted) return
+            if (runtimeCSS.current) {
+                runtimeCSS.current.refresh(resolvedConfig)
+            }
+        })()
+        return () => {
+            controller.abort()
+        }
+    }, [props.config, resolveConfig])
+
+    /** on root change */
+    useEffect(() => {
+        const controller = new AbortController();
+        (async () => {
+            if (controller.signal.aborted) return
+            if (runtimeCSS.current) {
+                runtimeCSS.current.destroy()
+                runtimeCSS.current = undefined
+                initialize(controller.signal)
+            }
+        })()
+        return () => {
+            controller.abort()
+        }
+    }, [initialize, props.root])
+
+    return <RuntimeCSSContext.Provider value={runtimeCSS.current}>{props.children}</RuntimeCSSContext.Provider>
 }
