@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/experimental-ct-react'
 import RuntimeComponent from './Runtime'
-import React from 'react'
 
 test('Runtime - class changed', async ({ page, mount }) => {
     const runtimeComponentInstance = await mount(<RuntimeComponent></RuntimeComponent>)
