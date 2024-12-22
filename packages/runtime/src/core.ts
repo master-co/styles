@@ -15,6 +15,8 @@ export class RuntimeCSS extends MasterCSS {
     ) {
         super(customConfig)
         if (!root) this.root = document
+        const existingRuntimeCSS = (globalThis as any).runtimeCSSs.find((eachCSS: RuntimeCSS) => eachCSS.root === this.root)
+        if (existingRuntimeCSS) throw new Error('Cannot create multiple RuntimeCSS instances for the same root element.')
         const rootConstructorName = this.root?.constructor.name
         if (rootConstructorName === 'HTMLDocument' || rootConstructorName === 'Document') {
             // @ts-ignore
