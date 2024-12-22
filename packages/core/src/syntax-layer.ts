@@ -32,7 +32,7 @@ export default class SyntaxLayer extends Layer {
          * @description
          */
         const endIndex = this.rules.length - 1
-        const { at, atToken, order, priority, hasWhere } = syntaxRule
+        const { at, atToken, order, priority } = syntaxRule
 
         const findIndex = (startIndex: number, stopCheck?: (syntaxRule: SyntaxRule) => any, matchCheck?: (syntaxRule: SyntaxRule) => any) => {
             let i = startIndex
@@ -240,13 +240,7 @@ export default class SyntaxLayer extends Layer {
                 if (priority === -1) {
                     for (let i = matchStartIndex; i <= matchEndIndex; i++) {
                         const currentSyntaxRule = this.rules[i]
-                        if (!hasWhere && currentSyntaxRule.hasWhere)
-                            continue
-
-                        if (
-                            hasWhere && !currentSyntaxRule.hasWhere
-                            || currentSyntaxRule.order >= order
-                        ) {
+                        if (currentSyntaxRule.order >= order) {
                             index = i
                             break
                         }
@@ -254,14 +248,6 @@ export default class SyntaxLayer extends Layer {
                 } else {
                     for (let i = matchStartIndex; i <= matchEndIndex; i++) {
                         const currentSyntaxRule = this.rules[i]
-                        if (!hasWhere && currentSyntaxRule.hasWhere)
-                            continue
-
-                        if (hasWhere && !currentSyntaxRule.hasWhere) {
-                            index = i
-                            break
-                        }
-
                         if (currentSyntaxRule.priority < priority) {
                             index = i
                             break

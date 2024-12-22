@@ -7,7 +7,7 @@ import { VALUE_DELIMITERS, BASE_UNIT_REGEX, UNIT_REGEX } from './common'
 import { Rule } from './rule'
 
 export class SyntaxRule extends Rule {
- 
+
     readonly at: Record<string, AtComponent[]> = {}
     readonly priority: number = -1
     readonly order: number = 0
@@ -185,9 +185,6 @@ export class SyntaxRule extends Rule {
 
             for (const suffixSelectors of Object.values(this.vendorSuffixSelectors)) {
                 for (const eachSuffixSelector of suffixSelectors) {
-                    if (this.hasWhere !== false) {
-                        this.hasWhere = eachSuffixSelector.includes(':where(')
-                    }
                     const SORTED_SELECTORS = [':disabled', ':active', ':focus', ':hover']
                     for (let i = 0; i < SORTED_SELECTORS.length; i++) {
                         if (eachSuffixSelector.includes(SORTED_SELECTORS[i])) {
@@ -827,8 +824,7 @@ export interface SyntaxRule extends RegisteredSyntax {
     valueToken: string
     stateToken: string
     atToken: string
-    hasWhere: boolean
-    valueComponents: Array<ValueComponent>
+    valueComponents: ValueComponent[]
 }
 
 export interface RegisteredSyntax {
