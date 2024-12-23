@@ -36,6 +36,7 @@ export default class MasterCSS {
         text: '@layer base,preset,theme,style,utility;'
     }
     readonly themeLayer = new ThemeLayer(this)
+    readonly presetLayer = new SyntaxLayer('preset', this)
     readonly styleLayer = new SyntaxLayer('style', this)
     readonly utilityLayer = new SyntaxLayer('utility', this)
     readonly keyframeLayer = new KeyframeLayer(this)
@@ -581,21 +582,8 @@ export default class MasterCSS {
 
     add(...classNames: string[]) {
         for (const className of classNames) {
-            const syntaxeRules = this.generate(className)
-            if (syntaxeRules.length) {
-                this.insert(...syntaxeRules)
-            }
-        }
-        return this
-    }
-
-    insert(...syntaxRules: SyntaxRule[]) {
-        for (const eachSyntaxRule of syntaxRules) {
-            if (eachSyntaxRule.fixedClass) {
-                this.styleLayer.insert(eachSyntaxRule)
-            } else {
-                this.utilityLayer.insert(eachSyntaxRule)
-            }
+            this.generate(className)
+                .forEach((eachSyntaxRule) => eachSyntaxRule.attach())
         }
         return this
     }

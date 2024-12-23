@@ -5,6 +5,7 @@ import SyntaxType from './syntax-type'
 import { type PropertiesHyphen } from 'csstype'
 import { VALUE_DELIMITERS, BASE_UNIT_REGEX, UNIT_REGEX } from './common'
 import { Rule } from './rule'
+import Layer from './layer'
 
 export class SyntaxRule extends Rule {
 
@@ -13,6 +14,7 @@ export class SyntaxRule extends Rule {
     readonly order: number = 0
     readonly syntaxType: SyntaxType = 0
     readonly declarations?: PropertiesHyphen
+    readonly layer: Layer
 
     animationNames?: string[]
     variableNames?: string[]
@@ -26,7 +28,7 @@ export class SyntaxRule extends Rule {
     ) {
         super(name, css, [], fixedClass)
         this.mode = mode as string
-
+        this.layer = css.utilityLayer
         Object.assign(this, registeredSyntax)
         const { id, definition } = registeredSyntax
         const { analyze, transformValue, declare, transformValueComponents, create, syntaxType, unit } = definition
@@ -232,7 +234,10 @@ export class SyntaxRule extends Rule {
             const atToken = stateTokens[i]
             this.atToken = (this.atToken || '') + '@' + atToken
             if (atToken) {
-                if (atToken === 'rtl' || atToken === 'ltr') {
+                if (atToken === 'preset') {
+                    this.layer = css.presetLayer
+                    continue
+                } else if (atToken === 'rtl' || atToken === 'ltr') {
                     this.direction = atToken
                 } else {
                     let queryType: string | undefined
@@ -346,7 +351,12 @@ export class SyntaxRule extends Rule {
                     }
 
                     if (queryType) {
-                        this.at[queryType] = atComponents
+                        const eachAtComponents = this.at[queryType]
+                        if (eachAtComponents) {
+                            eachAtComponents.push(...atComponents)
+                        } else {
+                            this.at[queryType] = atComponents
+                        }
                     }
                 }
             }
@@ -463,6 +473,14 @@ export class SyntaxRule extends Rule {
                 }
             }
         }
+
+        if (this.fixedClass) {
+            this.layer = css.styleLayer
+        }
+    }
+
+    attach() {
+        this.layer.insert(this)
     }
 
     resolveAtComponent(atComponent: AtComponent) {
@@ -874,8 +892,6 @@ export type MediaFeatureComponent = {
 
 export interface MediaQuery {
     token: string;
-    features: {
-        [key: string]: MediaFeatureComponent
-    }
+    features: Record<string, MediaFeatureComponent>
     type?: string;
 }

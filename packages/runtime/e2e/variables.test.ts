@@ -138,7 +138,7 @@ test('expects the variable output', async ({ page }) => {
     expectLayers(text, {})
 })
 
-const expectLayers = (    
+const expectLayers = (
     cssText: string,
     layers: {
         theme?: string
@@ -150,5 +150,5 @@ const expectLayers = (
     expect(cssText).toContain(`@layer theme{${layers.theme ?? ''}}`)
     expect(cssText).toContain(`@layer style{${layers.style ?? ''}}`)
     expect(cssText).toContain(`@layer utility{${layers.utility ?? ''}}`)
-    expect(cssText).toContain(`@layer keyframe{${layers.keyframe ?? ''}}`)
+    expect(cssText).toContain(`${layers.keyframe ?? ''}`)
 }

@@ -7,6 +7,7 @@ export const expectLayers = (
         style?: string
         utility?: string
         keyframe?: string
+        preset?: string
     },
     className: string | string[],
     customConfig?: Config
@@ -14,6 +15,7 @@ export const expectLayers = (
     const cssRuleText = new MasterCSS(customConfig).add(...(Array.isArray(className) ? className : [className])).text
     if (layers.theme) expect(cssRuleText).toContain(`@layer theme{${layers.theme ?? ''}}`)
     if (layers.style) expect(cssRuleText).toContain(`@layer style{${layers.style ?? ''}}`)
+    if (layers.preset) expect(cssRuleText).toContain(`@layer preset{${layers.preset ?? ''}}`)
     if (layers.utility) expect(cssRuleText).toContain(`@layer utility{${layers.utility ?? ''}}`)
     if (layers.keyframe) expect(cssRuleText).toContain(`@layer keyframe{${layers.keyframe ?? ''}}`)
 }
