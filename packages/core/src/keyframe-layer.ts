@@ -4,13 +4,12 @@ import MasterCSS from './core'
 import { Rule } from './rule'
 
 export default class KeyframeLayer extends Layer {
-
     readonly usages: Record<string, number> = {}
 
     constructor(
         public css: MasterCSS
     ) {
-        super('keyframe', css)
+        super('', css)
     }
 
     insert(syntaxRule: SyntaxRule) {
@@ -46,5 +45,11 @@ export default class KeyframeLayer extends Layer {
             }
         }
         return syntaxRule
+    }
+
+    reset() {
+        // @ts-expect-error readonly
+        this.usages = {}
+        super.reset()
     }
 }

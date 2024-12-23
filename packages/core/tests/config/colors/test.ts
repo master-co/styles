@@ -110,7 +110,7 @@ test.concurrent('colors', () => {
 
     expectLayers(
         {
-            theme: '.light,:root{--accent:17 17 17}.dark{--accent:238 238 238}.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}',
+            theme: '.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}.light,:root{--accent:17 17 17}.dark{--accent:238 238 238}',
             normal: '.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}'
         },
         'bg:linear-gradient(180deg,primary,accent)',
@@ -130,7 +130,7 @@ test.concurrent('colors', () => {
 
     expectLayers(
         {
-            theme: '.dark{--accent:238 238 238}.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}',
+            theme: '.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}.dark{--accent:238 238 238}',
             normal: '.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}'
         },
         'bg:linear-gradient(180deg,primary,accent)',
@@ -165,7 +165,7 @@ test.concurrent('colors', () => {
 
     expectLayers(
         {
-            theme: ':root{--accent:255 0 0}.dark{--accent:170 0 0}.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}',
+            theme: '.light,:root{--primary:0 0 0}.dark{--primary:255 255 255}:root{--accent:255 0 0}.dark{--accent:170 0 0}',
             normal: '.bg\\:linear-gradient\\(180deg\\,primary\\,accent\\){background-image:linear-gradient(180deg,rgb(var(--primary)),rgb(var(--accent)))}'
         },
         'bg:linear-gradient(180deg,primary,accent)',

@@ -36,12 +36,12 @@ export default class MasterCSS {
         name: 'layer-statement',
         text: '@layer base,theme,preset,styles,normal;'
     }
+    readonly rules: (Layer | LayerStatementRule | Rule)[] = [this.layerStatementRule]
     readonly themeLayer = new ThemeLayer(this)
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
     readonly normalLayer = new SyntaxLayer('normal', this)
     readonly keyframeLayer = new KeyframeLayer(this)
-    readonly rules: (Layer | LayerStatementRule)[] = [this.layerStatementRule]
 
     get text() {
         return this.rules.map(({ text }) => text).join('')
@@ -554,16 +554,7 @@ export default class MasterCSS {
             ? extendConfig(customConfig)
             : extendConfig(defaultConfig, customConfig)
         this.resolve()
-
-        for (const eachRule of this.rules) {
-            if (eachRule instanceof Layer) {
-                eachRule.reset()
-            }
-        }
-
-        // @ts-expect-error readonly
-        this.rules = [this.layerStatementRule]
-
+        this.reset()
         /**
          * 拿當前所有的 classNames 按照最新的 colors, config.syntaxes 匹配並生成新的 style
          * 所以 refresh 過後 syntaxes 可能會變多也可能會變少
@@ -571,6 +562,19 @@ export default class MasterCSS {
         for (const name in this.classesUsage) {
             this.add(name)
         }
+        return this
+    }
+
+    reset() {
+        this.keyframeLayer.reset()
+        this.normalLayer.reset()
+        this.stylesLayer.reset()
+        this.presetLayer.reset()
+        this.themeLayer.reset()
+
+        // @ts-expect-error readonly
+        this.rules = [this.layerStatementRule]
+
         return this
     }
 

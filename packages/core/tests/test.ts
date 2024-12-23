@@ -17,7 +17,7 @@ export const expectLayers = (
     if (layers.styles) expect(cssRuleText).toContain(`@layer styles{${layers.styles ?? ''}}`)
     if (layers.preset) expect(cssRuleText).toContain(`@layer preset{${layers.preset ?? ''}}`)
     if (layers.normal) expect(cssRuleText).toContain(`@layer normal{${layers.normal ?? ''}}`)
-    if (layers.keyframe) expect(cssRuleText).toContain(`@layer keyframe{${layers.keyframe ?? ''}}`)
+    if (layers.keyframe) expect(cssRuleText).toContain(`${layers.keyframe ?? ''}`)
 }
 
 test.todo('hidden@sm and flex ordering')

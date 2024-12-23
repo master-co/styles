@@ -267,6 +267,7 @@ export default class SyntaxLayer extends Layer {
                 }
             }
         }
+
         super.insert(syntaxRule, index)
         this.css.themeLayer.insert(syntaxRule)
         this.css.keyframeLayer.insert(syntaxRule)

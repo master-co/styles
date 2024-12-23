@@ -3,20 +3,25 @@ import MasterCSS from './core'
 
 export default class Layer {
     readonly ruleBy: Record<string, Rule> = {}
-    native?: CSSLayerBlockRule
+    native?: CSSLayerBlockRule | CSSStyleSheet
     readonly rules: (Rule | Layer)[] = []
 
     constructor(
         public name: string,
         public css: MasterCSS
-    ) { }
+    ) {
+        if (!this.name) {
+            // @ts-expect-error readonly
+            this.rules = css.rules
+        }
+    }
 
     insert(rule: Rule, index?: number) {
         const name = this.getName(rule.name, rule.fixedClass)
         if (this.ruleBy[name])
             return
 
-        if (!this.css.rules.includes(this)) {
+        if (this.name && !this.css.rules.includes(this)) {
             this.css.rules.push(this)
             const nativeSheet = this.css.style?.sheet
             if (nativeSheet && !this.native) {
@@ -27,7 +32,7 @@ export default class Layer {
         }
 
         if (index === undefined) {
-            index = this.native?.cssRules.length
+            index = this.rules.length
         }
 
         if (this.native) {
@@ -85,7 +90,7 @@ export default class Layer {
         const rule = this.ruleBy[name]
         if (!rule) return rule
 
-        if (this.rules.length === 1) {
+        if (this.name && this.rules.length === 1) {
             const indexOfLayer = this.css.rules.indexOf(this)
             this.css.rules.splice(indexOfLayer, 1)
             const nativeSheet = this.css.style?.sheet
@@ -123,8 +128,10 @@ export default class Layer {
     reset() {
         // @ts-expect-error
         this.ruleBy = {}
-        // @ts-expect-error
-        this.rules = []
+        if (this.name) {
+            // @ts-expect-error readonly
+            this.rules = []
+        }
         if (this.native) {
             this.native = undefined
         }

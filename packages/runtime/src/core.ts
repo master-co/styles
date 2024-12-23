@@ -48,6 +48,7 @@ export class RuntimeCSS extends MasterCSS {
                 }
             }
         if (this.progressive) {
+            this.keyframeLayer.native = this.style.sheet!
             /* eslint-disable @typescript-eslint/prefer-for-of */
             for (let i = 0; i < this.style.sheet!.cssRules.length; i++) {
                 const eachCSSRule = this.style.sheet!.cssRules[i]
@@ -241,27 +242,22 @@ export class RuntimeCSS extends MasterCSS {
                         case 'preset':
                             handleSyntaxLayer(this.presetLayer)
                             break
-                        case 'keyframe':
-                            this.keyframeLayer.native = cssLayerBlockRule
-                            for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                                const keyframsRule = cssLayerBlockRule.cssRules[j] as CSSKeyframesRule
-                                const animationRule = new Rule(
-                                    keyframsRule.name,
-                                    this,
-                                    [{
-                                        cssRule: keyframsRule,
-                                        text: keyframsRule.cssText
-                                    }]
-                                )
-                                this.keyframeLayer.rules.push(animationRule)
-                                this.keyframeLayer.ruleBy[animationRule.name] = animationRule
-                                this.keyframeLayer.usages[animationRule.name] = 0
-                            }
-                            if (this.keyframeLayer.rules.length) this.rules.push(this.keyframeLayer)
-                            break
                     }
                 } else if (eachCSSRule.constructor.name === 'CSSLayerStatementRule') {
                     this.layerStatementRule.native = eachCSSRule as CSSLayerStatementRule
+                } else if (eachCSSRule.constructor.name === 'CSSKeyframesRule') {
+                    const keyframsRule = eachCSSRule as CSSKeyframesRule
+                    const animationRule = new Rule(
+                        keyframsRule.name,
+                        this,
+                        [{
+                            cssRule: keyframsRule,
+                            text: keyframsRule.cssText
+                        }]
+                    )
+                    this.keyframeLayer.rules.push(animationRule)
+                    this.keyframeLayer.ruleBy[animationRule.name] = animationRule
+                    this.keyframeLayer.usages[animationRule.name] = 0
                 }
             }
         } else {
@@ -270,6 +266,7 @@ export class RuntimeCSS extends MasterCSS {
             this.container.append(this.style)
             this.style.sheet!.insertRule(this.layerStatementRule.text)
             this.layerStatementRule.native = this.style.sheet!.cssRules.item(0) as CSSLayerStatementRule
+            this.keyframeLayer.native = this.style.sheet!
         }
 
         const handleClassList = (classList: DOMTokenList) => {
@@ -465,6 +462,9 @@ export class RuntimeCSS extends MasterCSS {
         }
         // @ts-ignore
         this.observing = false
+        this.reset()
+        // @ts-expect-error
+        this.classesUsage = {}
         if (!this.progressive) {
             this.style?.remove()
             // @ts-ignore

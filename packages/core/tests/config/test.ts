@@ -4,7 +4,7 @@ import { expectLayers } from '../test'
 test.concurrent('styles', () => {
     expectLayers(
         {
-            style: '.\\?{font-size:0.875rem;text-align:center;height:2.5rem;padding-left:1.25rem;padding-right:1.25rem}.\\?:hover{color:#fff}'
+            styles: '.\\?{font-size:0.875rem;text-align:center;height:2.5rem;padding-left:1.25rem;padding-right:1.25rem}.\\?:hover{color:#fff}'
         },
         '?',
         {
