@@ -10,7 +10,6 @@ import './types/global' // fix: ../css/src/core.ts:1205:16 - error TS7017: Eleme
 import SyntaxLayer from './syntax-layer'
 import { Rule } from './rule'
 import SyntaxType from './syntax-type'
-import ThemeLayer from './theme-layer'
 import KeyframeLayer from './keyframe-layer'
 import Layer from './layer'
 
@@ -37,7 +36,7 @@ export default class MasterCSS {
         text: '@layer base,theme,preset,styles,normal;'
     }
     readonly rules: (Layer | LayerStatementRule | Rule)[] = [this.layerStatementRule]
-    readonly themeLayer = new ThemeLayer(this)
+    readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
     readonly normalLayer = new SyntaxLayer('normal', this)
