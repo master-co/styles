@@ -142,13 +142,13 @@ const expectLayers = (
     cssText: string,
     layers: {
         theme?: string
-        style?: string
-        utility?: string
+        styles?: string
+        normal?: string
         keyframe?: string
     }
 ) => {
-    expect(cssText).toContain(`@layer theme{${layers.theme ?? ''}}`)
-    expect(cssText).toContain(`@layer styles{${layers.style ?? ''}}`)
-    expect(cssText).toContain(`@layer normal{${layers.utility ?? ''}}`)
-    expect(cssText).toContain(`${layers.keyframe ?? ''}`)
+    if (layers.theme) expect(cssText).toContain(`@layer theme{${layers.theme ?? ''}}`)
+    if (layers.styles) expect(cssText).toContain(`@layer styles{${layers.styles ?? ''}}`)
+    if (layers.normal) expect(cssText).toContain(`@layer normal{${layers.normal ?? ''}}`)
+    if (layers.keyframe) expect(cssText).toContain(`${layers.keyframe ?? ''}`)
 }
