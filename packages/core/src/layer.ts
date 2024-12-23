@@ -16,9 +16,20 @@ export default class Layer {
         if (this.ruleBy[name])
             return
 
+        if (!this.css.rules.includes(this)) {
+            this.css.rules.push(this)
+            const nativeSheet = this.css.style?.sheet
+            if (nativeSheet && !this.native) {
+                const lengthOfRules = this.css.rules.length
+                nativeSheet.insertRule(this.text, lengthOfRules - 1)
+                this.native = nativeSheet.cssRules.item(lengthOfRules - 1) as CSSLayerBlockRule
+            }
+        }
+
         if (index === undefined) {
             index = this.native?.cssRules.length
         }
+
         if (this.native) {
             let cssRuleIndex = 0
             const lastCssRule = (function getLastCssRule(layer: Layer, index: number) {
@@ -67,21 +78,23 @@ export default class Layer {
 
         this.rules.splice(index as number, 0, rule)
         this.ruleBy[name] = rule
-        if (!this.css.rules.includes(this)) {
-            this.css.rules.push(this)
-            const nativeSheet = this.css.style?.sheet
-            if (nativeSheet && !this.native) {
-                const lengthOfRules = this.css.rules.length
-                nativeSheet.insertRule(this.text, lengthOfRules - 1)
-                this.native = nativeSheet.cssRules.item(lengthOfRules - 1) as CSSLayerBlockRule
-            }
-        }
     }
 
     delete(className: string, fixedClass?: string): Rule {
         const name = this.getName(className, fixedClass)
         const rule = this.ruleBy[name]
         if (!rule) return rule
+
+        if (this.rules.length === 1) {
+            const indexOfLayer = this.css.rules.indexOf(this)
+            this.css.rules.splice(indexOfLayer, 1)
+            const nativeSheet = this.css.style?.sheet
+            if (nativeSheet && this.native) {
+                nativeSheet.deleteRule(indexOfLayer)
+                this.native = undefined
+            }
+        }
+
         if (this.native) {
             if (rule.natives.length) {
                 const firstNativeRule = rule.natives[0]
@@ -97,17 +110,9 @@ export default class Layer {
                 }
             }
         }
+
         delete this.ruleBy[name]
         this.rules.splice(this.rules.indexOf(rule), 1)
-        if (!this.rules.length) {
-            const indexOfLayer = this.css.rules.indexOf(this)
-            this.css.rules.splice(indexOfLayer, 1)
-            const nativeSheet = this.css.style?.sheet
-            if (nativeSheet && this.native) {
-                nativeSheet.deleteRule(indexOfLayer)
-                this.native = undefined
-            }
-        }
         return rule
     }
 
