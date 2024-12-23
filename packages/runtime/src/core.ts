@@ -1,4 +1,4 @@
-import { MasterCSS, config as defaultConfig, Rule, Layer } from '@master/css'
+import { MasterCSS, config as defaultConfig, Rule } from '@master/css'
 import { type Config, SyntaxRule } from '@master/css'
 
 import './types/global'
