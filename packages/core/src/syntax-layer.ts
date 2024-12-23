@@ -1,4 +1,6 @@
+import { TypeVariable } from './core'
 import Layer from './layer'
+import { Rule } from './rule'
 import { AtFeatureComponent, SyntaxRule } from './syntax-rule'
 
 export default class SyntaxLayer extends Layer {
@@ -6,19 +8,12 @@ export default class SyntaxLayer extends Layer {
     rules: SyntaxRule[] = []
 
     /**
-    * 加工插入規則
-    * 1. where
-    * 2. normal
-    * 3. where selectors
-    * 4. normal selectors
-    * 5. media where
-    * 6. media normal
-    * 7. media where selectors
-    * 8. media selectors
-    * 9. media width where
-    * 10. media width
-    * 11. media width where selectors
-    * 12. media width selectors
+    * normal
+    * normal selectors
+    * media normal
+    * media selectors
+    * media width
+    * media width selectors
     */
     insert(syntaxRule: SyntaxRule) {
         if (this.getRule(syntaxRule.name, syntaxRule.fixedClass))
@@ -33,7 +28,6 @@ export default class SyntaxLayer extends Layer {
          */
         const endIndex = this.rules.length - 1
         const { at, atToken, order, priority } = syntaxRule
-
         const findIndex = (startIndex: number, stopCheck?: (syntaxRule: SyntaxRule) => any, matchCheck?: (syntaxRule: SyntaxRule) => any) => {
             let i = startIndex
             for (; i <= endIndex; i++) {
@@ -50,7 +44,6 @@ export default class SyntaxLayer extends Layer {
                 ? -1
                 : i - 1
         }
-
         let matchStartIndex: number | undefined
         let matchEndIndex: number | undefined
         if (atToken) {
@@ -267,9 +260,71 @@ export default class SyntaxLayer extends Layer {
                 }
             }
         }
-
         super.insert(syntaxRule, index)
-        this.css.themeLayer.insert(syntaxRule)
+
+        if (syntaxRule.variableNames) {
+            for (const eachVariableName of syntaxRule.variableNames) {
+                const variable = this.css.variables[eachVariableName]
+                if (this.css.themeLayer.ruleBy[eachVariableName]) {
+                    this.css.themeLayer.usages[eachVariableName]++
+                } else {
+                    const newRule = new Rule(eachVariableName, this.css)
+                    const addNative = (mode: string, _variable: TypeVariable) => {
+                        let isDefaultMode = false
+                        let preifxCssRuleText: string
+                        let endCurlyBracketCount = 1
+                        if (mode) {
+                            switch (this.css.config.modes?.[mode]) {
+                                case 'media':
+                                    preifxCssRuleText = `@media(prefers-color-scheme:${mode}){:root`
+                                    endCurlyBracketCount++
+                                    break
+                                case 'host':
+                                    preifxCssRuleText = `:host(.${mode})`
+                                    if (!variable.value && this.css.config.defaultMode === mode) {
+                                        preifxCssRuleText += ',:host'
+                                        isDefaultMode = true
+                                    }
+                                    break
+                                case 'class':
+                                    preifxCssRuleText = `.${mode}`
+                                    if (!variable.value && this.css.config.defaultMode === mode) {
+                                        preifxCssRuleText += ',:root'
+                                        isDefaultMode = true
+                                    }
+                                    break
+                                default:
+                                    return
+                            }
+                        } else {
+                            preifxCssRuleText = ':root'
+                        }
+
+                        const cssRuleText = `${preifxCssRuleText}{--${eachVariableName}:${String(_variable.value)}${'}'.repeat(endCurlyBracketCount)}`
+                        if (isDefaultMode) {
+                            newRule.natives.unshift({
+                                text: cssRuleText
+                            })
+                        } else {
+                            newRule.natives.push({
+                                text: cssRuleText
+                            })
+                        }
+                    }
+                    if (variable.value) {
+                        addNative('', variable as any)
+                    }
+                    if (variable.modes) {
+                        for (const mode in variable.modes) {
+                            addNative(mode, variable.modes[mode])
+                        }
+                    }
+                    this.css.themeLayer.insert(newRule)
+                    this.css.themeLayer.usages[eachVariableName] = 1
+                }
+            }
+        }
+
         this.css.keyframeLayer.insert(syntaxRule)
         syntaxRule.definition.insert?.call(syntaxRule)
         return index
@@ -278,7 +333,16 @@ export default class SyntaxLayer extends Layer {
     delete(className: string, fixedClass?: string): SyntaxRule {
         const syntaxRule = super.delete(className, fixedClass) as SyntaxRule
         if (!syntaxRule) return syntaxRule
-        this.css.themeLayer.delete(syntaxRule)
+
+        if (syntaxRule.variableNames) {
+            for (const eachVariableName of syntaxRule.variableNames) {
+                if (!--this.css.themeLayer.usages[eachVariableName]) {
+                    this.css.themeLayer.delete(eachVariableName)
+                    delete this.css.themeLayer.usages[eachVariableName]
+                }
+            }
+        }
+
         this.css.keyframeLayer.delete(syntaxRule)
         syntaxRule.definition.delete?.call(syntaxRule, syntaxRule.name)
         return syntaxRule

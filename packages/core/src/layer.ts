@@ -5,6 +5,7 @@ export default class Layer {
     readonly ruleBy: Record<string, Rule> = {}
     native?: CSSLayerBlockRule | CSSStyleSheet
     readonly rules: (Rule | Layer)[] = []
+    readonly usages: Record<string, number> = {}
 
     constructor(
         public name: string,
@@ -128,6 +129,8 @@ export default class Layer {
     reset() {
         // @ts-expect-error
         this.ruleBy = {}
+        // @ts-expect-error
+        this.usages = {}
         if (this.name) {
             // @ts-expect-error readonly
             this.rules = []
