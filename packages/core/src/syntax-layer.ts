@@ -16,8 +16,7 @@ export default class SyntaxLayer extends Layer {
     * media width selectors
     */
     insert(syntaxRule: SyntaxRule) {
-        if (this.getRule(syntaxRule.name, syntaxRule.fixedClass))
-            return
+        if (this.ruleBy[syntaxRule.key]) return
 
         let index: number | undefined
         /**
@@ -325,15 +324,36 @@ export default class SyntaxLayer extends Layer {
             }
         }
 
-        this.css.keyframeLayer.insert(syntaxRule)
+        if (syntaxRule.animationNames) {
+            for (const eachAnimationName of syntaxRule.animationNames) {
+                if (this.css.keyframeLayer.ruleBy[eachAnimationName]) {
+                    this.css.keyframeLayer.usages[eachAnimationName]++
+                } else {
+                    this.css.keyframeLayer.insert(new Rule(
+                        eachAnimationName,
+                        this.css,
+                        [{
+                            text: `@keyframes ${eachAnimationName}{`
+                                + Object
+                                    .entries(this.css.animations[eachAnimationName])
+                                    .map(([key, variables]) => `${key}{${Object.entries(variables).map(([name, value]) => name + ':' + value).join(';')}}`)
+                                    .join('')
+                                + '}'
+                        }]
+                    ))
+                    this.css.keyframeLayer.usages[eachAnimationName] = 1
+                }
+            }
+        }
+
         syntaxRule.definition.insert?.call(syntaxRule)
         return index
     }
 
-    delete(className: string, fixedClass?: string): SyntaxRule {
-        const syntaxRule = super.delete(className, fixedClass) as SyntaxRule
-        if (!syntaxRule) return syntaxRule
-
+    delete(className: string, fixedClass?: string) {
+        const key = this.getKey(className, fixedClass)
+        const syntaxRule = super.delete(key) as SyntaxRule | undefined
+        if (!syntaxRule) return
         if (syntaxRule.variableNames) {
             for (const eachVariableName of syntaxRule.variableNames) {
                 if (!--this.css.themeLayer.usages[eachVariableName]) {
@@ -342,13 +362,22 @@ export default class SyntaxLayer extends Layer {
                 }
             }
         }
-
-        this.css.keyframeLayer.delete(syntaxRule)
+        if (syntaxRule.animationNames) {
+            for (const eachKeyframeName of syntaxRule.animationNames) {
+                if (!--this.css.keyframeLayer.usages[eachKeyframeName]) {
+                    this.css.keyframeLayer.delete(eachKeyframeName)
+                }
+            }
+        }
         syntaxRule.definition.delete?.call(syntaxRule, syntaxRule.name)
         return syntaxRule
     }
 
     getRule(className: string, fixedClass?: string) {
-        return this.ruleBy[this.getName(className, fixedClass)]
+        return this.ruleBy[this.getKey(className, fixedClass)]
+    }
+
+    getKey(className: string, fixedClass?: string) {
+        return (fixedClass ? fixedClass + ' ' : '') + className
     }
 }

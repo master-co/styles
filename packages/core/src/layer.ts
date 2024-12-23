@@ -18,9 +18,7 @@ export default class Layer {
     }
 
     insert(rule: Rule, index?: number) {
-        const name = this.getName(rule.name, rule.fixedClass)
-        if (this.ruleBy[name])
-            return
+        if (this.ruleBy[rule.key]) return
 
         if (this.name && !this.css.rules.includes(this)) {
             this.css.rules.push(this)
@@ -83,13 +81,12 @@ export default class Layer {
         }
 
         this.rules.splice(index as number, 0, rule)
-        this.ruleBy[name] = rule
+        this.ruleBy[rule.key] = rule
     }
 
-    delete(className: string, fixedClass?: string): Rule {
-        const name = this.getName(className, fixedClass)
+    delete(name: string) {
         const rule = this.ruleBy[name]
-        if (!rule) return rule
+        if (!rule) return
 
         if (this.name && this.rules.length === 1) {
             const indexOfLayer = this.css.rules.indexOf(this)
@@ -120,10 +117,6 @@ export default class Layer {
         delete this.ruleBy[name]
         this.rules.splice(this.rules.indexOf(rule), 1)
         return rule
-    }
-
-    getName(className: string, fixedClass?: string) {
-        return (fixedClass ? fixedClass + ' ' : '') + className
     }
 
     reset() {

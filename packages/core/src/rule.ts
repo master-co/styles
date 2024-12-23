@@ -6,7 +6,11 @@ export class Rule {
         public css: MasterCSS,
         public natives: NativeRule[] = [],
         public fixedClass?: string
-    ) {}
+    ) { }
+
+    get key(): string {
+        return (this.fixedClass ? this.fixedClass + ' ' : '') + this.name
+    }
 
     get text(): string {
         return this.natives.map((eachNative) => eachNative.text).join('')

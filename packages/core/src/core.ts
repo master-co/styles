@@ -10,7 +10,6 @@ import './types/global' // fix: ../css/src/core.ts:1205:16 - error TS7017: Eleme
 import SyntaxLayer from './syntax-layer'
 import { Rule } from './rule'
 import SyntaxType from './syntax-type'
-import KeyframeLayer from './keyframe-layer'
 import Layer from './layer'
 
 type VariableCommon = {
@@ -40,7 +39,7 @@ export default class MasterCSS {
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
     readonly normalLayer = new SyntaxLayer('normal', this)
-    readonly keyframeLayer = new KeyframeLayer(this)
+    readonly keyframeLayer = new Layer('', this)
 
     get text() {
         return this.rules.map(({ text }) => text).join('')
