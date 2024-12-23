@@ -28,7 +28,7 @@ export class SyntaxRule extends Rule {
     ) {
         super(name, css, [], fixedClass)
         this.mode = mode as string
-        this.layer = css.utilityLayer
+        this.layer = css.normalLayer
         Object.assign(this, registeredSyntax)
         const { id, definition } = registeredSyntax
         const { analyze, transformValue, declare, transformValueComponents, create, syntaxType, unit } = definition
@@ -475,7 +475,7 @@ export class SyntaxRule extends Rule {
         }
 
         if (this.fixedClass) {
-            this.layer = css.styleLayer
+            this.layer = css.stylesLayer
         }
     }
 

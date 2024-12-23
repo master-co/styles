@@ -55,7 +55,7 @@ describe.concurrent('with themes', () => {
         expectLayers(
             {
                 theme: ':root{--primary:0 0 0}.dark{--primary:255 255 255}.light{--primary:150 150 150}.chrisma{--primary:0 0 0 / .5}',
-                utility: '.fg\\:primary{color:rgb(var(--primary))}'
+                normal: '.fg\\:primary{color:rgb(var(--primary))}'
             },
             'fg:primary',
             config
@@ -66,7 +66,7 @@ describe.concurrent('with themes', () => {
         expectLayers(
             {
                 theme: ':root{--primary:0 0 0}.dark{--primary:255 255 255}.light{--primary:150 150 150}.chrisma{--primary:0 0 0 / .5}',
-                utility: '.fg\\:primary\\/\\.5{color:rgb(var(--primary)/.5)}'
+                normal: '.fg\\:primary\\/\\.5{color:rgb(var(--primary)/.5)}'
             },
             'fg:primary/.5',
             config

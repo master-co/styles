@@ -25,22 +25,23 @@ export interface NumberVariable { type: 'number', value: number }
 export interface ColorVariable { type: 'color', value: string, space: 'rgb' | 'hsl' }
 export type TypeVariable = StringVariable | NumberVariable | ColorVariable
 export type Variable = TypeVariable & VariableCommon
+export type LayerStatementRule = { name: 'layer-statement', text: string, native?: CSSLayerStatementRule }
 
 export default class MasterCSS {
     static config: Config = defaultConfig
     readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
-    readonly layerStatementRule: { name: 'layer-statement', text: string, native?: CSSLayerStatementRule } = {
+    readonly layerStatementRule: LayerStatementRule = {
         name: 'layer-statement',
-        text: '@layer base,preset,theme,style,utility;'
+        text: '@layer base,theme,preset,styles,normal;'
     }
     readonly themeLayer = new ThemeLayer(this)
     readonly presetLayer = new SyntaxLayer('preset', this)
-    readonly styleLayer = new SyntaxLayer('style', this)
-    readonly utilityLayer = new SyntaxLayer('utility', this)
+    readonly stylesLayer = new SyntaxLayer('styles', this)
+    readonly normalLayer = new SyntaxLayer('normal', this)
     readonly keyframeLayer = new KeyframeLayer(this)
-    readonly rules: (Layer | typeof this.layerStatementRule)[] = [this.layerStatementRule]
+    readonly rules: (Layer | LayerStatementRule)[] = [this.layerStatementRule]
 
     get text() {
         return this.rules.map(({ text }) => text).join('')
@@ -530,7 +531,7 @@ export default class MasterCSS {
      * @returns SyntaxRule
      */
     create(className: string, fixedClass?: string, mode?: string): SyntaxRule | undefined {
-        const syntaxRule = this.utilityLayer.getRule(className, fixedClass)
+        const syntaxRule = this.normalLayer.getRule(className, fixedClass)
         if (syntaxRule)
             return syntaxRule
 
@@ -596,7 +597,7 @@ export default class MasterCSS {
         for (const className of classNames) {
             if (Object.prototype.hasOwnProperty.call(this.styles, className)) {
                 for (const eachSyntax of this.styles[className]) {
-                    this.styleLayer.delete(eachSyntax, className)
+                    this.stylesLayer.delete(eachSyntax, className)
                 }
             } else {
                 const atIndex = className.indexOf('@')
@@ -605,13 +606,13 @@ export default class MasterCSS {
                     if (Object.prototype.hasOwnProperty.call(this.styles, name)) {
                         const atToken = className.slice(atIndex)
                         for (const eachSyntax of this.styles[name]) {
-                            this.styleLayer.delete(eachSyntax + atToken, className)
+                            this.stylesLayer.delete(eachSyntax + atToken, className)
                         }
                     } else {
-                        this.utilityLayer.delete(className)
+                        this.normalLayer.delete(className)
                     }
                 } else {
-                    this.utilityLayer.delete(className)
+                    this.normalLayer.delete(className)
                 }
             }
         }

@@ -6,14 +6,14 @@ describe.concurrent('@tve', () => {
     it.concurrent('scope', () => {
         expectLayers(
             {
-                utility: '.master-css .pt\\:2ex{padding-top:2ex}'
+                normal: '.master-css .pt\\:2ex{padding-top:2ex}'
             },
             'pt:2ex',
             { scope: '.master-css' }
         )
         expectLayers(
             {
-                utility: '.dark .master-css .pt\\:2ex\\@dark{padding-top:2ex}'
+                normal: '.dark .master-css .pt\\:2ex\\@dark{padding-top:2ex}'
             },
             'pt:2ex@dark',
             { scope: '.master-css' }

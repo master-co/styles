@@ -151,7 +151,7 @@ export class RuntimeCSS extends MasterCSS {
                             if (this.themeLayer.rules.length) this.rules.push(this.themeLayer)
                             break
                         case 'style':
-                            this.styleLayer.native = cssLayerBlockRule
+                            this.stylesLayer.native = cssLayerBlockRule
                             let stylePreText: string
                             for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
                                 const cssRule = cssLayerBlockRule.cssRules[j]
@@ -208,9 +208,9 @@ export class RuntimeCSS extends MasterCSS {
                                             if (!eachNativeRule.cssRule && eachNativeRule.text.includes(stylePreText!)) {
                                                 eachNativeRule.cssRule = cssRule
                                                 const name = eachSyntaxRule.fixedClass + ' ' + eachSyntaxRule.name
-                                                if (!Object.prototype.hasOwnProperty.call(this.styleLayer.ruleBy, name)) {
-                                                    this.styleLayer.rules.push(eachSyntaxRule)
-                                                    this.styleLayer.ruleBy[name] = eachSyntaxRule
+                                                if (!Object.prototype.hasOwnProperty.call(this.stylesLayer.ruleBy, name)) {
+                                                    this.stylesLayer.rules.push(eachSyntaxRule)
+                                                    this.stylesLayer.ruleBy[name] = eachSyntaxRule
                                                     this.themeLayer.insert(eachSyntaxRule)
                                                     this.keyframeLayer.insert(eachSyntaxRule)
                                                     eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
@@ -226,17 +226,17 @@ export class RuntimeCSS extends MasterCSS {
                                     cssLayerBlockRule.deleteRule(j--)
                                 }
                             }
-                            for (const eachRule of this.styleLayer.rules) {
+                            for (const eachRule of this.stylesLayer.rules) {
                                 for (let k = eachRule.natives.length - 1; k >= 0; k--) {
                                     if (!eachRule.natives[k].cssRule) {
                                         eachRule.natives.splice(k, 1)
                                     }
                                 }
                             }
-                            if (this.styleLayer.rules.length) this.rules.push(this.styleLayer)
+                            if (this.stylesLayer.rules.length) this.rules.push(this.stylesLayer)
                             break
                         case 'utility':
-                            handleSyntaxLayer(this.utilityLayer)
+                            handleSyntaxLayer(this.normalLayer)
                             break
                         case 'preset':
                             handleSyntaxLayer(this.presetLayer)

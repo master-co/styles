@@ -69,7 +69,7 @@ describe.concurrent('jetsai', () => {
     test.concurrent('button config', () => {
         expectLayers(
             {
-                utility: '.bg\\:button-primary{background-color:rgb(34 66 163)}'
+                normal: '.bg\\:button-primary{background-color:rgb(34 66 163)}'
             },
             'bg:button-primary',
             config
@@ -77,7 +77,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:button-primary-hover{background-color:rgb(21 37 89)}'
+                normal: '.bg\\:button-primary-hover{background-color:rgb(21 37 89)}'
             },
             'bg:button-primary-hover',
             config
@@ -85,7 +85,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:button-primary-disabled{background-color:rgb(205 224 247)}'
+                normal: '.bg\\:button-primary-disabled{background-color:rgb(205 224 247)}'
             },
             'bg:button-primary-disabled',
             config
@@ -93,7 +93,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:button-disabled{background-color:rgb(233 238 248)}'
+                normal: '.bg\\:button-disabled{background-color:rgb(233 238 248)}'
             },
             'bg:button-disabled',
             config
@@ -101,7 +101,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:button-background-hover{background:button-background-hover}'
+                normal: '.bg\\:button-background-hover{background:button-background-hover}'
             },
             'bg:button-background-hover',
             config
@@ -119,7 +119,7 @@ describe.concurrent('jetsai', () => {
     test.concurrent('color config', () => {
         expectLayers(
             {
-                utility: '.bg\\:blue200{background-color:rgb(205 224 247)}'
+                normal: '.bg\\:blue200{background-color:rgb(205 224 247)}'
             },
             'bg:blue200',
             config
@@ -127,7 +127,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:blue700{background-color:rgb(34 66 163)}'
+                normal: '.bg\\:blue700{background-color:rgb(34 66 163)}'
             },
             'bg:blue700',
             config
@@ -135,7 +135,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:blue900{background-color:rgb(21 37 89)}'
+                normal: '.bg\\:blue900{background-color:rgb(21 37 89)}'
             },
             'bg:blue900',
             config
@@ -143,7 +143,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:gray200{background-color:rgb(233 238 248)}'
+                normal: '.bg\\:gray200{background-color:rgb(233 238 248)}'
             },
             'bg:gray200',
             config
@@ -151,7 +151,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:gray500{background-color:rgb(146 151 161)}'
+                normal: '.bg\\:gray500{background-color:rgb(146 151 161)}'
             },
             'bg:gray500',
             config
@@ -161,7 +161,7 @@ describe.concurrent('jetsai', () => {
     test.concurrent('text config', () => {
         expectLayers(
             {
-                utility: '.bg\\:text-disabled{background-color:rgb(146 151 161)}'
+                normal: '.bg\\:text-disabled{background-color:rgb(146 151 161)}'
             },
             'bg:text-disabled',
             config
@@ -169,7 +169,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                utility: '.bg\\:text-on-color{background-color:rgb(255 255 255)}'
+                normal: '.bg\\:text-on-color{background-color:rgb(255 255 255)}'
             },
             'bg:text-on-color',
             config

@@ -4,8 +4,8 @@ import { Config, MasterCSS } from '../src'
 export const expectLayers = (
     layers: {
         theme?: string
-        style?: string
-        utility?: string
+        styles?: string
+        normal?: string
         keyframe?: string
         preset?: string
     },
@@ -14,9 +14,9 @@ export const expectLayers = (
 ) => {
     const cssRuleText = new MasterCSS(customConfig).add(...(Array.isArray(className) ? className : [className])).text
     if (layers.theme) expect(cssRuleText).toContain(`@layer theme{${layers.theme ?? ''}}`)
-    if (layers.style) expect(cssRuleText).toContain(`@layer style{${layers.style ?? ''}}`)
+    if (layers.styles) expect(cssRuleText).toContain(`@layer styles{${layers.styles ?? ''}}`)
     if (layers.preset) expect(cssRuleText).toContain(`@layer preset{${layers.preset ?? ''}}`)
-    if (layers.utility) expect(cssRuleText).toContain(`@layer utility{${layers.utility ?? ''}}`)
+    if (layers.normal) expect(cssRuleText).toContain(`@layer normal{${layers.normal ?? ''}}`)
     if (layers.keyframe) expect(cssRuleText).toContain(`@layer keyframe{${layers.keyframe ?? ''}}`)
 }
 

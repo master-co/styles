@@ -33,7 +33,7 @@ test.concurrent('rule variables', () => {
     expect(new MasterCSS(config).create('b:inputborder')?.text).toBe('.b\\:inputborder{border:0.125rem solid rgb(0 0 0)}')
     expectLayers(
         {
-            utility: '.content\\:delimiter{content:"123"}'
+            normal: '.content\\:delimiter{content:"123"}'
         },
         'content:delimiter',
         {
@@ -44,7 +44,7 @@ test.concurrent('rule variables', () => {
     )
     expectLayers(
         {
-            utility: '.content\\:delimiter{content:"|"}'
+            normal: '.content\\:delimiter{content:"|"}'
         },
         'content:delimiter',
         {

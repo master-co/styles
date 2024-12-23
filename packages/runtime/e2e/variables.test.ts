@@ -54,7 +54,7 @@ test('expects the variable output', async ({ page }) => {
         }),
         {
             theme: ':root{--first:17 17 17}.dark{--first:34 34 34}.light{--first:51 51 51}',
-            utility: '.bg\\:first{background-color:rgb(var(--first))}'
+            normal: '.bg\\:first{background-color:rgb(var(--first))}'
         }
     )
 
@@ -148,7 +148,7 @@ const expectLayers = (
     }
 ) => {
     expect(cssText).toContain(`@layer theme{${layers.theme ?? ''}}`)
-    expect(cssText).toContain(`@layer style{${layers.style ?? ''}}`)
-    expect(cssText).toContain(`@layer utility{${layers.utility ?? ''}}`)
+    expect(cssText).toContain(`@layer styles{${layers.style ?? ''}}`)
+    expect(cssText).toContain(`@layer normal{${layers.utility ?? ''}}`)
     expect(cssText).toContain(`${layers.keyframe ?? ''}`)
 }
