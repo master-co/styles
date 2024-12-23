@@ -529,13 +529,10 @@ export default class MasterCSS {
      * @returns SyntaxRule
      */
     create(className: string, fixedClass?: string, mode?: string): SyntaxRule | undefined {
-        const syntaxRule = this.normalLayer.getRule(className, fixedClass)
-        if (syntaxRule)
-            return syntaxRule
-
+        const syntaxRule = this.normalLayer.ruleBy[(fixedClass ? fixedClass + ' ' : '') + className]
+        if (syntaxRule) return syntaxRule
         const registeredRule = this.match(className)
-        if (registeredRule)
-            return new SyntaxRule(className, this, registeredRule, fixedClass, mode)
+        if (registeredRule) return new SyntaxRule(className, this, registeredRule, fixedClass, mode)
     }
 
     /**
@@ -599,7 +596,7 @@ export default class MasterCSS {
         for (const className of classNames) {
             if (Object.prototype.hasOwnProperty.call(this.styles, className)) {
                 for (const eachSyntax of this.styles[className]) {
-                    this.stylesLayer.delete(eachSyntax, className)
+                    this.stylesLayer.delete(className + ' ' + eachSyntax)
                 }
             } else {
                 const atIndex = className.indexOf('@')
@@ -608,7 +605,7 @@ export default class MasterCSS {
                     if (Object.prototype.hasOwnProperty.call(this.styles, name)) {
                         const atToken = className.slice(atIndex)
                         for (const eachSyntax of this.styles[name]) {
-                            this.stylesLayer.delete(eachSyntax + atToken, className)
+                            this.stylesLayer.delete(eachSyntax + atToken + ' ' + className)
                         }
                     } else {
                         this.normalLayer.delete(className)

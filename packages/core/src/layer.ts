@@ -84,8 +84,8 @@ export default class Layer {
         this.ruleBy[rule.key] = rule
     }
 
-    delete(name: string) {
-        const rule = this.ruleBy[name]
+    delete(key: string) {
+        const rule = this.ruleBy[key]
         if (!rule) return
 
         if (this.name && this.rules.length === 1) {
@@ -114,7 +114,7 @@ export default class Layer {
             }
         }
 
-        delete this.ruleBy[name]
+        delete this.ruleBy[key]
         this.rules.splice(this.rules.indexOf(rule), 1)
         return rule
     }

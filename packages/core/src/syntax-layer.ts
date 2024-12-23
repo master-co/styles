@@ -350,8 +350,7 @@ export default class SyntaxLayer extends Layer {
         return index
     }
 
-    delete(className: string, fixedClass?: string) {
-        const key = this.getKey(className, fixedClass)
+    delete(key: string) {
         const syntaxRule = super.delete(key) as SyntaxRule | undefined
         if (!syntaxRule) return
         if (syntaxRule.variableNames) {
@@ -371,13 +370,5 @@ export default class SyntaxLayer extends Layer {
         }
         syntaxRule.definition.delete?.call(syntaxRule, syntaxRule.name)
         return syntaxRule
-    }
-
-    getRule(className: string, fixedClass?: string) {
-        return this.ruleBy[this.getKey(className, fixedClass)]
-    }
-
-    getKey(className: string, fixedClass?: string) {
-        return (fixedClass ? fixedClass + ' ' : '') + className
     }
 }

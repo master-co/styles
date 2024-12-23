@@ -297,7 +297,6 @@ export class SyntaxRule extends Rule {
                                     switch (featureName) {
                                         case 'max-width':
                                         case 'min-width':
-                                            // eslint-disable-next-line no-case-declarations
                                             if (typeof viewport === 'number') {
                                                 atComponents.push({
                                                     type: 'feature',
@@ -501,7 +500,6 @@ export class SyntaxRule extends Rule {
         for (const eachValueComponent of valueComponents) {
             switch (eachValueComponent.type) {
                 case 'function':
-                    // eslint-disable-next-line no-case-declarations
                     const functionDefinition = functions && functions[eachValueComponent.name]
                     if (functionDefinition?.transform && !eachValueComponent.bypassTransform) {
                         const result = functionDefinition.transform.call(
@@ -526,7 +524,6 @@ export class SyntaxRule extends Rule {
                     break
                 // todo: 應挪到 parseValues 階段處理才能支援 variables: { x: 'calc(20vw-30px)' } 這種情況，並且解析上可能會比較合理、精簡
                 case 'variable':
-                    // eslint-disable-next-line no-case-declarations
                     const variable = this.css.variables[eachValueComponent.name]
                     if (variable) {
                         const handleVariable = (
@@ -588,7 +585,6 @@ export class SyntaxRule extends Rule {
                                 )
                                 break
                             case 'color':
-                                // eslint-disable-next-line no-case-declarations
                                 const alpha = eachValueComponent.alpha ? '/' + eachValueComponent.alpha : ''
                                 handleVariable(
                                     (variable) => {
@@ -831,6 +827,7 @@ export interface VariableValueComponent { text?: string, token: string, type: 'v
 export interface SeparatorValueComponent { text?: string, token: string, type: 'separator', value: string }
 
 export interface SyntaxRule extends RegisteredSyntax {
+    get key(): string
     token: string
     vendorPrefixSelectors: Record<string, string[]>
     vendorSuffixSelectors: Record<string, string[]>
