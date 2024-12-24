@@ -66,7 +66,7 @@ test.concurrent('animations', () => {
     expectLayers(
         {
             normal: '.\\@float\\|\\.5s{animation:float .5s}',
-            keyframe: '@keyframes float{0%{transform:none}50%{transform:translateY(-1.25rem)}to{transform:none}}'
+            animations: '@keyframes float{0%{transform:none}50%{transform:translateY(-1.25rem)}to{transform:none}}'
         },
         '@float|.5s',
         {

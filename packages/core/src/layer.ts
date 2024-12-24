@@ -1,11 +1,12 @@
 import { Rule } from './rule'
 import MasterCSS from './core'
+import findNativeCSSRuleIndex from 'shared/utils/find-native-css-rule-index'
 
 export default class Layer {
     readonly ruleBy: Record<string, Rule> = {}
-    native?: CSSLayerBlockRule | CSSStyleSheet
     readonly rules: (Rule | Layer)[] = []
     readonly usages: Record<string, number> = {}
+    native?: CSSLayerBlockRule
 
     constructor(
         public name: string,
@@ -24,9 +25,8 @@ export default class Layer {
             this.css.rules.push(this)
             const nativeSheet = this.css.style?.sheet
             if (nativeSheet && !this.native) {
-                const lengthOfRules = this.css.rules.length
-                nativeSheet.insertRule(this.text, lengthOfRules - 1)
-                this.native = nativeSheet.cssRules.item(lengthOfRules - 1) as CSSLayerBlockRule
+                const insertedIndex = nativeSheet.insertRule(this.text)
+                this.native = nativeSheet.cssRules.item(insertedIndex) as CSSLayerBlockRule
             }
         }
 
@@ -87,28 +87,26 @@ export default class Layer {
     delete(key: string) {
         const rule = this.ruleBy[key]
         if (!rule) return
-
         if (this.name && this.rules.length === 1) {
             const indexOfLayer = this.css.rules.indexOf(this)
             this.css.rules.splice(indexOfLayer, 1)
             const nativeSheet = this.css.style?.sheet
             if (nativeSheet && this.native) {
-                nativeSheet.deleteRule(indexOfLayer)
-                this.native = undefined
+                const foundIndex = findNativeCSSRuleIndex(nativeSheet.cssRules, this.native)
+                if (foundIndex !== -1) {
+                    nativeSheet.deleteRule(foundIndex)
+                    this.native = undefined
+                }
             }
         }
 
         if (this.native) {
             if (rule.natives.length) {
                 const firstNativeRule = rule.natives[0]
-                for (let i = 0; i < this.native.cssRules.length; i++) {
-                    const eachCSSRule = this.native.cssRules[i]
-                    if (eachCSSRule === firstNativeRule.cssRule) {
-                        // eslint-disable-next-line @typescript-eslint/prefer-for-of
-                        for (let j = 0; j < rule.natives.length; j++) {
-                            this.native.deleteRule(i)
-                        }
-                        break
+                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNativeRule.cssRule!)
+                if (foundIndex === -1) {
+                    for (let j = 0; j < rule.natives.length; j++) {
+                        this.native.deleteRule(foundIndex)
                     }
                 }
             }
@@ -120,22 +118,17 @@ export default class Layer {
     }
 
     reset() {
-        // @ts-expect-error
-        this.ruleBy = {}
+        Object.values(this.ruleBy).forEach(rule => {
+            this.delete(rule.key)
+        })
         // @ts-expect-error
         this.usages = {}
-        if (this.name) {
-            // @ts-expect-error readonly
-            this.rules = []
-        }
         if (this.native) {
             this.native = undefined
         }
     }
 
     get text(): string {
-        return this.name
-            ? '@layer ' + this.name + '{' + this.rules.map((eachRule) => (eachRule as Rule).text).join('') + '}'
-            : this.rules.map((eachRule) => (eachRule as Rule).text).join('')
+        return '@layer ' + this.name + '{' + this.rules.map(({ text }) => text).join('') + '}'
     }
 }

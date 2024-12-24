@@ -11,6 +11,7 @@ import SyntaxLayer from './syntax-layer'
 import { Rule } from './rule'
 import SyntaxType from './syntax-type'
 import Layer from './layer'
+import AnonymousLayer from './anonymous-layer'
 
 type VariableCommon = {
     group?: string,
@@ -39,7 +40,7 @@ export default class MasterCSS {
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
     readonly normalLayer = new SyntaxLayer('normal', this)
-    readonly keyframeLayer = new Layer('', this)
+    readonly animationsLayer = new AnonymousLayer(this)
 
     get text() {
         return this.rules.map(({ text }) => text).join('')
@@ -561,15 +562,11 @@ export default class MasterCSS {
     }
 
     reset() {
-        this.keyframeLayer.reset()
+        this.animationsLayer.reset()
         this.normalLayer.reset()
         this.stylesLayer.reset()
         this.presetLayer.reset()
         this.themeLayer.reset()
-
-        // @ts-expect-error readonly
-        this.rules = [this.layerStatementRule]
-
         return this
     }
 

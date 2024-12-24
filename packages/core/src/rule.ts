@@ -4,16 +4,15 @@ export class Rule {
     constructor(
         public readonly name: string,
         public css: MasterCSS,
-        public natives: NativeRule[] = [],
-        public fixedClass?: string
+        public natives: NativeRule[] = []
     ) { }
 
     get key(): string {
-        return (this.fixedClass ? this.fixedClass + ' ' : '') + this.name
+        return this.name
     }
 
     get text(): string {
-        return this.natives.map((eachNative) => eachNative.text).join('')
+        return this.natives.map(({ text }) => text).join('')
     }
 }
 

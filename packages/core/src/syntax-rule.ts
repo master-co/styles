@@ -26,7 +26,7 @@ export class SyntaxRule extends Rule {
         public fixedClass?: string,
         mode?: string
     ) {
-        super(name, css, [], fixedClass)
+        super(name, css)
         this.mode = mode as string
         this.layer = css.normalLayer
         Object.assign(this, registeredSyntax)
@@ -802,6 +802,10 @@ export class SyntaxRule extends Rule {
         }
         return { value: token, type: 'string' }
     }
+
+    get key(): string {
+        return (this.fixedClass ? this.fixedClass + ' ' : '') + this.name
+    }
 }
 
 export type AtComponent =
@@ -827,7 +831,6 @@ export interface VariableValueComponent { text?: string, token: string, type: 'v
 export interface SeparatorValueComponent { text?: string, token: string, type: 'separator', value: string }
 
 export interface SyntaxRule extends RegisteredSyntax {
-    get key(): string
     token: string
     vendorPrefixSelectors: Record<string, string[]>
     vendorSuffixSelectors: Record<string, string[]>

@@ -48,8 +48,7 @@ export class RuntimeCSS extends MasterCSS {
                 }
             }
         if (this.progressive) {
-            this.keyframeLayer.native = this.style.sheet!
-            /* eslint-disable @typescript-eslint/prefer-for-of */
+            this.animationsLayer.native = this.style.sheet!
             for (let i = 0; i < this.style.sheet!.cssRules.length; i++) {
                 const eachCSSRule = this.style.sheet!.cssRules[i]
                 if (eachCSSRule.constructor.name === 'CSSLayerBlockRule') {
@@ -104,7 +103,7 @@ export class RuntimeCSS extends MasterCSS {
                                     layer.rules.push(syntaxRule)
                                     layer.ruleBy[syntaxRule.name] = syntaxRule
                                     this.themeLayer.insert(syntaxRule)
-                                    this.keyframeLayer.insert(syntaxRule)
+                                    this.animationsLayer.insert(syntaxRule)
                                     syntaxRule.definition.insert?.call(syntaxRule)
                                 }
                                 for (const eachNativeRule of syntaxRule.natives) {
@@ -213,7 +212,7 @@ export class RuntimeCSS extends MasterCSS {
                                                     this.stylesLayer.rules.push(eachSyntaxRule)
                                                     this.stylesLayer.ruleBy[name] = eachSyntaxRule
                                                     this.themeLayer.insert(eachSyntaxRule)
-                                                    this.keyframeLayer.insert(eachSyntaxRule)
+                                                    this.animationsLayer.insert(eachSyntaxRule)
                                                     eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
                                                 }
                                                 matched = true
@@ -255,9 +254,9 @@ export class RuntimeCSS extends MasterCSS {
                             text: keyframsRule.cssText
                         }]
                     )
-                    this.keyframeLayer.rules.push(animationRule)
-                    this.keyframeLayer.ruleBy[animationRule.name] = animationRule
-                    this.keyframeLayer.usages[animationRule.name] = 0
+                    this.animationsLayer.rules.push(animationRule)
+                    this.animationsLayer.ruleBy[animationRule.name] = animationRule
+                    this.animationsLayer.usages[animationRule.name] = 0
                 }
             }
         } else {
@@ -266,7 +265,7 @@ export class RuntimeCSS extends MasterCSS {
             this.container.append(this.style)
             this.style.sheet!.insertRule(this.layerStatementRule.text)
             this.layerStatementRule.native = this.style.sheet!.cssRules.item(0) as CSSLayerStatementRule
-            this.keyframeLayer.native = this.style.sheet!
+            this.animationsLayer.native = this.style.sheet!
         }
 
         const handleClassList = (classList: DOMTokenList) => {

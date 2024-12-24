@@ -12,6 +12,7 @@ export default [
         rules: {
             '@typescript-eslint/no-non-null-assertion': 'off',
             '@typescript-eslint/consistent-type-definitions': 'off',
+            '@typescript-eslint/prefer-for-of': 'off'
         }
     }
 ]

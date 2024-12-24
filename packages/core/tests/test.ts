@@ -6,7 +6,7 @@ export const expectLayers = (
         theme?: string
         styles?: string
         normal?: string
-        keyframe?: string
+        animations?: string
         preset?: string
     },
     className: string | string[],
@@ -17,7 +17,7 @@ export const expectLayers = (
     if (layers.styles) expect(cssRuleText).toContain(`@layer styles{${layers.styles ?? ''}}`)
     if (layers.preset) expect(cssRuleText).toContain(`@layer preset{${layers.preset ?? ''}}`)
     if (layers.normal) expect(cssRuleText).toContain(`@layer normal{${layers.normal ?? ''}}`)
-    if (layers.keyframe) expect(cssRuleText).toContain(`${layers.keyframe ?? ''}`)
+    if (layers.animations) expect(cssRuleText).toContain(`${layers.animations ?? ''}`)
 }
 
 test.todo('hidden@sm and flex ordering')

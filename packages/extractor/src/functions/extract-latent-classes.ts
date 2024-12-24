@@ -145,7 +145,6 @@ const needExclude = (content: string) => {
 const hasUnclosedBrackets = (content: string) => {
     const brackets = []
     let left = undefined
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < content.length; i++) {
         switch (content[i]) {
             case '(':

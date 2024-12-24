@@ -326,10 +326,10 @@ export default class SyntaxLayer extends Layer {
 
         if (syntaxRule.animationNames) {
             for (const eachAnimationName of syntaxRule.animationNames) {
-                if (this.css.keyframeLayer.ruleBy[eachAnimationName]) {
-                    this.css.keyframeLayer.usages[eachAnimationName]++
+                if (this.css.animationsLayer.ruleBy[eachAnimationName]) {
+                    this.css.animationsLayer.usages[eachAnimationName]++
                 } else {
-                    this.css.keyframeLayer.insert(new Rule(
+                    this.css.animationsLayer.insert(new Rule(
                         eachAnimationName,
                         this.css,
                         [{
@@ -341,7 +341,7 @@ export default class SyntaxLayer extends Layer {
                                 + '}'
                         }]
                     ))
-                    this.css.keyframeLayer.usages[eachAnimationName] = 1
+                    this.css.animationsLayer.usages[eachAnimationName] = 1
                 }
             }
         }
@@ -363,8 +363,8 @@ export default class SyntaxLayer extends Layer {
         }
         if (syntaxRule.animationNames) {
             for (const eachKeyframeName of syntaxRule.animationNames) {
-                if (!--this.css.keyframeLayer.usages[eachKeyframeName]) {
-                    this.css.keyframeLayer.delete(eachKeyframeName)
+                if (!--this.css.animationsLayer.usages[eachKeyframeName]) {
+                    this.css.animationsLayer.delete(eachKeyframeName)
                 }
             }
         }
