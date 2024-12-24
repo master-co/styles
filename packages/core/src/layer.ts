@@ -12,7 +12,7 @@ export default class Layer {
         public css: MasterCSS
     ) { }
 
-    insert(rule: Rule, index = this.rules.length) {
+    insert(rule: Rule, index?: number) {
         if (this.rules.includes(rule)) return
 
         if (this.name && !this.css.rules.includes(this)) {
@@ -22,6 +22,10 @@ export default class Layer {
                 const insertedIndex = nativeSheet.insertRule(this.text)
                 this.native = nativeSheet.cssRules.item(insertedIndex) as CSSLayerBlockRule
             }
+        }
+
+        if (index === undefined) {
+            index = this.rules.length
         }
 
         if (this.native) {
@@ -85,17 +89,16 @@ export default class Layer {
                 const foundIndex = findNativeCSSRuleIndex(nativeSheet.cssRules, this.native)
                 if (foundIndex !== -1) {
                     nativeSheet.deleteRule(foundIndex)
-                    this.native = undefined
                 }
             }
         }
 
         if (this.native) {
             if ('nodes' in rule) {
-                const firstNativeRule = rule.nodes[0]
-                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNativeRule.native!)
+                const firstNode = rule.nodes[0]
+                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNode.native!)
                 if (foundIndex !== -1) {
-                    for (let j = 0; j < rule.nodes.length; j++) {
+                    for (const node of rule.nodes) {
                         this.native.deleteRule(foundIndex)
                     }
                 }
@@ -103,6 +106,7 @@ export default class Layer {
                 const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, rule.native)
                 if (foundIndex !== -1) {
                     this.native.deleteRule(foundIndex)
+                    rule.native = undefined
                 }
             }
         }
