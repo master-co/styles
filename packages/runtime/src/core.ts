@@ -240,7 +240,7 @@ export class RuntimeCSS extends MasterCSS {
                             break
                     }
                 } else if (eachCSSRule.constructor.name === 'CSSLayerStatementRule') {
-                    this.layerStatementRule.native = eachCSSRule as CSSLayerStatementRule
+                    this.layerStatementRule.nodes[0].native = eachCSSRule as CSSLayerStatementRule
                 } else if (eachCSSRule.constructor.name === 'CSSKeyframesRule') {
                     const keyframsRule = eachCSSRule as CSSKeyframesRule
                     const animationRule = new Rule(
@@ -260,7 +260,7 @@ export class RuntimeCSS extends MasterCSS {
             this.style.id = 'master'
             this.container.append(this.style)
             const indexOfInsertedLayerStatementRule = this.style.sheet!.insertRule(this.layerStatementRule.text)
-            this.layerStatementRule.native = this.style.sheet!.cssRules.item(indexOfInsertedLayerStatementRule) as CSSLayerStatementRule
+            this.layerStatementRule.nodes[0].native = this.style.sheet!.cssRules.item(indexOfInsertedLayerStatementRule) as CSSLayerStatementRule
             this.animationsLayer.native = this.style.sheet!
         }
 

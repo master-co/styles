@@ -259,7 +259,6 @@ export default class SyntaxLayer extends Layer {
             }
         }
         super.insert(syntaxRule, index)
-
         if (syntaxRule.variableNames) {
             for (const eachVariableName of syntaxRule.variableNames) {
                 const variable = this.css.variables[eachVariableName]

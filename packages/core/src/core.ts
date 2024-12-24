@@ -563,8 +563,8 @@ export default class MasterCSS {
         this.stylesLayer.reset()
         this.presetLayer.reset()
         this.themeLayer.reset()
-        console.log(this.rules)
-
+        this.rules.length = 0
+        this.rules.push(this.layerStatementRule)
         return this
     }
 

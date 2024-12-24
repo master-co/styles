@@ -10,12 +10,7 @@ export default class Layer {
     constructor(
         public name: string,
         public css: MasterCSS
-    ) {
-        if (!this.name) {
-            // @ts-expect-error readonly
-            this.rules = css.rules
-        }
-    }
+    ) { }
 
     insert(rule: Rule, index = this.rules.length) {
         if (this.rules.includes(rule)) return
@@ -76,6 +71,7 @@ export default class Layer {
         }
 
         this.rules.splice(index as number, 0, rule)
+        return index
     }
 
     delete(key: string) {

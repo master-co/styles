@@ -10,7 +10,7 @@ export default class AnonymousLayer extends Layer {
         public css: MasterCSS
     ) {
         super('', css)
-        // @ts-expect-error readonly
+        // @ts-expect-error
         this.rules = css.rules
     }
 
