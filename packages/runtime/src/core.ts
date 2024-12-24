@@ -263,8 +263,8 @@ export class RuntimeCSS extends MasterCSS {
             this.style = document.createElement('style')
             this.style.id = 'master'
             this.container.append(this.style)
-            this.style.sheet!.insertRule(this.layerStatementRule.text)
-            this.layerStatementRule.native = this.style.sheet!.cssRules.item(0) as CSSLayerStatementRule
+            const indexOfInsertedLayerStatementRule =this.style.sheet!.insertRule(this.layerStatementRule.text)
+            this.layerStatementRule.native = this.style.sheet!.cssRules.item(indexOfInsertedLayerStatementRule) as CSSLayerStatementRule
             this.animationsLayer.native = this.style.sheet!
         }
 
@@ -474,11 +474,6 @@ export class RuntimeCSS extends MasterCSS {
 
     refresh(customConfig = this.customConfig) {
         if (!this.observing || !this.style.sheet) return this
-        if (this.style.sheet.cssRules) {
-            for (let i = this.style.sheet.cssRules.length - 1; i > 0; i--) {
-                this.style.sheet.deleteRule(i)
-            }
-        }
         super.refresh(customConfig)
         return this
     }

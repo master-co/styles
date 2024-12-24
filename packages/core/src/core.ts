@@ -36,11 +36,11 @@ export default class MasterCSS {
         text: '@layer base,theme,preset,styles,normal;'
     }
     readonly rules: (Layer | LayerStatementRule | Rule)[] = [this.layerStatementRule]
+    readonly animationsLayer = new AnonymousLayer(this)
     readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
     readonly normalLayer = new SyntaxLayer('normal', this)
-    readonly animationsLayer = new AnonymousLayer(this)
 
     get text() {
         return this.rules.map(({ text }) => text).join('')
@@ -540,6 +540,7 @@ export default class MasterCSS {
      * 根據蒐集到的所有 DOM class 重新 create
      */
     refresh(customConfig?: Config) {
+        this.reset()
         if (customConfig) {
             this.customConfig = customConfig
         } else {
@@ -550,7 +551,6 @@ export default class MasterCSS {
             ? extendConfig(customConfig)
             : extendConfig(defaultConfig, customConfig)
         this.resolve()
-        this.reset()
         /**
          * 拿當前所有的 classNames 按照最新的 colors, config.syntaxes 匹配並生成新的 style
          * 所以 refresh 過後 syntaxes 可能會變多也可能會變少
@@ -567,6 +567,8 @@ export default class MasterCSS {
         this.stylesLayer.reset()
         this.presetLayer.reset()
         this.themeLayer.reset()
+        console.log(this.rules)
+
         return this
     }
 
