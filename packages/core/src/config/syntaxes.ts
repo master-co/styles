@@ -36,7 +36,7 @@ const syntaxes = {
                         }
                 }
 
-                for (const eachNative of rule.natives) {
+                for (const eachNative of rule.nodes) {
                     addProps(eachNative.text)
                 }
 

@@ -468,7 +468,7 @@ export class SyntaxRule extends Rule {
                         cssText = `@media(prefers-color-scheme:${this.mode}){` + cssText + '}'
                     }
 
-                    this.natives.push({ text: cssText })
+                    this.nodes.push({ text: cssText })
                 }
             }
         }

@@ -36,12 +36,12 @@ export default class Layer {
                 let lastCssRule: any
                 const previouRule = layer.rules[index]
                 if (previouRule) {
-                    if ('natives' in previouRule) {
-                        if (!previouRule.natives.length)
+                    if ('nodes' in previouRule) {
+                        if (!previouRule.nodes.length)
                             return getLastCssRule(layer, index - 1)
 
-                        const lastNativeRule = previouRule.natives[previouRule.natives.length - 1]
-                        lastCssRule = lastNativeRule.cssRule
+                        const lastNativeRule = previouRule.nodes[previouRule.nodes.length - 1]
+                        lastCssRule = lastNativeRule.native
                     } else {
                         if (previouRule.name) {
                             lastCssRule = previouRule.native
@@ -63,15 +63,15 @@ export default class Layer {
                 }
             }
 
-            for (let i = 0; i < rule.natives.length;) {
+            for (let i = 0; i < rule.nodes.length;) {
                 try {
-                    const nativeRule = rule.natives[i]
+                    const nativeRule = rule.nodes[i]
                     this.native.insertRule(nativeRule.text, cssRuleIndex)
-                    nativeRule.cssRule = this.native.cssRules[cssRuleIndex++]
+                    nativeRule.native = this.native.cssRules[cssRuleIndex++]
                     i++
                 } catch (error) {
                     console.error(error)
-                    rule.natives.splice(i, 1)
+                    rule.nodes.splice(i, 1)
                 }
             }
         }
@@ -97,11 +97,11 @@ export default class Layer {
         }
 
         if (this.native) {
-            if (rule.natives.length) {
-                const firstNativeRule = rule.natives[0]
-                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNativeRule.cssRule!)
+            if (rule.nodes.length) {
+                const firstNativeRule = rule.nodes[0]
+                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNativeRule.native!)
                 if (foundIndex !== -1) {
-                    for (let j = 0; j < rule.natives.length; j++) {
+                    for (let j = 0; j < rule.nodes.length; j++) {
                         this.native.deleteRule(foundIndex)
                     }
                 }

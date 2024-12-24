@@ -4,7 +4,7 @@ export class Rule {
     constructor(
         public readonly name: string,
         public css: MasterCSS,
-        public natives: NativeRule[] = []
+        public nodes: RuleNode[] = []
     ) { }
 
     get key(): string {
@@ -12,11 +12,11 @@ export class Rule {
     }
 
     get text(): string {
-        return this.natives.map(({ text }) => text).join('')
+        return this.nodes.map(({ text }) => text).join('')
     }
 }
 
-export interface NativeRule {
+export interface RuleNode {
     text: string
-    cssRule?: CSSRule
+    native?: CSSRule
 }

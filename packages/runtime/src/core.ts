@@ -106,9 +106,9 @@ export class RuntimeCSS extends MasterCSS {
                                     this.animationsLayer.insert(syntaxRule)
                                     syntaxRule.definition.insert?.call(syntaxRule)
                                 }
-                                for (const eachNativeRule of syntaxRule.natives) {
-                                    if (!eachNativeRule.cssRule && eachNativeRule.text.includes(utilityPreText!)) {
-                                        eachNativeRule.cssRule = cssRule
+                                for (const eachNode of syntaxRule.nodes) {
+                                    if (!eachNode.native && eachNode.text.includes(utilityPreText!)) {
+                                        eachNode.native = cssRule
                                         break
                                     }
                                 }
@@ -117,9 +117,9 @@ export class RuntimeCSS extends MasterCSS {
                             }
                         }
                         for (const eachRule of layer.rules) {
-                            for (let k = eachRule.natives.length - 1; k >= 0; k--) {
-                                if (!eachRule.natives[k].cssRule) {
-                                    eachRule.natives.splice(k, 1)
+                            for (let k = eachRule.nodes.length - 1; k >= 0; k--) {
+                                if (!eachRule.nodes[k].native) {
+                                    eachRule.nodes.splice(k, 1)
                                 }
                             }
                         }
@@ -143,8 +143,8 @@ export class RuntimeCSS extends MasterCSS {
                                     this.themeLayer.ruleBy[variableRule.name] = variableRule
                                     this.themeLayer.usages[variableRule.name] = 0
                                 }
-                                variableRule?.natives.push({
-                                    cssRule,
+                                variableRule?.nodes.push({
+                                    native: cssRule,
                                     text: cssRule.cssText
                                 })
                             }
@@ -204,9 +204,9 @@ export class RuntimeCSS extends MasterCSS {
                                 if (syntaxRules) {
                                     let matched = false
                                     for (const eachSyntaxRule of syntaxRules) {
-                                        for (const eachNativeRule of eachSyntaxRule.natives) {
-                                            if (!eachNativeRule.cssRule && eachNativeRule.text.includes(stylePreText!)) {
-                                                eachNativeRule.cssRule = cssRule
+                                        for (const node of eachSyntaxRule.nodes) {
+                                            if (!node.native && node.text.includes(stylePreText!)) {
+                                                node.native = cssRule
                                                 const name = eachSyntaxRule.fixedClass + ' ' + eachSyntaxRule.name
                                                 if (!Object.prototype.hasOwnProperty.call(this.stylesLayer.ruleBy, name)) {
                                                     this.stylesLayer.rules.push(eachSyntaxRule)
@@ -227,9 +227,9 @@ export class RuntimeCSS extends MasterCSS {
                                 }
                             }
                             for (const eachRule of this.stylesLayer.rules) {
-                                for (let k = eachRule.natives.length - 1; k >= 0; k--) {
-                                    if (!eachRule.natives[k].cssRule) {
-                                        eachRule.natives.splice(k, 1)
+                                for (let k = eachRule.nodes.length - 1; k >= 0; k--) {
+                                    if (!eachRule.nodes[k].native) {
+                                        eachRule.nodes.splice(k, 1)
                                     }
                                 }
                             }
@@ -250,7 +250,7 @@ export class RuntimeCSS extends MasterCSS {
                         keyframsRule.name,
                         this,
                         [{
-                            cssRule: keyframsRule,
+                            native: keyframsRule,
                             text: keyframsRule.cssText
                         }]
                     )

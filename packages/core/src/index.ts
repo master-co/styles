@@ -19,5 +19,5 @@ export { default as areRulesDuplicated } from './utils/are-syntaxes-duplicated'
 export { default as generateCSS } from './utils/generate-css'
 export { default as isCoreRule } from './utils/is-core-rule'
 
-export type { NativeRule } from './rule'
+export type { RuleNode } from './rule'
 export type { MediaFeatureComponent, MediaQuery } from './syntax-rule'

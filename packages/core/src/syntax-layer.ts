@@ -301,11 +301,11 @@ export default class SyntaxLayer extends Layer {
 
                         const cssRuleText = `${preifxCssRuleText}{--${eachVariableName}:${String(_variable.value)}${'}'.repeat(endCurlyBracketCount)}`
                         if (isDefaultMode) {
-                            newRule.natives.unshift({
+                            newRule.nodes.unshift({
                                 text: cssRuleText
                             })
                         } else {
-                            newRule.natives.push({
+                            newRule.nodes.push({
                                 text: cssRuleText
                             })
                         }
