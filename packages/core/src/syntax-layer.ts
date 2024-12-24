@@ -4,7 +4,6 @@ import { Rule } from './rule'
 import { AtFeatureComponent, SyntaxRule } from './syntax-rule'
 
 export default class SyntaxLayer extends Layer {
-    readonly ruleBy: Record<string, SyntaxRule> = {}
     rules: SyntaxRule[] = []
 
     /**
@@ -16,7 +15,7 @@ export default class SyntaxLayer extends Layer {
     * media width selectors
     */
     insert(syntaxRule: SyntaxRule) {
-        if (this.ruleBy[syntaxRule.key]) return
+        if (this.rules.includes(syntaxRule)) return
 
         let index: number | undefined
         /**
@@ -264,7 +263,7 @@ export default class SyntaxLayer extends Layer {
         if (syntaxRule.variableNames) {
             for (const eachVariableName of syntaxRule.variableNames) {
                 const variable = this.css.variables[eachVariableName]
-                if (this.css.themeLayer.ruleBy[eachVariableName]) {
+                if (this.css.themeLayer.rules.find(({ name }) => name === eachVariableName)) {
                     this.css.themeLayer.usages[eachVariableName]++
                 } else {
                     const newRule = new Rule(eachVariableName, this.css)
@@ -326,7 +325,7 @@ export default class SyntaxLayer extends Layer {
 
         if (syntaxRule.animationNames) {
             for (const eachAnimationName of syntaxRule.animationNames) {
-                if (this.css.animationsLayer.ruleBy[eachAnimationName]) {
+                if (this.css.animationsLayer.rules.find(({ name }) => name === eachAnimationName)) {
                     this.css.animationsLayer.usages[eachAnimationName]++
                 } else {
                     this.css.animationsLayer.insert(new Rule(

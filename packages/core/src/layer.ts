@@ -3,7 +3,6 @@ import MasterCSS from './core'
 import findNativeCSSRuleIndex from 'shared/utils/find-native-css-rule-index'
 
 export default class Layer {
-    readonly ruleBy: Record<string, Rule> = {}
     readonly rules: (Rule | Layer)[] = []
     readonly usages: Record<string, number> = {}
     native?: CSSLayerBlockRule
@@ -19,7 +18,7 @@ export default class Layer {
     }
 
     insert(rule: Rule, index = this.rules.length) {
-        if (this.ruleBy[rule.key]) return
+        if (this.rules.includes(rule)) return
 
         if (this.name && !this.css.rules.includes(this)) {
             this.css.rules.push(this)
@@ -77,11 +76,10 @@ export default class Layer {
         }
 
         this.rules.splice(index as number, 0, rule)
-        this.ruleBy[rule.key] = rule
     }
 
     delete(key: string) {
-        const rule = this.ruleBy[key]
+        const rule = this.rules.find((rule) => (rule as Rule).key === key)
         if (!rule) return
         if (this.name && this.rules.length === 1) {
             const indexOfLayer = this.css.rules.indexOf(this)
@@ -97,7 +95,7 @@ export default class Layer {
         }
 
         if (this.native) {
-            if (rule.nodes.length) {
+            if ('nodes' in rule) {
                 const firstNativeRule = rule.nodes[0]
                 const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNativeRule.native!)
                 if (foundIndex !== -1) {
@@ -105,18 +103,20 @@ export default class Layer {
                         this.native.deleteRule(foundIndex)
                     }
                 }
+            } else if (rule.native) {
+                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, rule.native)
+                if (foundIndex !== -1) {
+                    this.native.deleteRule(foundIndex)
+                }
             }
         }
 
-        delete this.ruleBy[key]
         this.rules.splice(this.rules.indexOf(rule), 1)
         return rule
     }
 
     reset() {
-        Object.values(this.ruleBy).forEach(rule => {
-            this.delete(rule.key)
-        })
+        this.rules.forEach((rule) => this.delete((rule as Rule).key))
         // @ts-expect-error
         this.usages = {}
         if (this.native) {

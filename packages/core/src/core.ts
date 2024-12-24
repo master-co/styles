@@ -24,18 +24,14 @@ export interface NumberVariable { type: 'number', value: number }
 export interface ColorVariable { type: 'color', value: string, space: 'rgb' | 'hsl' }
 export type TypeVariable = StringVariable | NumberVariable | ColorVariable
 export type Variable = TypeVariable & VariableCommon
-export type LayerStatementRule = { name: 'layer-statement', text: string, native?: CSSLayerStatementRule }
 
 export default class MasterCSS {
     static config: Config = defaultConfig
     readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
-    readonly layerStatementRule: LayerStatementRule = {
-        name: 'layer-statement',
-        text: '@layer base,theme,preset,styles,normal;'
-    }
-    readonly rules: (Layer | LayerStatementRule | Rule)[] = [this.layerStatementRule]
+    readonly layerStatementRule = new Rule('layer-statement', this, [{ text: '@layer base,theme,preset,styles,normal;' }])
+    readonly rules: (Layer | Rule)[] = [this.layerStatementRule]
     readonly animationsLayer = new AnonymousLayer(this)
     readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
@@ -530,7 +526,7 @@ export default class MasterCSS {
      * @returns SyntaxRule
      */
     create(className: string, fixedClass?: string, mode?: string): SyntaxRule | undefined {
-        const syntaxRule = this.normalLayer.ruleBy[(fixedClass ? fixedClass + ' ' : '') + className]
+        const syntaxRule = this.normalLayer.rules.find(({ key }) => key === ((fixedClass ? fixedClass + ' ' : '') + className))
         if (syntaxRule) return syntaxRule
         const registeredRule = this.match(className)
         if (registeredRule) return new SyntaxRule(className, this, registeredRule, fixedClass, mode)

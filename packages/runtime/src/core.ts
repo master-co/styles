@@ -99,9 +99,8 @@ export class RuntimeCSS extends MasterCSS {
                             }
                             const syntaxRule = getSyntaxRule(cssRule)
                             if (syntaxRule) {
-                                if (!Object.prototype.hasOwnProperty.call(layer.ruleBy, syntaxRule.name)) {
+                                if (!layer.rules.includes(syntaxRule)) {
                                     layer.rules.push(syntaxRule)
-                                    layer.ruleBy[syntaxRule.name] = syntaxRule
                                     this.themeLayer.insert(syntaxRule)
                                     this.animationsLayer.insert(syntaxRule)
                                     syntaxRule.definition.insert?.call(syntaxRule)
@@ -140,7 +139,6 @@ export class RuntimeCSS extends MasterCSS {
                                     lastVariableName = variableName
                                     variableRule = new Rule(variableName, this)
                                     this.themeLayer.rules.push(variableRule)
-                                    this.themeLayer.ruleBy[variableRule.name] = variableRule
                                     this.themeLayer.usages[variableRule.name] = 0
                                 }
                                 variableRule?.nodes.push({
@@ -208,9 +206,8 @@ export class RuntimeCSS extends MasterCSS {
                                             if (!node.native && node.text.includes(stylePreText!)) {
                                                 node.native = cssRule
                                                 const name = eachSyntaxRule.fixedClass + ' ' + eachSyntaxRule.name
-                                                if (!Object.prototype.hasOwnProperty.call(this.stylesLayer.ruleBy, name)) {
+                                                if (!this.stylesLayer.rules.includes(eachSyntaxRule)) {
                                                     this.stylesLayer.rules.push(eachSyntaxRule)
-                                                    this.stylesLayer.ruleBy[name] = eachSyntaxRule
                                                     this.themeLayer.insert(eachSyntaxRule)
                                                     this.animationsLayer.insert(eachSyntaxRule)
                                                     eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
@@ -255,7 +252,6 @@ export class RuntimeCSS extends MasterCSS {
                         }]
                     )
                     this.animationsLayer.rules.push(animationRule)
-                    this.animationsLayer.ruleBy[animationRule.name] = animationRule
                     this.animationsLayer.usages[animationRule.name] = 0
                 }
             }
@@ -263,7 +259,7 @@ export class RuntimeCSS extends MasterCSS {
             this.style = document.createElement('style')
             this.style.id = 'master'
             this.container.append(this.style)
-            const indexOfInsertedLayerStatementRule =this.style.sheet!.insertRule(this.layerStatementRule.text)
+            const indexOfInsertedLayerStatementRule = this.style.sheet!.insertRule(this.layerStatementRule.text)
             this.layerStatementRule.native = this.style.sheet!.cssRules.item(indexOfInsertedLayerStatementRule) as CSSLayerStatementRule
             this.animationsLayer.native = this.style.sheet!
         }
