@@ -2,14 +2,14 @@
 
 import type { Config } from '@master/css'
 import { RuntimeCSS } from '@master/css-runtime'
-import React, { useEffect, useLayoutEffect, createContext, useContext, useRef, useCallback } from 'react'
+import { createContext, useContext, useRef, useCallback, ReactNode } from 'react'
+import { useUpdateEffect, useIsomorphicLayoutEffect } from 'react-use'
 
 export const RuntimeCSSContext = createContext<RuntimeCSS | undefined>(undefined)
 export const useRuntimeCSS = () => useContext(RuntimeCSSContext)
-const useIsomorphicEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect
 
 export default function CSSRuntimeProvider(props: {
-    children: React.ReactNode,
+    children: ReactNode,
     config?: Config | Promise<any>,
     root?: Document | ShadowRoot
 }) {
@@ -27,7 +27,7 @@ export default function CSSRuntimeProvider(props: {
     }, [props.root, resolveConfig])
 
     /** onMounted */
-    useIsomorphicEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         const controller = new AbortController()
         initialize(controller.signal)
         return () => {
@@ -38,7 +38,7 @@ export default function CSSRuntimeProvider(props: {
     }, [])
 
     /** on config change */
-    useEffect(() => {
+    useUpdateEffect(() => {
         const controller = new AbortController();
         (async () => {
             const resolvedConfig = await resolveConfig()
@@ -53,7 +53,7 @@ export default function CSSRuntimeProvider(props: {
     }, [props.config, resolveConfig])
 
     /** on root change */
-    useEffect(() => {
+    useUpdateEffect(() => {
         const controller = new AbortController();
         (async () => {
             if (controller.signal.aborted) return
