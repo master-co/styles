@@ -29,6 +29,11 @@ export class RuntimeCSS extends MasterCSS {
         runtimeCSSs.push(this)
     }
 
+    private attachNativeRules() {
+        this.layerStatementRule.nodes[0].native = this.style.sheet!.cssRules.item(0) as CSSLayerStatementRule
+        this.animationsLayer.native = this.style.sheet!
+    }
+
     /**
      * Observe the DOM for changes and update the running stylesheet. (browser only)
      * @param options mutation observer options
@@ -48,7 +53,7 @@ export class RuntimeCSS extends MasterCSS {
                 }
             }
         if (this.progressive) {
-            this.animationsLayer.native = this.style.sheet!
+            this.attachNativeRules()
             for (let i = 0; i < this.style.sheet!.cssRules.length; i++) {
                 const eachCSSRule = this.style.sheet!.cssRules[i]
                 if (eachCSSRule.constructor.name === 'CSSLayerBlockRule') {
@@ -259,9 +264,8 @@ export class RuntimeCSS extends MasterCSS {
             this.style = document.createElement('style')
             this.style.id = 'master'
             this.container.append(this.style)
-            const indexOfInsertedLayerStatementRule = this.style.sheet!.insertRule(this.layerStatementRule.text)
-            this.layerStatementRule.nodes[0].native = this.style.sheet!.cssRules.item(indexOfInsertedLayerStatementRule) as CSSLayerStatementRule
-            this.animationsLayer.native = this.style.sheet!
+            this.style.sheet!.insertRule(this.layerStatementRule.text)
+            this.attachNativeRules()
         }
 
         const handleClassList = (classList: DOMTokenList) => {
@@ -470,7 +474,12 @@ export class RuntimeCSS extends MasterCSS {
 
     refresh(customConfig = this.customConfig) {
         if (!this.observing || !this.style.sheet) return this
+        for (let i = this.style.sheet.cssRules.length - 1; i >= 0; i--) {
+            this.style.sheet.deleteRule(i)
+        }
         super.refresh(customConfig)
+        this.style.sheet!.insertRule(this.layerStatementRule.text)
+        this.attachNativeRules()
         return this
     }
 

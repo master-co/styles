@@ -116,7 +116,7 @@ export default class Layer {
     }
 
     reset() {
-        this.rules.forEach((rule) => this.delete((rule as Rule).key))
+        this.rules.length = 0
         // @ts-expect-error
         this.usages = {}
         if (this.native) {

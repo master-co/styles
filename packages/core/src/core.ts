@@ -561,10 +561,8 @@ export default class MasterCSS {
         this.normalLayer.reset()
         this.stylesLayer.reset()
         this.presetLayer.reset()
-        // No need to reset themeLayer and animationsLayer
-        // this.themeLayer.reset()
-        // this.animationsLayer.reset()
-        this.rules.length = 0
+        this.themeLayer.reset()
+        this.animationsLayer.reset()
         this.rules.push(this.layerStatementRule)
         return this
     }
