@@ -22,7 +22,7 @@ test.concurrent('registered Rule', () => {
     expect(new MasterCSS().syntaxes.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
-            syntaxType: -1
+            type: -1
         },
         id: 'content',
         keys: ['content'],
@@ -54,7 +54,7 @@ test.concurrent('variables', () => {
     expect(css.syntaxes.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
-            syntaxType: -1,
+            type: -1,
             variables: ['a.b']
         },
         id: 'content',

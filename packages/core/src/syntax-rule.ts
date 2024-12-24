@@ -12,7 +12,7 @@ export class SyntaxRule extends Rule {
     readonly at: Record<string, AtComponent[]> = {}
     readonly priority: number = -1
     readonly order: number = 0
-    readonly syntaxType: SyntaxType = 0
+    readonly type: SyntaxType = 0
     readonly declarations?: PropertiesHyphen
     readonly layer: Layer
 
@@ -31,8 +31,8 @@ export class SyntaxRule extends Rule {
         this.layer = css.normalLayer
         Object.assign(this, registeredSyntax)
         const { id, definition } = registeredSyntax
-        const { analyze, transformValue, declare, transformValueComponents, create, syntaxType, unit } = definition
-        this.syntaxType = syntaxType as SyntaxType
+        const { analyze, transformValue, declare, transformValueComponents, create, type, unit } = definition
+        this.type = type as SyntaxType
         const { scope, important, modes } = css.config
         const { selectors, at, animations } = css
 
@@ -43,7 +43,7 @@ export class SyntaxRule extends Rule {
         let stateToken: string
         let prefixToken: string | undefined
 
-        if (this.syntaxType === SyntaxType.Utility) {
+        if (this.type === SyntaxType.Utility) {
             // TODO: id 使用其他方式傳遞
             stateToken = name.slice(id.length - 1)
         } else {
@@ -861,7 +861,7 @@ export interface RegisteredSyntax {
 }
 
 export interface SyntaxDefinition {
-    syntaxType?: SyntaxType
+    type?: SyntaxType
     matcher?: RegExp
     sign?: string
     key?: string

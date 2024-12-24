@@ -11,7 +11,7 @@ const customConfig: Config = {
             key: 'custom',
             ambiguousValues: [NUMBER_VALUE_REGEX],
             unit: 'rem',
-            syntaxType: SyntaxType.Normal,
+            type: SyntaxType.Normal,
         }
     }
 }

@@ -331,7 +331,7 @@ export default class MasterCSS {
             if (utilities) {
                 for (const utilityName in utilities) {
                     const declarations = utilities[utilityName] as any
-                    rulesEntries.push([utilityName, { declarations, syntaxType: SyntaxType.Utility }])
+                    rulesEntries.push([utilityName, { declarations, type: SyntaxType.Utility }])
                 }
             }
             if (syntaxes) {
@@ -341,8 +341,8 @@ export default class MasterCSS {
             const colorNames = Object.keys(colorVariableNames)
             rulesEntries
                 .sort((a: any, b: any) => {
-                    if (a[1].syntaxType !== b[1].syntaxType) {
-                        return (b[1].syntaxType || 0) - (a[1].syntaxType || 0)
+                    if (a[1].type !== b[1].type) {
+                        return (b[1].type || 0) - (a[1].type || 0)
                     }
                     return b[0].localeCompare(a[0])
                 })
@@ -362,8 +362,8 @@ export default class MasterCSS {
                         eachSyntaxDefinition.separators = [',']
                     }
                     this.syntaxes.push(syntax)
-                    const { matcher, syntaxType, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxDefinition
-                    if (syntaxType === SyntaxType.Utility) {
+                    const { matcher, type, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxDefinition
+                    if (type === SyntaxType.Utility) {
                         syntax.id = '.' + id
                         syntax.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
                     }
@@ -389,7 +389,7 @@ export default class MasterCSS {
                     addResolvedVariables(id)
                     const keys = []
                     let { key } = eachSyntaxDefinition
-                    if (syntaxType === SyntaxType.NativeShorthand || syntaxType === SyntaxType.Native) {
+                    if (type === SyntaxType.NativeShorthand || type === SyntaxType.Native) {
                         if (!key) eachSyntaxDefinition.key = key = id
                         keys.push(id)
                     }
@@ -402,7 +402,7 @@ export default class MasterCSS {
                         } else {
                             if (key && !keys.includes(key)) keys.push(key)
                             if (subkey) keys.push(subkey)
-                            if (syntaxType === SyntaxType.Shorthand) {
+                            if (type === SyntaxType.Shorthand) {
                                 keys.push(id)
                             }
                         }

@@ -11,12 +11,12 @@ export default function reorderForReadableClasses(classes: string[], css = new M
     css.add(...classes)
     const orderedClasses = css.normalLayer.rules
         // 只保留樣式語法相關的 syntaxes, 排除 keyframes 與 variables 在外
-        .filter(eachRule => eachRule.syntaxType)
+        .filter(eachRule => eachRule.type)
         .sort((a, b) => {
-            if (a.syntaxType === SyntaxType.Utility && b.syntaxType !== SyntaxType.Utility) {
+            if (a.type === SyntaxType.Utility && b.type !== SyntaxType.Utility) {
                 // 如果 a 是 Layer.Utility 而 b 不是，则 a 应该排在 b 前面
                 return -1
-            } else if (a.syntaxType !== SyntaxType.Utility && b.syntaxType === SyntaxType.Utility) {
+            } else if (a.type !== SyntaxType.Utility && b.type === SyntaxType.Utility) {
                 // 如果 b 是 Layer.Utility 而 a 不是，则 b 应该排在 a 前面
                 return 1
             } else if (a.id !== b.id) {
