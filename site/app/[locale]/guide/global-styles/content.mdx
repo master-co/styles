@@ -21,7 +21,7 @@ Just import it into a global CSS file.
         ```
         Or import on-demand:
         <Code lang="css">
-            {require('!!raw-loader!@master/normal.css/src/index.css').default.replace(/(..\/)\b/g, '@master/normal.css/')}
+            {require('@master/normal.css/src/index.css?text').default?.replace(/(..\/)\b/g, '@master/normal.css/')}
         </Code>
     </div>
 </details>
