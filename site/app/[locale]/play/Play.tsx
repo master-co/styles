@@ -26,10 +26,9 @@ import { variables } from '@master/css'
 import config from '~/site/master.css'
 import clsx from 'clsx'
 import dynamic from 'next/dynamic'
-import loader from '@monaco-editor/loader'
 import { useRouter } from 'next/navigation'
 import Link from 'internal/components/Link'
-import Editor, { type Monaco } from '@monaco-editor/react'
+import Editor, { loader, type Monaco } from '@monaco-editor/react'
 import DocMenuButton from 'internal/components/DocMenuButton'
 import { useLocale } from 'internal/contexts/locale'
 import { useTranslation } from 'internal/contexts/i18n'
@@ -40,12 +39,6 @@ const ShareButton = dynamic(() => import('./components/ShareButton'))
 
 // import { Registry } from 'monaco-textmate'
 // import { wireTmGrammars } from 'monaco-editor-textmate'
-
-loader.config({
-    paths: {
-        vs: '/monaco-editor/vs',
-    }
-})
 
 const editorOptions: editor.IStandaloneEditorConstructionOptions = {
     readOnly: false,
@@ -270,6 +263,11 @@ export default function Play(props: any) {
     // dispose monaco providers
     useEffect(() => {
         const providers = monacoProvidersRef.current
+        loader.config({
+            paths: {
+                vs: window.location.origin + '/monaco-editor/vs',
+            }
+        })
         return () => {
             providers.forEach((provider: any) => {
                 provider.dispose()

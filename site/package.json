@@ -28,6 +28,7 @@
     "devDependencies": {
         "eslint": "^9.17.0",
         "internal": "workspace:^",
+        "monaco-editor-webpack-plugin": "^7.1.0",
         "tsx": "^4.19.2",
         "typescript": "^5.7.2"
     }

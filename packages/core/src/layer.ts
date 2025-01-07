@@ -98,9 +98,7 @@ export default class Layer {
                 const firstNode = rule.nodes[0]
                 const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNode.native!)
                 if (foundIndex !== -1) {
-                    for (const node of rule.nodes) {
-                        this.native.deleteRule(foundIndex)
-                    }
+                    rule.nodes.forEach(() => this.native?.deleteRule(foundIndex))
                 }
             } else if (rule.native) {
                 const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, rule.native)

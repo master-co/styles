@@ -210,7 +210,6 @@ export class RuntimeCSS extends MasterCSS {
                                         for (const node of eachSyntaxRule.nodes) {
                                             if (!node.native && node.text.includes(stylePreText!)) {
                                                 node.native = cssRule
-                                                const name = eachSyntaxRule.fixedClass + ' ' + eachSyntaxRule.name
                                                 if (!this.stylesLayer.rules.includes(eachSyntaxRule)) {
                                                     this.stylesLayer.rules.push(eachSyntaxRule)
                                                     this.themeLayer.insert(eachSyntaxRule)
