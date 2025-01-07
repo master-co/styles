@@ -29,7 +29,7 @@ Create an abstract style with [state selectors](/guide/state-selectors) and [app
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-style-with-states/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-style-with-states/generated.css?text').default}</Code>
     </div>
 </details>
 
@@ -41,7 +41,7 @@ Apply the styles:
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-styles-in-a-nested-structure/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-styles-in-a-nested-structure/generated.css?text').default}</Code>
     </div>
 </details>
 The empty string `''` represents an outer style, much like Sass's `&`.
@@ -60,6 +60,6 @@ You can see that `b` inherits the text lime color of `a`:
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/extend-an-existing-style/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/extend-an-existing-style/generated.css?text').default}</Code>
     </div>
 </details>

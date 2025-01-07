@@ -58,7 +58,7 @@ Apply it using color-related syntax and even change the opacity.
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-color/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-color/generated.css?text').default}</Code>
     </div>
 </details>
 
@@ -76,7 +76,7 @@ Apply it using color-related syntax like [`fg:`](/reference/color).
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-color-with-opacity/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-color-with-opacity/generated.css?text').default}</Code>
     </div>
 </details>
 (x) Color variables with opacity cannot use `/alpha` to change the opacity.
@@ -92,7 +92,7 @@ Apply it using color-related syntax.
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-an-alias/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-an-alias/generated.css?text').default}</Code>
     </div>
 </details>
 For example, say you have multiple color variables referencing the same color token. If that color needs updating, you would only need to update the source instead of manually updating every instance of the color.
@@ -105,7 +105,7 @@ Apply it using color-related syntax like [`fg:`](/reference/color).
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-an-alias-with-opacity/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-an-alias-with-opacity/generated.css?text').default}</Code>
     </div>
 </details>
 As shown above, creating an alias `secondary` linked to an existing alias `primary` with opacity `/.5` is possible, and the opacity will be multiplied `0.5 * 0.5 = 0.25`.
@@ -136,7 +136,7 @@ Using modes for variables, you can access a single source of truth and simplify 
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-colors-by-theme/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-colors-by-theme/generated.css?text').default}</Code>
     </div>
 </details>
 By default, theme variables [drive](/guide/configuration#default-mode) inheritance by adding `.light` or `.dark` to the parent element.
@@ -159,7 +159,7 @@ Apply custom colors for the current application.
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/override-default-colors/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/override-default-colors/generated.css?text').default}</Code>
     </div>
 </details>
 
@@ -186,7 +186,7 @@ Apply the defined screen variables anywhere:
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-screen-size/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-screen-size/generated.css?text').default}</Code>
     </div>
 </details>
 And it can be used as a responsive breakpoint:
@@ -194,7 +194,7 @@ And it can be used as a responsive breakpoint:
 <details>
     <summary>Generated CSS</summary>
     <div>
-        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-responsive-breakpoint/generated.css').default}</Code>
+        <Code lang="css" beautify>{require('!!raw-loader!./tests/add-a-responsive-breakpoint/generated.css?text').default}</Code>
     </div>
 </details>
 
