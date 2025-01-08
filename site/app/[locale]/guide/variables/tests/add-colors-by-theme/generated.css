@@ -1,1 +1,1 @@
-:root{--primary:255 0 0}.light,:root{--primary:255 255 255}.dark{--primary:0 0 0}.bg\:primary{background-color:rgb(var(--primary))}
+@layer base,theme,preset,styles,normal;@layer theme{:root{--primary:255 0 0}.light{--primary:255 255 255}.dark{--primary:0 0 0}}@layer normal{.bg\:primary{background-color:rgb(var(--primary))}}

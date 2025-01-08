@@ -1,1 +1,1 @@
-.light,:root{--text-lime:76 141 7}.dark{--text-lime:145 217 26}.text\:underline,.b{-webkit-text-decoration:underline;text-decoration:underline}.fg\:lime,.a,.b{color:rgb(var(--text-lime))}
+@layer base,theme,preset,styles,normal;@layer theme{.light,:root{--text-lime:76 141 7}.dark{--text-lime:145 217 26}}@layer styles{.b{color:rgb(var(--text-lime));-webkit-text-decoration:underline;text-decoration:underline}.a{color:rgb(var(--text-lime))}}
