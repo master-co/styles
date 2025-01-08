@@ -39,7 +39,14 @@ export default class MasterCSS {
     readonly normalLayer = new SyntaxLayer('normal', this)
 
     get text() {
-        return this.rules.map(({ text }) => text).join('')
+        return this.rules
+            .sort((a, b) => {
+                const order = ['layer-statement', 'base', 'theme', 'preset', 'styles', 'normal']
+                const indexA = order.indexOf(a.name) === -1 ? Infinity : order.indexOf(a.name)
+                const indexB = order.indexOf(b.name) === -1 ? Infinity : order.indexOf(b.name)
+                return indexA - indexB
+            })
+            .map(({ text }) => text).join('')
     }
 
     constructor(
