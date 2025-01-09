@@ -16,7 +16,6 @@ it.concurrent('info', () => expect(hint('b', settings)?.find(({ label }) => labe
         kind: 'markdown',
         value: dedent`
             \`\`\`css
-            @layer base, theme, preset, styles, normal;
             @layer styles {
               .btn {
                 display: inline-block

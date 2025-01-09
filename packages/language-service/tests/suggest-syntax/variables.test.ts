@@ -14,7 +14,6 @@ describe.concurrent('scope', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    @layer base, theme, preset, styles, normal;
                     @layer theme {
                       .light,
                       :root {
@@ -50,7 +49,6 @@ describe.concurrent('scope', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    @layer base, theme, preset, styles, normal;
                     @layer normal {
                       .box\\:content {
                         box-sizing: content-box
@@ -80,7 +78,6 @@ describe.concurrent('scope and global', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    @layer base, theme, preset, styles, normal;
                     @layer theme {
                       .light,
                       :root {
@@ -115,7 +112,6 @@ describe.concurrent('scope and global', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    @layer base, theme, preset, styles, normal;
                     @layer theme {
                       .light,
                       :root {

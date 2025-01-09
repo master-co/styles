@@ -9,7 +9,6 @@ test.concurrent('info', () => expect(hint('b')?.find(({ label }) => label === 'b
         kind: 'markdown',
         value: dedent`
             \`\`\`css
-            @layer base, theme, preset, styles, normal;
             @layer normal {
               .block {
                 display: block
