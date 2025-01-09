@@ -26,8 +26,11 @@ describe.concurrent('detail and documentation', () => {
             kind: 'markdown',
             value: dedent`
                     \`\`\`css
-                    .font\\:sans {
-                      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji
+                    @layer base, theme, preset, styles, normal;
+                    @layer normal {
+                      .font\\:sans {
+                        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji
+                      }
                     }
                     \`\`\`
 
@@ -50,8 +53,11 @@ describe.concurrent('detail and documentation', () => {
             kind: 'markdown',
             value: dedent`
                     \`\`\`css
-                    .font-style\\:italic {
-                      font-style: italic
+                    @layer base, theme, preset, styles, normal;
+                    @layer normal {
+                      .font-style\\:italic {
+                        font-style: italic
+                      }
                     }
                     \`\`\`
 
@@ -74,8 +80,11 @@ describe.concurrent('retype on no hints', () => {
             kind: 'markdown',
             value: dedent`
                     \`\`\`css
-                    .d\\:block {
-                      display: block
+                    @layer base, theme, preset, styles, normal;
+                    @layer normal {
+                      .d\\:block {
+                        display: block
+                      }
                     }
                     \`\`\`
 

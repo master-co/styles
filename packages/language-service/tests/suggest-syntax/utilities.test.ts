@@ -9,8 +9,11 @@ test.concurrent('info', () => expect(hint('b')?.find(({ label }) => label === 'b
         kind: 'markdown',
         value: dedent`
             \`\`\`css
-            .block {
-              display: block
+            @layer base, theme, preset, styles, normal;
+            @layer normal {
+              .block {
+                display: block
+              }
             }
             \`\`\`
 

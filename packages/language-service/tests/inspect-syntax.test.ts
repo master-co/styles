@@ -21,8 +21,11 @@ test.concurrent('text:center', async () => {
         'kind': 'markdown',
         'value': dedent`
             \`\`\`css
-            .text\\:center {
-              text-align: center
+            @layer base, theme, preset, styles, normal;
+            @layer normal {
+              .text\\:center {
+                text-align: center
+              }
             }
             \`\`\`
 
@@ -44,8 +47,11 @@ test.concurrent('hidden', async () => {
         'kind': 'markdown',
         'value': dedent`
             \`\`\`css
-            .hidden {
-              display: none
+            @layer base, theme, preset, styles, normal;
+            @layer normal {
+              .hidden {
+                display: none
+              }
             }
             \`\`\`
 

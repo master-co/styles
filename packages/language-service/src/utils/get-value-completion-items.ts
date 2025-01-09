@@ -1,6 +1,6 @@
 import { type CompletionItem, CompletionItemKind } from 'vscode-languageserver-protocol'
 import cssDataProvider from './css-data-provider'
-import { Layer, MasterCSS, Variable, generateCSS, isCoreRule } from '@master/css'
+import { Layer, MasterCSS, SyntaxType, Variable, generateCSS, isCoreRule } from '@master/css'
 import { getCSSDataDocumentation } from './get-css-data-documentation'
 import sortCompletionItems from './sort-completion-items'
 import type { IValueData } from 'vscode-css-languageservice'
@@ -13,7 +13,7 @@ const GLOBAL_VARIABLE_PRIORITY = 'zzzz'
 export default function getValueCompletionItems(css: MasterCSS = new MasterCSS(), ruleKey: string): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
-    const nativeKey = css.Rules.find(({ keys }) => keys.includes(ruleKey))?.id
+    const nativeKey = css.syntaxes.find(({ keys }) => keys.includes(ruleKey))?.id
     const nativePropertyData = nativeProperties.find(({ name }) => name === nativeKey)
     const generateVariableCompletionItem = (variable: Variable, { scoped } = { scoped: false }): CompletionItem | undefined => {
         const eachNativePropertyData = nativeProperties.find((x: { name: string }) => x.name === variable.group) || nativePropertyData
@@ -73,15 +73,15 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
         return completionItem
     }
 
-    for (const EachRule of css.Rules) {
+    for (const eachSyntax of css.syntaxes) {
         /**
          * Scoped variables
          * @example box: + content -> box-sizing:content
          */
-        if (EachRule.definition.key === ruleKey || EachRule.definition.subkey === ruleKey || EachRule.definition.ambiguousKeys?.includes(ruleKey)) {
-            for (const variableName in EachRule.variables) {
+        if (eachSyntax.definition.key === ruleKey || eachSyntax.definition.subkey === ruleKey || eachSyntax.definition.ambiguousKeys?.includes(ruleKey)) {
+            for (const variableName in eachSyntax.variables) {
                 if (completionItems.find(({ label }) => label === variableName)) continue
-                const variable = EachRule.variables[variableName]
+                const variable = eachSyntax.variables[variableName]
                 const completionItem = generateVariableCompletionItem(variable, { scoped: true })
                 if (completionItem) {
                     completionItem.label = variableName
@@ -95,17 +95,17 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
         /**
          * @example animation:fade
          */
-        if (EachRule.keys.includes(ruleKey) && EachRule.definition.includeAnimations) {
+        if (eachSyntax.keys.includes(ruleKey) && eachSyntax.definition.includeAnimations) {
             for (const animationName in css.animations) {
-                const isNative = EachRule.definition.layer && [Layer.Native, Layer.NativeShorthand].includes(EachRule.definition.layer)
+                const isNative = eachSyntax.definition.type && [SyntaxType.Native, SyntaxType.NativeShorthand].includes(eachSyntax.definition.type)
                 completionItems.push({
                     label: animationName,
                     kind: CompletionItemKind.Value,
                     documentation: getCSSDataDocumentation(undefined, {
                         generatedCSS: generateCSS([ruleKey + ':' + animationName], css),
-                        docs: '/reference/' + isCoreRule(EachRule.id) && EachRule.id
+                        docs: '/reference/' + isCoreRule(eachSyntax.id) && eachSyntax.id
                     }),
-                    detail: isNative ? EachRule.id + ': ' + animationName : animationName
+                    detail: isNative ? eachSyntax.id + ': ' + animationName : animationName
                 })
             }
         }
@@ -115,12 +115,12 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
          * @example text: -> center, left, right, justify
          * @example t: -> center, left, right, justify
          */
-        if (EachRule.definition.ambiguousKeys?.includes(ruleKey) && EachRule.definition.ambiguousValues?.length) {
-            const nativePropertyData = nativeProperties.find((x: { name: string }) => x.name === EachRule.id)
-            for (const ambiguousValue of EachRule.definition.ambiguousValues) {
+        if (eachSyntax.definition.ambiguousKeys?.includes(ruleKey) && eachSyntax.definition.ambiguousValues?.length) {
+            const nativePropertyData = nativeProperties.find((x: { name: string }) => x.name === eachSyntax.id)
+            for (const ambiguousValue of eachSyntax.definition.ambiguousValues) {
                 if (typeof ambiguousValue !== 'string') continue
                 const nativeValueData = nativePropertyData?.values?.find((x: { name: string }) => x.name === ambiguousValue)
-                const isNative = EachRule.definition.layer && [Layer.Native, Layer.NativeShorthand].includes(EachRule.definition.layer)
+                const isNative = eachSyntax.definition.type && [SyntaxType.Native, SyntaxType.NativeShorthand].includes(eachSyntax.definition.type)
                 completionItems.push({
                     label: ambiguousValue,
                     kind: CompletionItemKind.Value,
@@ -131,9 +131,9 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                         references: nativePropertyData?.references
                     }, {
                         generatedCSS: generateCSS([ruleKey + ':' + ambiguousValue], css),
-                        docs: '/reference/' + isCoreRule(EachRule.id) && EachRule.id
+                        docs: '/reference/' + isCoreRule(eachSyntax.id) && eachSyntax.id
                     }),
-                    detail: isNative ? EachRule.id + ': ' + ambiguousValue : ambiguousValue
+                    detail: isNative ? eachSyntax.id + ': ' + ambiguousValue : ambiguousValue
                 })
             }
         }

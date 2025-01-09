@@ -26,7 +26,7 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
             field = field.slice(1)
         }
     }
-    const signs = css.Rules
+    const signs = css.syntaxes
         .filter(({ definition }) => definition.sign)
         .map(({ definition }) => definition.sign)
     const keyMatch = field.match(new RegExp(`^[^${signs}'":\\s]+:`))

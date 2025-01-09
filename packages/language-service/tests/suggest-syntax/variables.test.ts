@@ -14,15 +14,20 @@ describe.concurrent('scope', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    .light,
-                    :root {
-                      --text-blue: 37 99 253
+                    @layer base, theme, preset, styles, normal;
+                    @layer theme {
+                      .light,
+                      :root {
+                        --text-blue: 37 99 253
+                      }
+                      .dark {
+                        --text-blue: 112 176 255
+                      }
                     }
-                    .dark {
-                      --text-blue: 112 176 255
-                    }
-                    .fg\\:blue {
-                      color: rgb(var(--text-blue))
+                    @layer normal {
+                      .fg\\:blue {
+                        color: rgb(var(--text-blue))
+                      }
                     }
                     \`\`\`
 
@@ -45,8 +50,11 @@ describe.concurrent('scope', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    .box\\:content {
-                      box-sizing: content-box
+                    @layer base, theme, preset, styles, normal;
+                    @layer normal {
+                      .box\\:content {
+                        box-sizing: content-box
+                      }
                     }
                     \`\`\`
 
@@ -72,15 +80,20 @@ describe.concurrent('scope and global', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    .light,
-                    :root {
-                      --text-blue: 37 99 253
+                    @layer base, theme, preset, styles, normal;
+                    @layer theme {
+                      .light,
+                      :root {
+                        --text-blue: 37 99 253
+                      }
+                      .dark {
+                        --text-blue: 112 176 255
+                      }
                     }
-                    .dark {
-                      --text-blue: 112 176 255
-                    }
-                    .fg\\:blue {
-                      color: rgb(var(--text-blue))
+                    @layer normal {
+                      .fg\\:blue {
+                        color: rgb(var(--text-blue))
+                      }
                     }
                     \`\`\`
 
@@ -102,15 +115,20 @@ describe.concurrent('scope and global', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    .light,
-                    :root {
-                      --blue: 37 99 253
+                    @layer base, theme, preset, styles, normal;
+                    @layer theme {
+                      .light,
+                      :root {
+                        --blue: 37 99 253
+                      }
+                      .dark {
+                        --blue: 58 124 255
+                      }
                     }
-                    .dark {
-                      --blue: 58 124 255
-                    }
-                    .fg\\:\\$\\(blue\\) {
-                      color: rgb(var(--blue))
+                    @layer normal {
+                      .fg\\:\\$\\(blue\\) {
+                        color: rgb(var(--blue))
+                      }
                     }
                     \`\`\`
 

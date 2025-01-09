@@ -1,10 +1,10 @@
-import { Layer, RegisteredRule } from '@master/css'
+import { Layer, RegisteredSyntax } from '@master/css'
 import cssDataProvider from './css-data-provider'
 import type { IPropertyData } from 'vscode-css-languageservice'
 
-export default function getUtilityInfo(EachRule: RegisteredRule, css = new MasterCSS()) {
+export default function getUtilityInfo(syntax: RegisteredSyntax, css = new MasterCSS()) {
     const nativeProperties = cssDataProvider.provideProperties()
-    const declarations = EachRule.definition.declarations
+    const declarations = syntax.definition.declarations
     const propsLength = Object.keys(declarations || {}).length
     const propName = Object.keys(declarations || {})[0] as keyof typeof declarations
     const propValue = declarations?.[propName]

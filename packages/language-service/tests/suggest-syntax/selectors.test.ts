@@ -32,8 +32,11 @@ describe.concurrent('pseudo-class', () => {
             'kind': 'markdown',
             'value': dedent`
                 \`\`\`css
-                .block\\:first:first-child {
-                  display: block
+                @layer base, theme, preset, styles, normal;
+                @layer normal {
+                  .block\\:first:first-child {
+                    display: block
+                  }
                 }
                 \`\`\`
 
@@ -79,8 +82,11 @@ describe.concurrent('pseudo-element', () => {
         'documentation': {
             'kind': 'markdown',
             'value': dedent`\`\`\`css
-                .block\\:\\:placeholder::placeholder {
-                  display: block
+                @layer base, theme, preset, styles, normal;
+                @layer normal {
+                  .block\\:\\:placeholder::placeholder {
+                    display: block
+                  }
                 }
                 \`\`\`
 
