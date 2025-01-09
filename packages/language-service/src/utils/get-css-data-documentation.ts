@@ -12,7 +12,11 @@ export function getCSSDataDocumentation(data?: IPropertyData | IValueData, addit
         values.push(getEntryStatus(data.status))
     }
     if (additional?.generatedCSS) {
-        values.push('```css\n' + beautifyCSS(additional.generatedCSS) + '\n```')
+        values.push(
+            '```css\n'
+            + beautifyCSS(additional.generatedCSS).split('\n').slice(1).join('\n')
+            + '\n```'
+        )
     }
     if (data?.description)
         if (typeof data.description === 'string') {
