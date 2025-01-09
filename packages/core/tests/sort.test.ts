@@ -4,7 +4,7 @@ import shuffle from 'shuffle-array'
 
 /** [':disabled', ':active', ':focus', ':hover'] */
 it.concurrent('checks the ordering of state selectors', () => {
-    expect(new MasterCSS().add('block:disabled', 'block:hover', 'block:active', 'block:focus').normalLayer.rules)
+    expect(new MasterCSS().add('block:disabled', 'block:hover', 'block:active', 'block:focus').generalLayer.rules)
         .toMatchObject([
             { name: 'block:hover' },
             { name: 'block:focus' },
@@ -52,7 +52,7 @@ it.concurrent('checks the ordering of state selectors, and @media', () => {
     ]
 
     for (let i = 0; i < 10; i++) {
-        expect(new MasterCSS().add(...shuffle([...expected.map((({ name }) => name))])).normalLayer.rules)
+        expect(new MasterCSS().add(...shuffle([...expected.map((({ name }) => name))])).generalLayer.rules)
             .toMatchObject(expected)
     }
 })

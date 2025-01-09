@@ -18,7 +18,7 @@ test.concurrent('styles', () => {
 test.concurrent('viewports', () => {
     expectLayers(
         {
-            normal: '@media (min-width:500px){.hidden\\@xss{display:none}}'
+            general: '@media (min-width:500px){.hidden\\@xss{display:none}}'
         },
         'hidden@xss',
         {
@@ -32,7 +32,7 @@ test.concurrent('viewports', () => {
 test.concurrent('colors', () => {
     expectLayers(
         {
-            normal: '.fg\\:newColor{color:rgb(99 105 124)}'
+            general: '.fg\\:newColor{color:rgb(99 105 124)}'
         },
         'fg:newColor',
         {
@@ -51,7 +51,7 @@ test.concurrent('colors', () => {
 test.concurrent('at', () => {
     expectLayers(
         {
-            normal: '@media (min-width: 600px){.f\\:12\\@min-600{font-size:0.75rem}}'
+            general: '@media (min-width: 600px){.f\\:12\\@min-600{font-size:0.75rem}}'
         },
         'f:12@min-600',
         {
@@ -65,7 +65,7 @@ test.concurrent('at', () => {
 test.concurrent('animations', () => {
     expectLayers(
         {
-            normal: '.\\@float\\|\\.5s{animation:float .5s}',
+            general: '.\\@float\\|\\.5s{animation:float .5s}',
             animations: '@keyframes float{0%{transform:none}50%{transform:translateY(-1.25rem)}to{transform:none}}'
         },
         '@float|.5s',

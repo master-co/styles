@@ -30,18 +30,18 @@ export default class MasterCSS {
     readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
-    readonly layerStatementRule = new Rule('layer-statement', this, [{ text: '@layer base,theme,preset,styles,normal;' }])
+    readonly layerStatementRule = new Rule('layer-statement', this, [{ text: '@layer base,theme,preset,styles,general;' }])
     readonly rules: (Layer | Rule)[] = [this.layerStatementRule]
     readonly animationsLayer = new AnonymousLayer(this)
     readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
-    readonly normalLayer = new SyntaxLayer('normal', this)
+    readonly generalLayer = new SyntaxLayer('general', this)
 
     get text() {
         return this.rules
             .sort((a, b) => {
-                const order = ['layer-statement', 'base', 'theme', 'preset', 'styles', 'normal']
+                const order = ['layer-statement', 'base', 'theme', 'preset', 'styles', 'general']
                 const indexA = order.indexOf(a.name) === -1 ? Infinity : order.indexOf(a.name)
                 const indexB = order.indexOf(b.name) === -1 ? Infinity : order.indexOf(b.name)
                 return indexA - indexB
@@ -533,7 +533,7 @@ export default class MasterCSS {
      * @returns SyntaxRule
      */
     create(className: string, fixedClass?: string, mode?: string): SyntaxRule | undefined {
-        const syntaxRule = this.normalLayer.rules.find(({ key }) => key === ((fixedClass ? fixedClass + ' ' : '') + className))
+        const syntaxRule = this.generalLayer.rules.find(({ key }) => key === ((fixedClass ? fixedClass + ' ' : '') + className))
         if (syntaxRule) return syntaxRule
         const registeredRule = this.match(className)
         if (registeredRule) return new SyntaxRule(className, this, registeredRule, fixedClass, mode)
@@ -565,7 +565,7 @@ export default class MasterCSS {
     }
 
     reset() {
-        this.normalLayer.reset()
+        this.generalLayer.reset()
         this.stylesLayer.reset()
         this.presetLayer.reset()
         this.themeLayer.reset()
@@ -609,10 +609,10 @@ export default class MasterCSS {
                             this.stylesLayer.delete(eachSyntax + atToken + ' ' + className)
                         }
                     } else {
-                        this.normalLayer.delete(className)
+                        this.generalLayer.delete(className)
                     }
                 } else {
-                    this.normalLayer.delete(className)
+                    this.generalLayer.delete(className)
                 }
             }
         }

@@ -10,14 +10,14 @@ test.concurrent('utility', () => {
     const css = new MasterCSS()
     css.add('text:center')
     expect(css.text).toContain(css.layerStatementRule.text)
-    expect(css.text).toContain('@layer normal{.text\\:center{text-align:center}}')
+    expect(css.text).toContain('@layer general{.text\\:center{text-align:center}}')
 })
 
 test.concurrent('theme', () => {
     const css = new MasterCSS()
     css.add('fg:blue')
     expect(css.text).toContain(css.layerStatementRule.text)
-    expect(css.text).toContain('@layer normal{.fg\\:blue{color:rgb(var(--text-blue))}}')
+    expect(css.text).toContain('@layer general{.fg\\:blue{color:rgb(var(--text-blue))}}')
     expect(css.text).toContain('@layer theme{.light,:root{--text-blue:37 99 253}.dark{--text-blue:112 176 255}}')
 })
 
@@ -25,7 +25,7 @@ test.concurrent('manipulate', () => {
     const css = new MasterCSS({ styles: { 'btn': 'block' } })
     expect(css.text).toContain(css.layerStatementRule.text)
     css.add('text:center', 'font:bold')
-    expect(css.text).toContain('@layer normal{.font\\:bold{font-weight:700}.text\\:center{text-align:center}}')
+    expect(css.text).toContain('@layer general{.font\\:bold{font-weight:700}.text\\:center{text-align:center}}')
     css.add('btn')
     expect(css.text).toContain('@layer styles{.btn{display:block}')
     css.remove('text:center', 'font:bold', 'btn')

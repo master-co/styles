@@ -23,7 +23,7 @@ describe.concurrent('scope', () => {
                         --text-blue: 112 176 255
                       }
                     }
-                    @layer normal {
+                    @layer general {
                       .fg\\:blue {
                         color: rgb(var(--text-blue))
                       }
@@ -49,7 +49,7 @@ describe.concurrent('scope', () => {
             'kind': 'markdown',
             'value': dedent`
                     \`\`\`css
-                    @layer normal {
+                    @layer general {
                       .box\\:content {
                         box-sizing: content-box
                       }
@@ -87,7 +87,7 @@ describe.concurrent('scope and global', () => {
                         --text-blue: 112 176 255
                       }
                     }
-                    @layer normal {
+                    @layer general {
                       .fg\\:blue {
                         color: rgb(var(--text-blue))
                       }
@@ -121,7 +121,7 @@ describe.concurrent('scope and global', () => {
                         --blue: 58 124 255
                       }
                     }
-                    @layer normal {
+                    @layer general {
                       .fg\\:\\$\\(blue\\) {
                         color: rgb(var(--blue))
                       }

@@ -8,7 +8,7 @@ it.concurrent('validates gap syntaxes', () => {
 })
 
 it.concurrent('checks gap order', () => {
-    expect(new MasterCSS().add('gap-x:16', 'gap:16', 'gap-y:16').normalLayer.rules)
+    expect(new MasterCSS().add('gap-x:16', 'gap:16', 'gap-y:16').generalLayer.rules)
         .toMatchObject([
             { name: 'gap:16' },
             { name: 'gap-x:16' },

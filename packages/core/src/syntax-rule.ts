@@ -28,7 +28,7 @@ export class SyntaxRule extends Rule {
     ) {
         super(name, css)
         this.mode = mode as string
-        this.layer = css.normalLayer
+        this.layer = css.generalLayer
         Object.assign(this, registeredSyntax)
         const { id, definition } = registeredSyntax
         const { analyze, transformValue, declare, transformValueComponents, create, type, unit } = definition

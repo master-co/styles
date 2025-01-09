@@ -6,7 +6,7 @@ test.concurrent('modes', () => {
     expectLayers(
         {
             theme: '.dark{--fade:51 51 51}',
-            normal: '.\\{block\\;fg\\:fade\\}_\\:where\\(p\\)_code\\:before :where(p) code:before{display:block;color:rgb(var(--fade))}'
+            general: '.\\{block\\;fg\\:fade\\}_\\:where\\(p\\)_code\\:before :where(p) code:before{display:block;color:rgb(var(--fade))}'
         },
         '{block;fg:fade}_:where(p)_code:before',
         {

@@ -30,7 +30,7 @@ test.concurrent('autofill solid', () => {
     expectLayers(
         {
             theme: '.light,:root{--line:solid}.dark{--line:dotted}',
-            normal: '.outline\\:16\\|line{outline:1rem var(--line) solid}'
+            general: '.outline\\:16\\|line{outline:1rem var(--line) solid}'
         },
         'outline:16|line',
         {

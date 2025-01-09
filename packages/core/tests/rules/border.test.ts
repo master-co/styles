@@ -54,7 +54,7 @@ it.concurrent('validates border syntaxes', () => {
 })
 
 it.concurrent('checks border order', () => {
-    expect(new MasterCSS().add('bt:1|solid', 'b:1|solid', 'br:1|solid').normalLayer.rules)
+    expect(new MasterCSS().add('bt:1|solid', 'b:1|solid', 'br:1|solid').generalLayer.rules)
         .toMatchObject([
             { name: 'b:1|solid' },
             { name: 'br:1|solid' },
@@ -71,7 +71,7 @@ test.concurrent('autofill solid', () => {
     expectLayers(
         {
             theme: '.light,:root{--line:solid}.dark{--line:dotted}',
-            normal: '.border\\:16\\|line{border:1rem var(--line) solid}'
+            general: '.border\\:16\\|line{border:1rem var(--line) solid}'
         },
         'border:16|line',
         {
@@ -84,7 +84,7 @@ test.concurrent('autofill solid', () => {
     expectLayers(
         {
             theme: '.light,:root{--line:solid}.dark{--line:dotted}',
-            normal: '.border\\:16\\|line{border:1rem var(--line) solid}'
+            general: '.border\\:16\\|line{border:1rem var(--line) solid}'
         },
         'border:16|line',
         {

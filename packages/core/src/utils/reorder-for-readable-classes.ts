@@ -9,7 +9,7 @@ import MasterCSS from '../core'
  */
 export default function reorderForReadableClasses(classes: string[], css = new MasterCSS()) {
     css.add(...classes)
-    const orderedClasses = css.normalLayer.rules
+    const orderedClasses = css.generalLayer.rules
         // 只保留樣式語法相關的 syntaxes, 排除 keyframes 與 variables 在外
         .filter(eachRule => eachRule.type)
         .sort((a, b) => {

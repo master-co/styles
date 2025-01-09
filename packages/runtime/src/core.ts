@@ -237,7 +237,7 @@ export class RuntimeCSS extends MasterCSS {
                             if (this.stylesLayer.rules.length) this.rules.push(this.stylesLayer)
                             break
                         case 'utility':
-                            handleSyntaxLayer(this.normalLayer)
+                            handleSyntaxLayer(this.generalLayer)
                             break
                         case 'preset':
                             handleSyntaxLayer(this.presetLayer)
