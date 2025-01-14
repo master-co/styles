@@ -1,3 +1,27 @@
+## Installation [sr-only]
+
+We provide a **~600B** lightweight CSS package, [@master/normal.css](https://github.com/master-co/normal.css), is similar to [modern-normalize](https://github.com/sindresorhus/modern-normalize) and [normalize.css](https://github.com/necolas/normalize.css) you are familiar with but better:
+
+- Keep element styles consistent across browsers.
+- Remove browser default styles for a better start.
+- Support responsive media and better text rendering.
+- [and more...](/reference/normal-css#consistency)
+
+```install
+@master/normal.css
+```
+Just import it into your global CSS file.
+```css
+@import '@master/normal.css';
+```
+Or copy-paste the CDN
+```html
+<link href="https://cdn.master.co/normal.css" rel="stylesheet">
+```
+On-demand:
+<Code lang="css">
+    {require('@master/normal.css/src/index.css?text').default?.replace(/(..\/)\b/g, '@master/normal.css/')}
+</Code>
 
 ---
 
