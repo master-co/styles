@@ -33,6 +33,7 @@ export default class MasterCSS {
     readonly layerStatementRule = new Rule('layer-statement', this, [{ text: '@layer base,theme,preset,styles,general;' }])
     readonly rules: (Layer | Rule)[] = [this.layerStatementRule]
     readonly animationsLayer = new AnonymousLayer(this)
+    readonly baseLayer = new Layer('base', this)
     readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
@@ -565,6 +566,7 @@ export default class MasterCSS {
     }
 
     reset() {
+        this.baseLayer.reset()
         this.generalLayer.reset()
         this.stylesLayer.reset()
         this.presetLayer.reset()

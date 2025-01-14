@@ -234,7 +234,10 @@ export class SyntaxRule extends Rule {
             const atToken = stateTokens[i]
             this.atToken = (this.atToken || '') + '@' + atToken
             if (atToken) {
-                if (atToken === 'preset') {
+                if (atToken === 'base') {
+                    this.layer = css.baseLayer
+                    continue
+                } else if (atToken === 'preset') {
                     this.layer = css.presetLayer
                     continue
                 } else if (atToken === 'rtl' || atToken === 'ltr') {
