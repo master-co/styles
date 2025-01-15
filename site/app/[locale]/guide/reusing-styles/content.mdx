@@ -48,18 +48,18 @@ To apply the button sizes.
 ```
 To apply the button sizes that are finely tuned for rounded styles.
 <Demo className="gap:8x">
-    <button className="btn btn-xs rounded! yellow touch-yellow">Submit</button>
-    <button className="btn btn-sm rounded! yellow touch-yellow">Submit</button>
-    <button className="btn btn-md rounded! yellow touch-yellow">Submit</button>
-    <button className="btn btn-lg rounded! yellow touch-yellow">Submit</button>
-    <button className="btn btn-xl rounded! yellow touch-yellow">Submit</button>
+    <button className="btn btn-rounded-xs yellow touch-yellow">Submit</button>
+    <button className="btn btn-rounded-sm yellow touch-yellow">Submit</button>
+    <button className="btn btn-rounded-md yellow touch-yellow">Submit</button>
+    <button className="btn btn-rounded-lg yellow touch-yellow">Submit</button>
+    <button className="btn btn-rounded-xl yellow touch-yellow">Submit</button>
 </Demo>
 ```html
-<button class="btn btn-xs **rounded** …">Submit</button>
-<button class="btn btn-sm **rounded** …">Submit</button>
-<button class="btn btn-md **rounded** …">Submit</button>
-<button class="btn btn-lg **rounded** …">Submit</button>
-<button class="btn btn-xl **rounded** …">Submit</button>
+<button class="btn **btn-rounded-xs** …">Submit</button>
+<button class="btn **btn-rounded-sm** …">Submit</button>
+<button class="btn **btn-rounded-md** …">Submit</button>
+<button class="btn **btn-rounded-lg** …">Submit</button>
+<button class="btn **btn-rounded-xl** …">Submit</button>
 ```
 To design a scalable style, you should ensure the single responsibility of class composition; otherwise, you may end up using a lot of `!important` to override rules or the `@preset` layer to lower default styles, ultimately leading to chaotic styles.
 
