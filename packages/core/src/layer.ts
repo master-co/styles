@@ -3,9 +3,9 @@ import MasterCSS from './core'
 import findNativeCSSRuleIndex from 'shared/utils/find-native-css-rule-index'
 
 export default class Layer {
-    readonly rules: (Rule | Layer)[] = []
+    readonly rules: Rule[] = []
     readonly usages: Record<string, number> = {}
-    native?: CSSLayerBlockRule
+    native: CSSLayerBlockRule | null = null
 
     constructor(
         public name: string,
@@ -15,11 +15,11 @@ export default class Layer {
     insert(rule: Rule, index?: number) {
         if (this.rules.includes(rule)) return
 
-        if (this.name && !this.css.rules.includes(this)) {
+        if (!this.css.rules.includes(this)) {
             this.css.rules.push(this)
             const nativeSheet = this.css.style?.sheet
             if (nativeSheet && !this.native) {
-                const insertedIndex = nativeSheet.insertRule(this.text)
+                const insertedIndex = nativeSheet.insertRule(this.text, nativeSheet.cssRules.length)
                 this.native = nativeSheet.cssRules.item(insertedIndex) as CSSLayerBlockRule
             }
         }
@@ -33,22 +33,11 @@ export default class Layer {
             const lastCssRule = (function getLastCssRule(layer: Layer, index: number) {
                 let lastCssRule: any
                 const previouRule = layer.rules[index]
-                if (previouRule) {
-                    if ('nodes' in previouRule) {
-                        if (!previouRule.nodes.length)
-                            return getLastCssRule(layer, index - 1)
-
-                        const lastNativeRule = previouRule.nodes[previouRule.nodes.length - 1]
-                        lastCssRule = lastNativeRule.native
-                    } else {
-                        if (previouRule.name) {
-                            lastCssRule = previouRule.native
-                        } else {
-                            lastCssRule = getLastCssRule(previouRule, previouRule.rules.length - 1)
-                            if (!lastCssRule)
-                                return getLastCssRule(layer, index - 1)
-                        }
-                    }
+                if (previouRule && 'nodes' in previouRule) {
+                    if (!previouRule.nodes.length)
+                        return getLastCssRule(layer, index - 1)
+                    const lastNativeRule = previouRule.nodes[previouRule.nodes.length - 1]
+                    lastCssRule = lastNativeRule.native
                 }
                 return lastCssRule
             })(this, index as number - 1)
@@ -81,7 +70,7 @@ export default class Layer {
     delete(key: string) {
         const rule = this.rules.find((rule) => (rule as Rule).key === key)
         if (!rule) return
-        if (this.name && this.rules.length === 1) {
+        if (this.rules.length === 1) {
             const indexOfLayer = this.css.rules.indexOf(this)
             this.css.rules.splice(indexOfLayer, 1)
             const nativeSheet = this.css.style?.sheet
@@ -93,19 +82,11 @@ export default class Layer {
             }
         }
 
-        if (this.native) {
-            if ('nodes' in rule) {
-                const firstNode = rule.nodes[0]
-                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNode.native!)
-                if (foundIndex !== -1) {
-                    rule.nodes.forEach(() => this.native?.deleteRule(foundIndex))
-                }
-            } else if (rule.native) {
-                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, rule.native)
-                if (foundIndex !== -1) {
-                    this.native.deleteRule(foundIndex)
-                    rule.native = undefined
-                }
+        if (this.native && 'nodes' in rule) {
+            const firstNode = rule.nodes[0]
+            const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNode.native!)
+            if (foundIndex !== -1) {
+                rule.nodes.forEach(() => this.native?.deleteRule(foundIndex))
             }
         }
 
@@ -115,10 +96,14 @@ export default class Layer {
 
     reset() {
         this.rules.length = 0
+        const indexOfLayer = this.css.rules.indexOf(this)
+        if (indexOfLayer !== -1) {
+            this.css.rules.splice(indexOfLayer, 1)
+        }
         // @ts-expect-error
         this.usages = {}
         if (this.native) {
-            this.native = undefined
+            this.native = null
         }
     }
 

@@ -29,11 +29,6 @@ export class RuntimeCSS extends MasterCSS {
         runtimeCSSs.push(this)
     }
 
-    private attachNativeRules() {
-        this.layerStatementRule.nodes[0].native = this.style.sheet!.cssRules.item(0) as CSSLayerStatementRule
-        this.animationsLayer.native = this.style.sheet!
-    }
-
     /**
      * Observe the DOM for changes and update the running stylesheet. (browser only)
      * @param options mutation observer options
@@ -45,17 +40,15 @@ export class RuntimeCSS extends MasterCSS {
             for (const sheet of this.root.styleSheets) {
                 const { ownerNode } = sheet
                 if (ownerNode && (ownerNode as HTMLStyleElement).id === 'master') {
-                    // @ts-ignore
-                    this.style = ownerNode
+                    this.style = ownerNode as HTMLStyleElement
                     // @ts-ignore
                     this.progressive = true
                     break
                 }
             }
         if (this.progressive) {
-            this.attachNativeRules()
-            for (let i = 0; i < this.style.sheet!.cssRules.length; i++) {
-                const eachCSSRule = this.style.sheet!.cssRules[i]
+            for (let i = 0; i < this.style!.sheet!.cssRules.length; i++) {
+                const eachCSSRule = this.style!.sheet!.cssRules[i]
                 if (eachCSSRule.constructor.name === 'CSSLayerBlockRule') {
                     const cssLayerBlockRule = eachCSSRule as CSSLayerBlockRule
                     const handleSyntaxLayer = (layer: SyntaxLayer) => {
@@ -107,7 +100,7 @@ export class RuntimeCSS extends MasterCSS {
                                 if (!layer.rules.includes(syntaxRule)) {
                                     layer.rules.push(syntaxRule)
                                     this.themeLayer.insert(syntaxRule)
-                                    this.animationsLayer.insert(syntaxRule)
+                                    this.animationsNonLayer.insert(syntaxRule)
                                     syntaxRule.definition.insert?.call(syntaxRule)
                                 }
                                 for (const eachNode of syntaxRule.nodes) {
@@ -130,6 +123,9 @@ export class RuntimeCSS extends MasterCSS {
                         if (layer.rules.length) this.rules.push(layer)
                     }
                     switch (cssLayerBlockRule.name) {
+                        case 'base':
+                            handleSyntaxLayer(this.baseLayer)
+                            break
                         case 'theme':
                             this.themeLayer.native = cssLayerBlockRule
                             let variableRule: Rule | undefined
@@ -153,7 +149,10 @@ export class RuntimeCSS extends MasterCSS {
                             }
                             if (this.themeLayer.rules.length) this.rules.push(this.themeLayer)
                             break
-                        case 'style':
+                        case 'preset':
+                            handleSyntaxLayer(this.presetLayer)
+                            break
+                        case 'styles':
                             this.stylesLayer.native = cssLayerBlockRule
                             let stylePreText: string
                             for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
@@ -213,7 +212,7 @@ export class RuntimeCSS extends MasterCSS {
                                                 if (!this.stylesLayer.rules.includes(eachSyntaxRule)) {
                                                     this.stylesLayer.rules.push(eachSyntaxRule)
                                                     this.themeLayer.insert(eachSyntaxRule)
-                                                    this.animationsLayer.insert(eachSyntaxRule)
+                                                    this.animationsNonLayer.insert(eachSyntaxRule)
                                                     eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
                                                 }
                                                 matched = true
@@ -236,11 +235,8 @@ export class RuntimeCSS extends MasterCSS {
                             }
                             if (this.stylesLayer.rules.length) this.rules.push(this.stylesLayer)
                             break
-                        case 'utility':
+                        case 'general':
                             handleSyntaxLayer(this.generalLayer)
-                            break
-                        case 'preset':
-                            handleSyntaxLayer(this.presetLayer)
                             break
                     }
                 } else if (eachCSSRule.constructor.name === 'CSSLayerStatementRule') {
@@ -255,8 +251,8 @@ export class RuntimeCSS extends MasterCSS {
                             text: keyframsRule.cssText
                         }]
                     )
-                    this.animationsLayer.rules.push(animationRule)
-                    this.animationsLayer.usages[animationRule.name] = 0
+                    this.animationsNonLayer.rules.push(animationRule)
+                    this.animationsNonLayer.usages[animationRule.name] = 0
                 }
             }
         } else {
@@ -264,7 +260,7 @@ export class RuntimeCSS extends MasterCSS {
             this.style.id = 'master'
             this.container.append(this.style)
             this.style.sheet!.insertRule(this.layerStatementRule.text)
-            this.attachNativeRules()
+            this.layerStatementRule.nodes[0].native = this.style!.sheet!.cssRules.item(0) as CSSLayerStatementRule
         }
 
         const handleClassList = (classList: DOMTokenList) => {
@@ -465,20 +461,17 @@ export class RuntimeCSS extends MasterCSS {
         this.classesUsage = {}
         if (!this.progressive) {
             this.style?.remove()
-            // @ts-ignore
             this.style = null
         }
         return this
     }
 
     refresh(customConfig = this.customConfig) {
-        if (!this.observing || !this.style.sheet) return this
-        for (let i = this.style.sheet.cssRules.length - 1; i >= 0; i--) {
-            this.style.sheet.deleteRule(i)
+        if (!this.observing || !this.style!.sheet) return this
+        for (let i = 1; i <= this.style!.sheet.cssRules.length - 1; i++) {
+            this.style!.sheet.deleteRule(i)
         }
         super.refresh(customConfig)
-        this.style.sheet!.insertRule(this.layerStatementRule.text)
-        this.attachNativeRules()
         return this
     }
 

@@ -11,7 +11,7 @@ import SyntaxLayer from './syntax-layer'
 import { Rule } from './rule'
 import SyntaxType from './syntax-type'
 import Layer from './layer'
-import AnonymousLayer from './anonymous-layer'
+import NonLayer from './non-layer'
 
 type VariableCommon = {
     group?: string,
@@ -32,8 +32,8 @@ export default class MasterCSS {
     readonly classesUsage: Record<string, number> = {}
     readonly layerStatementRule = new Rule('layer-statement', this, [{ text: '@layer base,theme,preset,styles,general;' }])
     readonly rules: (Layer | Rule)[] = [this.layerStatementRule]
-    readonly animationsLayer = new AnonymousLayer(this)
-    readonly baseLayer = new Layer('base', this)
+    readonly animationsNonLayer = new NonLayer(this)
+    readonly baseLayer = new SyntaxLayer('base', this)
     readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
     readonly stylesLayer = new SyntaxLayer('styles', this)
@@ -567,12 +567,12 @@ export default class MasterCSS {
 
     reset() {
         this.baseLayer.reset()
-        this.generalLayer.reset()
-        this.stylesLayer.reset()
-        this.presetLayer.reset()
         this.themeLayer.reset()
-        this.animationsLayer.reset()
-        this.rules.push(this.layerStatementRule)
+        this.presetLayer.reset()
+        this.stylesLayer.reset()
+        this.generalLayer.reset()
+        this.animationsNonLayer.reset()
+        console.log(this.generalLayer)
         return this
     }
 
@@ -624,7 +624,7 @@ export default class MasterCSS {
 export const masterCSSs: MasterCSS[] = []
 
 export default interface MasterCSS {
-    style: HTMLStyleElement
+    style: HTMLStyleElement | null
     styles: Record<string, string[]>
     selectors: Record<string, [RegExp, string[]][]>
     variables: Record<string, Variable>
