@@ -9,6 +9,6 @@ describe('ssr', async () => {
 
     it('renders the index page', async () => {
         const html = await $fetch('/')
-        expect(html).toContain('<style id="master">.flex,.box{display:flex}.font\\:1em,.box{font-size:1em}</style>')
+        expect(html).toContain('<style id="master">@layer base,theme,preset,styles,general;@layer styles{.box{display:flex;font-size:1em}}</style>')
     })
 })
