@@ -572,7 +572,6 @@ export default class MasterCSS {
         this.stylesLayer.reset()
         this.generalLayer.reset()
         this.animationsNonLayer.reset()
-        console.log(this.generalLayer)
         return this
     }
 
