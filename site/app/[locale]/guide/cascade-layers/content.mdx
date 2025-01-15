@@ -16,10 +16,6 @@ Generated CSS:
 - `css @layer general { … }` generates rules based on used general styles (`mcss flex`, `mcss @fade|1s`).
 - All keyframes rules are generated into the top-level.
 
-If styles conflict, the order of priority is: **General > Styles > Theme > Preset > Base**.
-
-By leveraging CSS cascade layers, you can structure your styles for better maintainability and prevent unwanted overrides.
-
 ---
 
 ## Adding base styles
@@ -52,7 +48,7 @@ Generated CSS:
 
 Without `@preset`, you would have to always add `css !important` whenever you customize the same CSS property for the selected element.
 
-(x) Don't add brand's preset styles to the base layer.
+(x) Don't add brand-related preset styles to the base layer.
 ```html
 <body class="**font:mono_:is(code,pre)@base**">…</body>
 ```
@@ -95,5 +91,23 @@ For example, set the default paragraph text size to `16` and change the text siz
 Generated CSS:
 <Code lang="css" beautify>{require('./tests/overriding-preset-styles/generated.css?text').default}</Code>
 
-
 This way, you can set preset styles for multiple targets at once while still being able to modify specific elements' styles as needed.
+
+---
+
+## Summary
+By leveraging CSS cascade layers, you can structure your styles for better maintainability and prevent unwanted overrides.
+
+If styles conflict, the order of priority is: **General > Styles > Theme > Preset > Base**.
+
+### Responsibilities
+1. Use `css @layer base {}` or `@base` for global resets and normalization.
+1. Use `css @layer preset {}` or `@preset` for brand-specific defaults.
+1. Other layers are automatically generated based on your syntax and configuration.
+
+### Principles
+1. Create base styles via CSS files and packages instead of defining a lot of `@base` syntax.
+1. Create preset styles based on base styles.
+1. Create component styles based on base and preset styles.
+
+
