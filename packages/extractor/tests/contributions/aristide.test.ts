@@ -77,28 +77,26 @@ test('AristideBH', async () => {
 	}
 </style>
         `)
-    expect(
-        Object.keys(extractor?.css.ruleBy || [])
-    ).toEqual([
-        'grid-row:1/2',
+    expect(extractor?.css.generalLayer.rules.map(({ name }) => name)).toEqual([
         'flex',
-        'flex:col',
-        'w:100%',
-        'aspect:16/9',
-        'obj:cover',
-        'bg:var(--code-background-color)',
-        'p:20',
         'sticky',
-        'top:0',
-        'z:10',
+        'bg:var(--primary)',
+        'bg:var(--code-background-color)',
+        'grid-row:1/2',
+        'p:20',
         '{p:1.5em;flex-basis:full;fg:white;text-decoration:none}>a',
-        't:center',
         'ai:center',
-        'jc:center',
-        'f:12',
-        'flex:row',
+        'aspect:16/9',
         'fg:white',
+        'flex:row',
+        'flex:col',
+        'f:12',
+        'jc:center',
+        'obj:cover',
+        't:center',
+        'top:0',
+        'w:100%',
+        'z:10',
         'text-decoration:none:hover',
-        'bg:var(--primary)'
     ])
 })
