@@ -1,22 +1,24 @@
-### Apply styles [sr-only]
+### Overview [sr-only]
+Traditionally, we define styles like `.btn` or `.card` by writing CSS rules. In Master CSS, we use `config.styles` to abstract and make them more flexible.
+<Code lang="js" name="master.css.js">{require('./tests/apply-styles/master.css.js?text').default}</Code>
 A style can be composed of multiple syntaxes, you can provide an abstract name for this set of classes and reuse it anywhere.
-```html
-<button class="btn btn-primary">Submit</button>
-```
 
-Traditionally, we define styles like `.btn` or `.card` by writing CSS rules. In Master CSS, we abstract them using [styles](/guide/styles).
-
-The UI is composed of 1 to 4:
-
-1. [Variables](/guide/variables) / [Animations](/guide/custom-animations) / [Functions](/reference/syntaxes#functions) / [Selectors](/reference/syntaxes#selectors) / [At](/reference/syntaxes#at-rules) / [Utilities](/reference/utilities)
-1. [Syntaxes](/guide/syntaxes#syntaxes)
-1. [Styles](/guide/styles)
-1. [Components](/guide/reusing-styles#componentization)
+(click) Try making the viewport width smaller
+<ResizeZone width="100%" originX="center" showRuler>
+    <IFrame src="/examples/responsive-button" height={138} />
+</ResizeZone>
+You can even conditionally apply abstract styles via at-rules and selectors:
+<Code lang="html">{require('./tests/apply-styles/template.html?text').default}</Code>
+<details>
+    <summary>Generated CSS</summary>
+    <div>
+        <Code lang="css" beautify>{require('./tests/apply-styles/generated.css?text').default}</Code>
+    </div>
+</details>
 
 ### Add a style
 Create an abstract style using Master CSS syntaxes.
 <Overview />
-Master CSS shares the same CSS declarations for `css .inline-flex, .btn { ... }` through a selector list. This structural arrangement enhances browser rendering and enables selectors or media queries to be applied within the `config.styles`.
 
 ### Add a style with states
 Create an abstract style with [state selectors](/guide/state-selectors) and [applying conditionally](/guide/applying-conditionally).
