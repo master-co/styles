@@ -90,13 +90,13 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
     <Step $row>
         <StepL>
             ### <StepNum />Set up CSS extractor
-            Add a `CSSExtractorPlugin` to the `vite.config.js` and include view sources.
+            Add a `masterCSSExtractor` to the `vite.config.js` and include view sources.
         </StepL>
         <StepR>
             ```js name=vite.config.js
             import { defineConfig } from 'vite'
             import laravel from 'laravel-vite-plugin'
-            +import CSSExtractorPlugin from '@master/css-extractor.vite'
+            +import masterCSSExtractor from '@master/css-extractor.vite'
 
             export default defineConfig({
                 plugins: [
@@ -104,7 +104,7 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
                         input: ['resources/css/app.css', 'resources/js/app.js'],
                         refresh: true,
                     }),
-            +        CSSExtractorPlugin({
+            +        masterCSSExtractor({
             +            sources: ['resources/views/**/*.php']
             +        })
                 ],

@@ -5,7 +5,7 @@ import type { Pattern } from 'fast-glob'
 import VirtualCSSModulePlugins from './virtual-css-module'
 import VirtualCSSHMRPlugin from './virtual-css-hmr'
 
-export default function CSSExtractorPlugin(
+export default function masterCSSExtractorPlugin(
     customOptions?: Options | Pattern,
     cwd = process.cwd()
 ): Plugin[] {

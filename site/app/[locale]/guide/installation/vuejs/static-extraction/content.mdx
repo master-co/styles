@@ -72,16 +72,16 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
         <StepL>
             ### <StepNum />Set up CSS extractor
             - Create a `vite.config.ts` file
-            - Add a `CSSExtractorPlugin` to the vite `plugins`
+            - Add a `masterCSSExtractor` to the vite `plugins`
         </StepL>
         <StepR>
             ```ts name=vite.config.ts
             +import { defineConfig } from 'vite'
-            +import CSSExtractorPlugin from '@master/css-extractor.vite'
+            +import masterCSSExtractor from '@master/css-extractor.vite'
 
             +export default defineConfig({
             +    plugins: [
-            +        CSSExtractorPlugin()
+            +        masterCSSExtractor()
             +    ]
             +})
             ```

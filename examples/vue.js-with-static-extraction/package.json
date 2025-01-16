@@ -16,18 +16,17 @@
     },
     "devDependencies": {
         "@master/css-extractor.vite": "workspace:^",
-        "@master/css-runtime": "workspace:^",
         "@tsconfig/node22": "^22.0.0",
-        "@types/node": "^22.9.3",
+        "@types/node": "^22.10.7",
         "@vitejs/plugin-vue": "^5.2.1",
-        "@vue/eslint-config-typescript": "^14.1.3",
+        "@vue/eslint-config-typescript": "^14.3.0",
         "@vue/tsconfig": "^0.7.0",
-        "eslint": "^9.14.0",
-        "eslint-plugin-vue": "^9.30.0",
-        "npm-run-all2": "^7.0.1",
+        "eslint": "^9.18.0",
+        "eslint-plugin-vue": "^9.32.0",
+        "npm-run-all2": "^7.0.2",
         "typescript": "~5.6.3",
-        "vite": "^6.0.1",
-        "vite-plugin-vue-devtools": "^7.6.5",
-        "vue-tsc": "^2.1.10"
+        "vite": "^6.0.7",
+        "vite-plugin-vue-devtools": "^7.7.0",
+        "vue-tsc": "^2.2.0"
     }
 }

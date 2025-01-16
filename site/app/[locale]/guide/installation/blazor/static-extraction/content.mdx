@@ -52,17 +52,17 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
     <Step $row>
         <StepL>
             ### <StepNum />Set up CSS extractor
-            - Create a `blazor.config.ts` file
-            - Add a `CSSExtractorPlugin` to the blazor `plugins`
+            - Create a `vite.config.ts` file
+            - Add a `masterCSSExtractor` to the vite `plugins`
         </StepL>
         <StepR>
-            ```js name=blazor.config.ts
-            +import { defineConfig } from 'blazor'
-            +import CSSExtractorPlugin from '@master/css-extractor.blazor'
+            ```js name=vite.config.ts
+            +import { defineConfig } from 'vite'
+            +import masterCSSExtractor from '@master/css-extractor.vite'
 
             +export default defineConfig({
             +    plugins: [
-            +        CSSExtractorPlugin()
+            +        masterCSSExtractor()
             +    ]
             +})
             ```

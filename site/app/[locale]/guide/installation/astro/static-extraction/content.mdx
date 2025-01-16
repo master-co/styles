@@ -70,16 +70,16 @@ import StaticExtractionIntro from '../../../rendering-modes/components/StaticExt
     <Step $row>
         <StepL>
             ### <StepNum />Set up CSS extractor
-            Add a `CSSExtractorPlugin` to vite plugins in `nuxt.config.ts`.
+            Add a `masterCSSExtractor` to vite plugins in `nuxt.config.ts`.
         </StepL>
         <StepR>
             ```js name=astro.config.mjs
-            + import CSSExtractorPlugin from '@master/css-extractor.vite'
+            + import masterCSSExtractor from '@master/css-extractor.vite'
 
             export default defineNuxtConfig({
             +    vite: {
             +        plugins: [
-            +            CSSExtractorPlugin()
+            +            masterCSSExtractor()
             +        ]
             +    }
             })

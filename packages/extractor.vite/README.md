@@ -53,12 +53,12 @@
 </div>
 
 ```js
-import CSSExtractorPlugin from '@master/css-extractor.vite'
+import masterCSSExtractor from '@master/css-extractor.vite'
 
 /** @type {import('vite').UserConfig} */
 const config = {
     plugins: [
-        CSSExtractorPlugin()
+        masterCSSExtractor()
     ]
 }
 
