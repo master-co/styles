@@ -1,12 +1,8 @@
 import { test, expect } from '@playwright/test'
-import { dirname, resolve } from 'path'
-import { fileURLToPath } from 'url'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+import init from './init'
 
 test('expects the animation output', async ({ page }) => {
-    await page.addScriptTag({ path: resolve(__dirname, '../dist/global.min.js') })
+    await init(page)
     await page.evaluate(() => {
         globalThis.runtimeCSS.refresh({})
         const p = document.createElement('p')

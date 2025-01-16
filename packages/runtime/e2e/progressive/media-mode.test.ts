@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 // @ts-expect-error
 import { css_beautify } from 'js-beautify/js/lib/beautify-css.js'
-import init from './init'
+import init from '../init'
 
 test('prerender', async ({ page }) => {
     const text = css_beautify(`

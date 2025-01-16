@@ -2,13 +2,13 @@ import { test, expect } from '@playwright/test'
 import { readFileSync } from 'fs'
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
+import init from './init'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 test('complex', async ({ page }) => {
-    await page.addScriptTag({ path: resolve(__dirname, '../dist/global.min.js') })
-
+    await init(page)
     /**
      * <p class="block font:bold">
      * <p class="block font:bold italic">

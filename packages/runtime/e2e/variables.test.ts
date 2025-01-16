@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
+import init from './init'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -34,7 +35,7 @@ const variables = {
 }
 
 test.beforeEach(async ({ page }) => {
-    await page.addScriptTag({ path: resolve(__dirname, '../dist/global.min.js') })
+    await init(page)
     await page.evaluate((variables) => globalThis.runtimeCSS.refresh({ variables }), variables)
 })
 
@@ -143,12 +144,12 @@ const expectLayers = (
     layers: {
         theme?: string
         styles?: string
-        normal?: string
+        general?: string
         keyframe?: string
     }
 ) => {
     if (layers.theme) expect(cssText).toContain(`@layer theme{${layers.theme ?? ''}}`)
     if (layers.styles) expect(cssText).toContain(`@layer styles{${layers.styles ?? ''}}`)
-    if (layers.normal) expect(cssText).toContain(`@layer general{${layers.normal ?? ''}}`)
+    if (layers.general) expect(cssText).toContain(`@layer general{${layers.general ?? ''}}`)
     if (layers.keyframe) expect(cssText).toContain(`${layers.keyframe ?? ''}`)
 }
