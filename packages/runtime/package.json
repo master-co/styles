@@ -5,6 +5,7 @@
         "build": "techor build",
         "dev": "pnpm build --watch",
         "e2e": "playwright test",
+        "e2e:watch": "PWTEST_WATCH=1 playwright test",
         "type-check": "tsc --noEmit",
         "lint": "eslint"
     },
