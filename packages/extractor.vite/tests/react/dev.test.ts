@@ -4,7 +4,7 @@ import path from 'path'
 import cssEscape from 'shared/utils/css-escape'
 import puppeteer, { type Browser, type Page } from 'puppeteer-core'
 import { copy, rm } from 'shared/utils/fs'
-import { execa, ExecaChildProcess } from 'execa'
+import { execa, Subprocess } from 'execa'
 import waitForDataMatch from 'shared/utils/wait-for-data-match'
 
 test.todo('react dev tests timeout in CI')
@@ -12,7 +12,7 @@ if (!process.env.GITHUB_ACTIONS) {
     const examplePath = path.join(__dirname, '../../../../examples/react-with-static-extraction')
     const tmpDir = path.join(__dirname, 'tmp/dev')
 
-    let devProcess: ExecaChildProcess
+    let devProcess: Subprocess
     let browser: Browser
     let page: Page
     let error: Error

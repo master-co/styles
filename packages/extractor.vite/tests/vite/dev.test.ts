@@ -5,14 +5,14 @@ import cssEscape from 'shared/utils/css-escape'
 import puppeteer, { type Browser, type Page } from 'puppeteer-core'
 import { copy, rm } from 'shared/utils/fs'
 import waitForDataMatch from 'shared/utils/wait-for-data-match'
-import { execa, ExecaChildProcess } from 'execa'
+import { execa, Subprocess } from 'execa'
 
 test.todo('vite dev tests timeout in CI')
 if (!process.env.GITHUB_ACTIONS) {
     const examplePath = path.join(__dirname, '../../../../examples/vite-with-static-extraction')
     const tmpDir = path.join(__dirname, 'tmp/dev')
 
-    let devProcess: ExecaChildProcess
+    let devProcess: Subprocess
     let browser: Browser
     let page: Page
     let error: Error

@@ -1,7 +1,7 @@
 import stripAnsi from 'strip-ansi'
-import { ExecaChildProcess } from 'execa'
+import { Subprocess } from 'execa'
 
-export default function (child: ExecaChildProcess, doesDataMatch: (data: string) => any, onReady?: () => void): Promise<string> {
+export default function (child: Subprocess, doesDataMatch: (data: string) => any, onReady?: () => void): Promise<string> {
     return new Promise<string>((resolve, reject) => {
         const handler = (data: any) => {
             const strippedData = stripAnsi(data.toString())

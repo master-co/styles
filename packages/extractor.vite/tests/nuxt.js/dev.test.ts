@@ -5,12 +5,12 @@ import cssEscape from 'shared/utils/css-escape'
 import puppeteer, { type Browser, type Page } from 'puppeteer-core'
 import { copy } from 'shared/utils/fs'
 import waitForDataMatch from 'shared/utils/wait-for-data-match'
-import { execa, ExecaChildProcess } from 'execa'
+import { execa, Subprocess } from 'execa'
 
 const examplePath = path.join(__dirname, '../../../../examples/nuxt.js-with-static-extraction')
 const tmpDir = path.join(__dirname, 'tmp/dev')
 
-let devProcess: ExecaChildProcess
+let devProcess: Subprocess
 let browser: Browser
 let page: Page
 let error: Error

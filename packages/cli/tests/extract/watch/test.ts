@@ -6,7 +6,7 @@ import cssEscape from 'shared/utils/css-escape'
 import waitForDataMatch from 'shared/utils/wait-for-data-match'
 import dedent from 'ts-dedent'
 import { it, beforeAll, afterAll, expect } from 'vitest'
-import { execa, ExecaChildProcess } from 'execa'
+import { execa, Subprocess } from 'execa'
 
 const HTMLFilepath = path.join(__dirname, 'test.html')
 const originHTMLText = dedent`
@@ -51,7 +51,7 @@ export default config
 
 const virtualCSSFilepath = path.join(__dirname, '.virtual/master.css')
 
-let subprocess: ExecaChildProcess
+let subprocess: Subprocess
 
 beforeAll(() => {
     fs.writeFileSync(HTMLFilepath, originHTMLText, { flag: 'w+' })
