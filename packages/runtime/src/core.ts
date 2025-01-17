@@ -26,6 +26,7 @@ export class RuntimeCSS extends MasterCSS {
             this.container = this.root as RuntimeCSS['container']
             this.host = (this.root as ShadowRoot).host
         }
+        console.log(this.container)
         runtimeCSSs.push(this)
     }
 
@@ -36,6 +37,7 @@ export class RuntimeCSS extends MasterCSS {
      */
     observe(options: MutationObserverInit = { subtree: true, childList: true }) {
         if (this.observing) return this
+        console.log(this.root)
         if (this.root.styleSheets)
             for (const sheet of this.root.styleSheets) {
                 const { ownerNode } = sheet

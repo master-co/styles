@@ -1,40 +1,52 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { writable } from 'svelte/store'
-    import type { Config } from '@master/css'
-    import CSSRuntimeProvider from '../lib/CSSRuntimeProvider.svelte'
+    import type { Config } from "@master/css";
+    import CSSRuntimeProvider from "../lib/CSSRuntimeProvider.svelte";
 
-    let containerRef: HTMLDivElement
-    let shadowRoot: ShadowRoot
-
-    const config = writable<Config>({
+    let containerRef = $state<HTMLDivElement>();
+    let config = $state<Config>({
         styles: {
-            btn: 'b:2|red'
+            btn: "b:2|red",
+        },
+    });
+    let root = $state<ShadowRoot | Document | undefined | null>();
+    let destroy = $state(false);
+
+    $effect(() => {
+        if (containerRef) {
+            containerRef.attachShadow({ mode: "open" });
+        } else {
+            root = null
         }
-    })
-    const root = writable<ShadowRoot>()
-    const destroy = writable<boolean>(false)
+    });
 
-    onMount(() => {
-        shadowRoot = containerRef.attachShadow({ mode: 'open' });
-
-        const shadowContent = document.createElement('div');
-        shadowContent.className = 'f:1000'
-        shadowRoot.appendChild(shadowContent);
-    })
+    $effect(() => {
+        if (!destroy) {
+            const shadowContent = document.createElement("div");
+            shadowContent.innerHTML = "SHADOW CONTENT";
+            shadowContent.className = "fg:red-60";
+            containerRef?.shadowRoot?.appendChild(shadowContent);
+        }
+    });
 </script>
 
-{#if $destroy}
-    <button on:click={() => destroy.set(false)}>INIT</button>
+{#if destroy}
+    <button onclick={() => (destroy = false)}>INIT</button>
 {/if}
 
-{#if !$destroy}
-    <CSSRuntimeProvider config={$config} root={$root}>
-        <button on:click={() => destroy.set(true)}>DESTROY</button>
-        <button id="config-btn" class="btn bg:blue-50" on:click={() => config.set({})}>CONFIG</button>
-        <button id="root-btn" on:click={() => root.set(shadowRoot)}>ROOT</button>
+{#if !destroy}
+    <CSSRuntimeProvider {config} {root}>
+        <button onclick={() => (destroy = true)}>DESTROY</button>
+        <button
+            id="config-btn"
+            class="btn bg:blue-50"
+            onclick={() => (config = {})}>CONFIG</button
+        >
+        <button
+            id="root-btn"
+            onclick={() => {
+                root = containerRef?.shadowRoot;
+            }}>ROOT</button
+        >
         <div bind:this={containerRef}></div>
     </CSSRuntimeProvider>
 {/if}
-
-
