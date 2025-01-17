@@ -62,6 +62,9 @@ importers:
       nanoid:
         specifier: ^4.0.2
         version: 4.0.2
+      playwright:
+        specifier: ^1.49.1
+        version: 1.49.1
       shuffle-array:
         specifier: ^1.0.1
         version: 1.0.1
@@ -1241,7 +1244,7 @@ importers:
         version: 12.0.2(webpack@5.97.1(@swc/core@1.10.7(@swc/helpers@0.5.15)))
       crawlee:
         specifier: ^3.12.1
-        version: 3.12.1(playwright@1.41.2)
+        version: 3.12.1(playwright@1.49.1)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1808,7 +1811,7 @@ importers:
         version: 3.14.1592(magicast@0.3.5)(rollup@3.29.5)
       '@nuxt/test-utils':
         specifier: ^3.11.0
-        version: 3.15.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))
+        version: 3.15.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(playwright-core@1.49.1)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))
       changelogen:
         specifier: ^0.5.5
         version: 0.5.7(magicast@0.3.5)
@@ -14166,9 +14169,19 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
+  playwright-core@1.49.1:
+    resolution: {integrity: sha512-BzmpVcs4kE2CH15rWfzpjzVGhWERJfmnXmniSyKeRZUs9Ws65m+RGIi7mjJK/euCegfn3i7jvqWeWyHe9y3Vgg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright@1.41.2:
     resolution: {integrity: sha512-v0bOa6H2GJChDL8pAeLa/LZC4feoAMbSQm1/jF/ySsWWoaNItvrMP7GEkvEEFyCTUYKMxjQKaTSg5up7nR6/8A==}
     engines: {node: '>=16'}
+    hasBin: true
+
+  playwright@1.49.1:
+    resolution: {integrity: sha512-VYL8zLoNTBxVOrJBbDuRgDWa3i+mfQgDTrL8Ah9QXZ7ax4Dsj0MSq5bYgytRnDVVe+njoKnfsYkH3HzqVj5UZA==}
+    engines: {node: '>=18'}
     hasBin: true
 
   pluralize@8.0.0:
@@ -20158,14 +20171,14 @@ snapshots:
       tslib: 2.8.1
       type-fest: 4.32.0
 
-  '@crawlee/browser-pool@3.12.1(playwright@1.41.2)':
+  '@crawlee/browser-pool@3.12.1(playwright@1.49.1)':
     dependencies:
       '@apify/log': 2.5.12
       '@apify/timeout': 0.3.1
       '@crawlee/core': 3.12.1
       '@crawlee/types': 3.12.1
       fingerprint-generator: 2.1.62
-      fingerprint-injector: 2.1.62(playwright@1.41.2)
+      fingerprint-injector: 2.1.62(playwright@1.49.1)
       lodash.merge: 4.6.2
       nanoid: 3.3.8
       ow: 0.28.2
@@ -20175,22 +20188,22 @@ snapshots:
       tiny-typed-emitter: 2.1.0
       tslib: 2.8.1
     optionalDependencies:
-      playwright: 1.41.2
+      playwright: 1.49.1
     transitivePeerDependencies:
       - supports-color
 
-  '@crawlee/browser@3.12.1(playwright@1.41.2)':
+  '@crawlee/browser@3.12.1(playwright@1.49.1)':
     dependencies:
       '@apify/timeout': 0.3.1
       '@crawlee/basic': 3.12.1
-      '@crawlee/browser-pool': 3.12.1(playwright@1.41.2)
+      '@crawlee/browser-pool': 3.12.1(playwright@1.49.1)
       '@crawlee/types': 3.12.1
       '@crawlee/utils': 3.12.1
       ow: 0.28.2
       tslib: 2.8.1
       type-fest: 4.32.0
     optionalDependencies:
-      playwright: 1.41.2
+      playwright: 1.49.1
     transitivePeerDependencies:
       - supports-color
 
@@ -20296,13 +20309,13 @@ snapshots:
       proper-lockfile: 4.1.2
       tslib: 2.8.1
 
-  '@crawlee/playwright@3.12.1(playwright@1.41.2)':
+  '@crawlee/playwright@3.12.1(playwright@1.49.1)':
     dependencies:
       '@apify/datastructures': 2.0.2
       '@apify/log': 2.5.12
       '@apify/timeout': 0.3.1
-      '@crawlee/browser': 3.12.1(playwright@1.41.2)
-      '@crawlee/browser-pool': 3.12.1(playwright@1.41.2)
+      '@crawlee/browser': 3.12.1(playwright@1.49.1)
+      '@crawlee/browser-pool': 3.12.1(playwright@1.49.1)
       '@crawlee/core': 3.12.1
       '@crawlee/types': 3.12.1
       '@crawlee/utils': 3.12.1
@@ -20316,17 +20329,17 @@ snapshots:
       string-comparison: 1.3.0
       tslib: 2.8.1
     optionalDependencies:
-      playwright: 1.41.2
+      playwright: 1.49.1
     transitivePeerDependencies:
       - puppeteer
       - supports-color
 
-  '@crawlee/puppeteer@3.12.1(playwright@1.41.2)':
+  '@crawlee/puppeteer@3.12.1(playwright@1.49.1)':
     dependencies:
       '@apify/datastructures': 2.0.2
       '@apify/log': 2.5.12
-      '@crawlee/browser': 3.12.1(playwright@1.41.2)
-      '@crawlee/browser-pool': 3.12.1(playwright@1.41.2)
+      '@crawlee/browser': 3.12.1(playwright@1.49.1)
+      '@crawlee/browser-pool': 3.12.1(playwright@1.49.1)
       '@crawlee/types': 3.12.1
       '@crawlee/utils': 3.12.1
       cheerio: 1.0.0-rc.12
@@ -22982,7 +22995,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@nuxt/test-utils@3.15.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))':
+  '@nuxt/test-utils@3.15.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(playwright-core@1.49.1)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))':
     dependencies:
       '@nuxt/kit': 3.14.1592(magicast@0.3.5)(rollup@3.29.5)
       '@nuxt/schema': 3.14.1592(magicast@0.3.5)(rollup@3.29.5)
@@ -23008,12 +23021,13 @@ snapshots:
       unenv: 1.10.0
       unplugin: 2.1.0
       vite: 5.4.11(@types/node@22.10.7)(less@4.2.0)(sass@1.83.4)(terser@5.37.0)
-      vitest-environment-nuxt: 1.0.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))
+      vitest-environment-nuxt: 1.0.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(playwright-core@1.49.1)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))
       vue: 3.5.13(typescript@5.7.3)
     optionalDependencies:
       '@jest/globals': 29.7.0
       '@vue/test-utils': 2.4.6
       jsdom: 25.0.1
+      playwright-core: 1.49.1
       vitest: 2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0)
     transitivePeerDependencies:
       - '@types/node'
@@ -24967,6 +24981,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/eslint-plugin@8.20.0(@typescript-eslint/parser@8.20.0(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)':
+    dependencies:
+      '@eslint-community/regexpp': 4.12.1
+      '@typescript-eslint/parser': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
+      '@typescript-eslint/scope-manager': 8.20.0
+      '@typescript-eslint/type-utils': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
+      '@typescript-eslint/visitor-keys': 8.20.0
+      eslint: 8.57.1
+      graphemer: 1.4.0
+      ignore: 5.3.2
+      natural-compare: 1.4.0
+      ts-api-utils: 2.0.0(typescript@5.7.3)
+      typescript: 5.7.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/eslint-plugin@8.20.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.6.3))(eslint@9.18.0(jiti@2.4.2))(typescript@5.6.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
@@ -24981,23 +25012,6 @@ snapshots:
       natural-compare: 1.4.0
       ts-api-utils: 2.0.0(typescript@5.6.3)
       typescript: 5.6.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@typescript-eslint/eslint-plugin@8.20.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)':
-    dependencies:
-      '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3)
-      '@typescript-eslint/scope-manager': 8.20.0
-      '@typescript-eslint/type-utils': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
-      '@typescript-eslint/utils': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
-      '@typescript-eslint/visitor-keys': 8.20.0
-      eslint: 8.57.1
-      graphemer: 1.4.0
-      ignore: 5.3.2
-      natural-compare: 1.4.0
-      ts-api-utils: 2.0.0(typescript@5.7.3)
-      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
@@ -27865,24 +27879,24 @@ snapshots:
 
   countup.js@2.8.0: {}
 
-  crawlee@3.12.1(playwright@1.41.2):
+  crawlee@3.12.1(playwright@1.49.1):
     dependencies:
       '@crawlee/basic': 3.12.1
-      '@crawlee/browser': 3.12.1(playwright@1.41.2)
-      '@crawlee/browser-pool': 3.12.1(playwright@1.41.2)
+      '@crawlee/browser': 3.12.1(playwright@1.49.1)
+      '@crawlee/browser-pool': 3.12.1(playwright@1.49.1)
       '@crawlee/cheerio': 3.12.1
       '@crawlee/cli': 3.12.1
       '@crawlee/core': 3.12.1
       '@crawlee/http': 3.12.1
       '@crawlee/jsdom': 3.12.1
       '@crawlee/linkedom': 3.12.1
-      '@crawlee/playwright': 3.12.1(playwright@1.41.2)
-      '@crawlee/puppeteer': 3.12.1(playwright@1.41.2)
+      '@crawlee/playwright': 3.12.1(playwright@1.49.1)
+      '@crawlee/puppeteer': 3.12.1(playwright@1.49.1)
       '@crawlee/utils': 3.12.1
       import-local: 3.2.0
       tslib: 2.8.1
     optionalDependencies:
-      playwright: 1.41.2
+      playwright: 1.49.1
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -29125,12 +29139,12 @@ snapshots:
     dependencies:
       '@next/eslint-plugin-next': 15.1.5
       '@rushstack/eslint-patch': 1.10.5
-      '@typescript-eslint/eslint-plugin': 8.20.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)
+      '@typescript-eslint/eslint-plugin': 8.20.0(@typescript-eslint/parser@8.20.0(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1)(typescript@5.7.3)
       '@typescript-eslint/parser': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@5.7.3))(eslint-plugin-import@2.31.0)(eslint@8.57.1)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.20.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.4(eslint@8.57.1)
       eslint-plugin-react-hooks: 5.1.0(eslint@8.57.1)
@@ -29221,7 +29235,7 @@ snapshots:
       is-glob: 4.0.3
       stable-hash: 0.0.4
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.20.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
       eslint-plugin-import-x: 4.6.1(eslint@8.57.1)(typescript@5.7.3)
     transitivePeerDependencies:
       - supports-color
@@ -29311,11 +29325,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.20.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
-      '@typescript-eslint/parser': 8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.7.0(eslint-plugin-import-x@4.6.1(eslint@8.57.1)(typescript@5.7.3))(eslint-plugin-import@2.31.0)(eslint@8.57.1)
@@ -29501,7 +29515,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.20.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -29512,7 +29526,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.20.0(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.7.0)(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -29524,7 +29538,7 @@ snapshots:
       string.prototype.trimend: 1.0.9
       tsconfig-paths: 3.15.0
     optionalDependencies:
-      '@typescript-eslint/parser': 8.20.0(eslint@9.18.0(jiti@2.4.2))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.20.0(eslint@8.57.1)(typescript@5.7.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -30528,12 +30542,12 @@ snapshots:
       header-generator: 2.1.62
       tslib: 2.8.1
 
-  fingerprint-injector@2.1.62(playwright@1.41.2):
+  fingerprint-injector@2.1.62(playwright@1.49.1):
     dependencies:
       fingerprint-generator: 2.1.62
       tslib: 2.8.1
     optionalDependencies:
-      playwright: 1.41.2
+      playwright: 1.49.1
 
   firebase-admin@11.11.1(encoding@0.1.13):
     dependencies:
@@ -35860,9 +35874,17 @@ snapshots:
 
   playwright-core@1.41.2: {}
 
+  playwright-core@1.49.1: {}
+
   playwright@1.41.2:
     dependencies:
       playwright-core: 1.41.2
+    optionalDependencies:
+      fsevents: 2.3.2
+
+  playwright@1.49.1:
+    dependencies:
+      playwright-core: 1.49.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -39964,9 +39986,9 @@ snapshots:
       vite: 6.0.7(@types/node@22.10.7)(jiti@2.4.2)(less@4.2.0)(sass@1.83.4)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)
     optional: true
 
-  vitest-environment-nuxt@1.0.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0)):
+  vitest-environment-nuxt@1.0.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(playwright-core@1.49.1)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0)):
     dependencies:
-      '@nuxt/test-utils': 3.15.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))
+      '@nuxt/test-utils': 3.15.1(@jest/globals@29.7.0)(@types/node@22.10.7)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(less@4.2.0)(magicast@0.3.5)(playwright-core@1.49.1)(rollup@3.29.5)(sass@1.83.4)(terser@5.37.0)(typescript@5.7.3)(vitest@2.1.8(@types/node@22.10.7)(jsdom@25.0.1)(less@4.2.0)(sass@1.83.4)(terser@5.37.0))
     transitivePeerDependencies:
       - '@cucumber/cucumber'
       - '@jest/globals'
