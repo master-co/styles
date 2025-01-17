@@ -4,16 +4,15 @@ import path from 'path'
 import cssEscape from 'shared/utils/css-escape'
 import puppeteer, { type Browser, type Page } from 'puppeteer-core'
 import { copy, rm } from 'shared/utils/fs'
-import { SpawndChildProcess, spawnd } from 'spawnd'
+import { execa, ExecaChildProcess } from 'execa'
 import waitForDataMatch from 'shared/utils/wait-for-data-match'
-import delay from 'shared/utils/delay'
 
 test.todo('react dev tests timeout in CI')
 if (!process.env.GITHUB_ACTIONS) {
     const examplePath = path.join(__dirname, '../../../../examples/react-with-static-extraction')
     const tmpDir = path.join(__dirname, 'tmp/dev')
 
-    let devProcess: SpawndChildProcess
+    let devProcess: ExecaChildProcess
     let browser: Browser
     let page: Page
     let error: Error
@@ -26,7 +25,7 @@ if (!process.env.GITHUB_ACTIONS) {
         templatePath = path.join(tmpDir, 'src/App.tsx')
         templateContent = fs.readFileSync(templatePath).toString()
         masterCSSConfigPath = path.join(tmpDir, 'master.css.ts')
-        devProcess = spawnd('pnpm dev --port 4003', { shell: true, cwd: tmpDir })
+        devProcess = execa('pnpm dev --port 4003', { shell: true, cwd: tmpDir })
         const urlPattern = /(http:\/\/localhost:).*?([0-9]+)/
         const data = await waitForDataMatch(devProcess, (data) => urlPattern.exec(data)?.length)
         const result = urlPattern.exec(data)
@@ -77,6 +76,6 @@ if (!process.env.GITHUB_ACTIONS) {
     afterAll(async () => {
         await page.close()
         await browser.close()
-        await devProcess.destroy()
+        devProcess.kill()
     }, 60000)
 }

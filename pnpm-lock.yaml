@@ -47,6 +47,9 @@ importers:
       eslint-plugin-playwright:
         specifier: ^2.1.0
         version: 2.1.0(eslint@9.18.0(jiti@2.4.2))
+      execa:
+        specifier: ^9.5.2
+        version: 9.5.2
       fast-glob:
         specifier: ^3.3.3
         version: 3.3.3
@@ -68,9 +71,6 @@ importers:
       shuffle-array:
         specifier: ^1.0.1
         version: 1.0.1
-      spawnd:
-        specifier: ^9.0.2
-        version: 9.0.2
       strip-ansi:
         specifier: ^7.1.0
         version: 7.1.0
@@ -15656,10 +15656,6 @@ packages:
 
   spawn-sync@2.0.0:
     resolution: {integrity: sha512-AGXIhH/XZVinFewojYTsG8uapHX2e7MjtFbmibvK9qqG4qGd9b6jelU1sTkCA0RVGHvN9exJYTBVbF1Ls2f69g==}
-
-  spawnd@9.0.2:
-    resolution: {integrity: sha512-nl8DVHEDQ57IcKakzpjanspVChkMpGLuVwMR/eOn9cXE55Qr6luD2Kn06sA0ootRMdgrU4tInN6lA6ohTNvysw==}
-    engines: {node: '>=16'}
 
   spdx-correct@3.2.0:
     resolution: {integrity: sha512-kN9dJbvnySHULIluDHy32WHRUu3Og7B9sbY7tsFLctQkIqnMh3hErYgdMjTYuqmcXX+lK5T1lnUt3G7zNswmZA==}
@@ -37853,11 +37849,6 @@ snapshots:
   space-separated-tokens@2.0.2: {}
 
   spawn-sync@2.0.0: {}
-
-  spawnd@9.0.2:
-    dependencies:
-      signal-exit: 4.1.0
-      tree-kill: 1.2.2
 
   spdx-correct@3.2.0:
     dependencies:

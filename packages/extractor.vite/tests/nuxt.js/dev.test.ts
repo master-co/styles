@@ -4,13 +4,13 @@ import path from 'path'
 import cssEscape from 'shared/utils/css-escape'
 import puppeteer, { type Browser, type Page } from 'puppeteer-core'
 import { copy } from 'shared/utils/fs'
-import { SpawndChildProcess, spawnd } from 'spawnd'
 import waitForDataMatch from 'shared/utils/wait-for-data-match'
+import { execa, ExecaChildProcess } from 'execa'
 
 const examplePath = path.join(__dirname, '../../../../examples/nuxt.js-with-static-extraction')
 const tmpDir = path.join(__dirname, 'tmp/dev')
 
-let devProcess: SpawndChildProcess
+let devProcess: ExecaChildProcess
 let browser: Browser
 let page: Page
 let error: Error
@@ -24,7 +24,7 @@ test.todo('nuxt.js dev tests timeout in CI', () => {
         templatePath = path.join(tmpDir, 'app.vue')
         templateContent = fs.readFileSync(templatePath).toString()
         masterCSSConfigPath = path.join(tmpDir, 'master.css.ts')
-        devProcess = spawnd('pnpm dev', { shell: true, cwd: tmpDir, env: { ...process.env, NODE_ENV: 'development' } })
+        devProcess = execa('pnpm dev', { shell: true, cwd: tmpDir, env: { ...process.env, NODE_ENV: 'development' } })
         const urlPattern = /(http:\/\/localhost:).*?([0-9]+)/
         const data = await waitForDataMatch(devProcess, (data) => urlPattern.exec(data)?.length)
         const result = urlPattern.exec(data)
@@ -76,6 +76,6 @@ test.todo('nuxt.js dev tests timeout in CI', () => {
     afterAll(async () => {
         await page.close()
         await browser.close()
-        await devProcess.destroy()
+        devProcess.kill()
     }, 60000)
 })

@@ -6,7 +6,7 @@ import cssEscape from 'shared/utils/css-escape'
 import waitForDataMatch from 'shared/utils/wait-for-data-match'
 import dedent from 'ts-dedent'
 import { it, beforeAll, afterAll, expect } from 'vitest'
-import { spawnd, SpawndChildProcess } from 'spawnd'
+import { execa, ExecaChildProcess } from 'execa'
 
 const HTMLFilepath = path.join(__dirname, 'test.html')
 const originHTMLText = dedent`
@@ -51,19 +51,19 @@ export default config
 
 const virtualCSSFilepath = path.join(__dirname, '.virtual/master.css')
 
-let child: SpawndChildProcess
+let subprocess: ExecaChildProcess
 
 beforeAll(() => {
     fs.writeFileSync(HTMLFilepath, originHTMLText, { flag: 'w+' })
     fs.writeFileSync(optionsFilepath, originOptionsText, { flag: 'w+' })
     fs.writeFileSync(configFilepath, originConfigText, { flag: 'w+' })
-    child = spawnd('tsx ../../../src/bin extract -w', { shell: true, cwd: __dirname })
+    subprocess = execa('tsx ../../../src/bin extract -w', { shell: true, cwd: __dirname })
 }, 120000)
 
 it('start watch process', async () => {
     await Promise.all([
-        waitForDataMatch(child, (data) => data.includes('Start watching source changes')),
-        waitForDataMatch(child, (data) => data.includes('exported'))
+        waitForDataMatch(subprocess, (data) => data.includes('Start watching source changes')),
+        waitForDataMatch(subprocess, (data) => data.includes('exported'))
     ])
     const fileCSSText = fs.readFileSync(virtualCSSFilepath, { encoding: 'utf8' })
     expect(fileCSSText).toContain(cssEscape('font:heavy'))
@@ -74,11 +74,11 @@ it('start watch process', async () => {
 
 it('change options file `fixed` and reset process', async () => {
     await Promise.all([
-        waitForDataMatch(child, (data) => data.includes('watching source changes'), async () => {
+        waitForDataMatch(subprocess, (data) => data.includes('watching source changes'), async () => {
             fs.writeFileSync(optionsFilepath, originOptionsText.replace('fixed: []', 'fixed: [\'fg:red\']'))
         }),
-        waitForDataMatch(child, (data) => data.includes(`inserted 'fg:red'`)),
-        waitForDataMatch(child, (data) => data.includes('exported')),
+        waitForDataMatch(subprocess, (data) => data.includes(`inserted 'fg:red'`)),
+        waitForDataMatch(subprocess, (data) => data.includes('exported')),
     ])
     const fileCSSText = fs.readFileSync(virtualCSSFilepath, { encoding: 'utf8' })
     expect(fileCSSText).toContain(cssEscape('fg:red'))
@@ -86,10 +86,10 @@ it('change options file `fixed` and reset process', async () => {
 
 it('change config file `styles` and reset process', async () => {
     await Promise.all([
-        waitForDataMatch(child, (data) => data.includes('watching source changes'), async () => {
+        waitForDataMatch(subprocess, (data) => data.includes('watching source changes'), async () => {
             fs.writeFileSync(configFilepath, originConfigText.replace('bg:red', 'bg:blue'))
         }),
-        waitForDataMatch(child, (data) => data.includes('exported'))
+        waitForDataMatch(subprocess, (data) => data.includes('exported'))
     ])
     const fileCSSText = fs.readFileSync(virtualCSSFilepath, { encoding: 'utf8' })
     expect(fileCSSText).toContain('.btn{background-color:rgb(var(--blue))')
@@ -97,16 +97,16 @@ it('change config file `styles` and reset process', async () => {
 
 it('change html file class attr and update', async () => {
     await Promise.all([
-        waitForDataMatch(child, (data) => data.includes('watching source changes'), () => {
+        waitForDataMatch(subprocess, (data) => data.includes('watching source changes'), () => {
             fs.writeFileSync(HTMLFilepath, originHTMLText.replace('hmr-test', 'text:underline'))
         }),
-        waitForDataMatch(child, (data) => data.includes(`classes inserted`)),
-        waitForDataMatch(child, (data) => data.includes('exported'))
+        waitForDataMatch(subprocess, (data) => data.includes(`classes inserted`)),
+        waitForDataMatch(subprocess, (data) => data.includes('exported'))
     ])
     const fileCSSText = fs.readFileSync(virtualCSSFilepath, { encoding: 'utf8' })
     expect(fileCSSText).toContain(cssEscape('text:underline'))
 }, 120000)
 
 afterAll(async () => {
-    await child.destroy()
+    subprocess.kill()
 }, 120000)
