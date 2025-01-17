@@ -4,6 +4,8 @@ import type { Config } from '@master/css'
 import { RuntimeCSS } from '@master/css-runtime'
 import { createContext, useContext, useRef, useCallback, ReactNode } from 'react'
 import { useUpdateEffect, useIsomorphicLayoutEffect } from 'react-use'
+// fix: ReferenceError: React is not defined
+import React from 'react'
 
 export const RuntimeCSSContext = createContext<RuntimeCSS | undefined>(undefined)
 export const useRuntimeCSS = () => useContext(RuntimeCSSContext)
