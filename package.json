@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "@eslint/compat": "^1.2.5",
+        "@playwright/test": "^1.49.1",
         "@swc-node/jest": "^1.8.12",
         "@techor/fs": "^3.1.7",
         "@techor/glob": "^3.1.7",
