@@ -64,8 +64,7 @@ test('syntax', async () => {
         '.navitem:hover_{bg:black/.75}'
     ]
     await extractor?.prepare()
-    for (const eachGeneratedClass of Object.keys(extractor?.css.ruleBy || [])) {
-        expect(testClasses)
-            .toContain(eachGeneratedClass)
+    for (const eachGeneratedClass of extractor?.css.generalLayer.rules.map(({ name }) => name) || []) {
+        expect(testClasses).toContain(eachGeneratedClass)
     }
 })
