@@ -30,7 +30,7 @@ export class MyElement extends LitElement {
 
     connectedCallback() {
         super.connectedCallback()
-        this.runtimeCSS = new RuntimeCSS(this.shadowRoot, config)
+        this.runtimeCSS = new RuntimeCSS(this.shadowRoot!, config)
             .observe()
     }
 
