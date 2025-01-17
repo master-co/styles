@@ -59,8 +59,8 @@
     "devDependencies": {
         "@eslint/compat": "^1.2.4",
         "@master/css-server": "workspace:^",
-        "@playwright/experimental-ct-svelte": "1.41.2",
-        "@playwright/test": "1.41.2",
+        "@playwright/experimental-ct-svelte": "^1.49.1",
+        "@playwright/test": "^1.49.1",
         "@sveltejs/adapter-vercel": "^5.5.2",
         "@sveltejs/kit": "^2.5.4",
         "@sveltejs/package": "^2.3.0",

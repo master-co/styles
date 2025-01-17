@@ -39,7 +39,6 @@
         "jest-text-transformer": "^1.0.4",
         "js-beautify": "^1.15.1",
         "nanoid": "^4.0.2",
-        "@playwright/test": "1.41.2",
         "shuffle-array": "^1.0.1",
         "spawnd": "^9.0.2",
         "strip-ansi": "^7.1.0",
