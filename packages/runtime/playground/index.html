@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <style id="master">
+        @layer base, theme, preset, styles, general;
+
+        @layer base {
+            .list-style\:none_ul\@base ul {
+                list-style: none
+            }
+        }
+
+        @layer theme {
+
+            .light,
+            :root {
+                --primary: 0 0 0
+            }
+
+            .dark {
+                --primary: 255 255 255
+            }
+        }
+
+        @layer preset {
+            .text\:16_p\@preset p {
+                font-size: 1rem;
+                line-height: calc(1rem + 0.875em)
+            }
+        }
+
+        @layer styles {
+            .btn {
+                display: inline-flex;
+                background-color: rgb(var(--primary))
+            }
+        }
+
+        @layer general {
+            .flex {
+                display: flex
+            }
+
+            .\@fade\|1s {
+                animation: fade 1s
+            }
+        }
+
+        @keyframes fade {
+            0% {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+    <h1>Hello World</h1>
+</body>
+
+</html>

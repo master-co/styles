@@ -99,8 +99,6 @@ export class RuntimeCSS extends MasterCSS {
                             if (syntaxRule) {
                                 if (!layer.rules.includes(syntaxRule)) {
                                     layer.rules.push(syntaxRule)
-                                    this.themeLayer.insert(syntaxRule)
-                                    this.animationsNonLayer.insert(syntaxRule)
                                     syntaxRule.definition.insert?.call(syntaxRule)
                                 }
                                 for (const eachNode of syntaxRule.nodes) {
@@ -211,8 +209,6 @@ export class RuntimeCSS extends MasterCSS {
                                                 node.native = cssRule
                                                 if (!this.stylesLayer.rules.includes(eachSyntaxRule)) {
                                                     this.stylesLayer.rules.push(eachSyntaxRule)
-                                                    this.themeLayer.insert(eachSyntaxRule)
-                                                    this.animationsNonLayer.insert(eachSyntaxRule)
                                                     eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
                                                 }
                                                 matched = true

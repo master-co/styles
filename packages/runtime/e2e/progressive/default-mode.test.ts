@@ -5,7 +5,7 @@ import init from '../init'
 
 test('prerender', async ({ page }) => {
     const text = css_beautify(`
-        @layer theme{
+        @layer theme {
             :root { --base: 0 0 0; }
             .dark { --base: 34 33 35; }
             .light, :root { --base: 255 255 255; }
