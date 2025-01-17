@@ -92,7 +92,7 @@ it('change config file `styles` and reset process', async () => {
         waitForDataMatch(child, (data) => data.includes('exported'))
     ])
     const fileCSSText = fs.readFileSync(virtualCSSFilepath, { encoding: 'utf8' })
-    expect(fileCSSText).toContain(cssEscape('bg:blue'))
+    expect(fileCSSText).toContain('.btn{background-color:rgb(var(--blue))')
 }, 120000)
 
 it('change html file class attr and update', async () => {

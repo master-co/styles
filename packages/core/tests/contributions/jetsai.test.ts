@@ -109,7 +109,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                style: '.btn-primary{-webkit-text-fill-color:rgb(255 255 255);background-color:rgb(34 66 163)}.btn-primary:hover{background-color:rgb(21 37 89)}.btn-primary:disabled{-webkit-text-fill-color:rgb(146 151 161);background-color:rgb(205 224 247)}'
+                styles: '.btn-primary{-webkit-text-fill-color:rgb(255 255 255);background-color:rgb(34 66 163)}.btn-primary:hover{background-color:rgb(21 37 89)}.btn-primary:disabled{-webkit-text-fill-color:rgb(146 151 161);background-color:rgb(205 224 247)}'
             },
             'btn-primary',
             config

@@ -1516,6 +1516,12 @@ importers:
         specifier: workspace:^
         version: link:../../shared
 
+  packages/create/tests/with-no-deps/dist:
+    dependencies:
+      '@master/css':
+        specifier: 2.0.0-rc.47
+        version: 2.0.0-rc.47
+
   packages/eslint-config:
     dependencies:
       '@master/eslint-plugin-css':

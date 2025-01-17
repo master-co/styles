@@ -202,7 +202,7 @@ test.concurrent('colors', () => {
     expectLayers(
         {
             theme: ':root{--primary-filled:0 0 0}.light{--primary-filled:255 255 255}.dark{--primary-filled:0 0 0}',
-            style: '.btn{background-color:rgb(var(--primary-filled))}'
+            styles: '.btn{background-color:rgb(var(--primary-filled))}'
         },
         'btn',
         {
