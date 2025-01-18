@@ -265,7 +265,7 @@ export default class SyntaxLayer extends Layer {
                 if (this.css.themeLayer.rules.find(({ name }) => name === eachVariableName)) {
                     this.css.themeLayer.usages[eachVariableName]++
                 } else {
-                    const newRule = new Rule(eachVariableName, this.css)
+                    const newRule = new Rule(eachVariableName)
                     const addNative = (mode: string, _variable: TypeVariable) => {
                         let isDefaultMode = false
                         let preifxCssRuleText: string
@@ -327,18 +327,18 @@ export default class SyntaxLayer extends Layer {
                 if (this.css.animationsNonLayer.rules.find(({ name }) => name === eachAnimationName)) {
                     this.css.animationsNonLayer.usages[eachAnimationName]++
                 } else {
-                    this.css.animationsNonLayer.insert(new Rule(
-                        eachAnimationName,
-                        this.css,
-                        [{
-                            text: `@keyframes ${eachAnimationName}{`
-                                + Object
-                                    .entries(this.css.animations[eachAnimationName])
-                                    .map(([key, variables]) => `${key}{${Object.entries(variables).map(([name, value]) => name + ':' + value).join(';')}}`)
-                                    .join('')
-                                + '}'
-                        }]
-                    ))
+                    this.css.animationsNonLayer.insert(
+                        new Rule(eachAnimationName, [
+                            {
+                                text: `@keyframes ${eachAnimationName}{`
+                                    + Object
+                                        .entries(this.css.animations[eachAnimationName])
+                                        .map(([key, variables]) => `${key}{${Object.entries(variables).map(([name, value]) => name + ':' + value).join(';')}}`)
+                                        .join('')
+                                    + '}'
+                            }
+                        ])
+                    )
                     this.css.animationsNonLayer.usages[eachAnimationName] = 1
                 }
             }

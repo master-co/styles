@@ -30,7 +30,7 @@ export default class MasterCSS {
     readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
-    readonly layerStatementRule = new Rule('layer-statement', this, [{ text: '@layer base,theme,preset,styles,general;' }])
+    readonly layerStatementRule = new Rule('layer-statement', [{ text: '@layer base,theme,preset,styles,general;' }])
     readonly rules: (Layer | Rule)[] = [this.layerStatementRule]
     readonly animationsNonLayer = new NonLayer(this)
     readonly baseLayer = new SyntaxLayer('base', this)
