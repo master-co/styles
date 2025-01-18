@@ -26,7 +26,7 @@ export class SyntaxRule extends Rule {
         public fixedClass?: string,
         mode?: string
     ) {
-        super(name, css)
+        super(name)
         this.mode = mode as string
         this.layer = css.generalLayer
         Object.assign(this, registeredSyntax)
