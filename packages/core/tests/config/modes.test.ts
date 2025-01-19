@@ -27,3 +27,7 @@ test.concurrent('media modes', () => {
     expect(new MasterCSS(config).add('bg:invert').text).toContain('@media(prefers-color-scheme:light){:root{--invert:0 0 0}}')
     expect(new MasterCSS(config).add('bg:invert').text).toContain('@media(prefers-color-scheme:dark){:root{--invert:255 255 255}}')
 })
+
+test('components', () => {
+    expectLayers({ styles: '.dark .btn\\@dark{display:block}' }, 'btn@dark', { styles: { btn: 'block' } })
+})
