@@ -81,17 +81,17 @@ export default class Layer {
                 }
             }
         }
-
-        if (this.native && 'nodes' in rule) {
-            const firstNode = rule.nodes[0]
-            if (firstNode?.native) {
-                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNode.native)
-                if (foundIndex !== -1) {
-                    rule.nodes.forEach(() => this.native?.deleteRule(foundIndex))
+        if (this.native?.cssRules && 'nodes' in rule) {
+            for (const node of rule.nodes) {
+                if (node.native) {
+                    const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, node.native)
+                    if (foundIndex !== -1) {
+                        // todo: Firefox throw "Uncaught NS_ERROR_FAILURE". Reproduce: Add '@fade|1s @fade|2s' and remove '@fade|1s @fade|2s'
+                        this.native.deleteRule(foundIndex)
+                    }
                 }
             }
         }
-
         this.rules.splice(this.rules.indexOf(rule), 1)
         return rule
     }
