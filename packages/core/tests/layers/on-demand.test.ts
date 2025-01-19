@@ -31,3 +31,9 @@ test.concurrent('manipulate', () => {
     css.remove('text:center', 'font:bold', 'btn')
     expect(css.text).toBe(css.layerStatementRule.text)
 })
+
+test('prevent duplicate insertion', () => {
+    const css = new MasterCSS()
+    css.add('text:center', 'text:center')
+    expect(css.generalLayer.rules.length).toBe(1)
+})

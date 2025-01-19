@@ -14,5 +14,5 @@ test('basic', async ({ page }) => {
     await page.evaluate((html) => document.body.innerHTML = html, prerenderHTML)
     await init(page, prerenderCSS, config)
     const rules = await page.evaluate(() => globalThis.runtimeCSS.rules)
-    expect(rules.map(({ name }) => name)).toEqual(['layer-statement', 'base', 'theme', 'preset', 'styles', 'general'])
+    expect(rules.map(({ name }) => name)).toEqual(['layer-statement', 'base', 'theme', 'preset', 'styles', 'general', 'fade'])
 })

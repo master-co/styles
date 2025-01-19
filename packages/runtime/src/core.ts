@@ -1,5 +1,5 @@
 import { MasterCSS, config as defaultConfig, Rule, SyntaxLayer } from '@master/css'
-import { type Config, SyntaxRule, selectorTextToName } from '@master/css'
+import { type Config, SyntaxRule } from '@master/css'
 
 import './types/global'
 
@@ -248,32 +248,25 @@ export class RuntimeCSS extends MasterCSS {
                 const cssLayerBlockRule = eachNativeCSSRule as CSSLayerBlockRule
                 const handleSyntaxLayer = (layer: SyntaxLayer) => {
                     layer.native = cssLayerBlockRule
-                    const getSyntaxRule = (cssRule: any): SyntaxRule | undefined => {
-                        if (cssRule.selectorText) {
-                            const className = selectorTextToName(cssRule.selectorText)
-                            const syntaxRule = this.generate(className)[0]
-                            if (syntaxRule) return syntaxRule
-                        } else if (cssRule.cssRules) {
-                            for (let k = 0; k < cssRule.cssRules.length; k++) {
-                                const syntaxRule = getSyntaxRule(cssRule.cssRules[k])
-                                if (syntaxRule) return syntaxRule
-                            }
-                        }
-                    }
                     for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
                         const cssRule = cssLayerBlockRule.cssRules[j] as CSSStyleRule
-                        const syntaxRule = getSyntaxRule(cssRule)
-                        if (syntaxRule) {
-                            if (!layer.rules.includes(syntaxRule)) {
+                        if (cssRule.selectorText) {
+                            const syntaxRule = this.createFromSelectorText(cssRule.selectorText)[0]
+                            if (syntaxRule) {
                                 layer.rules.push(syntaxRule)
                                 syntaxRule.definition.insert?.call(syntaxRule)
+                                for (const eachNode of syntaxRule.nodes) {
+                                    if (!eachNode.native) eachNode.native = cssRule
+                                }
+                            } else {
+                                cssLayerBlockRule.deleteRule?.(j--)
+                                console.error(`Cannot recognize the CSS rule in the ${layer.name} layer. \`${cssRule.cssText}\` (https://rc.css.master.co/messages/hydration-errors)`)
                             }
-                            for (const eachNode of syntaxRule.nodes) {
-                                if (!eachNode.native) eachNode.native = cssRule
+                        } else if (cssRule.cssRules) {
+                            for (const eachCSSRule of cssRule.cssRules) {
+                                const syntaxRule = this.createFromSelectorText((eachCSSRule as CSSStyleRule).selectorText)?.[0]
+                                if (syntaxRule) return syntaxRule
                             }
-                        } else {
-                            cssLayerBlockRule.deleteRule?.(j--)
-                            console.warn(`Deleted an unknown syntax style`, cssRule)
                         }
                     }
                     for (const eachRule of layer.rules) {
@@ -303,7 +296,7 @@ export class RuntimeCSS extends MasterCSS {
                                 lastVariableName = variableName
                                 variableRule = new Rule(variableName)
                                 this.themeLayer.rules.push(variableRule)
-                                this.themeLayer.usages[variableRule.name] = 0
+                                this.themeLayer.usages[variableRule.name] = 1
                             }
                             variableRule?.nodes.push({
                                 native: cssRule,
@@ -318,25 +311,23 @@ export class RuntimeCSS extends MasterCSS {
                     case 'styles':
                         this.stylesLayer.native = cssLayerBlockRule
                         let stylePreText: string
-                        const getSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
+                        const createSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
                             if (cssRule.selectorText) {
-                                const className = selectorTextToName(cssRule.selectorText)
-                                const syntaxRules = this.generate(className)
+                                const syntaxRules = this.createFromSelectorText(cssRule.selectorText)
                                 if (syntaxRules.length) {
                                     stylePreText = cssRule.selectorText + '{'
                                     return syntaxRules
                                 }
                             } else if (cssRule.cssRules) {
-                                for (let k = 0; k < cssRule.cssRules.length; k++) {
-                                    const syntaxRules = getSyntaxRules(cssRule.cssRules[k])
-                                    if (syntaxRules)
-                                        return syntaxRules
+                                for (const eachCSSRule of cssRule.cssRules) {
+                                    const syntaxRules = this.createFromSelectorText((eachCSSRule as CSSStyleRule).selectorText)
+                                    if (syntaxRules) return syntaxRules
                                 }
                             }
                         }
                         for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
                             const cssRule = cssLayerBlockRule.cssRules[j] as CSSStyleRule
-                            const syntaxRules = getSyntaxRules(cssRule)
+                            const syntaxRules = createSyntaxRules(cssRule)
                             if (syntaxRules) {
                                 let matched = false
                                 for (const eachSyntaxRule of syntaxRules) {
@@ -356,7 +347,7 @@ export class RuntimeCSS extends MasterCSS {
                                 }
                             } else {
                                 cssLayerBlockRule?.deleteRule?.(j--)
-                                console.warn(`Deleted an unknown abstract style '${cssRule.selectorText}'`, cssRule)
+                                console.error(`Cannot recognize the CSS rule in the styles layer. \`${cssRule.cssText}\` (https://rc.css.master.co/messages/hydration-errors)`)
                             }
                         }
                         for (const eachRule of this.stylesLayer.rules) {
@@ -382,7 +373,7 @@ export class RuntimeCSS extends MasterCSS {
                 }])
                 this.animationsNonLayer.rules.push(animationRule)
                 this.rules.push(animationRule)
-                this.animationsNonLayer.usages[animationRule.name] = 0
+                this.animationsNonLayer.usages[animationRule.name] = 1
             }
         }
     }

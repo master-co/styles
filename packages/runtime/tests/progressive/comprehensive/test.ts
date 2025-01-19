@@ -31,6 +31,7 @@ describe('hydration', async () => {
                 }
             ]
         })
+        expect(runtimeCSS.themeLayer.usages).toEqual({ primary: 1 })
     })
 
     test('preset', () => {
@@ -73,10 +74,11 @@ describe('hydration', async () => {
                                 style: { opacity: '1' }
                             }
                         ]
-                     }
+                    }
                 }
             ]
         })
+        expect(runtimeCSS.animationsNonLayer.usages).toEqual({ fade: 1 })
     })
 })
 

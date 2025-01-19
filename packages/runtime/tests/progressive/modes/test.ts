@@ -7,11 +7,11 @@ describe('hydration', async () => {
 
     test('base', () => {
         expect(runtimeCSS.generalLayer.rules[0]).toMatchObject({
-            name: 'content:external:after',
+            name: 'hidden@light',
             nodes: [
                 {
-                    native: { selectorText: '.content\\:external\\:after:after' },
-                    text: '.content\\:external\\:after:after{content:" ↗"}'
+                    native: { selectorText: '.light .hidden\\@light' },
+                    text: '.light .hidden\\@light{display:none}'
                 }
             ]
         })

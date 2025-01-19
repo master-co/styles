@@ -1,0 +1,7 @@
+@layer base, theme, preset, styles, general;
+
+@layer general {
+    .light .hidden\@light {
+        display: none;
+    }
+}
