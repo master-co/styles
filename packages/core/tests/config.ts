@@ -83,7 +83,7 @@ export default {
     },
     selectors: {
         '>custom': '>div>:first+button',
-        '_custom': '::before,::after',
+        '_custom': '::before',
         '~custom': {
             '1': '~div'
         }

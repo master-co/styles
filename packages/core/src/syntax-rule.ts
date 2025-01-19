@@ -104,18 +104,11 @@ export class SyntaxRule extends Rule {
                         currentSelector += char + transformedSelectorText[++i]
                         continue
                     }
-
-                    if (!symbolCount && char === ',') {
-                        selectors.push(currentSelector)
-                        currentSelector = ''
-                    } else {
-                        currentSelector += char
-
-                        if (symbolCount && char === ')') {
-                            symbolCount--
-                        } else if (char === '(') {
-                            symbolCount++
-                        }
+                    currentSelector += char
+                    if (symbolCount && char === ')') {
+                        symbolCount--
+                    } else if (char === '(') {
+                        symbolCount++
                     }
                 }
                 if (currentSelector) {
