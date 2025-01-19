@@ -541,6 +541,37 @@ export default class MasterCSS {
     }
 
     /**
+     * Create syntax rule from given selector text
+     * @param selectorText
+     */
+    createFromSelectorText(selectorText: string) {
+        const selectorTextSplits = selectorText.split(' ')
+        for (let i = 0; i < selectorTextSplits.length; i++) {
+            const eachField = selectorTextSplits[i]
+            const modeSelector = this.getModeSelector(eachField)
+            if (i === 0 && eachField === modeSelector) continue
+            if (eachField[0] === '.') {
+                const eachFieldName = eachField.slice(1)
+                let className = ''
+                for (let l = 0; l < eachFieldName.length; l++) {
+                    const char = eachFieldName[l]
+                    const nextChar = eachFieldName[l + 1]
+                    if (char === '\\') {
+                        l++
+                        if (nextChar !== '\\') {
+                            className += nextChar
+                            continue
+                        }
+                    }
+                    className += char
+                }
+                const syntaxRules = this.generate(className)
+                if (syntaxRules.length) return syntaxRules
+            }
+        }
+    }
+
+    /**
      * 根據蒐集到的所有 DOM class 重新 create
      */
     refresh(customConfig?: Config) {
@@ -615,6 +646,18 @@ export default class MasterCSS {
                 } else {
                     this.generalLayer.delete(className)
                 }
+            }
+        }
+    }
+
+    getModeSelector(modeName: string) {
+        const mode = this.config.modes?.[modeName]
+        if (mode) {
+            switch (mode) {
+                case 'class':
+                    return '.' + modeName
+                case 'host':
+                    return ':host(.' + modeName + ')'
             }
         }
     }

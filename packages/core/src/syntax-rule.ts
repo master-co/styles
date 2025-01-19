@@ -427,13 +427,16 @@ export class SyntaxRule extends Rule {
                     const prefixTexts = prefixSelectors.map(eachPrefixSelector => eachPrefixSelector + prefixText)
                     const getCssText = (name: string) =>
                         prefixTexts
-                            .map(eachPrefixText => ((this.mode && modes?.[this.mode] !== 'media')
-                                ? modes?.[this.mode] === 'host'
-                                    ? `:host(.${this.mode}) `
-                                    : `.${this.mode} `
-                                : '')
-                                + (scope ? scope + ' ' : '')
-                                + eachPrefixText)
+                            .map(eachPrefixText => {
+                                let modePrefix = ''
+                                if (this.mode) {
+                                    const modeSelector = this.css.getModeSelector(this.mode)
+                                    if (modeSelector) {
+                                        modePrefix = modeSelector + ' '
+                                    }
+                                }
+                                return modePrefix + (scope ? scope + ' ' : '') + eachPrefixText
+                            })
                             .reduce((arr: string[], eachPrefixText) => {
                                 arr.push(
                                     suffixSelectors
