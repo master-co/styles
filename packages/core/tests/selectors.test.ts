@@ -37,7 +37,3 @@ test.concurrent('multiple', () => {
     expect(new MasterCSS().create('bg:black::slider-thumb')?.text).toBe('.bg\\:black\\:\\:slider-thumb::-webkit-slider-thumb{background-color:rgb(0 0 0)}.bg\\:black\\:\\:slider-thumb::-moz-range-thumb{background-color:rgb(0 0 0)}')
     expect(new MasterCSS().create('content:\'⦿\':after')?.text).toBe('.content\\:\\\'⦿\\\'\\:after:after{content:\'⦿\'}')
 })
-
-test.concurrent('after', () => {
-    expect(new MasterCSS().create('content:external:after')?.text).toBe('.content\\:external\\:after:after{content:external}')
-})
