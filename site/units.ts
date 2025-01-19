@@ -17,6 +17,12 @@ const units = {
             'Package'
         ]
     },
+    messages: {
+        categories: [
+            'Errors',
+            'Warnings',
+        ]
+    },
     blog: {},
     examples: {},
     play: {},
