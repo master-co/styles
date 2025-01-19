@@ -1,5 +1,5 @@
 import { MasterCSS, config as defaultConfig, Rule, SyntaxLayer } from '@master/css'
-import { type Config, SyntaxRule } from '@master/css'
+import { type Config, SyntaxRule, selectorTextToName } from '@master/css'
 
 import './types/global'
 
@@ -26,7 +26,6 @@ export class RuntimeCSS extends MasterCSS {
             this.container = this.root as RuntimeCSS['container']
             this.host = (this.root as ShadowRoot).host
         }
-        console.log(this.container)
         runtimeCSSs.push(this)
     }
 
@@ -37,7 +36,6 @@ export class RuntimeCSS extends MasterCSS {
      */
     observe(options: MutationObserverInit = { subtree: true, childList: true }) {
         if (this.observing) return this
-        console.log(this.root)
         if (this.root.styleSheets)
             for (const sheet of this.root.styleSheets) {
                 const { ownerNode } = sheet
@@ -49,210 +47,7 @@ export class RuntimeCSS extends MasterCSS {
                 }
             }
         if (this.progressive) {
-            for (let i = 0; i < this.style!.sheet!.cssRules.length; i++) {
-                const eachCSSRule = this.style!.sheet!.cssRules[i]
-                if (eachCSSRule.constructor.name === 'CSSLayerBlockRule') {
-                    const cssLayerBlockRule = eachCSSRule as CSSLayerBlockRule
-                    const handleSyntaxLayer = (layer: SyntaxLayer) => {
-                        layer.native = cssLayerBlockRule
-                        let utilityPreText: string
-                        for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                            const cssRule = cssLayerBlockRule.cssRules[j]
-                            const getSyntaxRule = (cssRule: any): SyntaxRule | undefined => {
-                                if (cssRule.selectorText) {
-                                    const selectorTexts = cssRule.selectorText.split(', ')
-                                    const escapedClassNames = selectorTexts[0].split(' ')
-                                    for (let k = 0; k < escapedClassNames.length; k++) {
-                                        const eachSelectorText = escapedClassNames[k]
-                                        if (eachSelectorText[0] === '.') {
-                                            const escapedClassName = eachSelectorText.slice(1)
-                                            let className = ''
-                                            for (let l = 0; l < escapedClassName.length; l++) {
-                                                const char = escapedClassName[l]
-                                                const nextChar = escapedClassName[l + 1]
-                                                if (char === '\\') {
-                                                    l++
-                                                    if (nextChar !== '\\') {
-                                                        className += nextChar
-
-                                                        continue
-                                                    }
-                                                } else if ([',', '.', '#', '[', '!', '*', '>', '+', '~', ':', '@'].includes(char)) {
-                                                    break
-                                                }
-                                                className += char
-                                            }
-                                            const syntaxRule = this.generate(className)[0]
-                                            if (syntaxRule) {
-                                                utilityPreText = cssRule.selectorText + '{'
-                                                return syntaxRule
-                                            }
-                                        }
-                                    }
-                                } else if (cssRule.cssRules) {
-                                    for (let k = 0; k < cssRule.cssRules.length; k++) {
-                                        const syntaxRule = getSyntaxRule(cssRule.cssRules[k])
-                                        if (syntaxRule)
-                                            return syntaxRule
-                                    }
-                                }
-                            }
-                            const syntaxRule = getSyntaxRule(cssRule)
-                            if (syntaxRule) {
-                                if (!layer.rules.includes(syntaxRule)) {
-                                    layer.rules.push(syntaxRule)
-                                    syntaxRule.definition.insert?.call(syntaxRule)
-                                }
-                                for (const eachNode of syntaxRule.nodes) {
-                                    if (!eachNode.native && eachNode.text.includes(utilityPreText!)) {
-                                        eachNode.native = cssRule
-                                        break
-                                    }
-                                }
-                            } else {
-                                cssLayerBlockRule.deleteRule(j--)
-                            }
-                        }
-                        for (const eachRule of layer.rules) {
-                            for (let k = eachRule.nodes.length - 1; k >= 0; k--) {
-                                if (!eachRule.nodes[k].native) {
-                                    eachRule.nodes.splice(k, 1)
-                                }
-                            }
-                        }
-                        if (layer.rules.length) this.rules.push(layer)
-                    }
-                    switch (cssLayerBlockRule.name) {
-                        case 'base':
-                            handleSyntaxLayer(this.baseLayer)
-                            break
-                        case 'theme':
-                            this.themeLayer.native = cssLayerBlockRule
-                            let variableRule: Rule | undefined
-                            let lastVariableName: string | undefined
-                            for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                                const cssRule = cssLayerBlockRule.cssRules[j]
-                                const variableCSSRule = (cssRule.constructor.name === 'CSSMediaRule'
-                                    ? (cssRule as CSSMediaRule).cssRules[0]
-                                    : cssRule) as CSSStyleRule
-                                const variableName = variableCSSRule.style[0].slice(2)
-                                if (variableName !== lastVariableName) {
-                                    lastVariableName = variableName
-                                    variableRule = new Rule(variableName, this)
-                                    this.themeLayer.rules.push(variableRule)
-                                    this.themeLayer.usages[variableRule.name] = 0
-                                }
-                                variableRule?.nodes.push({
-                                    native: cssRule,
-                                    text: cssRule.cssText
-                                })
-                            }
-                            if (this.themeLayer.rules.length) this.rules.push(this.themeLayer)
-                            break
-                        case 'preset':
-                            handleSyntaxLayer(this.presetLayer)
-                            break
-                        case 'styles':
-                            this.stylesLayer.native = cssLayerBlockRule
-                            let stylePreText: string
-                            for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
-                                const cssRule = cssLayerBlockRule.cssRules[j]
-                                const getSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
-                                    if (cssRule.selectorText) {
-                                        const selectorTexts = cssRule.selectorText.split(', ')
-                                        const escapedClassNames = selectorTexts[0].split(' ')
-
-                                        for (let k = 0; k < escapedClassNames.length; k++) {
-                                            const eachSelectorText = escapedClassNames[k]
-                                            if (eachSelectorText[0] === '.') {
-                                                const escapedClassName = eachSelectorText.slice(1)
-
-                                                let className = ''
-                                                for (let l = 0; l < escapedClassName.length; l++) {
-                                                    const char = escapedClassName[l]
-                                                    const nextChar = escapedClassName[l + 1]
-
-                                                    if (char === '\\') {
-                                                        l++
-
-                                                        if (nextChar !== '\\') {
-                                                            className += nextChar
-
-                                                            continue
-                                                        }
-                                                    } else if ([',', '.', '#', '[', '!', '*', '>', '+', '~', ':', '@'].includes(char)) {
-                                                        break
-                                                    }
-
-                                                    className += char
-                                                }
-
-                                                const syntaxRules = this.generate(className)
-                                                if (syntaxRules.length) {
-                                                    stylePreText = cssRule.selectorText + '{'
-                                                    return syntaxRules
-                                                }
-                                            }
-                                        }
-                                    } else if (cssRule.cssRules) {
-                                        for (let k = 0; k < cssRule.cssRules.length; k++) {
-                                            const syntaxRules = getSyntaxRules(cssRule.cssRules[k])
-                                            if (syntaxRules)
-                                                return syntaxRules
-                                        }
-                                    }
-                                }
-                                const syntaxRules = getSyntaxRules(cssRule)
-                                if (syntaxRules) {
-                                    let matched = false
-                                    for (const eachSyntaxRule of syntaxRules) {
-                                        for (const node of eachSyntaxRule.nodes) {
-                                            if (!node.native && node.text.includes(stylePreText!)) {
-                                                node.native = cssRule
-                                                if (!this.stylesLayer.rules.includes(eachSyntaxRule)) {
-                                                    this.stylesLayer.rules.push(eachSyntaxRule)
-                                                    eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
-                                                }
-                                                matched = true
-                                                break
-                                            }
-                                        }
-                                        if (matched)
-                                            break
-                                    }
-                                } else {
-                                    cssLayerBlockRule.deleteRule(j--)
-                                }
-                            }
-                            for (const eachRule of this.stylesLayer.rules) {
-                                for (let k = eachRule.nodes.length - 1; k >= 0; k--) {
-                                    if (!eachRule.nodes[k].native) {
-                                        eachRule.nodes.splice(k, 1)
-                                    }
-                                }
-                            }
-                            if (this.stylesLayer.rules.length) this.rules.push(this.stylesLayer)
-                            break
-                        case 'general':
-                            handleSyntaxLayer(this.generalLayer)
-                            break
-                    }
-                } else if (eachCSSRule.constructor.name === 'CSSLayerStatementRule') {
-                    this.layerStatementRule.nodes[0].native = eachCSSRule as CSSLayerStatementRule
-                } else if (eachCSSRule.constructor.name === 'CSSKeyframesRule') {
-                    const keyframsRule = eachCSSRule as CSSKeyframesRule
-                    const animationRule = new Rule(
-                        keyframsRule.name,
-                        this,
-                        [{
-                            native: keyframsRule,
-                            text: keyframsRule.cssText
-                        }]
-                    )
-                    this.animationsNonLayer.rules.push(animationRule)
-                    this.animationsNonLayer.usages[animationRule.name] = 0
-                }
-            }
+            this.hydrate(this.style!.sheet!.cssRules)
         } else {
             this.style = document.createElement('style')
             this.style.id = 'master'
@@ -444,6 +239,152 @@ export class RuntimeCSS extends MasterCSS {
         // @ts-ignore
         this.observing = true
         return this
+    }
+
+    hydrate(nativeCSSRules: CSSRuleList) {
+        for (let i = 0; i < nativeCSSRules.length; i++) {
+            const eachNativeCSSRule = nativeCSSRules[i]
+            if (eachNativeCSSRule.constructor.name === 'CSSLayerBlockRule') {
+                const cssLayerBlockRule = eachNativeCSSRule as CSSLayerBlockRule
+                const handleSyntaxLayer = (layer: SyntaxLayer) => {
+                    layer.native = cssLayerBlockRule
+                    const getSyntaxRule = (cssRule: any): SyntaxRule | undefined => {
+                        if (cssRule.selectorText) {
+                            const className = selectorTextToName(cssRule.selectorText)
+                            const syntaxRule = this.generate(className)[0]
+                            if (syntaxRule) return syntaxRule
+                        } else if (cssRule.cssRules) {
+                            for (let k = 0; k < cssRule.cssRules.length; k++) {
+                                const syntaxRule = getSyntaxRule(cssRule.cssRules[k])
+                                if (syntaxRule) return syntaxRule
+                            }
+                        }
+                    }
+                    for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
+                        const cssRule = cssLayerBlockRule.cssRules[j] as CSSStyleRule
+                        const syntaxRule = getSyntaxRule(cssRule)
+                        if (syntaxRule) {
+                            if (!layer.rules.includes(syntaxRule)) {
+                                layer.rules.push(syntaxRule)
+                                syntaxRule.definition.insert?.call(syntaxRule)
+                            }
+                            for (const eachNode of syntaxRule.nodes) {
+                                if (!eachNode.native) eachNode.native = cssRule
+                            }
+                        } else {
+                            cssLayerBlockRule.deleteRule?.(j--)
+                            console.warn(`Deleted an unknown syntax style`, cssRule)
+                        }
+                    }
+                    for (const eachRule of layer.rules) {
+                        for (let k = eachRule.nodes.length - 1; k >= 0; k--) {
+                            if (!eachRule.nodes[k].native) {
+                                eachRule.nodes.splice(k, 1)
+                            }
+                        }
+                    }
+                    if (layer.rules.length) this.rules.push(layer)
+                }
+                switch (cssLayerBlockRule.name) {
+                    case 'base':
+                        handleSyntaxLayer(this.baseLayer)
+                        break
+                    case 'theme':
+                        this.themeLayer.native = cssLayerBlockRule
+                        let variableRule: Rule | undefined
+                        let lastVariableName: string | undefined
+                        for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
+                            const cssRule = cssLayerBlockRule.cssRules[j]
+                            const variableCSSRule = (cssRule.constructor.name === 'CSSMediaRule'
+                                ? (cssRule as CSSMediaRule).cssRules[0]
+                                : cssRule) as CSSStyleRule
+                            const variableName = variableCSSRule.style[0].slice(2)
+                            if (variableName !== lastVariableName) {
+                                lastVariableName = variableName
+                                variableRule = new Rule(variableName)
+                                this.themeLayer.rules.push(variableRule)
+                                this.themeLayer.usages[variableRule.name] = 0
+                            }
+                            variableRule?.nodes.push({
+                                native: cssRule,
+                                text: cssRule.cssText
+                            })
+                        }
+                        if (this.themeLayer.rules.length) this.rules.push(this.themeLayer)
+                        break
+                    case 'preset':
+                        handleSyntaxLayer(this.presetLayer)
+                        break
+                    case 'styles':
+                        this.stylesLayer.native = cssLayerBlockRule
+                        let stylePreText: string
+                        const getSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
+                            if (cssRule.selectorText) {
+                                const className = selectorTextToName(cssRule.selectorText)
+                                const syntaxRules = this.generate(className)
+                                if (syntaxRules.length) {
+                                    stylePreText = cssRule.selectorText + '{'
+                                    return syntaxRules
+                                }
+                            } else if (cssRule.cssRules) {
+                                for (let k = 0; k < cssRule.cssRules.length; k++) {
+                                    const syntaxRules = getSyntaxRules(cssRule.cssRules[k])
+                                    if (syntaxRules)
+                                        return syntaxRules
+                                }
+                            }
+                        }
+                        for (let j = 0; j < cssLayerBlockRule.cssRules.length; j++) {
+                            const cssRule = cssLayerBlockRule.cssRules[j] as CSSStyleRule
+                            const syntaxRules = getSyntaxRules(cssRule)
+                            if (syntaxRules) {
+                                let matched = false
+                                for (const eachSyntaxRule of syntaxRules) {
+                                    for (const node of eachSyntaxRule.nodes) {
+                                        if (!node.native && node.text.includes(stylePreText!)) {
+                                            node.native = cssRule
+                                            if (!this.stylesLayer.rules.includes(eachSyntaxRule)) {
+                                                this.stylesLayer.rules.push(eachSyntaxRule)
+                                                eachSyntaxRule.definition.insert?.call(eachSyntaxRule)
+                                            }
+                                            matched = true
+                                            break
+                                        }
+                                    }
+                                    if (matched)
+                                        break
+                                }
+                            } else {
+                                cssLayerBlockRule?.deleteRule?.(j--)
+                                console.warn(`Deleted an unknown abstract style '${cssRule.selectorText}'`, cssRule)
+                            }
+                        }
+                        for (const eachRule of this.stylesLayer.rules) {
+                            for (let k = eachRule.nodes.length - 1; k >= 0; k--) {
+                                if (!eachRule.nodes[k].native) {
+                                    eachRule.nodes.splice(k, 1)
+                                }
+                            }
+                        }
+                        if (this.stylesLayer.rules.length) this.rules.push(this.stylesLayer)
+                        break
+                    case 'general':
+                        handleSyntaxLayer(this.generalLayer)
+                        break
+                }
+            } else if (eachNativeCSSRule.constructor.name === 'CSSLayerStatementRule') {
+                this.layerStatementRule.nodes[0].native = eachNativeCSSRule as CSSLayerStatementRule
+            } else if (eachNativeCSSRule.constructor.name === 'CSSKeyframesRule') {
+                const keyframsRule = eachNativeCSSRule as CSSKeyframesRule
+                const animationRule = new Rule(keyframsRule.name, [{
+                    native: keyframsRule,
+                    text: keyframsRule.cssText
+                }])
+                this.animationsNonLayer.rules.push(animationRule)
+                this.rules.push(animationRule)
+                this.animationsNonLayer.usages[animationRule.name] = 0
+            }
+        }
     }
 
     disconnect() {
