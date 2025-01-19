@@ -477,10 +477,6 @@ export class SyntaxRule extends Rule {
         }
     }
 
-    attach() {
-        this.layer.insert(this)
-    }
-
     resolveAtComponent(atComponent: AtComponent) {
         switch (atComponent.type) {
             case 'arbitrary':

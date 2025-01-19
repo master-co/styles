@@ -619,7 +619,7 @@ export default class MasterCSS {
     add(...classNames: string[]) {
         for (const className of classNames) {
             this.generate(className)
-                .forEach((eachSyntaxRule) => eachSyntaxRule.attach())
+                .forEach((eachSyntaxRule) => eachSyntaxRule.layer.insert(eachSyntaxRule))
         }
         return this
     }

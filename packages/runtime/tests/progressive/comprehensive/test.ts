@@ -58,7 +58,29 @@ describe('hydration', async () => {
         })
     })
 
+    test('general', () => {
+        expect(runtimeCSS.generalLayer.rules[0]).toMatchObject({
+            name: 'flex',
+            nodes: [
+                {
+                    native: { selectorText: '.flex' },
+                    text: '.flex{display:flex}'
+                }
+            ]
+        })
+        expect(runtimeCSS.generalLayer.rules[1]).toMatchObject({
+            name: '@fade|1s',
+            nodes: [
+                {
+                    native: { selectorText: '.\\@fade\\|1s' },
+                    text: '.\\@fade\\|1s{animation:fade 1s}'
+                }
+            ]
+        })
+    })
+
     test('keyframes', () => {
+        expect(runtimeCSS.animationsNonLayer.usages).toEqual({ fade: 1 })
         expect(runtimeCSS.animationsNonLayer.rules[0]).toMatchObject({
             name: 'fade',
             nodes: [
@@ -78,7 +100,6 @@ describe('hydration', async () => {
                 }
             ]
         })
-        expect(runtimeCSS.animationsNonLayer.usages).toEqual({ fade: 1 })
     })
 })
 

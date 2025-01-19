@@ -175,7 +175,7 @@ export default class CSSExtractor extends EventEmitter {
                     const validRules = generateValidRules(eachLatentClass, this.css)
                     if (validRules.length) {
                         for (const validRule of validRules) {
-                            validRule.attach()
+                            validRule.layer.insert(validRule)
                         }
                         validClasses.push(eachLatentClass)
                         this.validClasses.add(eachLatentClass)

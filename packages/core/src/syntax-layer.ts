@@ -259,6 +259,36 @@ export default class SyntaxLayer extends Layer {
             }
         }
         super.insert(syntaxRule, index)
+        this.insertVariables(syntaxRule)
+        this.insertAnimations(syntaxRule)
+        syntaxRule.definition.insert?.call(syntaxRule)
+        return index
+    }
+
+    delete(key: string) {
+        const syntaxRule = super.delete(key) as SyntaxRule | undefined
+        if (!syntaxRule) return
+        if (syntaxRule.variableNames) {
+            for (const eachVariableName of syntaxRule.variableNames) {
+                if (!--this.css.themeLayer.usages[eachVariableName]) {
+                    this.css.themeLayer.delete(eachVariableName)
+                    delete this.css.themeLayer.usages[eachVariableName]
+                }
+            }
+        }
+        if (syntaxRule.animationNames) {
+            for (const eachKeyframeName of syntaxRule.animationNames) {
+                if (!--this.css.animationsNonLayer.usages[eachKeyframeName]) {
+                    this.css.animationsNonLayer.delete(eachKeyframeName)
+                    delete this.css.animationsNonLayer.usages[eachKeyframeName]
+                }
+            }
+        }
+        syntaxRule.definition.delete?.call(syntaxRule, syntaxRule.name)
+        return syntaxRule
+    }
+
+    insertVariables(syntaxRule: SyntaxRule) {
         if (syntaxRule.variableNames) {
             for (const eachVariableName of syntaxRule.variableNames) {
                 const variable = this.css.variables[eachVariableName]
@@ -321,7 +351,9 @@ export default class SyntaxLayer extends Layer {
                 }
             }
         }
+    }
 
+    insertAnimations(syntaxRule: SyntaxRule) {
         if (syntaxRule.animationNames) {
             for (const eachAnimationName of syntaxRule.animationNames) {
                 if (this.css.animationsNonLayer.rules.find(({ name }) => name === eachAnimationName)) {
@@ -343,31 +375,5 @@ export default class SyntaxLayer extends Layer {
                 }
             }
         }
-
-        syntaxRule.definition.insert?.call(syntaxRule)
-        return index
-    }
-
-    delete(key: string) {
-        const syntaxRule = super.delete(key) as SyntaxRule | undefined
-        if (!syntaxRule) return
-        if (syntaxRule.variableNames) {
-            for (const eachVariableName of syntaxRule.variableNames) {
-                if (!--this.css.themeLayer.usages[eachVariableName]) {
-                    this.css.themeLayer.delete(eachVariableName)
-                    delete this.css.themeLayer.usages[eachVariableName]
-                }
-            }
-        }
-        if (syntaxRule.animationNames) {
-            for (const eachKeyframeName of syntaxRule.animationNames) {
-                if (!--this.css.animationsNonLayer.usages[eachKeyframeName]) {
-                    this.css.animationsNonLayer.delete(eachKeyframeName)
-                    delete this.css.animationsNonLayer.usages[eachKeyframeName]
-                }
-            }
-        }
-        syntaxRule.definition.delete?.call(syntaxRule, syntaxRule.name)
-        return syntaxRule
     }
 }
