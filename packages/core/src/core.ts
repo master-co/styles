@@ -562,6 +562,8 @@ export default class MasterCSS {
                             className += nextChar
                             continue
                         }
+                    } else if (['.', '#', '[', '!', '*', '>', '+', '~', ':'].includes(char)) {
+                        break
                     }
                     className += char
                 }
@@ -569,6 +571,7 @@ export default class MasterCSS {
                 if (syntaxRules.length) return syntaxRules
             }
         }
+        return []
     }
 
     /**

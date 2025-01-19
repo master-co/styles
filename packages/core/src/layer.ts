@@ -13,7 +13,7 @@ export default class Layer {
     ) { }
 
     insert(rule: Rule, index?: number) {
-        if (this.rules.includes(rule)) return
+        if (this.rules.find((({ key }) => key === rule.key))) return
 
         if (!this.css.rules.includes(this)) {
             this.css.rules.push(this)
@@ -84,9 +84,11 @@ export default class Layer {
 
         if (this.native && 'nodes' in rule) {
             const firstNode = rule.nodes[0]
-            const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNode.native!)
-            if (foundIndex !== -1) {
-                rule.nodes.forEach(() => this.native?.deleteRule(foundIndex))
+            if (firstNode?.native) {
+                const foundIndex = findNativeCSSRuleIndex(this.native.cssRules, firstNode.native)
+                if (foundIndex !== -1) {
+                    rule.nodes.forEach(() => this.native?.deleteRule(foundIndex))
+                }
             }
         }
 
