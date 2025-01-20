@@ -1,5 +1,5 @@
 import { type CompletionItem, CompletionItemKind } from 'vscode-languageserver-protocol'
-import { SyntaxType, MasterCSS, generateCSS, isCoreRule } from '@master/css'
+import { SyntaxRuleType, MasterCSS, generateCSS, isCoreRule } from '@master/css'
 import { getCSSDataDocumentation } from './get-css-data-documentation'
 import sortCompletionItems from './sort-completion-items'
 import getUtilityInfo from './get-utility-info'
@@ -9,7 +9,7 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
     const completionItems: CompletionItem[] = []
     const addedKeys = new Set<string>()
     for (const eachDefinedRule of css.definedRules) {
-        if (eachDefinedRule.definition.type === SyntaxType.Utility) {
+        if (eachDefinedRule.definition.type === SyntaxRuleType.Utility) {
             const { data, detail, docs } = getUtilityInfo(eachDefinedRule, css)
             const utilityName = eachDefinedRule.id.slice(1)
             completionItems.push({

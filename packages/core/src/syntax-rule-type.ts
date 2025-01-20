@@ -1,4 +1,4 @@
-const enum SyntaxType {
+const enum SyntaxRuleType {
     /**
      * utility classes
      * @example block, inline
@@ -26,4 +26,4 @@ const enum SyntaxType {
     Normal = 0,
 }
 
-export default SyntaxType
+export default SyntaxRuleType

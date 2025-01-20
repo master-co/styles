@@ -2,7 +2,7 @@ import type { Hover, HoverParams, Range } from 'vscode-languageserver-protocol'
 import type CSSLanguageService from '../core'
 import type { TextDocument } from 'vscode-languageserver-textdocument'
 import { getCSSDataDocumentation } from '../utils/get-css-data-documentation'
-import { Layer, SyntaxType, generateCSS, isCoreRule } from '@master/css'
+import { Layer, SyntaxRuleType, generateCSS, isCoreRule } from '@master/css'
 import cssDataProvider from '../utils/css-data-provider'
 import getUtilityInfo from '../utils/get-utility-info'
 
@@ -32,7 +32,7 @@ export default function inspectSyntax(this: CSSLanguageService, document: TextDo
         const rules = this.css.generate(token)
         const rule = rules[0]
         if (rule) {
-            if (rule.type === SyntaxType.Utility) {
+            if (rule.type === SyntaxRuleType.Utility) {
                 const { data, docs } = getUtilityInfo(rule.registeredSyntax, this.css)
                 const documentation = getCSSDataDocumentation(data, {
                     generatedCSS: generateCSS([token], this.css),

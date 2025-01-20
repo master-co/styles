@@ -1,12 +1,12 @@
 export * from './config'
 export * from './common'
 export * from './core'
-export * from './syntax-rule'
+export * from './syntax-rule-type'
 export * from './rule'
 export { default as Layer } from './layer'
 export { default as SyntaxLayer } from './syntax-layer'
 export { default as NonLayer } from './non-layer'
-export { default as SyntaxType } from './syntax-type'
+export { default as SyntaxRuleType } from './syntax-rule-type'
 export { default as MasterCSS, default } from './core'
 
 // types

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import MasterCSS from './core'
 import cssEscape from 'shared/utils/css-escape'
-import SyntaxType from './syntax-type'
+import SyntaxRuleType from './syntax-rule-type'
 import { type PropertiesHyphen } from 'csstype'
 import { VALUE_DELIMITERS, BASE_UNIT_REGEX, UNIT_REGEX } from './common'
 import { Rule } from './rule'
@@ -13,7 +13,7 @@ export class SyntaxRule extends Rule {
     readonly at: Record<string, AtComponent[]> = {}
     readonly priority: number = -1
     readonly order: number = 0
-    readonly type: SyntaxType = 0
+    readonly type: SyntaxRuleType = 0
     readonly declarations?: PropertiesHyphen
     readonly layer: Layer
 
@@ -33,7 +33,7 @@ export class SyntaxRule extends Rule {
         Object.assign(this, registeredSyntax)
         const { id, definition } = registeredSyntax
         const { analyze, transformValue, declare, transformValueComponents, create, type, unit } = definition
-        this.type = type as SyntaxType
+        this.type = type as SyntaxRuleType
         const { scope, important, modes } = css.config
         const { selectors, at, animations } = css
 
@@ -44,7 +44,7 @@ export class SyntaxRule extends Rule {
         let stateToken: string
         let prefixToken: string | undefined
 
-        if (this.type === SyntaxType.Utility) {
+        if (this.type === SyntaxRuleType.Utility) {
             // TODO: id 使用其他方式傳遞
             stateToken = name.slice(id.length - 1)
         } else {

@@ -8,7 +8,7 @@ import { type PropertiesHyphen } from 'csstype'
 import './types/global' // fix: ../css/src/core.ts:1205:16 - error TS7017: Element implicitly has an 'any' type because type 'typeof globalThis' has no index signature.
 import SyntaxLayer from './syntax-layer'
 import { Rule } from './rule'
-import SyntaxType from './syntax-type'
+import SyntaxRuleType from './syntax-rule-type'
 import Layer from './layer'
 import NonLayer from './non-layer'
 import { ColorVariable, DefinedRule, Variable } from './types/syntax'
@@ -324,7 +324,7 @@ export default class MasterCSS {
             if (utilities) {
                 for (const utilityName in utilities) {
                     const declarations = utilities[utilityName] as any
-                    rulesEntries.push([utilityName, { declarations, type: SyntaxType.Utility }])
+                    rulesEntries.push([utilityName, { declarations, type: SyntaxRuleType.Utility }])
                 }
             }
             if (rules) {
@@ -339,24 +339,24 @@ export default class MasterCSS {
                     }
                     return b[0].localeCompare(a[0])
                 })
-                .forEach(([id, eachSyntaxDefinition], index: number) => {
+                .forEach(([id, eachSyntaxRuleDefinition], index: number) => {
                     const syntax: DefinedRule = {
                         id,
                         keys: [],
                         variables: {},
                         matchers: {},
                         order: rulesEntriesLength - 1 - index,
-                        definition: eachSyntaxDefinition
+                        definition: eachSyntaxRuleDefinition
                     }
-                    if (!eachSyntaxDefinition.unit) {
-                        eachSyntaxDefinition.unit = ''
+                    if (!eachSyntaxRuleDefinition.unit) {
+                        eachSyntaxRuleDefinition.unit = ''
                     }
-                    if (!eachSyntaxDefinition.separators) {
-                        eachSyntaxDefinition.separators = [',']
+                    if (!eachSyntaxRuleDefinition.separators) {
+                        eachSyntaxRuleDefinition.separators = [',']
                     }
                     this.definedRules.push(syntax)
-                    const { matcher, type, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxDefinition
-                    if (type === SyntaxType.Utility) {
+                    const { matcher, type, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxRuleDefinition
+                    if (type === SyntaxRuleType.Utility) {
                         syntax.id = '.' + id
                         syntax.matchers.arbitrary = new RegExp('^' + escapeString(id) + '(?=!|\\*|>|\\+|~|:|\\[|@|_|\\.|$)', 'm')
                     }
@@ -372,8 +372,8 @@ export default class MasterCSS {
                     }
 
                     // 1. custom `config.rules[id].variables`
-                    if (eachSyntaxDefinition.variables) {
-                        for (const eachVariableGroup of eachSyntaxDefinition.variables) {
+                    if (eachSyntaxRuleDefinition.variables) {
+                        for (const eachVariableGroup of eachSyntaxRuleDefinition.variables) {
                             addResolvedVariables(eachVariableGroup)
                         }
                     }
@@ -381,9 +381,9 @@ export default class MasterCSS {
                     // 2. custom `config.variables`
                     addResolvedVariables(id)
                     const keys = []
-                    let { key } = eachSyntaxDefinition
-                    if (type === SyntaxType.NativeShorthand || type === SyntaxType.Native) {
-                        if (!key) eachSyntaxDefinition.key = key = id
+                    let { key } = eachSyntaxRuleDefinition
+                    if (type === SyntaxRuleType.NativeShorthand || type === SyntaxRuleType.Native) {
+                        if (!key) eachSyntaxRuleDefinition.key = key = id
                         keys.push(id)
                     }
                     if (sign) {
@@ -395,7 +395,7 @@ export default class MasterCSS {
                         } else {
                             if (key && !keys.includes(key)) keys.push(key)
                             if (subkey) keys.push(subkey)
-                            if (type === SyntaxType.Shorthand) {
+                            if (type === SyntaxRuleType.Shorthand) {
                                 keys.push(id)
                             }
                         }

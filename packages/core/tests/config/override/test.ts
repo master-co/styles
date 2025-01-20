@@ -1,6 +1,6 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
-import { Config, SyntaxType } from '../../../src'
+import { Config, SyntaxRuleType } from '../../../src'
 import { NUMBER_VALUE_REGEX } from '../../../src/common'
 
 const customConfig: Config = {
@@ -11,7 +11,7 @@ const customConfig: Config = {
             key: 'custom',
             ambiguousValues: [NUMBER_VALUE_REGEX],
             unit: 'rem',
-            type: SyntaxType.Normal,
+            type: SyntaxRuleType.Normal,
         }
     }
 }

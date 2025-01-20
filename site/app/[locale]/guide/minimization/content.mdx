@@ -14,9 +14,9 @@
 ```
 This works fine, but even if you only used one `animation1` of the keyframes, the other unused ones would still be included in the final output and runtime style sheet.
 
-Master CSS [animations](/guide/custom-animations) work by parsing the `animation` and `animation-name` component values and generating the corresponding CSS keyframe into the stylesheet.
+Master CSS [animations](/guide/configuration#animations) work by parsing the `animation` and `animation-name` component values and generating the corresponding CSS keyframe into the stylesheet.
 
-(o) Customize your keyframes using the Master CSS [animations API](/guide/custom-animations).
+(o) Customize your keyframes using the Master CSS [animations API](/guide/configuration#animations).
 ```js name=master.css.js
 export default {
     animations: {

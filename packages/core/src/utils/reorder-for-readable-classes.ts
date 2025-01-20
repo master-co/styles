@@ -1,4 +1,4 @@
-import SyntaxType from '../syntax-type'
+import SyntaxRuleType from '../syntax-rule-type'
 import MasterCSS from '../core'
 
 /**
@@ -13,11 +13,11 @@ export default function reorderForReadableClasses(classes: string[], css = new M
         // 只保留樣式語法相關的 rules, 排除 keyframes 與 variables 在外
         .filter(eachRule => eachRule.type)
         .sort((a, b) => {
-            if (a.type === SyntaxType.Utility && b.type !== SyntaxType.Utility) {
-                // 如果 a 是 SyntaxType.Utility 而 b 不是，则 a 应该排在 b 前面
+            if (a.type === SyntaxRuleType.Utility && b.type !== SyntaxRuleType.Utility) {
+                // 如果 a 是 SyntaxRuleType.Utility 而 b 不是，则 a 应该排在 b 前面
                 return -1
-            } else if (a.type !== SyntaxType.Utility && b.type === SyntaxType.Utility) {
-                // 如果 b 是 SyntaxType.Utility 而 a 不是，则 b 应该排在 a 前面
+            } else if (a.type !== SyntaxRuleType.Utility && b.type === SyntaxRuleType.Utility) {
+                // 如果 b 是 SyntaxRuleType.Utility 而 a 不是，则 b 应该排在 a 前面
                 return 1
             } else if (a.id !== b.id) {
                 return a.name.localeCompare(b.name)

@@ -1,14 +1,14 @@
 import cssEscape from 'shared/utils/css-escape'
 import type { SyntaxRule } from '../syntax-rule'
-import SyntaxType from '../syntax-type'
+import SyntaxRuleType from '../syntax-rule-type'
 import { BORDER_STYLE_VALUES, COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE_REGEX, VALUE_DELIMITERS } from '../common'
 import autofillSolidStyle from '../utils/autofill-solid-style'
-import { SyntaxDefinition } from '../types/config'
+import { SyntaxRuleDefinition } from '../types/config'
 
 const rules = {
     group: {
         matcher: /^(?:.+?[*_>~+])?\{.+?\}/,
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         analyze(className: string) {
             let i = 0
             for (; i < className.length; i++) {
@@ -128,35 +128,35 @@ const rules = {
 
             return declarations
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     variable: {
         matcher: /^\$[\w-]+:/, // don't use 'rem' as default, because css variable is common API
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 ['--' + this.keyToken.slice(1, -1)]: value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'font-size': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'font-weight': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['bolder'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'font-family': {
         ambiguousKeys: ['font', 'f'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'font-smoothing': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['antialiased', 'subpixel-antialiased'],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             switch (value) {
                 case 'subpixel-antialiased':
@@ -171,25 +171,25 @@ const rules = {
                     }
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'font-style': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['normal', 'italic', 'oblique'],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'deg'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'font-variant-numeric': {
         ambiguousKeys: ['font', 'f'],
         ambiguousValues: ['ordinal', 'slashed-zero', 'lining-nums', 'oldstyle-nums', 'proportional-nums', 'tabular-nums', 'diagonal-fractions', 'stacked-fractions'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'font-variant': {
         ambiguousKeys: ['font', 'f'],
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
     },
     font: {
         subkey: 'f',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: [
             'font-family',
             'font-variant',
@@ -198,46 +198,46 @@ const rules = {
             'font-style',
             'line-height'
         ]
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'font-feature-settings': {
         key: 'font-feature',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     color: {
         key: 'fg',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['text']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // margin
     'margin-left': {
         key: 'ml',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'margin-right': {
         key: 'mr',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'margin-top': {
         key: 'mt',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'margin-bottom': {
         key: 'mb',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'margin-x': {
         key: 'mx',
         subkey: 'margin-x',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'margin-left': value,
@@ -245,11 +245,11 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'margin-y': {
         key: 'my',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'margin-top': value,
@@ -257,61 +257,61 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     margin: {
         key: 'm',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // margin inline
     'margin-inline-start': {
         key: 'mis',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'margin-inline-end': {
         key: 'mie',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'margin-inline': {
         key: 'mi',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // padding
     'padding-left': {
         key: 'pl',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'padding-right': {
         key: 'pr',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'padding-top': {
         key: 'pt',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'padding-bottom': {
         key: 'pb',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'padding-x': {
         key: 'px',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'padding-left': value,
@@ -319,11 +319,11 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'padding-y': {
         key: 'py',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'padding-top': value,
@@ -331,85 +331,85 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     padding: {
         key: 'p',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // padding inline
     'padding-inline-start': {
         key: 'pis',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'padding-inline-end': {
         key: 'pie',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'padding-inline': {
         key: 'pi',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // flex
     'flex-basis': {
         ambiguousKeys: ['flex'],
         unit: 'rem',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'flex-wrap': {
         ambiguousKeys: ['flex'],
         ambiguousValues: ['wrap', 'nowrap', 'wrap-reverse'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'flex-grow': {
         ambiguousKeys: ['flex'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'flex-shrink': {
         ambiguousKeys: ['flex'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'flex-direction': {
         ambiguousKeys: ['flex'],
         ambiguousValues: ['row', 'row-reverse', 'column', 'column-reverse'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     flex: {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     display: {
         key: 'd',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     width: {
         key: 'w',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     height: {
         key: 'h',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'min-width': {
         key: 'min-w',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'min-height': {
         key: 'min-h',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     size: {
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         unit: 'rem',
         declare(_value, valueComponents) {
             const length = valueComponents.length
@@ -422,10 +422,10 @@ const rules = {
                     : valueComponents[2].text
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'min-size': {
         key: 'min',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         unit: 'rem',
         declare(_value, valueComponents) {
             const length = valueComponents.length
@@ -438,10 +438,10 @@ const rules = {
                     : valueComponents[2].text
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'max-size': {
         key: 'max',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         unit: 'rem',
         declare(_value, valueComponents) {
             const length = valueComponents.length
@@ -454,86 +454,86 @@ const rules = {
                     : valueComponents[2].text
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'box-sizing': {
         ambiguousKeys: ['box'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'box-decoration-break': {
         key: 'box-decoration',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-box-decoration-break': value,
                 'box-decoration-break': value,
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     contain: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     content: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'counter-increment': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'counter-reset': {
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'letter-spacing': {
         key: 'tracking',
         subkey: 'ls',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'em'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'line-height': {
         key: 'leading',
         subkey: 'line-h',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'object-fit': {
         ambiguousKeys: ['object', 'obj'],
         ambiguousValues: ['contain', 'cover', 'fill', 'scale-down'],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'object-position': {
         ambiguousKeys: ['object', 'obj'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center'],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'text-align': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['justify', 'center', 'left', 'right', 'start', 'end'],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'text-decoration-color': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['text']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-decoration-style': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['solid', 'double', 'dotted', 'dashed', 'wavy'],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'text-decoration-thickness': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['from-font', NUMBER_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'em'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-decoration-line': {
         ambiguousKeys: ['text-decoration'],
         ambiguousValues: ['underline', 'overline', 'line-through'],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'text-decoration': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['underline', 'overline', 'line-through'],
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['text'],
         declare(value) {
             return {
@@ -541,190 +541,190 @@ const rules = {
                 'text-decoration': value,
             }
         },
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-underline-offset': {
         ambiguousKeys: ['text-underline'],
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-underline-position': {
         ambiguousKeys: ['text-underline'],
         ambiguousValues: ['front-font', 'under', 'left', 'right'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'text-overflow': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['ellipsis', 'clip'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'text-orientation': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['mixed', 'upright', 'sideways-right', 'sideways', 'use-glyph-orientation'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'text-transform': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['uppercase', 'lowercase', 'capitalize'],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'text-rendering': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['optimizeSpeed', 'optimizeLegibility', 'geometricPrecision'],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'text-wrap': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: ['wrap', 'nowrap', 'balance', 'pretty'],
-        type: SyntaxType.NativeShorthand,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand,
+    } as SyntaxRuleDefinition,
     'text-indent': {
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'vertical-align': {
         key: 'v',
         subkey: 'vertical',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     columns: {
         key: 'cols',
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'white-space': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     top: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     bottom: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     left: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     right: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     inset: {
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'max-height': {
         key: 'max-h',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'max-width': {
         key: 'max-w',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     opacity: {
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     visibility: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     clear: {
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     float: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     isolation: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'overflow-x': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return value === 'overlay'
                 ? { 'overflow-x': ['auto', value] }
                 : { 'overflow-x': value }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'overflow-y': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return value === 'overlay'
                 ? { 'overflow-y': ['auto', value] }
                 : { 'overflow-y': value }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     overflow: {
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         declare(value) {
             return value === 'overlay'
                 ? { overflow: ['auto', value] }
                 : { overflow: value }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'overscroll-behavior-x': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'overscroll-behavior-y': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'overscroll-behavior': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'z-index': {
         key: 'z',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     position: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     cursor: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'pointer-events': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     resize: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'touch-action': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'word-break': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'word-spacing': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'em'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'user-drag': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-user-drag': value,
                 'user-drag': value,
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'user-select': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-user-select': value,
                 'user-select': value,
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-shadow': {
         unit: 'rem',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'text-size': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
@@ -736,49 +736,49 @@ const rules = {
                 'line-height': `calc(${value} + ${diff}em)`
             }
         },
-        type: SyntaxType.Shorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Shorthand
+    } as SyntaxRuleDefinition,
     'text-fill-color': {
         ambiguousKeys: ['text', 't'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['text'],
         declare(value) {
             return {
                 '-webkit-text-fill-color': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-stroke-width': {
         ambiguousKeys: ['text-stroke'],
         ambiguousValues: ['thin', 'medium', 'thick', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-text-stroke-width': value
             }
         },
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-stroke-color': {
         ambiguousKeys: ['text-stroke'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-text-stroke-color': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-stroke': {
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-text-stroke': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'text-truncate': {
         subkey: 'lines',
         declare(value) {
@@ -791,59 +791,59 @@ const rules = {
                 'text-overflow': 'ellipsis',
             }
         },
-        type: SyntaxType.Shorthand,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Shorthand,
+    } as SyntaxRuleDefinition,
     'box-shadow': {
         key: 'shadow',
         subkey: 's',
         unit: 'rem',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'table-layout': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'transform-box': {
         ambiguousKeys: ['transform'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'transform-style': {
         ambiguousKeys: ['transform'],
         ambiguousValues: ['flat', 'preserve-3d'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'transform-origin': {
         ambiguousKeys: ['transform'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center', NUMBER_VALUE_REGEX],
         unit: 'px',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     transform: {
         matcher: /^(?:translate|scale|skew|rotate|perspective|matrix)(?:3d|[XYZ])?\(/,
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         analyze(className: string) {
             return [className.startsWith('transform') ? className.slice(10) : className]
         },
         unit: 'px',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'transition-property': {
         key: '~property',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'transition-timing-function': {
         key: '~easing',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'transition-duration': {
         key: '~duration',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'ms'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'transition-delay': {
         key: '~delay',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'ms'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     transition: {
         sign: '~',
         analyze(className: string) {
@@ -855,46 +855,46 @@ const rules = {
                 return [className.slice(indexOfColon + 1)]
             }
         },
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'animation-delay': {
         key: '@delay',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'ms'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'animation-direction': {
         key: '@direction',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'animation-duration': {
         key: '@duration',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'ms'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'animation-fill-mode': {
         key: '@fill',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'animation-iteration-count': {
         key: '@iteration',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'animation-name': {
         key: '@name',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         includeAnimations: true
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'animation-play-state': {
         key: '@play',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'animation-timing-function': {
         key: '@easing',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     animation: {
         sign: '@',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         includeAnimations: true,
         analyze(className: string) {
             if (className.startsWith('@')) {
@@ -905,46 +905,46 @@ const rules = {
                 return [className.slice(indexOfColon + 1)]
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-collapse': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: ['collapse', 'separate'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-spacing': {
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // border color
     'border-top-color': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-bottom-color': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-left-color': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-right-color': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-x-color': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         variables: ['frame'],
         declare(value) {
             return {
@@ -952,11 +952,11 @@ const rules = {
                 'border-right-color': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-y-color': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         variables: ['frame'],
         declare(value) {
             return {
@@ -964,249 +964,249 @@ const rules = {
                 'border-bottom-color': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-color': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // border radius
     'border-top-left-radius': {
         key: 'rtl',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-top-right-radius': {
         key: 'rtr',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-bottom-left-radius': {
         key: 'rbl',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-bottom-right-radius': {
         key: 'rbr',
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-top-radius': {
         key: 'rt',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-top-left-radius': value,
                 'border-top-right-radius': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-bottom-radius': {
         key: 'rb',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-bottom-left-radius': value,
                 'border-bottom-right-radius': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-left-radius': {
         key: 'rl',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-top-left-radius': value,
                 'border-bottom-left-radius': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-right-radius': {
         key: 'rr',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-top-right-radius': value,
                 'border-bottom-right-radius': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-radius': {
         key: 'r',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     // border style
     'border-top-style': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-bottom-style': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-left-style': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-right-style': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-x-style': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-left-style': value,
                 'border-right-style': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-y-style': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-top-style': value,
                 'border-bottom-style': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-style': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     // border width
     'border-top-width': {
         ambiguousKeys: ['bt', 'border-top'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-bottom-width': {
         ambiguousKeys: ['bb', 'border-bottom'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-left-width': {
         ambiguousKeys: ['bl', 'border-left'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-right-width': {
         ambiguousKeys: ['br', 'border-right'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'border-x-width': {
         ambiguousKeys: ['bx', 'border-x'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-left-width': value,
                 'border-right-width': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-y-width': {
         ambiguousKeys: ['by', 'border-y'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'border-top-width': value,
                 'border-bottom-width': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-width': {
         ambiguousKeys: ['b', 'border'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     // border image
     'border-image-repeat': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: ['stretch', 'repeat', 'round', 'space'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-image-slice': {
         ambiguousKeys: ['border-image'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-image-source': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-image-width': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: ['auto', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-image-outset': {
         ambiguousKeys: ['border-image'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'border-image': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     // border
     'border-top': {
         key: 'bt',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-bottom': {
         key: 'bb',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-left': {
         key: 'bl',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-right': {
         key: 'br',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         unit: 'rem',
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-x': {
         key: 'bx',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
         declare(value) {
@@ -1215,11 +1215,11 @@ const rules = {
                 'border-right': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'border-y': {
         key: 'by',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
         declare(value) {
@@ -1228,146 +1228,146 @@ const rules = {
                 'border-bottom': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     border: {
         key: 'b',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         transformValueComponents: autofillSolidStyle,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'background-attachment': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['fixed', 'local', 'scroll'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'background-blend-mode': {
         key: 'bg-blend',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'background-color': {
         ambiguousKeys: ['bg'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'background-clip': {
         key: 'bg-clip',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-background-clip': value,
                 'background-clip': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'background-origin': {
         key: 'bg-origin',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'background-position': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['top', 'bottom', 'right', 'left', 'center'],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'px'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'background-repeat': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['space', 'round', 'repeat', 'no-repeat', 'repeat-x', 'repeat-y'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'background-size': {
         ambiguousKeys: ['bg'],
         ambiguousValues: ['auto', 'cover', 'contain', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'background-image': {
         ambiguousKeys: ['bg'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     background: {
         key: 'bg',
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     gradient: {
         matcher: /^gradient\(/,
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'background-image': 'linear-' + value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'mix-blend-mode': {
         key: 'blend',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'backdrop-filter': {
         key: 'bd',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-backdrop-filter': value,
                 'backdrop-filter': value,
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     filter: {
         matcher: /^(?:blur|brightness|contrast|drop-shadow|grayscale|hue-rotate|invert|opacity|saturate|sepia)\(/,
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     fill: {
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     'stroke-dasharray': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'stroke-dashoffset': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'stroke-width': {
         ambiguousKeys: ['stroke'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     stroke: {
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     x: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     y: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     cx: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     cy: {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     rx: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     ry: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-column-start': {
         key: 'grid-col-start',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-column-end': {
         key: 'grid-col-end',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-column-span': {
         key: 'grid-col-span',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         transformValue(value) {
             return 'span' + ' ' + value + '/' + 'span' + ' ' + value
         },
@@ -1376,11 +1376,11 @@ const rules = {
                 'grid-column': value
             }
         },
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'grid-column': {
         key: 'grid-col',
-        type: SyntaxType.NativeShorthand,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand,
+    } as SyntaxRuleDefinition,
     'grid-columns': {
         key: 'grid-cols',
         declare(value) {
@@ -1393,16 +1393,16 @@ const rules = {
                     + '(' + 0 + ',' + 1 + 'fr' + '))',
             }
         },
-        type: SyntaxType.Shorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Shorthand
+    } as SyntaxRuleDefinition,
     'grid-row-start': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-row-end': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-row-span': {
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         transformValue(value) {
             return 'span' + ' ' + value + '/' + 'span' + ' ' + value
         },
@@ -1411,10 +1411,10 @@ const rules = {
                 'grid-row': value
             }
         }
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'grid-row': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'grid-rows': {
         declare(value) {
             return {
@@ -1427,154 +1427,154 @@ const rules = {
                     + '(' + 0 + ',' + 1 + 'fr' + '))',
             }
         },
-        type: SyntaxType.Shorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Shorthand
+    } as SyntaxRuleDefinition,
     'grid-auto-columns': {
         key: 'grid-auto-cols',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-auto-flow': {
         key: 'grid-flow',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-auto-rows': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-template-areas': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'grid-template-columns': {
         key: 'grid-template-cols',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'grid-template-rows': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem'
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'grid-template': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'grid-area': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     grid: {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'column-gap': {
         key: 'gap-x',
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'row-gap': {
         key: 'gap-y',
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     gap: {
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     order: {
         key: 'o',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'break-inside': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'break-before': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'break-after': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'aspect-ratio': {
         key: 'aspect',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'column-span': {
         key: 'col-span',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'align-content': {
         subkey: 'ac',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'align-items': {
         subkey: 'ai',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'align-self': {
         subkey: 'as',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'justify-content': {
         subkey: 'jc',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'justify-items': {
         subkey: 'ji',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'justify-self': {
         subkey: 'js',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'place-content': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'place-items': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'place-self': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'list-style-position': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: ['inside', 'outside'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'list-style-type': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: ['disc', 'decimal'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'list-style-image': {
         ambiguousKeys: ['list-style'],
         ambiguousValues: [IMAGE_VALUE_REGEX],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'list-style': {
-        type: SyntaxType.NativeShorthand
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.NativeShorthand
+    } as SyntaxRuleDefinition,
     'outline-color': {
         ambiguousKeys: ['outline'],
         ambiguousValues: [COLOR_VALUE_REGEX],
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['frame'],
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'outline-offset': {
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'outline-style': {
         ambiguousKeys: ['outline'],
         ambiguousValues: BORDER_STYLE_VALUES,
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'outline-width': {
         ambiguousKeys: ['outline'],
         ambiguousValues: ['medium', 'thick', 'thin', NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     outline: {
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: [
             'outline-width',
             'outline-style',
@@ -1583,51 +1583,51 @@ const rules = {
             'frame'
         ],
         transformValueComponents: autofillSolidStyle
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'accent-color': {
         key: 'accent',
-        type: SyntaxType.Native,
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native,
+    } as SyntaxRuleDefinition,
     appearance: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'caret-color': {
         key: 'caret',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['text']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-behavior': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     // scroll margin
     'scroll-margin-left': {
         key: 'scroll-ml',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-margin-right': {
         key: 'scroll-mr',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-margin-top': {
         key: 'scroll-mt',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-margin-bottom': {
         key: 'scroll-mb',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-margin-x': {
         key: 'scroll-mx',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'scroll-margin-left': value,
@@ -1635,11 +1635,11 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-margin-y': {
         key: 'scroll-my',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'scroll-margin-top': value,
@@ -1647,42 +1647,42 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-margin': {
         key: 'scroll-m',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // scroll padding
     'scroll-padding-left': {
         key: 'scroll-pl',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-padding-right': {
         key: 'scroll-pr',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-padding-top': {
         key: 'scroll-pt',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-padding-bottom': {
         key: 'scroll-pb',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         unit: 'rem',
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-padding-x': {
         key: 'scroll-px',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'scroll-padding-left': value,
@@ -1690,11 +1690,11 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-padding-y': {
         key: 'scroll-py',
         unit: 'rem',
-        type: SyntaxType.Shorthand,
+        type: SyntaxRuleType.Shorthand,
         declare(value) {
             return {
                 'scroll-padding-top': value,
@@ -1702,70 +1702,70 @@ const rules = {
             }
         },
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'scroll-padding': {
         key: 'scroll-p',
         unit: 'rem',
-        type: SyntaxType.NativeShorthand,
+        type: SyntaxRuleType.NativeShorthand,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     // scroll snap
     'scroll-snap-align': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['start', 'end', 'center'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'scroll-snap-stop': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['normal', 'always'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'scroll-snap-type': {
         ambiguousKeys: ['scroll-snap'],
         ambiguousValues: ['x', 'y', 'block', 'inline', 'both'],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'will-change': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'writing-mode': {
         key: 'writing',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     direction: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'shape-outside': {
         ambiguousKeys: ['shape'],
         ambiguousValues: [/(?:inset|circle|ellipse|polygon|url|linear-gradient)\(.*\)/],
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'shape-margin': {
         ambiguousKeys: ['shape'],
         ambiguousValues: [NUMBER_VALUE_REGEX],
         unit: 'rem',
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         variables: ['spacing']
-    } as SyntaxDefinition,
+    } as SyntaxRuleDefinition,
     'shape-image-threshold': {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'clip-path': {
         key: 'clip',
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     quotes: {
-        type: SyntaxType.Native
-    } as SyntaxDefinition,
+        type: SyntaxRuleType.Native
+    } as SyntaxRuleDefinition,
     'mask-image': {
-        type: SyntaxType.Native,
+        type: SyntaxRuleType.Native,
         declare(value) {
             return {
                 '-webkit-mask-image': value,
                 'mask-image': value,
             }
         }
-    } as SyntaxDefinition
+    } as SyntaxRuleDefinition
 }
 
 export default rules
