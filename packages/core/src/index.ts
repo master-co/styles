@@ -1,7 +1,7 @@
 export * from './config'
 export * from './common'
 export * from './core'
-export * from './syntax-rule-type'
+export * from './syntax-rule'
 export * from './rule'
 export { default as Layer } from './layer'
 export { default as SyntaxLayer } from './syntax-layer'
