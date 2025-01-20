@@ -25,7 +25,7 @@ export default class MasterCSS {
     readonly baseLayer = new SyntaxLayer('base', this)
     readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
-    readonly stylesLayer = new SyntaxLayer('components', this)
+    readonly componentsLayer = new SyntaxLayer('components', this)
     readonly generalLayer = new SyntaxLayer('general', this)
 
     get text() {
@@ -592,7 +592,7 @@ export default class MasterCSS {
         this.baseLayer.reset()
         this.themeLayer.reset()
         this.presetLayer.reset()
-        this.stylesLayer.reset()
+        this.componentsLayer.reset()
         this.generalLayer.reset()
         this.animationsNonLayer.reset()
         return this
@@ -621,7 +621,7 @@ export default class MasterCSS {
         for (const className of classNames) {
             if (Object.prototype.hasOwnProperty.call(this.components, className)) {
                 for (const eachSyntax of this.components[className]) {
-                    this.stylesLayer.delete(className + ' ' + eachSyntax)
+                    this.componentsLayer.delete(className + ' ' + eachSyntax)
                 }
             } else {
                 const atIndex = className.indexOf('@')
@@ -630,7 +630,7 @@ export default class MasterCSS {
                     if (Object.prototype.hasOwnProperty.call(this.components, name)) {
                         const atToken = className.slice(atIndex)
                         for (const eachSyntax of this.components[name]) {
-                            this.stylesLayer.delete(eachSyntax + atToken + ' ' + className)
+                            this.componentsLayer.delete(eachSyntax + atToken + ' ' + className)
                         }
                     } else {
                         this.generalLayer.delete(className)

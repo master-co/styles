@@ -47,7 +47,7 @@ describe('hydration', async () => {
     })
 
     test('components', () => {
-        expect(runtimeCSS.stylesLayer.rules[0]).toMatchObject({
+        expect(runtimeCSS.componentsLayer.rules[0]).toMatchObject({
             name: '{inline-flex;bg:primary}',
             nodes: [
                 {

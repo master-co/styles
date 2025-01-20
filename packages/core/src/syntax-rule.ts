@@ -474,7 +474,7 @@ export class SyntaxRule extends Rule {
         }
 
         if (this.fixedClass) {
-            this.layer = css.stylesLayer
+            this.layer = css.componentsLayer
         }
     }
 

@@ -15,7 +15,7 @@ export const expectLayers = (
 ) => {
     const css = new MasterCSS(customConfig).add(...(Array.isArray(className) ? className : [className]))
     if (layers.theme) expect(css.themeLayer.text).toContain(`@layer theme{${layers.theme ?? ''}}`)
-    if (layers.components) expect(css.stylesLayer.text).toContain(`@layer components{${layers.components ?? ''}}`)
+    if (layers.components) expect(css.componentsLayer.text).toContain(`@layer components{${layers.components ?? ''}}`)
     if (layers.preset) expect(css.presetLayer.text).toContain(`@layer preset{${layers.preset ?? ''}}`)
     if (layers.base) expect(css.baseLayer.text).toContain(`@layer base{${layers.base ?? ''}}`)
     if (layers.general) expect(css.generalLayer.text).toContain(`@layer general{${layers.general ?? ''}}`)

@@ -332,7 +332,7 @@ export class RuntimeCSS extends MasterCSS {
                     handleSyntaxLayer(this.presetLayer)
                     break
                 case 'components':
-                    this.stylesLayer.native = cssLayerBlockRule
+                    this.componentsLayer.native = cssLayerBlockRule
                     let stylePreText: string
                     const createSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
                         if (cssRule.selectorText) {
@@ -357,10 +357,10 @@ export class RuntimeCSS extends MasterCSS {
                                 for (const node of eachSyntaxRule.nodes) {
                                     if (!node.native && node.text.includes(stylePreText!)) {
                                         node.native = cssRule
-                                        if (!this.stylesLayer.rules.includes(eachSyntaxRule)) {
-                                            this.stylesLayer.rules.push(eachSyntaxRule)
-                                            this.stylesLayer.insertVariables(eachSyntaxRule)
-                                            this.stylesLayer.insertAnimations(eachSyntaxRule)
+                                        if (!this.componentsLayer.rules.includes(eachSyntaxRule)) {
+                                            this.componentsLayer.rules.push(eachSyntaxRule)
+                                            this.componentsLayer.insertVariables(eachSyntaxRule)
+                                            this.componentsLayer.insertAnimations(eachSyntaxRule)
                                         }
                                         matched = true
                                         break
@@ -374,14 +374,14 @@ export class RuntimeCSS extends MasterCSS {
                             console.error(`Cannot recognize the CSS rule in the components layer. \`${cssRule.cssText}\` (https://rc.css.master.co/messages/hydration-errors)`)
                         }
                     }
-                    for (const eachRule of this.stylesLayer.rules) {
+                    for (const eachRule of this.componentsLayer.rules) {
                         for (let k = eachRule.nodes.length - 1; k >= 0; k--) {
                             if (!eachRule.nodes[k].native) {
                                 eachRule.nodes.splice(k, 1)
                             }
                         }
                     }
-                    if (this.stylesLayer.rules.length) this.rules.push(this.stylesLayer)
+                    if (this.componentsLayer.rules.length) this.rules.push(this.componentsLayer)
                     break
                 case 'general':
                     handleSyntaxLayer(this.generalLayer)
