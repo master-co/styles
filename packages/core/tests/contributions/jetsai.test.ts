@@ -1,5 +1,5 @@
 import { test, describe } from 'vitest'
-import { Config } from '../../src/config'
+import { Config } from '../../src'
 import { extendConfig } from '../../src'
 import { expectLayers } from '../test'
 
