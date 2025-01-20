@@ -22,7 +22,7 @@ export default function getPseudoElementCompletionItems(css: MasterCSS = new Mas
                 sortText,
                 documentation: getCSSDataDocumentation(data, {
                     generatedCSS: generateCSS([syntax + name.slice(2)], css),
-                    docs: '/reference/syntax#selectors'
+                    docs: '/guide/syntax#selectors'
                 }),
                 kind,
                 data
@@ -46,7 +46,7 @@ export default function getPseudoElementCompletionItems(css: MasterCSS = new Mas
             label: name,
             documentation: getCSSDataDocumentation(data, {
                 generatedCSS: generateCSS([syntax + name.slice(2)], css),
-                docs: '/reference/syntax#selectors'
+                docs: '/guide/syntax#selectors'
             }),
             sortText,
             kind,

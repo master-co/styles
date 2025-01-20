@@ -16,7 +16,7 @@ export default function getQueryCompletionItems(css: MasterCSS = new MasterCSS()
                 sortText: 'media()',
                 documentation: getCSSDataDocumentation(atDataList.find(({ name }) => name === '@media'), {
                     generatedCSS: generateCSS([syntax + 'media()'], css),
-                    docs: '/reference/syntax#at-rules'
+                    docs: '/guide/syntax#at-rules'
                 }),
             },
             {
@@ -26,7 +26,7 @@ export default function getQueryCompletionItems(css: MasterCSS = new MasterCSS()
                 sortText: 'supports()',
                 documentation: getCSSDataDocumentation(atDataList.find(({ name }) => name === '@supports'), {
                     generatedCSS: generateCSS([syntax + 'supports()'], css),
-                    docs: '/reference/syntax#at-rules'
+                    docs: '/guide/syntax#at-rules'
                 }),
             }
         )
@@ -38,7 +38,7 @@ export default function getQueryCompletionItems(css: MasterCSS = new MasterCSS()
                 insertText: name,
                 documentation: getCSSDataDocumentation(undefined, {
                     generatedCSS: generateCSS([syntax + name], css),
-                    docs: '/reference/syntax#at-rules'
+                    docs: '/guide/syntax#at-rules'
                 })
             }
             if ([AT_SIGN, ...QUERY_LOGICAL_OPERATORS].includes(triggerCharacter)) {
@@ -51,7 +51,7 @@ export default function getQueryCompletionItems(css: MasterCSS = new MasterCSS()
                         insertText: name,
                         documentation: getCSSDataDocumentation(undefined, {
                             generatedCSS: generateCSS([syntax + name], css),
-                            docs: '/reference/syntax#at-rules'
+                            docs: '/guide/syntax#at-rules'
                         }),
                         detail: `screen width ${'>='} ${value}px`,
                         kind: CompletionItemKind.Keyword
@@ -81,7 +81,7 @@ export default function getQueryCompletionItems(css: MasterCSS = new MasterCSS()
                         insertText: name,
                         documentation: getCSSDataDocumentation(undefined, {
                             generatedCSS: generateCSS([syntax + name], css),
-                            docs: '/reference/syntax#at-rules'
+                            docs: '/guide/syntax#at-rules'
                         }),
                         detail: `screen width ${comparisonCharacter} ${value}px`,
                         kind: CompletionItemKind.Keyword
