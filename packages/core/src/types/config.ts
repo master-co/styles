@@ -2,9 +2,9 @@ import type { PropertiesHyphen } from 'csstype'
 import type SyntaxType from '../syntax-type'
 import type { SyntaxRule } from '../syntax-rule'
 import type { ValueComponent } from './syntax'
-import type { syntaxes, utilities } from '../config'
+import type { rules, utilities } from '../config'
 
-export interface SyntaxDefinition {
+export interface SyntaxRuleDefinition {
     type?: SyntaxType
     matcher?: RegExp
     sign?: string
@@ -34,8 +34,8 @@ export type AnimationDefinitions = Record<string, CSSKeyframes>;
 export type SelectorDefinitions = Record<string, string | string[]>;
 export interface AtDefinitions { [key: string]: number | string | AtDefinitions }
 export interface StyleDefinitions { [key: string]: string | StyleDefinitions }
-export type SyntaxDefinitions = Partial<Record<keyof typeof syntaxes | string, SyntaxDefinition>>
-export type VariableDefinitions = { [key in keyof typeof syntaxes]?: VariableDefinition } & Record<string, VariableDefinition>
+export type SyntaxRuleDefinitions = Partial<Record<keyof typeof rules | string, SyntaxRuleDefinition>>
+export type VariableDefinitions = { [key in keyof typeof rules]?: VariableDefinition } & Record<string, VariableDefinition>
 export type UtilityDefinitions = { [key in keyof typeof utilities]?: PropertiesHyphen } & Record<string, PropertiesHyphen>
 export type ModeDefinitions = Record<string, 'class' | 'media' | 'host' | false>;
 export interface FunctionDefinition {
@@ -51,7 +51,7 @@ export interface Config {
     selectors?: SelectorDefinitions
     utilities?: UtilityDefinitions
     variables?: VariableDefinitions
-    syntaxes?: SyntaxDefinitions
+    rules?: SyntaxRuleDefinitions
     rootSize?: number
     baseUnit?: number
     defaultMode?: 'light' | 'dark' | string | false

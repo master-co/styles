@@ -28,7 +28,7 @@ test.concurrent('ambiguous', () => {
     expect(new MasterCSS().create('text:left_*')?.text).toBe('.text\\:left_\\* *{text-align:left}')
 })
 
-test.concurrent('reactive-syntaxes', () => {
+test.concurrent('reactive-rules', () => {
     expect(new MasterCSS().create(':checked+{hidden}')?.text).toBe(':checked+.\\:checked\\+\\{hidden\\}{display:none}')
 })
 

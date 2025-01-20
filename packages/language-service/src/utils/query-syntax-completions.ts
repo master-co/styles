@@ -26,7 +26,7 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
             field = field.slice(1)
         }
     }
-    const signs = css.syntaxes
+    const signs = css.definedRules
         .filter(({ definition }) => definition.sign)
         .map(({ definition }) => definition.sign)
     const keyMatch = field.match(new RegExp(`^[^${signs}'":\\s]+:`))
@@ -105,7 +105,7 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
                     insertText: '.',
                     documentation: getCSSDataDocumentation(undefined, {
                         generatedCSS: generateCSS([field + '.class'], css),
-                        docs: '/reference/syntaxes#selectors'
+                        docs: '/reference/syntax#selectors'
                     }),
                     kind: CompletionItemKind.Class
                 })

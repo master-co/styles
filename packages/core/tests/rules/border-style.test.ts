@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it.concurrent('validates border-style syntaxes', () => {
+it.concurrent('validates border-style rules', () => {
     expect(new MasterCSS().create('b:solid')?.text).toContain('border-style:solid')
     expect(new MasterCSS().create('border:solid')?.text).toContain('border-style:solid')
     expect(new MasterCSS().create('border-style:solid')?.text).toContain('border-style:solid')

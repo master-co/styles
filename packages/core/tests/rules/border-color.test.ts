@@ -1,7 +1,7 @@
 import { it, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it.concurrent('validates border-color syntaxes', () => {
+it.concurrent('validates border-color rules', () => {
     expect(new MasterCSS().create('b:white')?.text).toContain('border-color:rgb(255 255 255)')
     expect(new MasterCSS().create('b:rgb(0,0,0,0.75)')?.text).toContain('border-color:rgb(0,0,0,0.75)')
     expect(new MasterCSS().create('border:white')?.text).toContain('border-color:rgb(255 255 255)')

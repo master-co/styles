@@ -1,4 +1,4 @@
-import { SyntaxDefinition } from './config'
+import { SyntaxRuleDefinition } from './config'
 
 export type AtComponent = AtArbitraryComponent | AtFeatureComponent | AtOperatorComponent
 export interface AtArbitraryComponent { type: 'arbitrary', token?: string, value: string }
@@ -10,7 +10,7 @@ export interface NumericValueComponent { text?: string, token: string, type: 'nu
 export interface FunctionValueComponent { text?: string, token: string, type: 'function', name: string, symbol: string, children: ValueComponent[], bypassTransform?: boolean }
 export interface VariableValueComponent { text?: string, token: string, type: 'variable', name: string, alpha?: string, fallback?: string, variable?: Variable }
 export interface SeparatorValueComponent { text?: string, token: string, type: 'separator', value: string }
-export interface RegisteredSyntax {
+export interface DefinedRule {
     id: string
     key?: string
     keys: string[]
@@ -22,7 +22,7 @@ export interface RegisteredSyntax {
     }
     variables: Record<string, Variable>
     order: number
-    definition: SyntaxDefinition
+    definition: SyntaxRuleDefinition
 }
 
 export type MediaFeatureComponent = {

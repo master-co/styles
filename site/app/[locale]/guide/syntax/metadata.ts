@@ -1,7 +1,7 @@
 import define from 'internal/utils/metadata'
 
 const metadata = define({
-    title: 'Syntaxes',
+    title: 'Syntax',
     description: 'A guide to customizing declarations, selectors, functions, and at-rules in syntax.',
     category: 'Customization',
     order: 3,

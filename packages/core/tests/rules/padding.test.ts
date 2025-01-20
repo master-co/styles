@@ -14,7 +14,7 @@ it.concurrent('checks padding order', () => {
         ])
 })
 
-it.concurrent('validates padding syntaxes', () => {
+it.concurrent('validates padding rules', () => {
     expect(new MasterCSS().create('pl:16')?.text).toContain('padding-left:1rem')
     expect(new MasterCSS().create('pr:16')?.text).toContain('padding-right:1rem')
     expect(new MasterCSS().create('pt:16')?.text).toContain('padding-top:1rem')

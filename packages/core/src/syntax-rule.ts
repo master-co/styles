@@ -6,7 +6,7 @@ import { type PropertiesHyphen } from 'csstype'
 import { VALUE_DELIMITERS, BASE_UNIT_REGEX, UNIT_REGEX } from './common'
 import { Rule } from './rule'
 import Layer from './layer'
-import type { AtComponent, ColorVariable, NumericValueComponent, RegisteredSyntax, ValueComponent, VariableValueComponent } from './types/syntax'
+import type { AtComponent, ColorVariable, NumericValueComponent, DefinedRule, ValueComponent, VariableValueComponent } from './types/syntax'
 
 export class SyntaxRule extends Rule {
 
@@ -23,7 +23,7 @@ export class SyntaxRule extends Rule {
     constructor(
         public readonly name: string,
         public css: MasterCSS,
-        public readonly registeredSyntax: RegisteredSyntax,
+        public readonly registeredSyntax: DefinedRule,
         public fixedClass?: string,
         mode?: string
     ) {
@@ -804,7 +804,7 @@ export class SyntaxRule extends Rule {
     }
 }
 
-export interface SyntaxRule extends RegisteredSyntax {
+export interface SyntaxRule extends DefinedRule {
     token: string
     vendorPrefixSelectors: Record<string, string[]>
     vendorSuffixSelectors: Record<string, string[]>

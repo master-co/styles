@@ -8,10 +8,10 @@ import cssDataProvider from './css-data-provider'
 export default function getMainCompletionItems(css: MasterCSS = new MasterCSS()): CompletionItem[] {
     const completionItems: CompletionItem[] = []
     const addedKeys = new Set<string>()
-    for (const eachSyntax of css.syntaxes) {
-        if (eachSyntax.definition.type === SyntaxType.Utility) {
-            const { data, detail, docs } = getUtilityInfo(eachSyntax, css)
-            const utilityName = eachSyntax.id.slice(1)
+    for (const eachDefinedRule of css.definedRules) {
+        if (eachDefinedRule.definition.type === SyntaxType.Utility) {
+            const { data, detail, docs } = getUtilityInfo(eachDefinedRule, css)
+            const utilityName = eachDefinedRule.id.slice(1)
             completionItems.push({
                 label: utilityName,
                 kind: CompletionItemKind.Value,
@@ -23,16 +23,16 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             })
         } else {
             const nativeProperties = cssDataProvider.provideProperties()
-            const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === eachSyntax.id)
+            const nativeCSSPropertyData = nativeProperties.find(({ name }) => name === eachDefinedRule.id)
             const eachCompletionItem = {
                 kind: CompletionItemKind.Property,
                 documentation: getCSSDataDocumentation(nativeCSSPropertyData, {
-                    docs: '/reference/' + isCoreRule(eachSyntax.id) && eachSyntax.id
+                    docs: '/reference/' + isCoreRule(eachDefinedRule.id) && eachDefinedRule.id
                 }),
                 detail: nativeCSSPropertyData?.syntax,
             }
 
-            eachSyntax.keys.forEach(key => {
+            eachDefinedRule.keys.forEach(key => {
                 addedKeys.delete(key)
                 completionItems.push({
                     ...eachCompletionItem,
@@ -48,18 +48,18 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
             /**
              * @example @ animation and ~ transition
              */
-            if (eachSyntax.definition?.sign && eachSyntax.definition.includeAnimations) {
+            if (eachDefinedRule.definition?.sign && eachDefinedRule.definition.includeAnimations) {
                 for (const animationName in css.animations) {
                     completionItems.push({
                         ...eachCompletionItem,
-                        label: eachSyntax.definition.sign + animationName + '|1s',
+                        label: eachDefinedRule.definition.sign + animationName + '|1s',
                         kind: CompletionItemKind.Value
                     })
                 }
             }
 
-            if (eachSyntax.definition?.ambiguousKeys?.length) {
-                for (const ambiguousKey of eachSyntax.definition.ambiguousKeys) {
+            if (eachDefinedRule.definition?.ambiguousKeys?.length) {
+                for (const ambiguousKey of eachDefinedRule.definition.ambiguousKeys) {
                     if (addedKeys.has(ambiguousKey)) {
                         continue
                     }

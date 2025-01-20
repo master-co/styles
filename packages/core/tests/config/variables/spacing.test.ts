@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../../src'
 
-it.concurrent('should be able to access custom spacing variables using inherited syntaxes', () => {
+it.concurrent('should be able to access custom spacing variables using inherited rules', () => {
     const css = new MasterCSS({
         variables: {
             spacing: {
@@ -12,7 +12,7 @@ it.concurrent('should be able to access custom spacing variables using inherited
     expect(css.create('mt:md')?.declarations).toStrictEqual({ 'margin-top': '1.25rem' })
     expect(css.create('p:md')?.declarations).toStrictEqual({ 'padding': '1.25rem' })
     expect(css.create('p:-md')?.declarations).toStrictEqual({ 'padding': '-1.25rem' })
-    expect(css.syntaxes.find(({ id }) => id === 'padding')).toMatchObject({
+    expect(css.definedRules.find(({ id }) => id === 'padding')).toMatchObject({
         definition: {
             variables: ['spacing']
         },

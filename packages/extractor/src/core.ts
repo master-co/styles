@@ -186,7 +186,7 @@ export default class CSSExtractor extends EventEmitter {
         )
         time = process.hrtime(time)
         const spent = Math.round(((time[0] * 1e9 + time[1]) / 1e6) * 10) / 10
-        if (this.css.syntaxes.length && validClasses.length) {
+        if (this.css.definedRules.length && validClasses.length) {
             if (this.options.verbose) {
                 log.ok`**${path.relative(this.cwd, source)}** ${validClasses.length} classes inserted ${log.chalk.gray('in')} ${spent}ms ${this.options.verbose > 1 ? validClasses : ''}`
             }
@@ -211,7 +211,7 @@ export default class CSSExtractor extends EventEmitter {
         }
         fs.writeFileSync(filepath, this.css.text)
         if (this.options.verbose) {
-            log.success`${this.css.syntaxes.length} syntaxes exported ${log.chalk.gray('in')} **${filename}**`
+            log.success`${this.css.definedRules.length} rules exported ${log.chalk.gray('in')} **${filename}**`
         }
         this.emit('export', filename, filepath)
     }

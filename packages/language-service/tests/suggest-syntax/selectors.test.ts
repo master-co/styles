@@ -43,7 +43,7 @@ describe.concurrent('pseudo-class', () => {
 
                 (Edge 12, Firefox 3, Safari 3, Chrome 4, IE 7, Opera 9)
 
-                [Master CSS](https://rc.css.master.co/reference/syntaxes#selectors) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/:first-child)
+                [Master CSS](https://rc.css.master.co/reference/syntax#selectors) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/:first-child)
             `,
         },
         'insertText': 'first',
@@ -92,7 +92,7 @@ describe.concurrent('pseudo-element', () => {
 
                 (Edge 79, Firefox 51, Safari 10, Chrome 57, Opera 44)
 
-                [Master CSS](https://rc.css.master.co/reference/syntaxes#selectors) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/::placeholder)
+                [Master CSS](https://rc.css.master.co/reference/syntax#selectors) | [MDN Reference](https://developer.mozilla.org/docs/Web/CSS/::placeholder)
          `,
         },
         'insertText': 'placeholder',

@@ -26,7 +26,7 @@ test.concurrent('shorthand', () => {
     expect(new MasterCSS().create('border:calc(100%-20)|solid')?.text).toContain('border:calc(100% - 1.25rem) solid')
 })
 
-it.concurrent('validates border syntaxes', () => {
+it.concurrent('validates border rules', () => {
     expect(new MasterCSS().create('b:16|solid')?.text).toContain('border:1rem solid')
     expect(new MasterCSS().create('border:16|solid')?.text).toContain('border:1rem solid')
 

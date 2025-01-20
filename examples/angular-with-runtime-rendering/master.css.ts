@@ -2,7 +2,7 @@ import type { Config } from '@master/css'
 
 export default {
     components: {},
-    syntaxes: {},
+    rules: {},
     variables: {},
     utilities: {},
     at: {},

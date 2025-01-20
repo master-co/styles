@@ -4,7 +4,7 @@ export default {
     components: {
         box: 'flex font:1em bg:blue-50'
     },
-    syntaxes: {
+    rules: {
         foo: {
             match: /^foo:/,
             declare(value, unit) {

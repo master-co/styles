@@ -1,8 +1,8 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
-import areRulesDuplicated from '../../src/utils/are-syntaxes-duplicated'
+import areRulesDuplicated from '../../src/utils/are-rules-duplicated'
 
-test.concurrent('syntaxes', () => {
+test.concurrent('rules', () => {
     expect(areRulesDuplicated(
         new MasterCSS().generate('font:16')[0],
         new MasterCSS().generate('font:32')[0])

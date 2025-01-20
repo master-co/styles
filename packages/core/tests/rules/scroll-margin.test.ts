@@ -14,7 +14,7 @@ it.concurrent('checks scroll-margin order', () => {
         ])
 })
 
-it.concurrent('validates scroll-margin syntaxes', () => {
+it.concurrent('validates scroll-margin rules', () => {
     expect(new MasterCSS().create('scroll-ml:16')?.text).toContain('scroll-margin-left:1rem')
     expect(new MasterCSS().create('scroll-mr:16')?.text).toContain('scroll-margin-right:1rem')
     expect(new MasterCSS().create('scroll-mt:16')?.text).toContain('scroll-margin-top:1rem')

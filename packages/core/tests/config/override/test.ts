@@ -6,7 +6,7 @@ import { NUMBER_VALUE_REGEX } from '../../../src/common'
 const customConfig: Config = {
     override: true,
     rootSize: 10,
-    syntaxes: {
+    rules: {
         'font-size': {
             key: 'custom',
             ambiguousValues: [NUMBER_VALUE_REGEX],

@@ -11,12 +11,12 @@ import { Rule } from './rule'
 import SyntaxType from './syntax-type'
 import Layer from './layer'
 import NonLayer from './non-layer'
-import { ColorVariable, RegisteredSyntax, Variable } from './types/syntax'
-import { AnimationDefinitions, Config, SyntaxDefinition, VariableDefinition } from './types/config'
+import { ColorVariable, DefinedRule, Variable } from './types/syntax'
+import { AnimationDefinitions, Config, SyntaxRuleDefinition, VariableDefinition } from './types/config'
 
 export default class MasterCSS {
     static config: Config = defaultConfig
-    readonly syntaxes: RegisteredSyntax[] = []
+    readonly definedRules: DefinedRule[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
     readonly layerStatementRule = new Rule('layer-statement', [{ text: '@layer base,theme,preset,components,general;' }])
@@ -57,7 +57,7 @@ export default class MasterCSS {
         this.variables = {}
         this.at = {}
         this.animations = {}
-        this.syntaxes.length = 0
+        this.definedRules.length = 0
 
         const colorVariableNames: Record<string, undefined> = {
             current: undefined,
@@ -65,7 +65,7 @@ export default class MasterCSS {
             transparent: undefined
         }
 
-        const { components, selectors, variables, utilities, at, syntaxes, animations } = this.config
+        const { components, selectors, variables, utilities, at, rules, animations } = this.config
 
         function escapeString(str: string) {
             return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
@@ -319,16 +319,16 @@ export default class MasterCSS {
             handleUtilityName(eachUtilityName)
         }
 
-        if (syntaxes || utilities) {
-            const rulesEntries: [string, SyntaxDefinition][] = []
+        if (rules || utilities) {
+            const rulesEntries: [string, SyntaxRuleDefinition][] = []
             if (utilities) {
                 for (const utilityName in utilities) {
                     const declarations = utilities[utilityName] as any
                     rulesEntries.push([utilityName, { declarations, type: SyntaxType.Utility }])
                 }
             }
-            if (syntaxes) {
-                rulesEntries.push(...Object.entries(syntaxes) as [string, SyntaxDefinition][])
+            if (rules) {
+                rulesEntries.push(...Object.entries(rules) as [string, SyntaxRuleDefinition][])
             }
             const rulesEntriesLength = rulesEntries.length
             const colorNames = Object.keys(colorVariableNames)
@@ -340,7 +340,7 @@ export default class MasterCSS {
                     return b[0].localeCompare(a[0])
                 })
                 .forEach(([id, eachSyntaxDefinition], index: number) => {
-                    const syntax: RegisteredSyntax = {
+                    const syntax: DefinedRule = {
                         id,
                         keys: [],
                         variables: {},
@@ -354,7 +354,7 @@ export default class MasterCSS {
                     if (!eachSyntaxDefinition.separators) {
                         eachSyntaxDefinition.separators = [',']
                     }
-                    this.syntaxes.push(syntax)
+                    this.definedRules.push(syntax)
                     const { matcher, type, subkey, ambiguousKeys, ambiguousValues, sign } = eachSyntaxDefinition
                     if (type === SyntaxType.Utility) {
                         syntax.id = '.' + id
@@ -371,7 +371,7 @@ export default class MasterCSS {
                         }
                     }
 
-                    // 1. custom `config.syntaxes[id].variables`
+                    // 1. custom `config.rules[id].variables`
                     if (eachSyntaxDefinition.variables) {
                         for (const eachVariableGroup of eachSyntaxDefinition.variables) {
                             addResolvedVariables(eachVariableGroup)
@@ -460,33 +460,33 @@ export default class MasterCSS {
      * @param className
      * @returns css text
      */
-    match(className: string): RegisteredSyntax | undefined {
+    match(className: string): DefinedRule | undefined {
         /**
          * 1. variable
          * @example fg:primary bg:blue
          */
-        for (const eachSyntax of this.syntaxes) {
+        for (const eachSyntax of this.definedRules) {
             if (eachSyntax.matchers.variable?.test(className)) return eachSyntax
         }
         /**
          * 2. value (ambiguous.key * ambiguous.values)
          * @example bg:current box:content font:12
          */
-        for (const eachSyntax of this.syntaxes) {
+        for (const eachSyntax of this.definedRules) {
             if (eachSyntax.matchers.value?.test(className)) return eachSyntax
         }
         /**
          * 3. full key
          * @example text-align:center color:blue-40
          */
-        for (const eachSyntax of this.syntaxes) {
+        for (const eachSyntax of this.definedRules) {
             if (eachSyntax.matchers.key?.test(className)) return eachSyntax
         }
         /**
          * 4. arbitrary
          * @example custom RegExp, utility
          */
-        for (const eachSyntax of this.syntaxes) {
+        for (const eachSyntax of this.definedRules) {
             if (eachSyntax.matchers.arbitrary?.test(className)) return eachSyntax
         }
     }
@@ -579,8 +579,8 @@ export default class MasterCSS {
             : extendConfig(defaultConfig, customConfig)
         this.resolve()
         /**
-         * 拿當前所有的 classNames 按照最新的 colors, config.syntaxes 匹配並生成新的 style
-         * 所以 refresh 過後 syntaxes 可能會變多也可能會變少
+         * 拿當前所有的 classNames 按照最新的 colors, config.rules 匹配並生成新的 style
+         * 所以 refresh 過後 rules 可能會變多也可能會變少
          */
         for (const name in this.classesUsage) {
             this.add(name)

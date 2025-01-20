@@ -19,7 +19,7 @@ test.concurrent('declarations', () => {
 })
 
 test.concurrent('registered Rule', () => {
-    expect(new MasterCSS().syntaxes.find(({ id }) => id === 'content')).toMatchObject({
+    expect(new MasterCSS().definedRules.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
             type: -1
@@ -43,7 +43,7 @@ test.concurrent('variables', () => {
                 }
             }
         },
-        syntaxes: {
+        rules: {
             content: {
                 variables: ['a.b']
             }
@@ -51,7 +51,7 @@ test.concurrent('variables', () => {
     })
     expect(css.variables['a-1']).toMatchObject({ type: 'string', value: 'test', group: 'a' })
     expect(css.variables['a-b-2']).toMatchObject({ type: 'string', value: 'test', group: 'a.b' })
-    expect(css.syntaxes.find(({ id }) => id === 'content')).toMatchObject({
+    expect(css.definedRules.find(({ id }) => id === 'content')).toMatchObject({
         definition: {
             key: 'content',
             type: -1,
@@ -75,7 +75,7 @@ test.concurrent('variables', () => {
 })
 
 test.concurrent('text variables', () => {
-    expect(Object.keys(new MasterCSS().syntaxes.find(({ id }) => id === 'color')?.variables || {})).toEqual(Object.keys(variables.text))
+    expect(Object.keys(new MasterCSS().definedRules.find(({ id }) => id === 'color')?.variables || {})).toEqual(Object.keys(variables.text))
 })
 
 describe.concurrent('token', () => {

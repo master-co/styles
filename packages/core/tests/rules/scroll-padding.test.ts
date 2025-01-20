@@ -14,7 +14,7 @@ it.concurrent('checks scroll-padding order', () => {
         ])
 })
 
-it.concurrent('validates scroll-padding syntaxes', () => {
+it.concurrent('validates scroll-padding rules', () => {
     expect(new MasterCSS().create('scroll-pl:16')?.text).toContain('scroll-padding-left:1rem')
     expect(new MasterCSS().create('scroll-pr:16')?.text).toContain('scroll-padding-right:1rem')
     expect(new MasterCSS().create('scroll-pt:16')?.text).toContain('scroll-padding-top:1rem')

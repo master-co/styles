@@ -5,7 +5,7 @@ import { BORDER_STYLE_VALUES, COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE
 import autofillSolidStyle from '../utils/autofill-solid-style'
 import { SyntaxDefinition } from '../types/config'
 
-const syntaxes = {
+const rules = {
     group: {
         matcher: /^(?:.+?[*_>~+])?\{.+?\}/,
         type: SyntaxType.Shorthand,
@@ -116,9 +116,9 @@ const syntaxes = {
             addName()
 
             for (const eachName of names) {
-                const syntaxes = this.css.generate(eachName, this.mode)
-                if (syntaxes.length) {
-                    for (const eachRule of syntaxes) {
+                const rules = this.css.generate(eachName, this.mode)
+                if (rules.length) {
+                    for (const eachRule of rules) {
                         handleRule(eachRule)
                     }
                 } else {
@@ -1768,4 +1768,4 @@ const syntaxes = {
     } as SyntaxDefinition
 }
 
-export default syntaxes
+export default rules

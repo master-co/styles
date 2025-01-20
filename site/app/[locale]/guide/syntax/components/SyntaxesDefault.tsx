@@ -1,4 +1,4 @@
-import { syntaxes } from '@master/css'
+import { rules } from '@master/css'
 import DotJoin from 'internal/components/DotJoin'
 import InlineCode from '~/internal/components/InlineCode'
 
@@ -12,9 +12,9 @@ const Default = () => <table>
     </thead>
     <tbody>
         {
-            Object.keys(syntaxes)
+            Object.keys(rules)
                 .map((eachSyntaxName) => {
-                    const eachSyntax = (syntaxes as any)[eachSyntaxName]
+                    const eachSyntax = (rules as any)[eachSyntaxName]
                     return (
                         <tr key={eachSyntaxName}>
                             <td><code className='fg:blue white-space:nowrap'>{eachSyntaxName}</code></td>

@@ -2,7 +2,7 @@ import type { Config } from '@master/css'
 
 const config: Config = {
     components: {},
-    syntaxes: {},
+    rules: {},
     variables: {},
     utilities: {},
     at: {},

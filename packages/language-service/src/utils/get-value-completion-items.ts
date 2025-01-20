@@ -13,7 +13,7 @@ const GLOBAL_VARIABLE_PRIORITY = 'zzzz'
 export default function getValueCompletionItems(css: MasterCSS = new MasterCSS(), ruleKey: string): CompletionItem[] {
     const nativeProperties = cssDataProvider.provideProperties()
     const completionItems: CompletionItem[] = []
-    const nativeKey = css.syntaxes.find(({ keys }) => keys.includes(ruleKey))?.id
+    const nativeKey = css.definedRules.find(({ keys }) => keys.includes(ruleKey))?.id
     const nativePropertyData = nativeProperties.find(({ name }) => name === nativeKey)
     const generateVariableCompletionItem = (variable: Variable, { scoped } = { scoped: false }): CompletionItem | undefined => {
         const eachNativePropertyData = nativeProperties.find((x: { name: string }) => x.name === variable.group) || nativePropertyData
@@ -73,15 +73,15 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
         return completionItem
     }
 
-    for (const eachSyntax of css.syntaxes) {
+    for (const eachDefinedRule of css.definedRules) {
         /**
          * Scoped variables
          * @example box: + content -> box-sizing:content
          */
-        if (eachSyntax.definition.key === ruleKey || eachSyntax.definition.subkey === ruleKey || eachSyntax.definition.ambiguousKeys?.includes(ruleKey)) {
-            for (const variableName in eachSyntax.variables) {
+        if (eachDefinedRule.definition.key === ruleKey || eachDefinedRule.definition.subkey === ruleKey || eachDefinedRule.definition.ambiguousKeys?.includes(ruleKey)) {
+            for (const variableName in eachDefinedRule.variables) {
                 if (completionItems.find(({ label }) => label === variableName)) continue
-                const variable = eachSyntax.variables[variableName]
+                const variable = eachDefinedRule.variables[variableName]
                 const completionItem = generateVariableCompletionItem(variable, { scoped: true })
                 if (completionItem) {
                     completionItem.label = variableName
@@ -95,17 +95,17 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
         /**
          * @example animation:fade
          */
-        if (eachSyntax.keys.includes(ruleKey) && eachSyntax.definition.includeAnimations) {
+        if (eachDefinedRule.keys.includes(ruleKey) && eachDefinedRule.definition.includeAnimations) {
             for (const animationName in css.animations) {
-                const isNative = eachSyntax.definition.type && [SyntaxType.Native, SyntaxType.NativeShorthand].includes(eachSyntax.definition.type)
+                const isNative = eachDefinedRule.definition.type && [SyntaxType.Native, SyntaxType.NativeShorthand].includes(eachDefinedRule.definition.type)
                 completionItems.push({
                     label: animationName,
                     kind: CompletionItemKind.Value,
                     documentation: getCSSDataDocumentation(undefined, {
                         generatedCSS: generateCSS([ruleKey + ':' + animationName], css),
-                        docs: '/reference/' + isCoreRule(eachSyntax.id) && eachSyntax.id
+                        docs: '/reference/' + isCoreRule(eachDefinedRule.id) && eachDefinedRule.id
                     }),
-                    detail: isNative ? eachSyntax.id + ': ' + animationName : animationName
+                    detail: isNative ? eachDefinedRule.id + ': ' + animationName : animationName
                 })
             }
         }
@@ -115,12 +115,12 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
          * @example text: -> center, left, right, justify
          * @example t: -> center, left, right, justify
          */
-        if (eachSyntax.definition.ambiguousKeys?.includes(ruleKey) && eachSyntax.definition.ambiguousValues?.length) {
-            const nativePropertyData = nativeProperties.find((x: { name: string }) => x.name === eachSyntax.id)
-            for (const ambiguousValue of eachSyntax.definition.ambiguousValues) {
+        if (eachDefinedRule.definition.ambiguousKeys?.includes(ruleKey) && eachDefinedRule.definition.ambiguousValues?.length) {
+            const nativePropertyData = nativeProperties.find((x: { name: string }) => x.name === eachDefinedRule.id)
+            for (const ambiguousValue of eachDefinedRule.definition.ambiguousValues) {
                 if (typeof ambiguousValue !== 'string') continue
                 const nativeValueData = nativePropertyData?.values?.find((x: { name: string }) => x.name === ambiguousValue)
-                const isNative = eachSyntax.definition.type && [SyntaxType.Native, SyntaxType.NativeShorthand].includes(eachSyntax.definition.type)
+                const isNative = eachDefinedRule.definition.type && [SyntaxType.Native, SyntaxType.NativeShorthand].includes(eachDefinedRule.definition.type)
                 completionItems.push({
                     label: ambiguousValue,
                     kind: CompletionItemKind.Value,
@@ -131,9 +131,9 @@ export default function getValueCompletionItems(css: MasterCSS = new MasterCSS()
                         references: nativePropertyData?.references
                     }, {
                         generatedCSS: generateCSS([ruleKey + ':' + ambiguousValue], css),
-                        docs: '/reference/' + isCoreRule(eachSyntax.id) && eachSyntax.id
+                        docs: '/reference/' + isCoreRule(eachDefinedRule.id) && eachDefinedRule.id
                     }),
-                    detail: isNative ? eachSyntax.id + ': ' + ambiguousValue : ambiguousValue
+                    detail: isNative ? eachDefinedRule.id + ': ' + ambiguousValue : ambiguousValue
                 })
             }
         }

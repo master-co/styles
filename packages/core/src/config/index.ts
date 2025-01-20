@@ -3,7 +3,7 @@ import selectors from './selectors'
 import utilities from './utilities'
 import animations from './animations'
 import variables from './variables'
-import syntaxes from './syntaxes'
+import rules from './rules'
 import modes from './modes'
 import functions from './functions'
 import { Config } from '../types/config'
@@ -12,7 +12,7 @@ const config: Config = {
     at,
     selectors,
     utilities,
-    syntaxes,
+    rules,
     functions,
     animations,
     variables,
@@ -30,7 +30,7 @@ export {
     at,
     selectors,
     utilities,
-    syntaxes,
+    rules,
     functions,
     animations,
     variables,

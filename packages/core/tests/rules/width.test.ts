@@ -1,7 +1,7 @@
 import { it, test, expect } from 'vitest'
 import { MasterCSS } from '../../src'
 
-it.concurrent('validates width syntaxes', () => {
+it.concurrent('validates width rules', () => {
     expect(new MasterCSS().create('w:screen-sm')?.text).toContain('width:52.125rem')
     expect(new MasterCSS().create('w:1/4')?.text).toContain('width:25%')
 })
