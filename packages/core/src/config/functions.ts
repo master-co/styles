@@ -1,6 +1,7 @@
-import type { FunctionDefinition, FunctionDefinitions } from './'
-import type { SyntaxRule, StringValueComponent } from '../syntax-rule'
+import type { SyntaxRule } from '../syntax-rule'
 import { BASE_UNIT_REGEX } from '../common'
+import { FunctionDefinition, FunctionDefinitions } from '../types/config'
+import { StringValueComponent } from '../types/syntax'
 
 const functions: FunctionDefinitions = {
     $: {

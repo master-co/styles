@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import { type SyntaxDefinition, type RegisteredSyntax, SyntaxRule } from './syntax-rule'
-import type { Config, AnimationDefinitions, VariableDefinition } from './config'
+import { SyntaxRule } from './syntax-rule'
 import { config as defaultConfig } from './config'
 import hexToRgb from './utils/hex-to-rgb'
 import { flattenObject } from './utils/flatten-object'
@@ -12,18 +11,8 @@ import { Rule } from './rule'
 import SyntaxType from './syntax-type'
 import Layer from './layer'
 import NonLayer from './non-layer'
-
-type VariableCommon = {
-    group?: string,
-    name: string,
-    key: string,
-    modes?: Record<string, TypeVariable>
-}
-export interface StringVariable { type: 'string', value: string }
-export interface NumberVariable { type: 'number', value: number }
-export interface ColorVariable { type: 'color', value: string, space: 'rgb' | 'hsl' }
-export type TypeVariable = StringVariable | NumberVariable | ColorVariable
-export type Variable = TypeVariable & VariableCommon
+import { ColorVariable, RegisteredSyntax, Variable } from './types/syntax'
+import { AnimationDefinitions, Config, SyntaxDefinition, VariableDefinition } from './types/config'
 
 export default class MasterCSS {
     static config: Config = defaultConfig

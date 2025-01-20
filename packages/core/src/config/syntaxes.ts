@@ -3,7 +3,7 @@ import type { SyntaxRule } from '../syntax-rule'
 import SyntaxType from '../syntax-type'
 import { BORDER_STYLE_VALUES, COLOR_VALUE_REGEX, IMAGE_VALUE_REGEX, NUMBER_VALUE_REGEX, VALUE_DELIMITERS } from '../common'
 import autofillSolidStyle from '../utils/autofill-solid-style'
-import { SyntaxDefinition } from '../syntax-rule'
+import { SyntaxDefinition } from '../types/config'
 
 const syntaxes = {
     group: {

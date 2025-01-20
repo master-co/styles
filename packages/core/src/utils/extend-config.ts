@@ -1,5 +1,5 @@
 import extend from '@techor/extend'
-import type { AnimationDefinitions, Config } from '../config'
+import type { AnimationDefinitions, Config } from '../types/config'
 
 // todo: split resolveConfig into a function
 export default function extendConfig(...configs: (Config | undefined)[]) {

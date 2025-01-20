@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
-import MasterCSS, { ColorVariable, type Variable } from './core'
+import MasterCSS from './core'
 import cssEscape from 'shared/utils/css-escape'
 import SyntaxType from './syntax-type'
 import { type PropertiesHyphen } from 'csstype'
 import { VALUE_DELIMITERS, BASE_UNIT_REGEX, UNIT_REGEX } from './common'
 import { Rule } from './rule'
 import Layer from './layer'
+import type { AtComponent, ColorVariable, NumericValueComponent, RegisteredSyntax, ValueComponent, VariableValueComponent } from './types/syntax'
 
 export class SyntaxRule extends Rule {
 
@@ -803,28 +804,6 @@ export class SyntaxRule extends Rule {
     }
 }
 
-export type AtComponent =
-    AtArbitraryComponent |
-    AtFeatureComponent |
-    AtOperatorComponent
-
-export interface AtArbitraryComponent { type: 'arbitrary', token?: string, value: string }
-export interface AtFeatureComponent { type: 'feature', token?: string, name: string, valueType: 'number' | 'string', value: string | number, unit?: string }
-export interface AtOperatorComponent { type: 'operator', token: '&', value: 'and' } // future: 'or'
-
-export type ValueComponent =
-    StringValueComponent |
-    NumericValueComponent |
-    FunctionValueComponent |
-    VariableValueComponent |
-    SeparatorValueComponent
-
-export interface StringValueComponent { text?: string, token: string, type: 'string', value: string }
-export interface NumericValueComponent { text?: string, token: string, type: 'number', value: number, unit?: string }
-export interface FunctionValueComponent { text?: string, token: string, type: 'function', name: string, symbol: string, children: ValueComponent[], bypassTransform?: boolean }
-export interface VariableValueComponent { text?: string, token: string, type: 'variable', name: string, alpha?: string, fallback?: string, variable?: Variable }
-export interface SeparatorValueComponent { text?: string, token: string, type: 'separator', value: string }
-
 export interface SyntaxRule extends RegisteredSyntax {
     token: string
     vendorPrefixSelectors: Record<string, string[]>
@@ -838,55 +817,4 @@ export interface SyntaxRule extends RegisteredSyntax {
     stateToken: string
     atToken: string
     valueComponents: ValueComponent[]
-}
-
-export interface RegisteredSyntax {
-    id: string
-    key?: string
-    keys: string[]
-    matchers: {
-        key?: RegExp
-        variable?: RegExp
-        value?: RegExp
-        arbitrary?: RegExp
-    }
-    variables: Record<string, Variable>
-    order: number
-    definition: SyntaxDefinition
-}
-
-export interface SyntaxDefinition {
-    type?: SyntaxType
-    matcher?: RegExp
-    sign?: string
-    key?: string
-    subkey?: string
-    ambiguousKeys?: string[]
-    ambiguousValues?: (RegExp | string)[]
-    variables?: string[]
-    separators?: string[]
-    unit?: any
-    declarations?: PropertiesHyphen
-    includeAnimations?: boolean
-    analyze?: (this: SyntaxRule, className: string) => [valueToken: string, prefixToken?: string]
-    transformValue?(this: SyntaxRule, value: string): string
-    transformValueComponents?(this: SyntaxRule, valueComponents: ValueComponent[]): ValueComponent[]
-    declare?(this: SyntaxRule, value: string, valueComponents: ValueComponent[]): PropertiesHyphen
-    delete?(this: SyntaxRule, className: string): void
-    create?(this: SyntaxRule, className: string): void
-    insert?(this: SyntaxRule): void
-}
-
-export type MediaFeatureComponent = {
-    type: string
-    tokenType?: string
-    operator?: string
-    value: number
-    unit: string
-}
-
-export interface MediaQuery {
-    token: string;
-    features: Record<string, MediaFeatureComponent>
-    type?: string;
 }

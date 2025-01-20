@@ -1,4 +1,4 @@
-import type { ModeDefinitions } from './'
+import { ModeDefinitions } from '../types/config'
 
 const modes = {
     dark: 'class',

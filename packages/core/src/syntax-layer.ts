@@ -1,7 +1,7 @@
-import { TypeVariable } from './core'
 import Layer from './layer'
 import { Rule } from './rule'
-import { AtFeatureComponent, SyntaxRule } from './syntax-rule'
+import { SyntaxRule } from './syntax-rule'
+import { AtFeatureComponent, TypeVariable } from './types/syntax'
 
 export default class SyntaxLayer extends Layer {
     rules: SyntaxRule[] = []
