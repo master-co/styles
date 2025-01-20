@@ -8,7 +8,7 @@
         "lint": "eslint",
         "vscode:publish": "vsce publish --pre-release"
     },
-    "version": "2.0.10",
+    "version": "2.0.11",
     "description": "Master CSS for Visual Studio Code",
     "displayName": "Master CSS",
     "author": "Aoyue Design LLC.",
