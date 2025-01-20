@@ -1,1 +1,0 @@
-@layer base,theme,preset,styles,general;@layer theme{.light,:root{--text-lime:76 141 7}.dark{--text-lime:145 217 26}}@layer styles{.b{color:rgb(var(--text-lime));-webkit-text-decoration:underline;text-decoration:underline}.a{color:rgb(var(--text-lime))}}

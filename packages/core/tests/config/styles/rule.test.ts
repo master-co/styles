@@ -3,7 +3,7 @@ import { MasterCSS } from '../../../src'
 
 test('rule', () => {
     const config = {
-        styles: {
+        components: {
             btn: 'inline-flex bg:#000000'
         }
     }

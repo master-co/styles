@@ -1,7 +1,7 @@
 import type { Config } from '@master/css'
 
 const config: Config = {
-    styles: {},
+    components: {},
     syntaxes: {},
     variables: {},
     utilities: {},

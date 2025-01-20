@@ -1,5 +1,5 @@
 export default {
-    styles: {
+    components: {
         btn: 'font:14 h:40 text:center bg:primary@light fg:white@light font:semibold@light bg:white@dark fg:primary@dark font:medium@dark',
         blue: {
             btn: {

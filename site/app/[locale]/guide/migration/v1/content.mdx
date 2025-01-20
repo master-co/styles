@@ -83,7 +83,7 @@ We built in commonly used animations, and the `@master/keyframes.css` package is
 To customize keyframes, check out the [Animations](/guide/custom-animations) documentation.
 
 ### Using abstract styles
-Deprecate extended `classes` ​​in favor of `config.styles`.
+Deprecate extended `classes` ​​in favor of `config.components`.
 ```js name=master.css.js
 -import { Style } from '@master/css'
 
@@ -92,7 +92,7 @@ Deprecate extended `classes` ​​in favor of `config.styles`.
 -})
 
 +export default {
-+    styles: {
++    components: {
 +        btn: '…'
 +    }
 +}
@@ -101,7 +101,7 @@ Apply the style:
 ```html
 <button class="btn"></button>
 ```
-To learn more, check out the [Styles](/guide/styles) documentation.
+To learn more, check out the [Components](/guide/components) documentation.
 
 ### Merging media queries
 Deprecate extended `breakpoints` and `queries` ​​in favor of `config.at`.

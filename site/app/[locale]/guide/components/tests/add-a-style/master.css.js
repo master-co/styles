@@ -1,5 +1,5 @@
 export default {
-    styles: {
+    components: {
 /*+*/   btn: '… inline-flex h:10x'
     }
 }

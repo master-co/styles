@@ -5,7 +5,7 @@ import { Settings } from '../../src'
 
 const settings: Settings = {
     config: {
-        styles: {
+        components: {
             btn: 'inline-block'
         }
     }
@@ -16,14 +16,14 @@ it.concurrent('info', () => expect(hint('b', settings)?.find(({ label }) => labe
         kind: 'markdown',
         value: dedent`
             \`\`\`css
-            @layer styles {
+            @layer components {
               .btn {
                 display: inline-block
               }
             }
             \`\`\`
 
-            [Master CSS](https://rc.css.master.co/guide/styles)
+            [Master CSS](https://rc.css.master.co/guide/components)
         `
     }
 }))

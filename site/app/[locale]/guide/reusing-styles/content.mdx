@@ -72,7 +72,7 @@ We define [variables and modes](/guide/variables-and-modes) to create tokens sup
     - `yellow-ring` is an outline color that complements a yellow background.
     - `touch-yellow` is a background color on hover.
     - `text-yellow-contrast` is a contrasting color fine-tuned against a yellow background.
-- Styles
+- Components
     - `.yellow` sets a background, foreground and outline style for a yellow theme.
     - `.yellow-touch` sets a background, foreground and outline style for a yellow theme interaction.
 
@@ -86,7 +86,7 @@ We define [variables and modes](/guide/variables-and-modes) to create tokens sup
 ---
 
 ## Componentization
-In addition to [styles](#abstract-styles), we provide a CSS-in-JS style utility, [Master Styled](https://github.com/master-co/styled), to help you create a component with classes in one line. It supports Vanilla js, React, and Vue.
+In addition to [abstract styles](#abstract-styles), we provide a CSS-in-JS style utility, [Master Styled](https://github.com/master-co/styled), to help you create a component with classes in one line. It supports Vanilla js, React, and Vue.
 
 ```treeview
 🗂️ components
@@ -154,7 +154,7 @@ export default function Page() {
     )
 }
 ```
-This is useful for block-specific style reuse, rather than creating `styles['home-section']` which may pollute global styles or cause name collisions.
+This is useful for block-specific style reuse, rather than creating `components['home-section']` which may pollute global styles or cause name collisions.
 
 ---
 

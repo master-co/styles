@@ -1,5 +1,5 @@
 ### Overview [sr-only]
-Traditionally, we define styles like `.btn` or `.card` by writing CSS rules. In Master CSS, we use `config.styles` to abstract and make them more flexible.
+Traditionally, we define components like `.btn` or `.card` by writing CSS rules. In Master CSS, we use `config.components` to abstract and make them more flexible.
 <Code lang="js" name="master.css.js">{require('./tests/apply-styles/master.css.js?text').default}</Code>
 A style can be composed of multiple syntaxes, you can provide an abstract name for this set of classes and reuse it anywhere.
 
@@ -38,7 +38,7 @@ Create an abstract style with [state selectors](/guide/state-selectors) and [app
 ### Add styles in a nested structure
 Create and manage a set of abstract styles in a nested structure. Rather than repeating the same style names over and over again, you can write one style inside another. Master CSS will automatically combine the outer style’s name with the inner style’s.
 <Code lang="js" name="master.css.js">{require('!!raw-loader!./tests/add-styles-in-a-nested-structure/master.css.js').default}</Code>
-Apply the styles:
+Apply the components:
 <Code lang="html">{require('!!raw-loader!./tests/add-styles-in-a-nested-structure/template.html').default}</Code>
 <details>
     <summary>Generated CSS</summary>

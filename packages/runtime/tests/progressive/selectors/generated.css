@@ -1,4 +1,4 @@
-@layer base, theme, preset, styles, general;
+@layer base, theme, preset, components, general;
 
 @layer general {
     .content\:external\:after:after {

@@ -1,7 +1,7 @@
 import type { Config } from '@master/css'
 
 export default {
-    styles: {
+    components: {
         box: 'flex font:1em bg:blue-50'
     },
     syntaxes: {

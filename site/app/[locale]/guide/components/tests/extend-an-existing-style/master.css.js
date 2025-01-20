@@ -1,5 +1,5 @@
 export default {
-    styles: {
+    components: {
         a: 'fg:lime',
 /*+*/   b: 'a text:underline'
     }

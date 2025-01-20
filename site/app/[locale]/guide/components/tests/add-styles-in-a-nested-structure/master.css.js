@@ -1,5 +1,5 @@
 export default {
-    styles: {
+    components: {
 /*+*/   card: {
 /*+*/       '': '… r:2x',             // .card
 /*+*/       header: '… bb:1|gray',    // .card-header

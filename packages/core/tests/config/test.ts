@@ -1,14 +1,14 @@
 import { test } from 'vitest'
 import { expectLayers } from '../test'
 
-test.concurrent('styles', () => {
+test.concurrent('components', () => {
     expectLayers(
         {
-            styles: '.\\?{font-size:0.875rem;text-align:center;height:2.5rem;padding-left:1.25rem;padding-right:1.25rem}.\\?:hover{color:#fff}'
+            components: '.\\?{font-size:0.875rem;text-align:center;height:2.5rem;padding-left:1.25rem;padding-right:1.25rem}.\\?:hover{color:#fff}'
         },
         '?',
         {
-            styles: {
+            components: {
                 '?': 'font:14 text:center h:40 px:20 fg:#fff:hover'
             }
         }

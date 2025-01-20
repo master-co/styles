@@ -202,7 +202,7 @@ test.concurrent('colors', () => {
     expectLayers(
         {
             theme: ':root{--primary-filled:0 0 0}.light{--primary-filled:255 255 255}.dark{--primary-filled:0 0 0}',
-            styles: '.btn{background-color:rgb(var(--primary-filled))}'
+            components: '.btn{background-color:rgb(var(--primary-filled))}'
         },
         'btn',
         {
@@ -215,7 +215,7 @@ test.concurrent('colors', () => {
                     }
                 }
             },
-            styles: {
+            components: {
                 btn: 'bg:primary-filled'
             }
         }
@@ -237,7 +237,7 @@ test.concurrent('colors', () => {
                     }
                 }
             },
-            styles: {
+            components: {
                 btn: 'bg:primary-filled'
             }
         }
@@ -258,7 +258,7 @@ test.concurrent('colors', () => {
                     }
                 }
             },
-            styles: {
+            components: {
                 btn: 'bg:primary-filled'
             }
         }

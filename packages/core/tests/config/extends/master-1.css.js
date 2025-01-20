@@ -24,7 +24,7 @@ const config = {
             }
         }
     },
-    styles: {
+    components: {
         btn: 'font:14 h:40 text:center',
         blue: {
             btn: {

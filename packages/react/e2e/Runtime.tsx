@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function Runtime() {
     const [config, setConfig] = useState<Config>({
-        styles: {
+        components: {
             btn: 'b:2|red'
         }
     })

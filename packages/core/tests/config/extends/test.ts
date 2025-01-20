@@ -4,7 +4,7 @@ import config from './master-css'
 
 it.concurrent('config extends', () => {
     const css = new MasterCSS(config)
-    expect(css.config.styles).toMatchObject({
+    expect(css.config.components).toMatchObject({
         'blue': {
             'btn': {
                 '': 'btn bg:blue',

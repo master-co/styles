@@ -19,7 +19,7 @@ test('mode', () => {
 
 test('component conflicts with the mode', () => {
     expect(new MasterCSS({
-        styles: {
+        components: {
             'light': 'block font:bold'
         }
     }).createFromSelectorText('.light .light\@light')?.[0]).toMatchObject({ name: '{block;font:bold}', fixedClass: 'light' })
@@ -27,7 +27,7 @@ test('component conflicts with the mode', () => {
 
 test('component and mode', () => {
     expect(new MasterCSS({
-        styles: {
+        components: {
             'btn': 'block'
         }
     }).createFromSelectorText('.light .btn')?.[0]).toMatchObject({ name: 'block', fixedClass: 'btn' })

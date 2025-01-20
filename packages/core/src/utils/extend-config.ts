@@ -15,8 +15,8 @@ export default function extendConfig(...configs: (Config | undefined)[]) {
                 }
             }
         }
-        if (clonedConfig.styles) {
-            formatDeeply(clonedConfig.styles)
+        if (clonedConfig.components) {
+            formatDeeply(clonedConfig.components)
         }
         if (clonedConfig.at) {
             formatDeeply(clonedConfig.at)
@@ -42,7 +42,7 @@ export default function extendConfig(...configs: (Config | undefined)[]) {
 
     let extendedConfig: Config = {
         animations: {},
-        styles: {},
+        components: {},
         at: {},
         variables: {},
     }
@@ -59,8 +59,8 @@ export default function extendConfig(...configs: (Config | undefined)[]) {
                         extendedConfig = extend(extendedConfig, { [key]: currentFormattedConfig[key as keyof Config] })
                     }
             }
-            // if (Object.prototype.hasOwnProperty.call(currentFormattedConfig.styles, key)) {
-            //     Object.assign(extendedConfig.styles[key], currentFormattedConfig.styles[key])
+            // if (Object.prototype.hasOwnProperty.call(currentFormattedConfig.components, key)) {
+            //     Object.assign(extendedConfig.components[key], currentFormattedConfig.components[key])
             // }
         }
     }

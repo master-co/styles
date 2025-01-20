@@ -10,7 +10,7 @@ export default {
             external: '" ↗"'
         }
     },
-    styles: {
+    components: {
         btn: 'inline-flex bg:primary'
     }
 } satisfies Config

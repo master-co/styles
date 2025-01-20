@@ -21,7 +21,7 @@ export default {
             }
         }
     },
-    styles: {
+    components: {
         yellow: 'bg:yellow fg:yellow-contrast outline:1|yellow-ring',
         touch: {
             yellow: 'bg:touch-yellow:hover'

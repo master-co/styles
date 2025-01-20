@@ -19,19 +19,19 @@ export default class MasterCSS {
     readonly syntaxes: RegisteredSyntax[] = []
     readonly config: Config
     readonly classesUsage: Record<string, number> = {}
-    readonly layerStatementRule = new Rule('layer-statement', [{ text: '@layer base,theme,preset,styles,general;' }])
+    readonly layerStatementRule = new Rule('layer-statement', [{ text: '@layer base,theme,preset,components,general;' }])
     readonly rules: (Layer | Rule)[] = [this.layerStatementRule]
     readonly animationsNonLayer = new NonLayer(this)
     readonly baseLayer = new SyntaxLayer('base', this)
     readonly themeLayer = new Layer('theme', this)
     readonly presetLayer = new SyntaxLayer('preset', this)
-    readonly stylesLayer = new SyntaxLayer('styles', this)
+    readonly stylesLayer = new SyntaxLayer('components', this)
     readonly generalLayer = new SyntaxLayer('general', this)
 
     get text() {
         return this.rules
             .sort((a, b) => {
-                const order = ['layer-statement', 'base', 'theme', 'preset', 'styles', 'general']
+                const order = ['layer-statement', 'base', 'theme', 'preset', 'components', 'general']
                 const indexA = order.indexOf(a.name) === -1 ? Infinity : order.indexOf(a.name)
                 const indexB = order.indexOf(b.name) === -1 ? Infinity : order.indexOf(b.name)
                 return indexA - indexB
@@ -52,7 +52,7 @@ export default class MasterCSS {
     }
 
     resolve() {
-        this.styles = {}
+        this.components = {}
         this.selectors = {}
         this.variables = {}
         this.at = {}
@@ -65,7 +65,7 @@ export default class MasterCSS {
             transparent: undefined
         }
 
-        const { styles, selectors, variables, utilities, at, syntaxes, animations } = this.config
+        const { components, selectors, variables, utilities, at, syntaxes, animations } = this.config
 
         function escapeString(str: string) {
             return str.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
@@ -281,13 +281,13 @@ export default class MasterCSS {
             }
         }
 
-        const flattedStyles: Record<string, string> = styles ? flattenObject(styles) : {}
+        const flattedStyles: Record<string, string> = components ? flattenObject(components) : {}
         const utilityNames = Object.keys(flattedStyles)
         const handleUtilityName = (utilityName: string) => {
-            if (Object.prototype.hasOwnProperty.call(this.styles, utilityName))
+            if (Object.prototype.hasOwnProperty.call(this.components, utilityName))
                 return
 
-            const currentClass: string[] = this.styles[utilityName] = []
+            const currentClass: string[] = this.components[utilityName] = []
 
             const className = flattedStyles[utilityName]
             if (!className)
@@ -307,7 +307,7 @@ export default class MasterCSS {
                 if (utilityNames.includes(eachClassName)) {
                     handleUtilityName(eachClassName)
 
-                    for (const parentClassName of this.styles[eachClassName]) {
+                    for (const parentClassName of this.components[eachClassName]) {
                         handle(parentClassName)
                     }
                 } else {
@@ -427,8 +427,8 @@ export default class MasterCSS {
                 })
         }
 
-        for (const utilityName in this.styles) {
-            const syntaxRulesByStateToken = this.styles[utilityName]
+        for (const utilityName in this.components) {
+            const syntaxRulesByStateToken = this.components[utilityName]
                 .map((eachSyntax) => this.create(eachSyntax))
                 .filter(eachSyntax => eachSyntax?.text)
                 .reduce((obj, eachSyntaxRule) => {
@@ -439,7 +439,7 @@ export default class MasterCSS {
                     }
                     return obj
                 }, {} as Record<string, SyntaxRule[]>)
-            this.styles[utilityName] = Object
+            this.components[utilityName] = Object
                 .keys(syntaxRulesByStateToken)
                 .map(stateToken => {
                     const syntaxRules = syntaxRulesByStateToken[stateToken]
@@ -498,15 +498,15 @@ export default class MasterCSS {
      */
     generate(className: string, mode?: string): SyntaxRule[] {
         let syntaxRules: SyntaxRule[] = []
-        if (Object.prototype.hasOwnProperty.call(this.styles, className)) {
-            syntaxRules = this.styles[className].map((eachSyntax) => this.create(eachSyntax, className, mode)) as SyntaxRule[]
+        if (Object.prototype.hasOwnProperty.call(this.components, className)) {
+            syntaxRules = this.components[className].map((eachSyntax) => this.create(eachSyntax, className, mode)) as SyntaxRule[]
         } else {
             const atIndex = className.indexOf('@')
             if (atIndex !== -1) {
                 const name = className.slice(0, atIndex)
-                if (Object.prototype.hasOwnProperty.call(this.styles, name)) {
+                if (Object.prototype.hasOwnProperty.call(this.components, name)) {
                     const atToken = className.slice(atIndex)
-                    syntaxRules = this.styles[name].map((eachSyntax) => this.create(eachSyntax + atToken, className, mode)) as SyntaxRule[]
+                    syntaxRules = this.components[name].map((eachSyntax) => this.create(eachSyntax + atToken, className, mode)) as SyntaxRule[]
                 } else {
                     syntaxRules = [this.create(className, undefined, mode)] as SyntaxRule[]
                 }
@@ -619,17 +619,17 @@ export default class MasterCSS {
          * 匹配並刪除對應的 rule
          */
         for (const className of classNames) {
-            if (Object.prototype.hasOwnProperty.call(this.styles, className)) {
-                for (const eachSyntax of this.styles[className]) {
+            if (Object.prototype.hasOwnProperty.call(this.components, className)) {
+                for (const eachSyntax of this.components[className]) {
                     this.stylesLayer.delete(className + ' ' + eachSyntax)
                 }
             } else {
                 const atIndex = className.indexOf('@')
                 if (atIndex !== -1) {
                     const name = className.slice(0, atIndex)
-                    if (Object.prototype.hasOwnProperty.call(this.styles, name)) {
+                    if (Object.prototype.hasOwnProperty.call(this.components, name)) {
                         const atToken = className.slice(atIndex)
-                        for (const eachSyntax of this.styles[name]) {
+                        for (const eachSyntax of this.components[name]) {
                             this.stylesLayer.delete(eachSyntax + atToken + ' ' + className)
                         }
                     } else {
@@ -659,7 +659,7 @@ export const masterCSSs: MasterCSS[] = []
 
 export default interface MasterCSS {
     style: HTMLStyleElement | null
-    styles: Record<string, string[]>
+    components: Record<string, string[]>
     selectors: Record<string, [RegExp, string[]][]>
     variables: Record<string, Variable>
     at: Record<string, string | number>

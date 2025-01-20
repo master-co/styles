@@ -4,7 +4,7 @@
     import type { Config } from '@master/css'
 
     const config = ref<Config>({
-        styles: {
+        components: {
             btn: 'b:2|red'
         }
     })

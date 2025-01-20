@@ -76,7 +76,7 @@ new RuleTester({
     settings: {
         '@master/css': {
             config: {
-                styles: { btn: 'block' }
+                components: { btn: 'block' }
             }
         }
     }

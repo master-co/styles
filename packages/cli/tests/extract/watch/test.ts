@@ -38,7 +38,7 @@ export default options
 const configFilepath = path.join(__dirname, 'master.css.ts')
 const originConfigText = `import type { Config } from '@master/css'
 const config: Config = {
-    styles: {
+    components: {
         btn: 'bg:red'
     },
     variables: {
@@ -84,7 +84,7 @@ it('change options file `fixed` and reset process', async () => {
     expect(fileCSSText).toContain(cssEscape('fg:red'))
 }, 120000)
 
-it('change config file `styles` and reset process', async () => {
+it('change config file `components` and reset process', async () => {
     await Promise.all([
         waitForDataMatch(subprocess, (data) => data.includes('watching source changes'), async () => {
             fs.writeFileSync(configFilepath, originConfigText.replace('bg:red', 'bg:blue'))

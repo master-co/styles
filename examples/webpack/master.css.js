@@ -1,6 +1,6 @@
 /** @type {import('@master/css').Config} */
 module.exports = {
-    styles: {},
+    components: {},
     syntaxes: {},
     variables: {},
     utilities: {},

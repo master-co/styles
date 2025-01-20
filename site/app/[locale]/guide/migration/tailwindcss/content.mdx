@@ -187,7 +187,7 @@ export default {
 
 ## Strategies
 ### Alternative to `@apply`
-Use [styles](/guide/styles) to abstract styles instead of `@apply`.
+Use [components](/guide/components) to abstract styles instead of `@apply`.
 ```css name=main.css
 - @tailwind base;
 - @tailwind components;
@@ -200,7 +200,7 @@ Use [styles](/guide/styles) to abstract styles instead of `@apply`.
 ```js name=master.css.js
 /** @type {import('@master/css').Config} */
 export default {
-    styles: {
+    components: {
         btn: 'p:2x|5x bg:white bg:black:hover'
     }
 }

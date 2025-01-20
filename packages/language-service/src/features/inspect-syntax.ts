@@ -14,17 +14,17 @@ export default function inspectSyntax(this: CSSLanguageService, document: TextDo
         start: document.positionAt(classPosition.range.start),
         end: document.positionAt(classPosition.range.end)
     }
-    const styleClasses = this.css.styles[token]
-    if (styleClasses) {
+    const componentClasses = this.css.components[token]
+    if (componentClasses) {
         const documentation = getCSSDataDocumentation({} as any, {
             generatedCSS: generateCSS([token], this.css),
-            docs: '/guide/styles'
+            docs: '/guide/components'
         })
         if (documentation) {
             return {
                 contents: {
                     kind: documentation.kind,
-                    value: `(style) ` + styleClasses.join(' ') + '\n' + documentation.value
+                    value: `(style) ` + componentClasses.join(' ') + '\n' + documentation.value
                 }
             }
         }

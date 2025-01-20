@@ -30,9 +30,9 @@ export default () => {
                         <td className="white-space:nowrap"><InlineCode lang="css">{'@layer preset { … }'}</InlineCode></td>
                     </tr>
                     <tr>
-                        <th>Styles</th>
-                        <td>Where the used <Link href="/guide/styles">styles</Link> are generated.</td>
-                        <td className="white-space:nowrap"><InlineCode lang="css">{'@layer styles { … }'}</InlineCode></td>
+                        <th>Components</th>
+                        <td>Where the used <Link href="/guide/components">components</Link> are generated.</td>
+                        <td className="white-space:nowrap"><InlineCode lang="css">{'@layer components { … }'}</InlineCode></td>
                     </tr>
                     <tr>
                         <th>General</th>

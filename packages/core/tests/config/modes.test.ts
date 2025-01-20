@@ -29,5 +29,5 @@ test.concurrent('media modes', () => {
 })
 
 test('components', () => {
-    expectLayers({ styles: '.dark .btn\\@dark{display:block}' }, 'btn@dark', { styles: { btn: 'block' } })
+    expectLayers({ components: '.dark .btn\\@dark{display:block}' }, 'btn@dark', { components: { btn: 'block' } })
 })

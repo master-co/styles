@@ -1,7 +1,7 @@
 import type { Config } from '@master/css'
 
 export default {
-    styles: {
+    components: {
         btn: {
             '': 'center-content inline-flex font:semibold outline-offset:-1',
             'xs': 'font:12 h:6x px:2x r:4',

@@ -1,5 +1,5 @@
 export default {
-    styles: {
+    components: {
         box: 'flex font:1em'
     }
 }

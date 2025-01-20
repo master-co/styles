@@ -86,15 +86,15 @@ export default function getMainCompletionItems(css: MasterCSS = new MasterCSS())
         })
     })
 
-    if (css.config.styles) {
-        for (const styleName in css.config.styles) {
-            const styleClasses = css.styles[styleName]
+    if (css.config.components) {
+        for (const styleName in css.config.components) {
+            const styleClasses = css.components[styleName]
             completionItems.push({
                 label: styleName,
                 kind: CompletionItemKind.Value,
                 documentation: getCSSDataDocumentation({} as any, {
                     generatedCSS: generateCSS([styleName], css),
-                    docs: '/guide/styles'
+                    docs: '/guide/components'
                 }),
                 detail: styleClasses.join(' ') + ' (style)',
             })

@@ -5,7 +5,7 @@ export default {
     extends: [
         card
     ],
-    styles: {
+    components: {
         btn: `inline-flex text:center`
     },
     variables: {

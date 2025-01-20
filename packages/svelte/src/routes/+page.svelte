@@ -4,7 +4,7 @@
 
     let containerRef = $state<HTMLDivElement>();
     let config = $state<Config>({
-        styles: {
+        components: {
             btn: "b:2|red",
         },
     });

@@ -15,7 +15,7 @@ new RuleTester({
         '@master/css': {
             classAttributes: ['test', 'className', 'class'],
             config: {
-                styles: { zDialog: 'z:10000' }
+                components: { zDialog: 'z:10000' }
             }
         }
     }

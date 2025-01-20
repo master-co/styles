@@ -7,7 +7,7 @@ export default {
             '@dark': '#ffffff'
         }
     },
-    styles: {
+    components: {
         btn: 'inline-flex bg:primary'
     }
 } satisfies Config

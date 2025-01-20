@@ -33,7 +33,7 @@ export const buttonConfig: Config = {
         [buttonTokens.primaryDisabled.slice(2, -1)]: colorTokens.blue200,
         [buttonTokens.disabled.slice(2, -1)]: colorTokens.gray200
     },
-    styles: {
+    components: {
         'btn-primary': [
             `t:${textTokens.onColor.slice(2, -1)}`,
             `t:${textTokens.disabled.slice(2, -1)}:disabled`,
@@ -109,7 +109,7 @@ describe.concurrent('jetsai', () => {
 
         expectLayers(
             {
-                styles: '.btn-primary{-webkit-text-fill-color:rgb(255 255 255);background-color:rgb(34 66 163)}.btn-primary:hover{background-color:rgb(21 37 89)}.btn-primary:disabled{-webkit-text-fill-color:rgb(146 151 161);background-color:rgb(205 224 247)}'
+                components: '.btn-primary{-webkit-text-fill-color:rgb(255 255 255);background-color:rgb(34 66 163)}.btn-primary:hover{background-color:rgb(21 37 89)}.btn-primary:disabled{-webkit-text-fill-color:rgb(146 151 161);background-color:rgb(205 224 247)}'
             },
             'btn-primary',
             config

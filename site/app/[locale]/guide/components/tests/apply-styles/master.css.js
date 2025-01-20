@@ -1,5 +1,5 @@
 export default {
-    styles: {
+    components: {
         btn: {
             '': '… inline-flex font:semibold',
             'sm': 'font:12 h:8x px:3x r:6',

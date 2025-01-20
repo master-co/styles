@@ -4,7 +4,7 @@ import { Config, MasterCSS } from '../src'
 export const expectLayers = (
     layers: {
         theme?: string
-        styles?: string
+        components?: string
         general?: string
         base?: string
         animations?: string
@@ -15,7 +15,7 @@ export const expectLayers = (
 ) => {
     const css = new MasterCSS(customConfig).add(...(Array.isArray(className) ? className : [className]))
     if (layers.theme) expect(css.themeLayer.text).toContain(`@layer theme{${layers.theme ?? ''}}`)
-    if (layers.styles) expect(css.stylesLayer.text).toContain(`@layer styles{${layers.styles ?? ''}}`)
+    if (layers.components) expect(css.stylesLayer.text).toContain(`@layer components{${layers.components ?? ''}}`)
     if (layers.preset) expect(css.presetLayer.text).toContain(`@layer preset{${layers.preset ?? ''}}`)
     if (layers.base) expect(css.baseLayer.text).toContain(`@layer base{${layers.base ?? ''}}`)
     if (layers.general) expect(css.generalLayer.text).toContain(`@layer general{${layers.general ?? ''}}`)

@@ -1,5 +1,5 @@
 const config = {
-    styles: {
+    components: {
         btn: 'font:19 h:70 text:center',
         btn4: 'font:200'
     }

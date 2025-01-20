@@ -331,7 +331,7 @@ export class RuntimeCSS extends MasterCSS {
                 case 'preset':
                     handleSyntaxLayer(this.presetLayer)
                     break
-                case 'styles':
+                case 'components':
                     this.stylesLayer.native = cssLayerBlockRule
                     let stylePreText: string
                     const createSyntaxRules = (cssRule: any): SyntaxRule[] | undefined => {
@@ -371,7 +371,7 @@ export class RuntimeCSS extends MasterCSS {
                             }
                         } else {
                             cssLayerBlockRule?.deleteRule?.(j--)
-                            console.error(`Cannot recognize the CSS rule in the styles layer. \`${cssRule.cssText}\` (https://rc.css.master.co/messages/hydration-errors)`)
+                            console.error(`Cannot recognize the CSS rule in the components layer. \`${cssRule.cssText}\` (https://rc.css.master.co/messages/hydration-errors)`)
                         }
                     }
                     for (const eachRule of this.stylesLayer.rules) {

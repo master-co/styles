@@ -36,12 +36,12 @@ export default function querySyntaxCompletions(q = '', css: MasterCSS = new Mast
     const firstColonIndex = keyMatch ? keyMatch[0].length - 1 : -1
     const selectorInvokedRegex = new RegExp(`[${SELECTOR_SIGNS.join('')}](?=(?:[^'"]|'[^']*'|"[^"]*")*$)`)
     const key = keyMatch ? keyMatch[0].slice(0, firstColonIndex) : undefined
-    const styleNames = Object.keys(css.config.styles || {})
+    const componentNames = Object.keys(css.config.components || {})
     const utilityNames = Object.keys(css.config.utilities || {})
-    const isStyle = !!styleNames.find((eachStyleName) => new RegExp(`^${eachStyleName}(?:\\b|_)`).test(field))
+    const isStyle = !!componentNames.find((eachStyleName) => new RegExp(`^${eachStyleName}(?:\\b|_)`).test(field))
     const isUtility = !!utilityNames.find((eachUtilityName) => new RegExp(`^${eachUtilityName}(?:\\b|_)`).test(field))
 
-    // check by utilities and styles
+    // check by utilities and components
     if (!isStyle && !isUtility) {
         if (key === undefined && !valueSeparatorMatch) {
             /**

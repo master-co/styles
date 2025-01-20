@@ -8,11 +8,11 @@ Here is an example that covers all layers:
 Generated CSS:
 <Code lang="css" beautify>{require('./tests/overview/generated.css?text?text').default}</Code>
 
-- `css @layer base, theme, preset, styles, general;` declares the order of the style layers. The cascade priority follows this order, where layers declared later override earlier ones if there are conflicting styles.
+- `css @layer base, theme, preset, components, general;` declares the order of the style layers. The cascade priority follows this order, where layers declared later override earlier ones if there are conflicting styles.
 - `css @layer base { … }` generates rules based on the syntax with `@base` (`mcss list-style:none_ul@base`).
 - `css @layer theme { … }` generates rules based on used variable values (`primary`) and `config.variables`.
 - `css @layer preset { … }` generates rules based on the syntax with `@preset` (`mcss text:16_p@preset`).
-- `css @layer styles { … }` generates rules based on used abstract styles (`mcss btn`) and `config.styles`.
+- `css @layer components { … }` generates rules based on used abstract components (`mcss btn`) and `config.components`.
 - `css @layer general { … }` generates rules based on used general styles (`mcss flex`, `mcss @fade|1s`).
 - All keyframes rules are generated into the top-level.
 
@@ -57,7 +57,7 @@ The preset layer styles should be built on top of the base layer.
 ---
 
 ## Overriding component styles
-You can override the component [styles](/guide/styles) by adding general syntax, without having to prioritize rules.
+You can override the [components](/guide/components) by adding general syntax, without having to prioritize rules.
 
 For example, add `flex` to override the display declaration `inline-flex` of the button.
 ```html
@@ -65,9 +65,9 @@ For example, add `flex` to override the display declaration `inline-flex` of the
 ```
 Generated CSS:
 ```css
-@layer base, theme, preset, styles, general;
+@layer base, theme, preset, components, general;
 
-@layer styles {
+@layer components {
     .btn {
         display: inline-flex;
         …
@@ -98,7 +98,7 @@ This way, you can set preset styles for multiple targets at once while still bei
 ## Summary
 By leveraging CSS cascade layers, you can structure your styles for better maintainability and prevent unwanted overrides.
 
-If styles conflict, the order of priority is: **General > Styles > Theme > Preset > Base**.
+If styles conflict, the order of priority is: **General > Components > Theme > Preset > Base**.
 
 ### Responsibilities
 1. Use `css @layer base {}` or `@base` for global resets and normalization.

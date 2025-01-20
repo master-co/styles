@@ -12,7 +12,7 @@ test('read master.css.js config in cwd', async () => {
 test('master.css.js config custom classname', async () => {
     fs.writeFileSync(path.join(__dirname, 'master.css.ts'), `
         export default {
-            styles: {
+            components: {
                 'blue-btn': 'bg:blue',
                 btn: 'bg:gray'
             }

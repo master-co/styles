@@ -46,7 +46,7 @@ export type FunctionDefinitions = Record<string, FunctionDefinition>;
 
 export interface Config {
     extends?: (Config | any)[]
-    styles?: StyleDefinitions
+    components?: StyleDefinitions
     at?: AtDefinitions
     selectors?: SelectorDefinitions
     utilities?: UtilityDefinitions
