@@ -8,7 +8,7 @@ test('Runtime - class changed', async ({ page, mount }) => {
 
     const $button = page.locator('#config-btn')
     await $button?.evaluateHandle(($button) => $button.classList.add('f:10'))
-    expect(await page.evaluate(() => globalThis.runtimeCSS.classesUsage)).toEqual({
+    expect(await page.evaluate(() => globalThis.runtimeCSS.classUsages)).toEqual({
         'btn': 1,
         'f:10': 1
     })
@@ -32,7 +32,7 @@ test('Runtime - root changed', async ({ page, mount }) => {
 
     const $button = page.locator('#root-btn')
     await $button?.click()
-    expect(await page.evaluate(() => globalThis.runtimeCSSs[0].classesUsage)).toEqual({
+    expect(await page.evaluate(() => globalThis.runtimeCSSs[0].classUsages)).toEqual({
         'f:1000': 1
     })
 })

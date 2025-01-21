@@ -41,6 +41,7 @@
         "jest-text-transformer": "^1.0.4",
         "js-beautify": "^1.15.1",
         "nanoid": "^4.0.2",
+        "nodemon": "^3.1.9",
         "shuffle-array": "^1.0.1",
         "strip-ansi": "^7.1.0",
         "techor": "^3.1.7",

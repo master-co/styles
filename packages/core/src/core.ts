@@ -18,7 +18,7 @@ export default class MasterCSS {
     static config: Config = defaultConfig
     readonly definedRules: DefinedRule[] = []
     readonly config: Config
-    readonly classesUsage: Record<string, number> = {}
+    readonly classUsages: Record<string, number> = {}
     readonly layerStatementRule = new Rule('layer-statement', [{ text: '@layer base,theme,preset,components,general;' }])
     readonly rules: (Layer | Rule)[] = [this.layerStatementRule]
     readonly animationsNonLayer = new NonLayer(this)
@@ -582,7 +582,7 @@ export default class MasterCSS {
          * 拿當前所有的 classNames 按照最新的 colors, config.rules 匹配並生成新的 style
          * 所以 refresh 過後 rules 可能會變多也可能會變少
          */
-        for (const name in this.classesUsage) {
+        for (const name in this.classUsages) {
             this.add(name)
         }
         return this
@@ -600,7 +600,7 @@ export default class MasterCSS {
 
     destroy() {
         // @ts-ignore
-        this.classesUsage = {}
+        this.classUsages = {}
         masterCSSs.splice(masterCSSs.indexOf(this), 1)
         return this
     }
