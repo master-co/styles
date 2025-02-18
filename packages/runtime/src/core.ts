@@ -8,6 +8,7 @@ export class RuntimeCSS extends MasterCSS {
     readonly observing = false
     readonly progressive = false
     readonly container: HTMLElement | ShadowRoot
+    readonly observer?: MutationObserver
 
     constructor(
         public root: Document | ShadowRoot = document,
@@ -29,193 +30,12 @@ export class RuntimeCSS extends MasterCSS {
         runtimeCSSs.push(this)
     }
 
-    observer = new MutationObserver((mutationRecords) => {
-        // console.time('css engine');
-        const correctionOfClassName: Record<string, number> = {}
-        const attributeMutationRecords: MutationRecord[] = []
-        const updatedElements: Element[] = []
-        const unchangedElements: Element[] = []
-
-        /**
-        * 取得所有深層後代的 class names
-        */
-        const handleClassNameDeeply = (element: Element, remove: boolean) => {
-            if (remove) {
-                element.classList.forEach(removeClassName)
-            } else {
-                element.classList.forEach(addClassName)
-            }
-            const children = element.children
-            for (const eachChildren of children) {
-                if (eachChildren.classList && !updatedElements.includes(eachChildren)) {
-                    updatedElements.push(eachChildren)
-                    handleClassNameDeeply(eachChildren, remove)
-                }
-            }
-        }
-
-        const addClassName = (className: string) => {
-            if (Object.prototype.hasOwnProperty.call(correctionOfClassName, className)) {
-                correctionOfClassName[className]++
-            } else {
-                correctionOfClassName[className] = 1
-            }
-        }
-
-        const removeClassName = (className: string) => {
-            if (Object.prototype.hasOwnProperty.call(correctionOfClassName, className)) {
-                correctionOfClassName[className]--
-            } else if (Object.prototype.hasOwnProperty.call(this.classUsages, className)) {
-                correctionOfClassName[className] = -1
-            }
-        }
-
-        const handleNodes = (nodes: HTMLCollection, remove: boolean) => {
-            for (const eachNode of nodes) {
-                if (eachNode.classList && !updatedElements.includes(eachNode) && !unchangedElements.includes(eachNode)) {
-                    if (eachNode.isConnected !== remove) {
-                        updatedElements.push(eachNode)
-                        handleClassNameDeeply(eachNode, remove)
-                    } else {
-                        unchangedElements.push(eachNode)
-                    }
-                }
-            }
-        }
-
-        for (const mutationRecord of mutationRecords) {
-            const { addedNodes, removedNodes, type, target } = mutationRecord
-            if (type === 'attributes') {
-                /**
-                 * 防止同樣的 MutationRecord 重複執行
-                 * According to this history,
-                 * MutationObserver was designed to work that way.
-                 * Any call to setAttribute triggers a mutation,
-                 * regardless of whether the value is being changed or set to the current value
-                 */
-                if (attributeMutationRecords.find((eachAttributeMutationRecord) => eachAttributeMutationRecord.target === target)) {
-                    continue
-                } else {
-                    /**
-                     * 第一個匹配到的 oldValue 一定是該批變動前的原始狀態值
-                     */
-                    attributeMutationRecords.push(mutationRecord)
-                }
-            } else {
-                // 先判斷節點新增或移除
-                handleNodes(addedNodes as any, false)
-
-                // 忽略處理新元素的已刪除子節點
-                if (!target.isConnected || !updatedElements.includes(target as any)) {
-                    handleNodes(removedNodes as any, true)
-                }
-            }
-        }
-
-        if (!attributeMutationRecords.length && !Object.keys(correctionOfClassName).length) {
-            // console.timeEnd('css engine');
-            return
-        }
-
-        for (const { oldValue, target } of attributeMutationRecords) {
-            /**
-             * 如果被操作的元素中包含了屬性變更的目標，
-             * 則將該目標從 existedAttributeMutationTargets 中移除，
-             * 以防止執行接下來的屬性變更處理
-             *
-             * 該批 mutationRecords 中，某個 target 同時有 attribute 及 childList 的變更，
-             * 則以 childList 節點插入及移除的 target.className 為主
-             */
-            const updated = updatedElements.includes(target as Element)
-            const classNames = (target as Element).classList
-            const oldClassNames = oldValue ? oldValue.split(' ') : []
-            if (updated) {
-                if (target.isConnected) {
-                    continue
-                } else {
-                    for (const oldClassName of oldClassNames) {
-                        if (!classNames.contains(oldClassName)) {
-                            removeClassName(oldClassName)
-                        }
-                    }
-                }
-            } else if (target.isConnected) {
-                classNames.forEach((className) => {
-                    if (!oldClassNames.includes(className)) {
-                        addClassName(className)
-                    }
-                })
-                for (const oldClassName of oldClassNames) {
-                    if (!classNames.contains(oldClassName)) {
-                        removeClassName(oldClassName)
-                    }
-                }
-            }
-        }
-
-        for (const className in correctionOfClassName) {
-            const correction = correctionOfClassName[className]
-            const count = (this.classUsages[className] || 0) + correction
-            if (count === 0) {
-                // remove
-                delete this.classUsages[className]
-                /**
-                 * class name 從 DOM tree 中被移除，
-                 * 匹配並刪除對應的 rule
-                 */
-                this.remove(className)
-            } else {
-                if (!(Object.prototype.hasOwnProperty.call(this.classUsages, className))) {
-                    // add
-                    /**
-                     * 新 class name 被 connected 至 DOM tree，
-                     * 匹配並創建對應的 Rule
-                     */
-                    this.add(className)
-                }
-
-                this.classUsages[className] = count
-            }
-        }
-
-        // start: debug
-        const safeClassUsages: any = {};
-        ((this.root.constructor.name === 'HTMLDocument') ? this.host : this.container)
-            .querySelectorAll('[class]')
-            .forEach((element) => {
-                element.classList.forEach((className) => {
-                    if (Object.prototype.hasOwnProperty.call(safeClassUsages, className)) {
-                        safeClassUsages[className]++
-                    } else {
-                        safeClassUsages[className] = 1
-                    }
-                })
-            })
-        this.host.classList.forEach((className) => {
-            if (Object.prototype.hasOwnProperty.call(safeClassUsages, className)) {
-                safeClassUsages[className]++
-            } else {
-                safeClassUsages[className] = 1
-            }
-        })
-        console.clear()
-        // 與 this.classUsages 比較並且打印不同的部分
-        for (const className in safeClassUsages) {
-            if (this.classUsages[className] !== safeClassUsages[className]) {
-                console.error('[css]', className, this.classUsages[className], '(correct:', safeClassUsages[className], ')')
-                console.log('[css]', 'safeClassUsages', structuredClone(safeClassUsages))
-                console.log('[css]', 'classUsages', structuredClone(this.classUsages))
-            }
-        }
-        // end: debug
-    })
-
     /**
      * Observe the DOM for changes and update the running stylesheet. (browser only)
      * @param options mutation observer options
      * @returns this
      */
-    observe(options: MutationObserverInit = { subtree: true, childList: true }) {
+    observe() {
         if (this.observing) return this
         if (this.root.styleSheets)
             for (const sheet of this.root.styleSheets) {
@@ -237,33 +57,178 @@ export class RuntimeCSS extends MasterCSS {
             this.layerStatementRule.nodes[0].native = this.style!.sheet!.cssRules.item(0) as CSSLayerStatementRule
         }
 
-        const addClasses = (classList: DOMTokenList) => {
-            classList.forEach((className) => {
-                if (Object.prototype.hasOwnProperty.call(this.classUsages, className)) {
-                    this.classUsages[className]++
+        const firstConnectedElementsClasses = new Map<Element, string[]>()
+        const addClasses = (element: Element) => {
+            element.classList.forEach((className) => {
+                if (this.classUsages.has(className)) {
+                    this.classUsages.set(className, this.classUsages.get(className)! + 1)
                 } else {
-                    this.classUsages[className] = 1
+                    this.classUsages.set(className, 1)
                     this.add(className)
+                }
+                const classes = firstConnectedElementsClasses.get(element)
+                if (classes) {
+                    classes.push(className)
+                } else {
+                    firstConnectedElementsClasses.set(element, [className])
                 }
             })
         }
 
-        addClasses(this.host.classList)
+        addClasses(this.host);
 
-        if (options.subtree) {
+        /**
+         * 待所有 DOM 結構完成解析後，開始繪製 Rule 樣式
+         */
+        ((this.root.constructor.name === 'HTMLDocument') ? this.host : this.container)
+            .querySelectorAll('[class]')
+            .forEach((element) => {
+                addClasses(element)
+            })
+
+        // @ts-expect-error readonly
+        this.observer = new MutationObserver((mutationRecords) => {
+            // console.clear()
+            // console.log('-----------')
+            // const test = 'swiper-slide-next'
+            // console.log(`${test}: ${this.classUsages.get(test)}`)
+            const eachClassUsages = new Map()
+            const updatedAttrElements = new Set<Element>()
+            const updatedConnectedElements = new Set<Element>()
+            const updatedElements = new Set<Element>()
+
+            const updateClassUsage = (classes: Set<string> | string[] | DOMTokenList, isAdding = false, target?: Element) => {
+                const usage = isAdding ? 1 : -1
+                classes.forEach((className) => {
+                    // if (className === test) console.log(`  ${isAdding ? '+' : '-'} ${className} ${(eachClassUsages.get(className) || 0) + usage}`, target)
+                    eachClassUsages.set(className, (eachClassUsages.get(className) || 0) + usage)
+                })
+            }
+
+            const updateElementTree = (element: Element, adding: boolean) => {
+                if (element.isConnected) {
+                    updatedConnectedElements.add(element)
+                }
+                updatedElements.add(element)
+                updateClassUsage(element.classList, adding, element)
+                for (const child of element.children) {
+                    updateElementTree(child as Element, adding)
+                }
+            }
+
+            // console.log('///')
+
+            mutationRecords.forEach((mutation) => {
+                const target = mutation.target as Element
+                switch (mutation.type) {
+                    case 'attributes':
+                        const oldClassList = mutation.oldValue ? mutation.oldValue.split(/\s+/) : []
+                        const newClassList = target.classList
+                        const addedClasses: string[] = []
+                        newClassList.forEach(c => {
+                            if (!oldClassList.includes(c)) addedClasses.push(c)
+                        })
+                        const removedClasses = oldClassList.filter(c => !newClassList.contains(c))
+                        // if (addedClasses.length) console.log('[attribute]', '[add]', addedClasses, target)
+                        // if (removedClasses.length) console.log('[attribute]', '[remove]', removedClasses, target)
+                        break
+                    case 'childList':
+                        // if (mutation.addedNodes.length) console.log('[childList]', '[add]', mutation.addedNodes)
+                        // if (mutation.removedNodes.length) console.log('[childList]', '[remove]', mutation.removedNodes)
+                        break
+                }
+            })
+
+            // console.log('///')
+
+            mutationRecords.forEach((mutation) => {
+                const target = mutation.target as Element
+                switch (mutation.type) {
+                    case 'attributes':
+                        /**
+                         * We only need to determine the first attribute record of the same target,
+                         * because the first record has the original old class name.
+                         *
+                         * The target is skipped if it is contained in the unhandled childList.
+                         */
+                        if (updatedAttrElements.has(target) || updatedElements.has(target)) return
+                        updatedAttrElements.add(target)
+                        const oldClassList = mutation.oldValue ? mutation.oldValue.split(/\s+/) : []
+                        const newClassList = target.classList
+                        const addedClasses: string[] = []
+                        newClassList.forEach(c => {
+                            if (!oldClassList.includes(c)) addedClasses.push(c)
+                        })
+                        const removedClasses = oldClassList.filter(c => !newClassList.contains(c))
+                        // if (addedClasses.length) console.log('[attribute]', '[add]', addedClasses, target)
+                        if (addedClasses.length) updateClassUsage(addedClasses, true)
+                        // if (removedClasses.length) console.log('[attribute]', '[remove]', removedClasses, target)
+                        if (removedClasses.length) updateClassUsage(removedClasses, false)
+                        break
+                    case 'childList':
+                        if (updatedConnectedElements.has(target)) return
+                        // if (mutation.addedNodes.length) console.log('[childList]', '[add]', mutation.addedNodes)
+                        mutation.addedNodes.forEach((node) => 'classList' in node && updateElementTree(node as Element, true))
+                        // if (mutation.removedNodes.length) console.log('[childList]', '[remove]', mutation.removedNodes)
+                        mutation.removedNodes.forEach((node) => 'classList' in node && updateElementTree(node as Element, false))
+                        break
+                }
+            })
+
             /**
-             * 待所有 DOM 結構完成解析後，開始繪製 Rule 樣式
+             * Merge the class usage changes into the current class usage map.
              */
-            ((this.root.constructor.name === 'HTMLDocument') ? this.host : this.container)
-                .querySelectorAll('[class]')
-                .forEach((element) => addClasses(element.classList))
-        }
+            eachClassUsages.forEach((countChange, className) => {
+                let currentCount = this.classUsages.get(className) || 0
+                let newCount = currentCount + countChange
+                if (newCount > 0) {
+                    this.classUsages.set(className, newCount)
+                    if (currentCount === 0) {
+                        this.add(className)
+                    }
+                } else {
+                    this.classUsages.delete(className)
+                    this.remove(className)
+                }
+            })
+
+            // start: debug
+            // const safeClassUsages: any = {};
+            // ((this.root.constructor.name === 'HTMLDocument') ? this.host : this.container)
+            //     .querySelectorAll('[class]')
+            //     .forEach((element) => {
+            //         element.classList.forEach((className) => {
+            //             if (Object.prototype.hasOwnProperty.call(safeClassUsages, className)) {
+            //                 safeClassUsages[className]++
+            //             } else {
+            //                 safeClassUsages[className] = 1
+            //             }
+            //         })
+            //     })
+
+            // this.host.classList.forEach((className) => {
+            //     if (Object.prototype.hasOwnProperty.call(safeClassUsages, className)) {
+            //         safeClassUsages[className]++
+            //     } else {
+            //         safeClassUsages[className] = 1
+            //     }
+            // })
+
+            // // 與 this.classUsages 比較並且打印不同的部分
+            // for (const className in safeClassUsages) {
+            //     if (this.classUsages.get(className) !== safeClassUsages[className]) {
+            //         throw new Error(`[css] ${className} ${this.classUsages.get(className)} (correct: ${safeClassUsages[className]})`)
+            //     }
+            // }
+            // end: debug
+        })
 
         this.observer.observe(this.root, {
-            ...options,
             attributes: true,
             attributeOldValue: true,
             attributeFilter: ['class'],
+            childList: true,
+            subtree: true
         })
 
         if (!this.progressive) {
@@ -427,6 +392,8 @@ export class RuntimeCSS extends MasterCSS {
         if (!this.observing) return
         if (this.observer) {
             this.observer.disconnect()
+            // @ts-expect-error readonly
+            this.observer = undefined
         }
         // @ts-ignore
         this.observing = false
