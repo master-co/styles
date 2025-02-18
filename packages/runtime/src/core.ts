@@ -97,7 +97,7 @@ export class RuntimeCSS extends MasterCSS {
             const updatedConnectedElements = new Set<Element>()
             const updatedElements = new Set<Element>()
 
-            const updateClassUsage = (classes: Set<string> | string[] | DOMTokenList, isAdding = false, target?: Element) => {
+            const updateClassUsage = (classes: Set<string> | string[] | DOMTokenList, isAdding = false) => {
                 const usage = isAdding ? 1 : -1
                 classes.forEach((className) => {
                     // if (className === test) console.log(`  ${isAdding ? '+' : '-'} ${className} ${(eachClassUsages.get(className) || 0) + usage}`, target)
@@ -110,7 +110,7 @@ export class RuntimeCSS extends MasterCSS {
                     updatedConnectedElements.add(element)
                 }
                 updatedElements.add(element)
-                updateClassUsage(element.classList, adding, element)
+                updateClassUsage(element.classList, adding)
                 for (const child of element.children) {
                     updateElementTree(child as Element, adding)
                 }
@@ -128,7 +128,7 @@ export class RuntimeCSS extends MasterCSS {
                         newClassList.forEach(c => {
                             if (!oldClassList.includes(c)) addedClasses.push(c)
                         })
-                        const removedClasses = oldClassList.filter(c => !newClassList.contains(c))
+                        // const removedClasses = oldClassList.filter(c => !newClassList.contains(c))
                         // if (addedClasses.length) console.log('[attribute]', '[add]', addedClasses, target)
                         // if (removedClasses.length) console.log('[attribute]', '[remove]', removedClasses, target)
                         break
