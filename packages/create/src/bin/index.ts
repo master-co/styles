@@ -20,7 +20,7 @@ import { fileURLToPath } from 'url'
 import { exit } from 'node:process'
 
 const BRANCH = 'rc'
-const CURRENT_VERSION = '>=2.0.0-rc.1'
+const CURRENT_VERSION = 'rc' // ^2.0.0
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const pkg = readJSONFileSync(resolve(__dirname, '../../package.json'))
