@@ -2,7 +2,7 @@
 
 import type { editor } from 'monaco-editor'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { debounce } from 'throttle-debounce'
+import { useDebouncedCallback } from 'use-debounce'
 import { snackbar } from 'internal/utils/snackbar'
 import dedent from 'ts-dedent'
 import { IconBrandCss3, IconChevronDown, IconDeviceDesktop, IconDeviceMobile } from '@tabler/icons-react'
@@ -237,7 +237,7 @@ export default function Play(props: any) {
         }
     }, [tab, generatedCSSText, shareItem.files])
 
-    const hotUpdatePreviewByFile = useCallback(() => debounce(250, () => {
+    const hotUpdatePreviewByFile = useDebouncedCallback(() => {
         if (editorRef.current) {
             tabFile.content = editorRef.current?.getValue()
             validateShareable()
@@ -254,11 +254,7 @@ export default function Play(props: any) {
         setTimeout(() => {
             setPreviewErrorEvent(null)
         })
-    }), [tabFile, validateShareable])
-
-    const editorOnChange = useCallback(() => {
-        hotUpdatePreviewByFile()
-    }, [hotUpdatePreviewByFile])
+    }, 250)
 
     // dispose monaco providers
     useEffect(() => {
@@ -683,7 +679,7 @@ export default function Play(props: any) {
                                 readOnly: tabFile.readOnly
                             }}
                             onMount={editorOnMount}
-                            onChange={editorOnChange}
+                            onChange={hotUpdatePreviewByFile}
                         />
                     </div>
                 </Resizable>
