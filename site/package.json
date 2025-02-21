@@ -13,13 +13,13 @@
     "dependencies": {
         "@master/colors": "^2.1.0",
         "@master/normal.css": "^3.1.0",
-        "@monaco-editor/react": "^4.6.0",
-        "@next/mdx": "^15.1.5",
+        "@monaco-editor/react": "^4.7.0",
+        "@next/mdx": "^15.1.7",
         "class-variant": "^2.0.4",
         "monaco-editor": "^0.52.2",
         "monaco-editor-textmate": "^4.0.0",
         "monaco-textmate": "^3.0.1",
-        "next": "^15.1.5",
+        "next": "^15.1.7",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "theme-mode": "^1.1.1",
@@ -27,9 +27,9 @@
         "uvcanvas": "^0.2.2"
     },
     "devDependencies": {
-        "eslint": "^9.18.0",
+        "eslint": "^9.20.1",
         "internal": "workspace:^",
-        "tsx": "^4.19.2",
+        "tsx": "^4.19.3",
         "typescript": "^5.7.3"
     }
 }
