@@ -599,8 +599,8 @@ export default class MasterCSS {
     }
 
     destroy() {
-        // @ts-ignore
-        this.classUsages = new Map()
+        this.reset()
+        this.classUsages.clear()
         masterCSSs.splice(masterCSSs.indexOf(this), 1)
         return this
     }

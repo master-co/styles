@@ -104,7 +104,12 @@ export default class Layer {
         }
         // @ts-expect-error
         this.usages = {}
-        if (this.native) {
+        const nativeSheet = this.css.style?.sheet
+        if (this.native && nativeSheet) {
+            const foundIndex = findNativeCSSRuleIndex(nativeSheet.cssRules, this.native)
+            if (foundIndex !== -1) {
+                nativeSheet.deleteRule(foundIndex)
+            }
             this.native = null
         }
     }

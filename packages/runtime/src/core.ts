@@ -4,9 +4,11 @@ import { type Config, SyntaxRule } from '@master/css'
 import './types/global'
 
 export class RuntimeCSS extends MasterCSS {
+    // @ts-expect-error
     readonly host: Element
     readonly observing = false
     readonly progressive = false
+    // @ts-expect-error
     readonly container: HTMLElement | ShadowRoot
     readonly observer?: MutationObserver
 
@@ -15,16 +17,24 @@ export class RuntimeCSS extends MasterCSS {
         public customConfig: Config = defaultConfig
     ) {
         super(customConfig)
+        this.init()
+    }
+
+    init() {
         const existingRuntimeCSS = (globalThis as any).runtimeCSSs.find((eachCSS: RuntimeCSS) => eachCSS.root === this.root)
         if (existingRuntimeCSS) throw new Error('Cannot create multiple RuntimeCSS instances for the same root element.')
         const rootConstructorName = this.root?.constructor.name
         if (rootConstructorName === 'HTMLDocument' || rootConstructorName === 'Document') {
             // @ts-ignore
             (this.root as Document).defaultView.globalThis.runtimeCSS = this
+            // @ts-ignore readonly
             this.container = (this.root as Document).head
+            // @ts-ignore readonly
             this.host = (this.root as Document).documentElement
         } else {
+            // @ts-ignore readonly
             this.container = this.root as RuntimeCSS['container']
+            // @ts-ignore readonly
             this.host = (this.root as ShadowRoot).host
         }
         runtimeCSSs.push(this)
@@ -398,8 +408,7 @@ export class RuntimeCSS extends MasterCSS {
         // @ts-ignore
         this.observing = false
         this.reset()
-        // @ts-expect-error
-        this.classUsages = {}
+        this.classUsages.clear()
         if (!this.progressive) {
             this.style?.remove()
             this.style = null
